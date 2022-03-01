@@ -1,0 +1,3 @@
+﻿using Benchmarks;
+
+StringBenchmarks.RunBenchmarks();

@@ -1,0 +1,175 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\bin\Debug\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\bin\Release\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\obj\Debug\net5.0\refint\" />
+    <Folder Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\obj\Debug\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\obj\Release\net5.0\refint\" />
+    <Folder Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\obj\Release\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\DockerLearningRainer\Kubernetes\DockerVS2015Intro\" />
+    <Folder Include="CsharpAcademy\DockerLearning\bin\Debug\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\DockerLearning\bin\Release\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\DockerLearning\obj\Debug\net5.0\refint\" />
+    <Folder Include="CsharpAcademy\DockerLearning\obj\Debug\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\DockerLearning\obj\Release\net5.0\refint\" />
+    <Folder Include="CsharpAcademy\DockerLearning\obj\Release\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\bin\Debug\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\bin\Release\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\obj\Debug\net5.0\refint\" />
+    <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\obj\Debug\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\obj\Release\net5.0\refint\" />
+    <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\obj\Release\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\EFShareForFuture\bin\Debug\net6.0\ref\" />
+    <Folder Include="CsharpAcademy\EFShareForFuture\bin\Release\net6.0\ref\" />
+    <Folder Include="CsharpAcademy\EFShareForFuture\obj\Debug\net6.0\refint\" />
+    <Folder Include="CsharpAcademy\EFShareForFuture\obj\Debug\net6.0\ref\" />
+    <Folder Include="CsharpAcademy\EFShareForFuture\obj\Debug\net6.0\staticwebassets\" />
+    <Folder Include="CsharpAcademy\EFShareForFuture\obj\Release\net6.0\refint\" />
+    <Folder Include="CsharpAcademy\EFShareForFuture\obj\Release\net6.0\ref\" />
+    <Folder Include="CsharpAcademy\EFShareForFuture\obj\Release\net6.0\staticwebassets\" />
+    <Folder Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\bin\Debug\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\bin\Release\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\obj\Debug\net5.0\refint\" />
+    <Folder Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\obj\Debug\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\obj\Release\net5.0\refint\" />
+    <Folder Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\obj\Release\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\LearningApplication2\bin\Debug\net6.0\ref\" />
+    <Folder Include="CsharpAcademy\LearningApplication2\bin\Release\net6.0\ref\" />
+    <Folder Include="CsharpAcademy\LearningApplication2\obj\Debug\net6.0\refint\" />
+    <Folder Include="CsharpAcademy\LearningApplication2\obj\Debug\net6.0\ref\" />
+    <Folder Include="CsharpAcademy\LearningApplication2\obj\Release\net6.0\refint\" />
+    <Folder Include="CsharpAcademy\LearningApplication2\obj\Release\net6.0\ref\" />
+    <Folder Include="CsharpAcademy\LearningLINQ\bin\Debug\" />
+    <Folder Include="CsharpAcademy\LearningLINQ\bin\Release\" />
+    <Folder Include="CsharpAcademy\MultiThreadingLearning - Task\bin\Debug\" />
+    <Folder Include="CsharpAcademy\MultiThreadingLearning - Task\bin\Release\" />
+    <Folder Include="CsharpAcademy\MultiThreadingLearning2 - Dispatcher\bin\Debug\" />
+    <Folder Include="CsharpAcademy\MultiThreadingLearning2 - Dispatcher\bin\Release\" />
+    <Folder Include="CsharpAcademy\MultiThreadingLearning3 - Async i GenericTasks\bin\Debug\" />
+    <Folder Include="CsharpAcademy\MultiThreadingLearning3 - Async i GenericTasks\bin\Release\" />
+    <Folder Include="CsharpAcademy\MultiThreadingLearning4 - Exceptions Deadlock Result itp\bin\Debug\" />
+    <Folder Include="CsharpAcademy\MultiThreadingLearning4 - Exceptions Deadlock Result itp\bin\Release\" />
+    <Folder Include="CsharpAcademy\MultiThreadingLearning5 - Parallel i WaitAll WaitAny\bin\Debug\" />
+    <Folder Include="CsharpAcademy\MultiThreadingLearning5 - Parallel i WaitAll WaitAny\bin\Release\" />
+    <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\bin\Debug\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\bin\Release\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\obj\Debug\net5.0\refint\" />
+    <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\obj\Debug\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\obj\Release\net5.0\refint\" />
+    <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\obj\Release\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\PublishAppLearning\bin\Debug\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\PublishAppLearning\bin\Release\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\PublishAppLearning\obj\Debug\net5.0\refint\" />
+    <Folder Include="CsharpAcademy\PublishAppLearning\obj\Debug\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\PublishAppLearning\obj\Release\net5.0\refint\" />
+    <Folder Include="CsharpAcademy\PublishAppLearning\obj\Release\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\bin\Debug\net6.0\ref\" />
+    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\bin\Release\net6.0\ref\" />
+    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\obj\Debug\net6.0\refint\" />
+    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\obj\Debug\net6.0\ref\" />
+    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\obj\Debug\net6.0\staticwebassets\" />
+    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\obj\Release\net6.0\refint\" />
+    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\obj\Release\net6.0\ref\" />
+    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\obj\Release\net6.0\staticwebassets\" />
+    <Folder Include="CsharpAcademy\WzorceProjektowe\bin\Debug\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\WzorceProjektowe\bin\Release\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\WzorceProjektowe\obj\Debug\net5.0\refint\" />
+    <Folder Include="CsharpAcademy\WzorceProjektowe\obj\Debug\net5.0\ref\" />
+    <Folder Include="CsharpAcademy\WzorceProjektowe\obj\Release\net5.0\refint\" />
+    <Folder Include="CsharpAcademy\WzorceProjektowe\obj\Release\net5.0\ref\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\ASPDotNetLearningApplication.csproj" />
+    <None Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\ASPDotNetLearningApplication.sln" />
+    <None Include="CsharpAcademy\DockerLearning\DockerLearning.csproj" />
+    <None Include="CsharpAcademy\DockerLearning\DockerLearning.sln" />
+    <None Include="CsharpAcademy\EFAspDotNetVideoGames\EFAspDotNetVideoGames.csproj" />
+    <None Include="CsharpAcademy\EFAspDotNetVideoGames\EFAspDotNetVideoGames.sln" />
+    <None Include="CsharpAcademy\EFShareForFuture\EFShareForFuture.csproj" />
+    <None Include="CsharpAcademy\EFShareForFuture\EFShareForFuture.sln" />
+    <None Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\Eltin-Buchard-Keller-Algorithm.csproj" />
+    <None Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\Eltin-Buchard-Keller-Algorithm.sln" />
+    <None Include="CsharpAcademy\LearningApplication2\LearningApplication2.csproj" />
+    <None Include="CsharpAcademy\LearningLINQ\LearningLINQ.csproj" />
+    <None Include="CsharpAcademy\LearningLINQ\LearningLINQ.sln" />
+    <None Include="CsharpAcademy\MultiThreadingLearning - Task\MultiThreadingLearning.csproj" />
+    <None Include="CsharpAcademy\MultiThreadingLearning - Task\MultiThreadingLearning.sln" />
+    <None Include="CsharpAcademy\MultiThreadingLearning2 - Dispatcher\MultiThreadingLearning.csproj" />
+    <None Include="CsharpAcademy\MultiThreadingLearning2 - Dispatcher\MultiThreadingLearning.sln" />
+    <None Include="CsharpAcademy\MultiThreadingLearning3 - Async i GenericTasks\MultiThreadingLearning.csproj" />
+    <None Include="CsharpAcademy\MultiThreadingLearning3 - Async i GenericTasks\MultiThreadingLearning.sln" />
+    <None Include="CsharpAcademy\MultiThreadingLearning4 - Exceptions Deadlock Result itp\MultiThreadingLearning.csproj" />
+    <None Include="CsharpAcademy\MultiThreadingLearning4 - Exceptions Deadlock Result itp\MultiThreadingLearning.sln" />
+    <None Include="CsharpAcademy\MultiThreadingLearning5 - Parallel i WaitAll WaitAny\MultiThreadingLearning.csproj" />
+    <None Include="CsharpAcademy\MultiThreadingLearning5 - Parallel i WaitAll WaitAny\MultiThreadingLearning.sln" />
+    <None Include="CsharpAcademy\ODataWebApiLearningApplication\ODataWebApiLearningApplication.csproj" />
+    <None Include="CsharpAcademy\ODataWebApiLearningApplication\ODataWebApiLearningApplication.sln" />
+    <None Include="CsharpAcademy\PublishAppLearning\PublishAppLearning.csproj" />
+    <None Include="CsharpAcademy\PublishAppLearning\PublishAppLearning.sln" />
+    <None Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\RainerLoggingMonitoringTelemetryErrorHandling.csproj" />
+    <None Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\RainerLoggingMonitoringTelemetryErrorHandling.sln" />
+    <None Include="CsharpAcademy\WzorceProjektowe\WzorceProjektowe.csproj" />
+    <None Include="CsharpAcademy\WzorceProjektowe\WzorceProjektowe.sln" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="CsharpAcademy\LearningLINQ\App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="CsharpAcademy\LearningLINQ\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="CsharpAcademy\MultiThreadingLearning - Task\App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="CsharpAcademy\MultiThreadingLearning - Task\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="CsharpAcademy\MultiThreadingLearning2 - Dispatcher\App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="CsharpAcademy\MultiThreadingLearning2 - Dispatcher\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="CsharpAcademy\MultiThreadingLearning3 - Async i GenericTasks\App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="CsharpAcademy\MultiThreadingLearning3 - Async i GenericTasks\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="CsharpAcademy\MultiThreadingLearning4 - Exceptions Deadlock Result itp\App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="CsharpAcademy\MultiThreadingLearning4 - Exceptions Deadlock Result itp\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="CsharpAcademy\MultiThreadingLearning5 - Parallel i WaitAll WaitAny\App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="CsharpAcademy\MultiThreadingLearning5 - Parallel i WaitAll WaitAny\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+
+</Project>
