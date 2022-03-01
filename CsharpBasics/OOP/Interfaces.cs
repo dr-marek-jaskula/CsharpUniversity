@@ -1,26 +1,55 @@
-﻿using System;
+﻿namespace CsharpBasics.OOP;
 
-namespace LearningApplication2;
-
-internal class AccesModifiersIntefrace
+internal class Interfaces
 {
-    public static void Podstawy6()
-    {
-        Warrior warrior1 = new Warrior();
-        warrior1.SetBirthdate(new DateTime(1932, 3, 2));
-        Console.WriteLine(warrior1.GetBirthdate());
+    //interface is an abstraction that can be implemented by class and structure.
+    //Naming interface we should start with capital letter 'I'. For instance: "IReadable"
+    //Multiple interfaces can be implemented by one class/structure
+    //Interfaces generally does not contain any logic (since c# 8. 0 they, can, but the default implementation is not crucial, it is mostly redundant)
+    //Interfaces are used for Dependency Injection and Dependency Inversion!
+    //Interlaces provide the outline of a functionality that some class/struct possess
+    
+    //For more information about Dependency Injection go to "CsharpAdvaced"
 
-        WybitnyWojownik wybwoj1 = new WybitnyWojownik();
-        wybwoj1.HammerAtackken(2);
+    //Great example is the example of "IDispose" interface. 
+    //All entities that implements "IDispose" will execute their "Dispose" method when the current scoped is abandoned
+    
+    //Interfaces can be also used as a markers: an empty interface just to mark the a class/struct.
+
+    //Interfaces members cannot be "private" and by default they are "public"
+    //Interfaces can only store methods and properties
+
+    public static void InvokeInterfacesExamples()
+    {
+        //crate an object
+        Citizen citizen = new Citizen(1, "Mark", "Kennedy", new(1992, 4, 20));
+        //use the function that is present in the interface
+        citizen.Calculate();
+
+        //explicitly cast the citizen to interface
+        ITaxCalculator taxCalculator = citizen;
+        //the only functionality is the "Calculate" method now.
+        taxCalculator.Calculate();
+
+        Politician politician = new("President", new(1987, 10, 12));
+        politician.Calculate();
+        ITaxCalculator taxCalculator1 = politician;
+        //now we have two casted to ITaxCalculator object.
+        //The only knowledge we have about them now is that they can use the "Calculate" method (and we can use this method)
+        //However, this is the only information we need to know -> use interfaces to provide (inform about) the sufficient functionalities of the casted object (more in DI)
+
+        /////////////////////////////////
+        Duelist wybwoj1 = new Duelist();
+        wybwoj1.Bash(2);
 
         //tworzymy obiekt na bazie interface
         //dużo zabawy z rzutowaniem
-        ISwordAtack atakMieczydlem = (ISwordAtack)wybwoj1;
-        atakMieczydlem.SwordAtakowanko(3); // dopiero teraz wie jakiej metody uzyc, bo takto jak to są metody jawnie podane to on nie wie
-        atakMieczydlem.Sorko(2);
+        ISwordAttack atakMieczydlem = (ISwordAttack)wybwoj1;
+        atakMieczydlem.Cut(3); // dopiero teraz wie jakiej metody uzyc, bo takto jak to są metody jawnie podane to on nie wie
+        atakMieczydlem.Feint(2);
 
         IHammerAtack atakMieczydlem2 = (IHammerAtack)wybwoj1;
-        atakMieczydlem2.HammerAtakowanko(2);
+        atakMieczydlem2.Crush(2);
         //dlatego najczęściej się implementuje interface niejawnie, zeby tak sie nie bawić. To jest obejście takiego samego nazewnictwa.
 
         Console.WriteLine("\n \n");
@@ -96,108 +125,153 @@ internal class AccesModifiersIntefrace
             //questItem.TurinIn(); //napisanie tego tutaj zrobi wyjątek i bedzie crash pomimo ze poram nie podpowiada ze bedzie źle. Powód to taki, że obiekt questItem będzie null, ponieważ nie bedzie z IPartOfQuest, wiec zrobi sie null a null nie ma metody TurinIn
         }
     }
-
-    //OD momenty c# wersji 8 w interface mozna definiować metody, które potem dziedziczy klasa, aczkolwiek jesli klasa ma juz taką metode to jej własna nadpisuje dziedziczoną
-    //dziedziczone metody z interface musza miec taką samą nazwę i tyle samo zmiennych tego samego typu
-    //wszystkie dziedziczone metody z interface są public i static
 }
 
-internal class Warrior
+#region First Example: Citizen and Politician
+
+//Simple interface
+public interface ITaxCalculator
 {
-    private string _name; //nie będzie widoczne poza klasą, więc sie nie wywoła w "Podstawy6".
-    //!!! tutaj specyfika nazywania właściwości prywatnych!!!! najpierw podłoga a potem camelCase
-
-    private DateTime _birthdate; //zmienna typu czasowego
-
-    public void SetName(string name) // jest to tak zwana "set" method. Dzięki poniższemu zabezpieczeniu mozem miec logike tam gdzie wczesniej jej niebylo przy ustalania właściwości
-    {
-        if (!String.IsNullOrEmpty(name)) this._name = name; //to robi to, że jeśli string nie jest nullem albo niczym, takie zabezpieczonko
-    }
-
-    public string GetName() // jest to tak zwana "get" method
-    {
-        return _name;
-    }
-
-    public void SetBirthdate(DateTime birthdate)
-    {
-        _birthdate = birthdate; //tutaj nie trzeba this. bo jest prywatne i widzi.
-    }
-
-    public DateTime GetBirthdate()
-    {
-        return _birthdate;
-    }
+    //by default this member is public
+    //This is only a declaration of a parameterless function that return an integer
+    double Calculate();
 }
 
-public interface ITaxCalculator //w .Not wszystkie interfaces zaczynają sie od litery I. Podobnie jak klasy, inferface nie ma implementacji
+internal class Citizen : ITaxCalculator
 {
-    // interface "member" nie mają access modifiers!! ponieważ bazowo wszystkie są public
-    //interfacy sa po to aby miec luźny dostęp do roznych rzeczy i zmiana interfacu nie wplywa za bardzo na inne rzeczy. Luźna zależność.
+    public int Id { get; set; }
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public DateOnly Birthday { get; set; }
 
-    int Calculate(); // deklaracja metody, nie ma tu kodu!! przez co nie zmieni czegos od czeg ozalezy interface
+    public Citizen()
+    {
+    }
+
+    public Citizen(int id, string firstName, string lastName, DateOnly birthday)
+    {
+        Id = id;
+        FirstName = firstName;
+        LastName = lastName;
+        Birthday = birthday;
+    }
+
+    //implementing interface method and defining its behavior for this class
+    public double Calculate()
+    {
+        Console.WriteLine("Calculating tax common citizen...");
+        return 0.19;
+    }
 }
 
-// tutaj w dół po ogarnieciu dziedziczenia robie
-
-// interface jest po to aby dziedziczyć z nich bo z wielu można
-
-//NOWY obiekt można tworzyć na bazie interface
-
-internal interface ISwordAtack// mogą przechowywać metody ale nie zmienne!!!
+internal class Politician : ITaxCalculator
 {
-    // int abs;  // nie da sie! bo nie mogą mieć właściwości, chyba ze z get; i set; Ponieważ to w nowszej wersji c# zmienili i mozna
-    void SwordAtackken(int pkt); //domyślnie wszystkie metody w interface są public, bo inaczej byłby bezużyteczny.
+    public string Status { get; set; } = string.Empty;
+    public DateOnly Birthday { get; set; }
 
-    void SwordAtakowanko(int ptk);
+    public Politician()
+    {
+    }
 
-    void Sorko(int k);
+    public Politician(string status, DateOnly birthday)
+    {
+        Status = status;
+        Birthday = birthday;
+    }
+
+    //implementing interface method and defining its behavior for this class (other body then for citizen)
+    public double Calculate()
+    {
+        Console.WriteLine("Calculating tax for politician...");
+        return 0.10;
+    }
 }
 
-internal interface IHammerAtack// mogą przechowywać metody ale nie zmienne!!!
+#endregion
+
+#region Second example: Duelist
+
+internal interface ISwordAttack
 {
-    // int abs;  // nie da sie! bo nie mogą mieć właściwości
-    void HammerAtackken(int pkt); //domyślnie wszystkie metody w interface są public, bo inaczej byłby bezużyteczny.
+    void Slice(int enemyResistance);
+    void Cut(int enemyResistance);
 
-    void HammerAtakowanko(int ptk);
+    //the third method will be common for ISwordAttack and IHammerAtack
+    void Feint(int enemyResistance);
 
-    void Sorko(int k);
+    //The method with the default implementation
+    void DefaultSwordAttack(int enemyResistance)
+    {
+        Console.WriteLine("Deal 1 damage");
+    }
 }
 
-internal class WybitnyWojownik : Warrior, ISwordAtack, IHammerAtack //podkreśla tutaj ponieważ interface zachowują się jak metody czysto abstrakcyjne bo nie mają ciała. Musimy!! Musimy! zaimplementować wszystkie metody w klasie jakie są w interface
+internal interface IHammerAtack
 {
-    public void HammerAtackken(int pkt)
-    {
-        Console.WriteLine("zadaje 2 brazenia");
-    }
+    void Bash(int enemyResistance);
+    void Crush(int enemyResistance);
 
-    public void HammerAtakowanko(int ptk)
-    {
-        Console.WriteLine("zadaje 5 brazenia");
-    }
+    //the third method will be common for ISwordAttack and IHammerAtack
+    void Feint(int enemyResistance);  
 
-    public void SwordAtackken(int pkt)
+    void DefaultHammerAttack(int enemyResistance)
     {
-        Console.WriteLine("zadaje 23 brazenia");
-    }
-
-    public void SwordAtakowanko(int ptk)
-    {
-        Console.WriteLine("zadaje 221 brazenia");
-    }
-
-    void ISwordAtack.Sorko(int k) // to jest implementacja jawna, jesli nazwa metody jest taka sama w paru interfacach (ctry + .) i tam uzupełnianie z interface
-    {
-        Console.WriteLine("yooolo");
-    }
-
-    void IHammerAtack.Sorko(int k)
-    {
-        Console.WriteLine("mohohooh");
+        Console.WriteLine("Deal 1 damage");
     }
 }
 
-//odtąd robie z nowego filmiku o interface
+//the method with the default implementation does not need to be specified in the class but it can be
+internal class Duelist : ISwordAttack, IHammerAtack
+{
+    public string WeaponInRigthHand { get; set; } = "Hammer";
+    public string WeaponInLeftHand { get; set; } = "Sword";
+    public int Dexterity { get; set; }
+    public int Strength { get; set; }
+    public int Intelligence { get; set; }
+
+    public Duelist(int dexterity, int strength, int intelligence)
+    {
+        Dexterity = dexterity;
+        Strength = strength;
+        Intelligence = intelligence;
+    }
+
+    public void Bash(int enemyResistance)
+    {
+        Console.WriteLine($"Deal {Strength - enemyResistance/2} damage");
+    }
+
+    public void Crush(int enemyResistance)
+    {
+        Console.WriteLine($"Deal {Strength/2} damage");
+    }
+
+    public void Slice(int enemyResistance)
+    {
+        Console.WriteLine($"Deal {Strength + Dexterity - enemyResistance} damage");
+    }
+
+    public void Cut(int enemyResistance)
+    {
+        Console.WriteLine($"Deal {3/2 * Dexterity - enemyResistance} damage");
+    }
+
+    //Due to the fact there are two methods of the same name from two different interface that this class implement
+    //We need to specify both in the following manner
+    void ISwordAttack.Feint(int enemyResistance) 
+    {
+        Console.WriteLine($"Deal {Intelligence + Dexterity - enemyResistance} damage");
+    }
+
+    void IHammerAtack.Feint(int enemyResistance)
+    {
+        Console.WriteLine($"Deal {Intelligence + Strength - enemyResistance} damage");
+    }
+}
+
+#endregion
+
+#region Third example: Vehicle
 
 internal interface IDerivable
 {
@@ -234,7 +308,10 @@ internal class Vehicle : IDerivable
     }
 }
 
-// dalej nowe
+#endregion
+
+#region Fourth example: TV
+
 internal interface IElectronicDevice
 {
     void On();
@@ -322,6 +399,9 @@ internal class TvRemote //klasa do tworzenia obiektu telewizor, ale wartość me
         return new Televistion();
     }
 }
+#endregion 
+
+#region Fifth example: Weapons
 
 // Kolejny nowy filmik
 
@@ -411,3 +491,5 @@ internal interface IPartOfQuest
 {
     void TurinIn();
 }
+
+#endregion
