@@ -21,8 +21,9 @@ internal class Interfaces
 
     public static void InvokeInterfacesExamples()
     {
+        #region First Example (single implementation)
         //crate an object
-        Citizen citizen = new Citizen(1, "Mark", "Kennedy", new(1992, 4, 20));
+        Citizen citizen = new(1, "Mark", "Kennedy", new(1992, 4, 20));
         //use the function that is present in the interface
         citizen.Calculate();
 
@@ -37,38 +38,40 @@ internal class Interfaces
         //now we have two casted to ITaxCalculator object.
         //The only knowledge we have about them now is that they can use the "Calculate" method (and we can use this method)
         //However, this is the only information we need to know -> use interfaces to provide (inform about) the sufficient functionalities of the casted object (more in DI)
+        #endregion
 
-        /////////////////////////////////
-        Duelist wybwoj1 = new Duelist();
-        wybwoj1.Bash(2);
+        #region Second Example (multiple implementation)
+        //Now, let us consider the example with multiple interfaces (two of them have method with the same method)
+        Duelist duelist = new(3, 5, 1);
+        duelist.Cut(2);
+        duelist.Bash(3);
+        // duelist.Feint(2); //cant be used
 
-        //tworzymy obiekt na bazie interface
-        //dużo zabawy z rzutowaniem
-        ISwordAttack atakMieczydlem = (ISwordAttack)wybwoj1;
-        atakMieczydlem.Cut(3); // dopiero teraz wie jakiej metody uzyc, bo takto jak to są metody jawnie podane to on nie wie
-        atakMieczydlem.Feint(2);
+        //we cast duelist to ISwordAttack
+        ISwordAttack duelistSwordAttack = duelist;
+        duelist.Cut(3);
+        duelistSwordAttack.Feint(2); //possible to use
 
-        IHammerAtack atakMieczydlem2 = (IHammerAtack)wybwoj1;
-        atakMieczydlem2.Crush(2);
-        //dlatego najczęściej się implementuje interface niejawnie, zeby tak sie nie bawić. To jest obejście takiego samego nazewnictwa.
+        IHammerAtack duelistHammerAttack = duelist;
+        duelistHammerAttack.Crush(2);
+        #endregion
 
-        Console.WriteLine("\n \n");
-        Vehicle vehicle1 = new Vehicle("Buick", 4, 160);
+        #region Third Example 
+        Vehicle vehicle1 = new("Buick", 4, 160);
         Console.WriteLine(vehicle1.Speed);
         Console.WriteLine(vehicle1.Brand);
         Console.WriteLine(vehicle1.Wheels);
 
-        if (vehicle1 is IDerivable) //to znaczy czy jest zbudowany z klasy dziedziczącej dany interface
+        if (vehicle1 is IDerivable derivable)
         {
-            vehicle1.Move();
-            vehicle1.Stop();
+            derivable.Move();
+            derivable.Stop();
         }
         else
-        {
             Console.WriteLine("the {0} cant be driven", vehicle1.Brand);
-        }
+        #endregion
 
-        Console.WriteLine("\n \n");
+        #region Fourth Example (interesting one)
 
         IElectronicDevice Tv1 = TvRemote.GetDevice(); //stworzenie obiektu telewizor, który ogranicza swoją funkcjonalność do metod zawartych w interface IElectronicDevice
         PowerButton powBut1 = new PowerButton(Tv1); //zaznaczyliśmy, że tylko obiekt typu interfacu IElectronicDevice (czyli Tv1 ok) ma dostęp do metod execute i undo ponieważ device w definicji interfacu jest typu interfacu ICommand
@@ -79,10 +82,10 @@ internal class Interfaces
         Console.WriteLine("\n \n");
 
         Televistion Tv2 = TvRemote.GetDevice(); //stworzenie obiektu telewizor, który ma funkcjonalność metod zawarych w interface IElectronicDevice oraz w klasie Telewizor
-        Tv2.VoiceFromTheShadowRealm();
+        Tv2.VoiceFromTv();
         Tv2.On();
 
-        Tv1.TestCSharp8MethodDefinitionInInterface();
+        Tv1.MethodWithDefaultImplementation();
         // Tv2.TestCSharp8MethodDefinitionInInterface(); //to nie zdziałą, ponieważ Tv2 nie odziedziczył interface'u
         //czyli albo bierze z interface'u i wtedy nie ma wlasnych, albo z wlasnych i nie ma tych funkcji, które zostały zdefiniowane w interface.
 
@@ -91,39 +94,9 @@ internal class Interfaces
         powBut2.Undo();
 
         IElectronicDevice Tv3 = Tv2 as IElectronicDevice; //to działa, przypisuje nowemy Tv2 ale tylko oraniczone do interface IElectronicDevice, ma wiec rzeczy definiowane w IEletronicdevice i to co jest od niego dziedziczone, ale nie ma tego co jest w klasie Television
-        Tv3.TestCSharp8MethodDefinitionInInterface();
+        Tv3.MethodWithDefaultImplementation();
 
-        //Kolejny filmik nowy przerabiam o interface
-
-        Axe axe1 = new Axe("Axe of the Destiny");
-        axe1.Equip();
-        axe1.TakeDamage(20);
-        axe1.Sell();
-        Console.WriteLine("\n");
-
-        Spear spear1 = new Spear("Spear of the Meteor");
-        spear1.Equip();
-        spear1.TakeDamage(15);
-        spear1.Sell();
-
-        axe1.TurinIn();
-        Console.WriteLine("\n\n\n");
-        //create an inventory
-
-        IItem[] inventory = new IItem[2]; // jest to tablica w obiektów, które dziedziczą z interface IIthem. Wszytko co mają to tylko to dziedziczone, ale nie bezpośrednio co ma klasa
-        inventory[0] = axe1;
-        inventory[1] = spear1;
-
-        for (int i = 0; i < inventory.Length; i++)
-        {
-            IPartOfQuest questItem = inventory[i] as IPartOfQuest; //to oznacza tyle, że jeśli inventory element jest obiektem pochodzącym z klasy, która dziedziczy z interface'u IPartOfQuest, to zostaje transformowana w zmienną questItem. Jeśli natomiast nie jest to postawi null
-            if (questItem != null)
-            {
-                questItem.TurinIn();
-            }
-            //interesujące, obiekt questItem nie istnieje poza tą pętlą. W pętli można tylko użyć metod z interface'u. To pewnie dlatego, że tutaj nie wie
-            //questItem.TurinIn(); //napisanie tego tutaj zrobi wyjątek i bedzie crash pomimo ze poram nie podpowiada ze bedzie źle. Powód to taki, że obiekt questItem będzie null, ponieważ nie bedzie z IPartOfQuest, wiec zrobi sie null a null nie ma metody TurinIn
-        }
+        #endregion
     }
 }
 
@@ -275,11 +248,9 @@ internal class Duelist : ISwordAttack, IHammerAtack
 
 internal interface IDerivable
 {
-    int Wheels { get; set; } //wtf zawiera włąsciwosć ale z getterem i setterm i nie ma prolemu?
+    int Wheels { get; set; } 
     public double Speed { get; set; }
-
-    void Move(); //one są bazowo abstract, czyli bez ciała, i bez argumentow
-
+    void Move(); 
     void Stop();
 }
 
@@ -289,7 +260,7 @@ internal class Vehicle : IDerivable
     public int Wheels { get; set; }
     public double Speed { get; set; }
 
-    public Vehicle(string brand, int wheels = 4, double speed = 50) // te równości powodują, że jeśli nie poda się nic to zostaną ustawione bazowe wartości, ale to przy pustym konstruktorze. Jeśli wywoła się inny konstruktor po zmiennych to ten co najbardziej pasuje. Można zrobić dwuznacznie co spowoduje błąd!!!!!
+    public Vehicle(string brand, int wheels = 4, double speed = 50)
     {
         Brand = brand;
         Wheels = wheels;
@@ -304,7 +275,7 @@ internal class Vehicle : IDerivable
     public void Stop()
     {
         Console.WriteLine($"The {Brand} stops");
-        this.Speed = 0;
+        Speed = 0;
     }
 }
 
@@ -322,10 +293,10 @@ internal interface IElectronicDevice
 
     void VolumeDown();
 
-    void TestCSharp8MethodDefinitionInInterface()
+    void MethodWithDefaultImplementation()
     {
         Console.WriteLine("so the definitions work in the interfaces now");
-    } //mozna wiec definiowac o c# wersji 8 metody w interface, i mozna jest nadpisywac normalnie
+    } 
 }
 
 internal interface ICommand
@@ -341,7 +312,7 @@ internal class Televistion : IElectronicDevice
 
     public Televistion()
     {
-        this.Volume = 50;
+        Volume = 50;
     }
 
     public void Off()
@@ -356,140 +327,53 @@ internal class Televistion : IElectronicDevice
 
     public void VolumeDown()
     {
-        if (Volume != 0) Volume--;
+        if (Volume is not 0) 
+            Volume--;
         Console.WriteLine($"TV volume is at the lvl {Volume}");
     }
 
     public void VolumeUp()
     {
-        if (Volume != 100) Volume++;
+        if (Volume is not 100) 
+            Volume++;
         Console.WriteLine($"TV volume is at the lvl {Volume}");
     }
 
-    public void VoiceFromTheShadowRealm()
+    public void VoiceFromTv()
     {
-        Console.WriteLine("I see you, flesh one");
+        Console.WriteLine("I see you");
     }
 }
 
-internal class PowerButton : ICommand //dziedziczy z interface ICommand
+internal class PowerButton : ICommand 
 {
-    private IElectronicDevice device; //jest to właściwosć, która jest typu interface przez co posiada metody z interface (jest to jak obiekt zdefiniowany za pomocą interface, który otrzymuje metody.
+    private readonly IElectronicDevice _device; //the private field to store the dependency
 
-    public PowerButton(IElectronicDevice device) //to mowi, że przypisuje argumentowi wczesniej zdefiniowany device typu interface
+    public PowerButton(IElectronicDevice device) //we inject the dependency (clue of Dependency Injection)
     {
-        this.device = device;
+        _device = device;
     }
 
-    public void Execute() //ze wzgledu na to, że device to właściwość (a bardziej obiekt) typu interface ma on metody z interface, ktorych moze uzywac
+    //These two method use the injected dependency
+
+    public void Execute() 
     {
-        device.On();
+        _device.On();
     }
 
     public void Undo()
     {
-        device.Off();
+        _device.Off();
     }
 }
 
-internal class TvRemote //klasa do tworzenia obiektu telewizor, ale wartość metody jest typu interface wiec posiadająca metody interface
+internal class TvRemote //a TV "factory"
 {
     public static Televistion GetDevice()
     {
         return new Televistion();
     }
 }
+
 #endregion 
 
-#region Fifth example: Weapons
-
-// Kolejny nowy filmik
-
-internal interface IItem
-{
-    string name { get; set; }
-    int goldValue { get; set; }
-
-    void Equip();
-
-    void Sell();
-}
-
-internal interface IDamagable
-{
-    int durability { get; set; } // zmusza naszą klase dziedziczonądo posiadania właściwosci durability (nie trzeba, ale można)
-
-    void TakeDamage(int k); //dowolna nazwa zmiennej, ale ilosć zmiennych musi sie zgadzać w klasie z ktorej to dziedziczymy
-}
-
-internal class Axe : IItem, IDamagable, IPartOfQuest
-{
-    public string name { get; set; }
-    public int goldValue { get; set; }
-    public int durability { get; set; }
-
-    public Axe(string name)
-    {
-        this.name = name;
-        this.goldValue = 100;
-        this.durability = 30;
-    }
-
-    public void Equip()
-    {
-        Console.WriteLine(name + " equipped");
-    }
-
-    public void Sell()
-    {
-        Console.WriteLine(name + " sold for " + goldValue + "dolars");
-    }
-
-    public void TakeDamage(int dmg)
-    {
-        durability -= dmg;
-        Console.WriteLine(name + " damage by " + dmg + "it naw has a durability of " + durability);
-    }
-
-    public void TurinIn()
-    {
-        Console.WriteLine(name + " turned in");
-    }
-}
-
-internal class Spear : IItem, IDamagable
-{
-    public string name { get; set; }
-    public int goldValue { get; set; }
-    public int durability { get; set; }
-
-    public Spear(string name)
-    {
-        this.name = name;
-        this.goldValue = 80;
-        this.durability = 40;
-    }
-
-    public void Equip()
-    {
-        Console.WriteLine(name + " equipped");
-    }
-
-    public void Sell()
-    {
-        Console.WriteLine(name + " sold for " + goldValue + "dolars");
-    }
-
-    public void TakeDamage(int dmg)
-    {
-        durability -= dmg;
-        Console.WriteLine(name + " damage by " + dmg + "it naw has a durability of " + durability);
-    }
-}
-
-internal interface IPartOfQuest
-{
-    void TurinIn();
-}
-
-#endregion

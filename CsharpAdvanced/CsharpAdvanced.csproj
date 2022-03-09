@@ -8,7 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DesignPatterns\" />
+    <Compile Remove="DesignPatterns\**" />
+    <EmbeddedResource Remove="DesignPatterns\**" />
+    <None Remove="DesignPatterns\**" />
   </ItemGroup>
 
 </Project>
