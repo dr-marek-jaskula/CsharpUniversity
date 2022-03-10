@@ -135,6 +135,11 @@ public class Patterns
         //combine two type of patterns: property and positional
         static bool IsInDomain(WeightedPoint point) => point is ( >= 0, >= 0) { Weight: >= 0.0 };
     }
+    public class Segment
+    {
+        public Point2D? Start { get; set; }
+        public Point2D? End { get; set; }
+    }
 
     //record with two and three properties
     public record Point2D(int X, int Y);
