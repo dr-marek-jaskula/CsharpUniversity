@@ -1,15 +1,18 @@
 ﻿CsharpAdvanced:
 	Introduction:
-		CustomComperers.cs
-		OverloadingOperators.cs
-		SwitchExpression.cs
+
 	Keywords:
 		AwaitForach.cs
 		Dynamics.cs
 	Memory:
 
+	Attributes:
+		ParameterAttributes
+
 CsharpBasics:
 	Introduction:
 
 	Keywords:
+
+	PreferredWays:
 		

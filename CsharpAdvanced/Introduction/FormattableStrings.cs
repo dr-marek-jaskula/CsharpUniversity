@@ -1,13 +1,13 @@
-﻿namespace LearningApplication2.Advanced;
+﻿namespace CsharpAdvanced.Introduction;
 
 using System;
 using System.Globalization;
 using System.Threading;
 using static System.FormattableString;
 
-class FormattableStrings
+internal class FormattableStrings
 {
-    public static void LearnFormattableStrings()
+    public static void InvokeFormattableStringsExamples()
     {
         //create a CultureInfo instance 
         CultureInfo uk = CultureInfo.CreateSpecificCulture("en-GB");

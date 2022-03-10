@@ -16,5 +16,11 @@ public class AdvancedIntroductionEntrypoint
     {
         Switch.InvokeSwitchExamples();
     }
+
+    [Fact]
+    public void CustomComparersEntrypoint()
+    {
+        CustomComparers.InvokeCustomComparers();
+    }
 }
 
