@@ -14,7 +14,7 @@ public class AdvancedIntroductionEntrypoint
     [Fact]
     public void SwtichExpressionEntrypoint()
     {
-        Swtich.InvokeSwitchExamples();
+        Switch.InvokeSwitchExamples();
     }
 }
 

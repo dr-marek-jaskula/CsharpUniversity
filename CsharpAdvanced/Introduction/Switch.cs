@@ -1,14 +1,44 @@
 ﻿namespace CsharpAdvanced.Introduction;
 
-public class Swtich
+public class Switch
 {
     //In this file we will cover both switch statement and switch expression
     //Beginning with C# 8.0, you use the switch expression to evaluate a single expression from a list of candidate expressions based on a pattern match with an input expression.
 
     public static void InvokeSwitchExamples()
     {
-        StrangeClass strangeClass = new StrangeClass() { LevelOrMystery = 30 };
+        StrangeClass strangeClass = new() { LevelOrMystery = 30, PowerLevel = 5 };
+        OddClass oddClass = new() { PowerLevel = 10, LevelOrOddness = 20 };
+        MysteryClass mysteryClass = new() { PowerLevel = 7, LevelOrMystery = 3 };
+
+        #region Switch statement
+        
+        SwitchOnInteger(3, 4);
+        SwitchOnInteger(-3, 4);
+        SwitchOnInteger(1, 1);
+
+        SwitchOnObject(strangeClass);
+        SwitchOnObject(oddClass);
+        SwitchOnObject(mysteryClass);
+        #endregion
+
+        #region SwitchExpression
+
+        RockPaperScissors("rock", "null");
+        RockPaperScissors("rock", "Hello");
+        RockPaperScissors("rock", "scissors");
+
         SwitchMe(strangeClass);
+        SwitchMe(oddClass);
+        SwitchMe(mysteryClass);
+
+        Transform(new(3, 4));
+        Transform(new(0, 0));
+        Transform(new(30, 400));
+        Transform(new(30, 20));
+        Transform(new(20, 20));
+
+        #endregion
     }
 
     #region Advanced example: SwitchStatement
@@ -18,7 +48,7 @@ public class Swtich
     {
         string result;
 
-        switch ((first, second))
+        switch (first, second)
         {
             case ( > 0, > 0) when first == second:
                 result = $"Both numbers are positive and equal to {first}";
@@ -35,7 +65,7 @@ public class Swtich
     }
 
     //We can also look at the example with switch on object
-    public void SwitchOnObject(object obj)
+    public static void SwitchOnObject(object obj)
     {
         string result;
 
@@ -69,7 +99,7 @@ public class Swtich
         (_, _) => "tie"
     };
 
-    //Example with matching patterns
+    //Example with matching patterns (also with nested properties)
     public static string SwitchMe(object somethingStrange)
     {
         //We could convert it to the arrow function
@@ -80,12 +110,12 @@ public class Swtich
             OddClass { LevelOrOddness: 30 or > 40 } => "Odd of 30 or more then 40", //Similar to last case
             RecordClass { FirstName: "Frank", LastName: "Jonas" } => "Frank Jonas here", //If the class inherits from RecordClass (which is a record) and first the pattern
             OddClass oddClass => $"Random oddness: {oddClass.LevelOrOddness}", //Similar to third case
+            StrangeClass { RecordClass.FirstName: "Andy", RecordClass.LastName: "Medrik" } strangeClass  => $"Strange Class power level: {strangeClass.PowerLevel} and name {strangeClass.RecordClass.FirstName+""+strangeClass.RecordClass.LastName}", //Case with nested properties
             _ => "It is a secret", //otherwise (default case)
         };
     }
 
     //Example with "when"
-
     public readonly struct Point
     {
         public Point(int x, int y) => (X, Y) = (x, y);
@@ -126,7 +156,7 @@ class OddClass : IPower
 
 class StrangeClass : MysteryClass
 {
-
+    public RecordClass RecordClass { get; set; } = new("Andy", "Merdik");
 }
 
 record RecordClass(string FirstName, string LastName);

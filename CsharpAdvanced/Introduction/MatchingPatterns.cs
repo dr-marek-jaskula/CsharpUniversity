@@ -4,8 +4,14 @@ public class MatchingPatterns
 {
     public static void InvokeMatchingPatternsExamples()
     {
+        //int input = 6;
 
-
+        //if (input is not (float or double))
+        //{
+        //    return;
+        //}
+        //PAtterns
+        //https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns
     }
 }
 
