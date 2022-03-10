@@ -40,6 +40,8 @@ internal class Generics
         book.Price = 10;
         Console.WriteLine(book.Price);
         Console.WriteLine(DiscountCalculator<Book>.CalculateDiscount(book));
+
+        #endregion
     }
 
     //This is an example of generic method. Independently of give type the swap will be executed. We can also place constraints, same as for classes.

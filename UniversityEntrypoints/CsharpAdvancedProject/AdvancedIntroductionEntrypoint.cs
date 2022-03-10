@@ -10,5 +10,11 @@ public class AdvancedIntroductionEntrypoint
     {
         Interators.InvokeIteratorExamples();
     }
+
+    [Fact]
+    public void SwtichExpressionEntrypoint()
+    {
+        Swtich.InvokeSwitchExamples();
+    }
 }
 

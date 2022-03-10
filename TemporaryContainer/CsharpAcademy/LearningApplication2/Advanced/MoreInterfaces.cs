@@ -244,7 +244,7 @@ namespace LearningApplication2
 
     public class ConsoleLogger : ILogger
     {
-        public LogLevel logLevel { get; set; } //ale sam robił strzałki tutaj
+        public LogLevel logLevel { get; set; } 
 
         public void LogMessage(string message, LogLevel level)
         {

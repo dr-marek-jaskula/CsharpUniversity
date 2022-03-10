@@ -2,6 +2,7 @@
 	Introduction:
 		CustomComperers.cs
 		OverloadingOperators.cs
+		SwitchExpression.cs
 	Keywords:
 		AwaitForach.cs
 		Dynamics.cs
