@@ -1,9 +1,9 @@
-﻿using CsharpBasics.Memory;
+﻿using CsharpAdvanced.Memory;
 using Xunit;
 
 namespace UniversityEntrypoints.CsharpAdvancedProject;
 
-public class MemoryEntrypoint
+public class AdvancedMemoryEntrypoint
 {
     [Fact]
     public void PointerEntrypoint()

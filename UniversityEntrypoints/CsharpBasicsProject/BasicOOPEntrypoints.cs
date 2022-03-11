@@ -3,7 +3,7 @@ using CsharpBasics.OOP;
 
 namespace UniversityEntrypoints.CsharpBasicsProject;
 
-public class OOPEntrypoints
+public class BasicOOPEntrypoints
 {
     [Fact]
     public void ClassesConstructorsEntrypoint()

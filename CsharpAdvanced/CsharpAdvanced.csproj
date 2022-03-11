@@ -8,9 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DesignPatterns\**" />
-    <EmbeddedResource Remove="DesignPatterns\**" />
-    <None Remove="DesignPatterns\**" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

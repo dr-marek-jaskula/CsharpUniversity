@@ -1,4 +1,4 @@
-﻿namespace CsharpBasics.Memory;
+﻿namespace CsharpAdvanced.Memory;
 
 public class Closures
 {
