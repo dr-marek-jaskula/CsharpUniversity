@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Benchmarks;
 
-//Png grafic file called "StringsBenchmarkResults.png" has the results of this benchmark
+//Png graphic file called "StringsBenchmarkResults.png" has the results of this benchmark
 //This pgn file is in the same folder
 
 [MemoryDiagnoser]

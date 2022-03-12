@@ -1,3 +1,5 @@
 ﻿using Benchmarks;
 
-StringBenchmarks.RunBenchmarks();
+//StringBenchmarks.RunBenchmarks();
+
+ReflectionBenchmarks.RunBenchmarks(); 

@@ -47,8 +47,6 @@
     <Folder Include="CsharpAcademy\LearningApplication2\obj\Debug\net6.0\ref\" />
     <Folder Include="CsharpAcademy\LearningApplication2\obj\Release\net6.0\refint\" />
     <Folder Include="CsharpAcademy\LearningApplication2\obj\Release\net6.0\ref\" />
-    <Folder Include="CsharpAcademy\LearningLINQ\bin\Debug\" />
-    <Folder Include="CsharpAcademy\LearningLINQ\bin\Release\" />
     <Folder Include="CsharpAcademy\MultiThreadingLearning - Task\bin\Debug\" />
     <Folder Include="CsharpAcademy\MultiThreadingLearning - Task\bin\Release\" />
     <Folder Include="CsharpAcademy\MultiThreadingLearning2 - Dispatcher\bin\Debug\" />
@@ -99,8 +97,6 @@
     <None Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\Eltin-Buchard-Keller-Algorithm.csproj" />
     <None Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\Eltin-Buchard-Keller-Algorithm.sln" />
     <None Include="CsharpAcademy\LearningApplication2\LearningApplication2.csproj" />
-    <None Include="CsharpAcademy\LearningLINQ\LearningLINQ.csproj" />
-    <None Include="CsharpAcademy\LearningLINQ\LearningLINQ.sln" />
     <None Include="CsharpAcademy\MultiThreadingLearning - Task\MultiThreadingLearning.csproj" />
     <None Include="CsharpAcademy\MultiThreadingLearning - Task\MultiThreadingLearning.sln" />
     <None Include="CsharpAcademy\MultiThreadingLearning2 - Dispatcher\MultiThreadingLearning.csproj" />
@@ -122,14 +118,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="CsharpAcademy\LearningLINQ\App.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="CsharpAcademy\LearningLINQ\MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </None>
     <None Update="CsharpAcademy\MultiThreadingLearning - Task\App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

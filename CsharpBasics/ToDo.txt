@@ -8,6 +8,9 @@
 	Attributes:
 		ParameterAttributes
 
+	Reflections:
+		check the reflection project at laptop
+
 CsharpBasics:
 	Introduction:
 
@@ -15,3 +18,8 @@ CsharpBasics:
 
 	PreferredWays:
 		
+	Reflection:
+		all
+
+	Attributes:
+		all
