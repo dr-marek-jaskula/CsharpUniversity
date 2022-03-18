@@ -41,12 +41,6 @@
     <Folder Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\obj\Debug\net5.0\ref\" />
     <Folder Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\obj\Release\net5.0\refint\" />
     <Folder Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\obj\Release\net5.0\ref\" />
-    <Folder Include="CsharpAcademy\LearningApplication2\bin\Debug\net6.0\ref\" />
-    <Folder Include="CsharpAcademy\LearningApplication2\bin\Release\net6.0\ref\" />
-    <Folder Include="CsharpAcademy\LearningApplication2\obj\Debug\net6.0\refint\" />
-    <Folder Include="CsharpAcademy\LearningApplication2\obj\Debug\net6.0\ref\" />
-    <Folder Include="CsharpAcademy\LearningApplication2\obj\Release\net6.0\refint\" />
-    <Folder Include="CsharpAcademy\LearningApplication2\obj\Release\net6.0\ref\" />
     <Folder Include="CsharpAcademy\MultiThreadingLearning - Task\bin\Debug\" />
     <Folder Include="CsharpAcademy\MultiThreadingLearning - Task\bin\Release\" />
     <Folder Include="CsharpAcademy\MultiThreadingLearning2 - Dispatcher\bin\Debug\" />
@@ -96,7 +90,6 @@
     <None Include="CsharpAcademy\EFShareForFuture\EFShareForFuture.sln" />
     <None Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\Eltin-Buchard-Keller-Algorithm.csproj" />
     <None Include="CsharpAcademy\Eltin-Buchard-Keller-Algorithm\Eltin-Buchard-Keller-Algorithm.sln" />
-    <None Include="CsharpAcademy\LearningApplication2\LearningApplication2.csproj" />
     <None Include="CsharpAcademy\MultiThreadingLearning - Task\MultiThreadingLearning.csproj" />
     <None Include="CsharpAcademy\MultiThreadingLearning - Task\MultiThreadingLearning.sln" />
     <None Include="CsharpAcademy\MultiThreadingLearning2 - Dispatcher\MultiThreadingLearning.csproj" />

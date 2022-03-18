@@ -3,7 +3,9 @@
 
 	Keywords:
 		AwaitForach.cs
+
 	Memory:
+		SpanStackalloc
 
 	Attributes:
 		ParameterAttributes
@@ -19,7 +21,5 @@ CsharpBasics:
 	PreferredWays:
 		
 	Reflection:
-		all
 
 	Attributes:
-		all
