@@ -28,6 +28,17 @@ public class NullChecks
         { 
         }
 
+        //other way
+        if (name is object) //if its an object it is not null
+        {
+
+        }
+
+        if (name is {}) // same as above but a bit odd
+        {
+
+        }
+
         //newer way
         if (name is not null) 
         { 
@@ -38,7 +49,7 @@ public class NullChecks
 
         //c# 10.0
         ArgumentNullException.ThrowIfNull(name);
-        //This has a second, optional argument, annotated with the [CallerArgumentExpression] attribute.
+        //There has a second, optional argument, annotated with the [CallerArgumentExpression] attribute.
         //This attribute takes a single argument that is required to identify some other parameter
         //(and the C# compiler will tell you if the name you've used doesn't match any of your parameter names).
         //This works in a similar way to longer-established attributes such as [CallerMemberName] and [CallerLineNumber]:
