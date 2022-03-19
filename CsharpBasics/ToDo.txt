@@ -12,6 +12,9 @@
 	Reflections:
 		check the reflection project at laptop
 
+	DesignPatterns:
+		Observer
+
 CsharpBasics:
 	Introduction:
 

@@ -1,0 +1,3 @@
+﻿https://refactoring.guru/pl/design-patterns/abstract-factory/csharp/example
+
+https://www.dofactory.com/net/abstract-factory-design-pattern
