@@ -13,6 +13,7 @@ public class Closures
     internal static Action CreateAction()
     {
         int counter = 0; //still it uses the heap memory
+
         return delegate
         {
             counter++;

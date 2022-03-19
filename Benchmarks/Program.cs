@@ -1,5 +1,6 @@
 ﻿using Benchmarks;
 
 //StringBenchmarks.RunBenchmarks();
+//ReflectionBenchmarks.RunBenchmarks(); 
 
-ReflectionBenchmarks.RunBenchmarks(); 
+SpanBenchmarks.RunBenchmarks(); 

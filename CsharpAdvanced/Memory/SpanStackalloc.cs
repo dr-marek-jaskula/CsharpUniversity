@@ -1,56 +1,102 @@
 ﻿using System.Diagnostics;
 
-namespace CsharpAdvanced.Introduction;
+namespace CsharpAdvanced.Memory;
 
 public class SpanStackalloc
 {
+    //Span was created to avoid heap allocation
+    //It is a best for string manipulation, while string in c# are immutable, and they are allocated in the heap
 
-    //Span jest strukturą 
-    //Provide help with buffer overflow and security
-    //avoiding alocations
+    //Benchmarks are done in the benchmark project
+    //Span is faster
+    //However, Span is ALL about memory allocation -> span is always allocated on the stack [therefore it is faster]
 
+    //Span is iterable
+    //Span is a ref struct -> it can be allocated on the heap
+    //proof:
+    //ReadOnlySpan<char> dateAsSpan = _dateAsText; // cant be done, cant be boxed, can implement interfaces, can used in yield and async
 
-    //nie można w asyncach uzywać, ani w yieldach i moze gdzies jeszcze 
-    //tam można używać Memory<T> zamiast Span<T>, ale jest troche wolniejsze
-    //Memory<T> ma dwa więcej fieldy. Memory jest wtedy i tak duzo szybsze
+    //Recommend using Span<T> or ReadOnlySpan<T> types to work with stack allocated memory whenever possible.
+
+    //The way how span works:
+    //String is allocated somewhere in the heap
+    //Span points to the beginning (or some offset) of the string and store the length of the string, so it gets the substring from a string, and not create new one
+    //So it store at the stack: the origin address + offset and the length in next block
+
+    private static readonly string _dateAsText = "08 07 2022";
+
+    public static void InvokeSpanStackalllocExamples()
+    {
+        //Examine the benchmarks
+        var date = DateWithStringAndSubstring();
+        var date2 = DateWithStringAndSpan();
+
+        //iterable (as is was an array)
+        ReadOnlySpan<char> someSpan = "This is a span";
+        foreach (var character in someSpan)
+            Debug.WriteLine(character);
+    }
+
+    //Standard way with substring
+    public static (int day, int month, int year) DateWithStringAndSubstring()
+    {
+        //These 4 string allocated in the heap (expensive)  
+        var dayAsText = _dateAsText.Substring(0, 2);
+        var monthAsText = _dateAsText.Substring(3, 2);
+        var yearAsText = _dateAsText.Substring(6);
+        
+        var day = int.Parse(dayAsText);
+        var month = int.Parse(monthAsText);
+        var year = int.Parse(yearAsText);
+
+        return (day, month, year);
+    }
+
+    //ReadOnlySpan version
+    public static (int day, int month, int year) DateWithStringAndSpan()
+    {
+        ReadOnlySpan<char> dateAsSpan = _dateAsText;
+        //These 4 string allocated in the heap (expensive)  
+        var dayAsText = dateAsSpan.Slice(0, 2);
+        var monthAsText = dateAsSpan.Slice(3, 2);
+        var yearAsText = dateAsSpan.Slice(6);
+
+        var day = int.Parse(dayAsText);
+        var month = int.Parse(monthAsText);
+        var year = int.Parse(yearAsText);
+
+        return (day, month, year);
+    }
 
     public static void LerningSpan()
     {
-        #region Uefficient way, enfoce to use more memory
-        string s = "TyType 1n";
-        var first = s.Substring( startIndex: 0, length: 6);
-        Console.WriteLine(first);
-        var second = s.Substring(7);
-        Console.WriteLine(second);
+        #region Inefficient way, enforce to use more memory
 
-        //no we will se how it uses more memory
-        s = s.Substring(3); // w tym momencie w pamieci pojawiają się dwie komórki pamięci: dla s = "TyType 1n" i dla nowego s = "ype 1n". Jednakże dla starego s nie ma już użytku i nie można się do niego dostać, a mimo to blokuje pamięć. Można by użyć GarbageCollector ale jak on działa, to program nie może działać, wiec lepiej znaleźć nowe rozwiązanie
+        string s = "TyType 1n";
+        var first = s.Substring(startIndex: 0, length: 6);
+        Debug.WriteLine(first);
+        var second = s.Substring(7);
+        Debug.WriteLine(second);
+
+        //no we will see how it uses more memory
+        s = s.Substring(3); 
 
         #endregion
 
         #region Efficient way to use memory. Slow Span
-        //Span to valueType, który ma 3 fields:
-        //Span działą tak, że ma pointer (1 field) na punkt w pamięci oraz parametry: Offset (2 field) i Length (3 field)
-        //Offset to skąd się zaczyna
-        //Length to jak długi
 
-        ReadOnlySpan<char> s2 = "YGG871".AsSpan(); //trzeba string do Spana
-        //Tutaj bazowo jest offset 0 i length = string.Length (czyli do konca)
-        var first2 = s2.Slice(start: 0, length: 2); //Substring to tutaj Slice
+        ReadOnlySpan<char> s2 = "YGG871".AsSpan(); 
+
+        var first2 = s2.Slice(start: 0, length: 2); 
         foreach (var item in first2)
-        {
-            Console.WriteLine(item);
-        }
-        Console.WriteLine("--------------");
+            Debug.WriteLine(item);
+
         var second2 = s2.Slice(start: 3);
         foreach (var item in second2)
-        {
-            Console.WriteLine(item);
-        }
+            Debug.WriteLine(item);
 
-        s2 = s2.Slice(3); //tutaj jedyne co się zmienia, to zmienia się offset z 0 na 3. Dlatego nie zaśmieca więcej pamięci.
-
-        int num = int.Parse(s2); //tutaj już nie towrzy sie kolejny element w pamieci, ale pointer do tego samego miejsca w pamięci
+        s2 = s2.Slice(3); 
+        int num = int.Parse(s2); 
 
         #endregion
 
@@ -62,21 +108,19 @@ public class SpanStackalloc
 
         #endregion
 
-        Random random = new Random();
+        Random random = new();
         var listOfStringWithSpan = string.Create(length: 10, random, (Span<char> chars, Random r) =>
         {
             for (int i = 0; i < chars.Length; i++)
-            {
-                chars[i] = (char)(r.Next(0, 10) + '0'); //to plus zero to zeby zrozumiał, że to jest "string", potem rzutowany na char
-            }
+                chars[i] = (char)(r.Next(0, 10) + '0'); 
         });
 
 
         //let us check if this is faster indeed
         string longString = "FDFDfesdzcbrbkrkvksdkcdfsdfRRRVSadseQQQQczxcsEAEDCAEDAEdfdfdDFDSFFFefsedSFDSFSDFDSFDSFDfdsfsefEFEFSEFSDFSDVSVSDFdsfsefbgbhjnyBFGBFGBFTbtdgdvdVRVFDVFVFVfdbdbgBVBVBDFVFDVFDVDFvfdvfdVDFVFDVDFVDF";
-        Console.WriteLine(longString.Length);
+        Debug.WriteLine(longString.Length);
 
-
+        //Benchmarks would be better but...
         Stopwatch stopwatch1 = Stopwatch.StartNew();
         ConstainsCapitalLetter(longString);
         stopwatch1.Stop();
@@ -89,19 +133,18 @@ public class SpanStackalloc
         Stopwatch stopwatch3 = Stopwatch.StartNew();
         ConstainsCapitalLetter2(longString);
         stopwatch3.Stop();
-
-
+        
         Stopwatch stopwatch4 = Stopwatch.StartNew();
         Sum2(new int[] { 3, 4, 5, 9, 11, 42, 55, 22, 99, 3232, 542, 121, 4232, 4232, 555, 22, 31, 1, 3, 4, 5, 9, 11, 42, 55, 22, 99, 3232, 542, 121, 4232, 4232, 555, 22, 31, 1, 3, 4, 5, 9, 11, 42, 55, 22, 99, 3232, 542, 121, 4232, 4232, 555, 22, 31, 1, 3, 4, 5, 9, 11, 42, 55, 22, 99, 3232, 542, 121, 4232, 4232, 555, 22, 31, 1, 3, 4, 5, 9, 11, 42, 55, 22, 99, 3232, 542, 121, 4232, 4232, 555, 22, 31, 1, 3, 4, 5, 9, 11, 42, 55, 22, 99, 3232, 542, 121, 4232, 4232, 555, 22, 31, 1, 3 });
         stopwatch4.Stop();
 
-        Console.WriteLine(stopwatch1.Elapsed);
-        Console.WriteLine(stopwatch2.Elapsed);
-        Console.WriteLine(stopwatch3.Elapsed);
-        Console.WriteLine(stopwatch4.Elapsed);
-        //Widać ze szybsze
+        Debug.WriteLine(stopwatch1.Elapsed);
+        Debug.WriteLine(stopwatch2.Elapsed);
+        Debug.WriteLine(stopwatch3.Elapsed);
+        Debug.WriteLine(stopwatch4.Elapsed);
     }
-    #region Where to use span when u are a mortal man
+
+    #region Where to use span
 
     //Slow functions
     public static bool ConstainsCapitalLetter(string s)
@@ -138,5 +181,4 @@ public class SpanStackalloc
     }
 
     #endregion
-
 }

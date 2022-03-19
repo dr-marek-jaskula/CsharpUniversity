@@ -1,4 +1,6 @@
-﻿namespace CsharpAdvanced.Introduction;
+﻿using System.Diagnostics;
+
+namespace CsharpAdvanced.Introduction;
 
 public class OverloadingOperators
 {
@@ -91,4 +93,113 @@ public class SomeList
         return 0;
     }
 }
+
+public enum HumanProperties
+{
+    Name,
+    Age,
+    FavouriteNumber,
+}
+
+public class Human
+{
+    public string Name { get; set; } = string.Empty;
+    public int Age { get; set; }
+    public int FavouriteNumber { get; set; }
+}
+
+
+public class ListOfHumans
+{
+    public List<Human?> Humans { get; set; } = new();
+
+    /// <summary>
+    /// Now we can write Humans[20]
+    /// </summary>
+    /// <param name="age"></param>
+    /// <returns></returns>
+    public Human? this[int age]
+    {
+        get
+        {
+            foreach (Human? item in Humans)
+                if (item?.Age == age)
+                    return item;
+
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Now we can write Humans["Adam"]
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public Human? this[string name]
+    {
+        get
+        {
+            foreach (Human? item in Humans)
+                if (item?.Name == name)
+                    return item;
+            
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Best searcher
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public Human? this[HumanProperties warriorProperties, object x]
+    {
+        get
+        {
+            switch (warriorProperties)
+            {
+                case HumanProperties.Name:
+                    foreach (Human? item in Humans)
+                        if (item?.Name == x.ToString())
+                            return item;
+                    return null;
+                case HumanProperties.Age:
+                    foreach (Human? item in Humans)
+                    {
+                        try
+                        {
+                            if (item?.Age == Int32.Parse(x.ToString()))
+                                return item;
+                        }
+                        catch (FormatException e)
+                        {
+                            Debug.WriteLine(e.Message);
+                        }
+                    }
+                    return null;
+                case HumanProperties.FavouriteNumber:
+                    foreach (Human? item in Humans)
+                    {
+                        try
+                        {
+                            if (item?.FavouriteNumber == Int32.Parse(x.ToString()))
+                                return item;
+                        }
+                        catch (FormatException e)
+                        {
+                            Debug.WriteLine(e.Message);
+                        }
+                    }
+                    return null;
+                default:
+                    return null;
+            }
+        }
+    }
+}
+
+
+
+
+
 

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text;
+﻿using System.Text;
 
 namespace CsharpBasics.Introduction;
 
@@ -11,6 +10,7 @@ public class Strings
     //string is a reference type
     //string inherits directly from 'object', not like value types that inherits from a ValueType class
     //In C#, the string keyword is an alias for String
+    //strings in c# are immutable
 
     public static void InvokeStringsExample()
     {

@@ -30,3 +30,5 @@ public class PreprocessorDefinitions
         #endif
     }
 }
+
+//We can also use the Conditional attribute -> see BuildInAttributes

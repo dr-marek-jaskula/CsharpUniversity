@@ -16,5 +16,11 @@ public class AdvancedMemoryEntrypoint
     {
         Closures.InvokeClousersExamples();
     }
+
+    [Fact]
+    public void SpanStackallocEntrypoint()
+    {
+        SpanStackalloc.InvokeSpanStackalllocExamples();
+    }
 }
 

@@ -10,5 +10,11 @@ public class AdvancedKeywordsEntrypoint
     {
         Yield.InvokeYieldExamples();
     }
+
+    [Fact]
+    public void RefEntrypoint()
+    {
+        OutRef.InvokeRefExamples();
+    }
 }
 
