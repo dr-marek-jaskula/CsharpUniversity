@@ -1,4 +1,4 @@
-﻿using Eltin_Buchard_Keller_Algorithm;
+﻿namespace CustomTools.StringApproxAlgorithms.Eltin_Buchard_Keller_Algorithm;
 using System.Diagnostics;
 
 /*  
@@ -9,7 +9,7 @@ using System.Diagnostics;
     4. Instantiate a BKTree with the type name of the class created in (1).
 */
 
-//Example of use can be found in "Wild Rift" project
+//Example of use can be found in "Wild Rift" project [part of it is below]
 
 public class EltinBuchardKellerAlgorithEntrypoint
 {
@@ -47,4 +47,36 @@ public class EltinBuchardKellerAlgorithEntrypoint
 
         Debug.WriteLine("End of the application");
     }
+
+    #region Example of use
+    /*
+    public interface IName
+    {
+        string Name { get; set; }
+    }
+
+    /// <summary>
+    /// Approximate name of entity, based on the Levenshtein metric.
+    /// </summary>
+    /// <typeparam name="T">The db set type that implements the IName interface</typeparam>
+    /// <param name="name">String to be approximated</param>
+    /// <param name="dbSet">The collection where the approximation is done</param>
+    /// <returns></returns>
+    public static string ApproximateName<T>(string name, DbSet<T> dbSet) where T : class, IName
+    {
+        var itemNames = dbSet.Select(item => item.Name).ToList();
+        List<string> itemNamesTree = new();
+
+        foreach (var element in itemNames)
+            itemNamesTree.AddRange(element.Split(new char[] { ' ', '\'' }));
+
+        itemNamesTree.AddRange(itemNames);
+
+        BKTree tree = new(new(name));
+        tree.AddMultiple(itemNamesTree);
+        return tree.FindBestNodeWithDistance(name);
+    }
+    */
+    #endregion
 }
+

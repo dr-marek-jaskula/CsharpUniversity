@@ -1,4 +1,4 @@
-﻿namespace Eltin_Buchard_Keller_Algorithm;
+﻿namespace CustomTools.StringApproxAlgorithms.Eltin_Buchard_Keller_Algorithm;
 
 static public class DistanceMetric
 {

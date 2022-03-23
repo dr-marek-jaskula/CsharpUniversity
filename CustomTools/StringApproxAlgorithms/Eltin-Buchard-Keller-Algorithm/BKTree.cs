@@ -1,4 +1,4 @@
-﻿namespace Eltin_Buchard_Keller_Algorithm;
+﻿namespace CustomTools.StringApproxAlgorithms.Eltin_Buchard_Keller_Algorithm;
 
 /// <summary>
 /// This class is an implementation of a Burkhard-Keller tree. The BK-Tree is a tree structure used to quickly find close matches to any defined object.

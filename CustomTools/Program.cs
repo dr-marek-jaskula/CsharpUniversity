@@ -1,1 +1,5 @@
-﻿EltinBuchardKellerAlgorithEntrypoint.DemonstrateTheAlgorith();
+﻿using CustomTools.StringApproxAlgorithms.Eltin_Buchard_Keller_Algorithm;
+using CustomTools.StringApproxAlgorithms.SymSpellAlgorithm;
+
+//EltinBuchardKellerAlgorithEntrypoint.DemonstrateTheAlgorith();
+StringApproximationBySymSpell.InvokeSymSpellExamples();

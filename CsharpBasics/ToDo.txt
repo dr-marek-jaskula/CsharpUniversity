@@ -25,3 +25,7 @@ CsharpBasics:
 	Reflection:
 
 	Attributes:
+
+CustomTools:
+	StringApproxAlgorithms:
+		SymSpell

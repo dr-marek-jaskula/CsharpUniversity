@@ -70,6 +70,9 @@ public class Linq
         //sort by name, ascending (alphabetically). Usually preferred syntax.
         var orderByMethod = StudentLinqList.OrderBy(s => s.Name);
 
+        //Custom orderby: base on the first letter of the name, we make custom orderby
+        var customOrderByMethod = StudentLinqList.OrderBy(student => "BJSR".IndexOf(student.Name.First()));
+
         //this gives the same result, however using other keyword syntax. Usually not preferred syntax (mb for joins)
         var orderByAnotherSyntax = from s in StudentLinqList orderby s.Name select s;
         //with Select
