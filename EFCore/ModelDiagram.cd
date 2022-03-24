@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="EFCore.Data_models.Address" Collapsed="true">
-    <Position X="13.25" Y="11.5" Width="1.5" />
+    <Position X="12.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAAAAAAAAIIAAAEAAAAAIAAAAAAAIAAAAAAAA=</HashCode>
+      <HashCode>AAACABAAAAAAAAAIIAAAEAAAAAIAAAAAAAIAAAAAAAA=</HashCode>
       <FileName>Data models\Address.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EFCore.Data_models.Employee" Collapsed="true">
-    <Position X="7.5" Y="11.5" Width="1.5" />
+    <Position X="6.75" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAECACAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data models\Employee.cs</FileName>
@@ -18,7 +18,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="EFCore.Data_models.Order" Collapsed="true">
-    <Position X="8.5" Y="8.5" Width="1.5" />
+    <Position X="7.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAEAAAAAAAAAIAAAACAAAAAAAAAAAEAAAAAAAA=</HashCode>
       <FileName>Data models\Order.cs</FileName>
@@ -29,7 +29,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="EFCore.Data_models.Payment" Collapsed="true">
-    <Position X="10.75" Y="8.25" Width="1.5" />
+    <Position X="10" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAEAAAAAAAAAAAAAAAAAAAAQAAAAgEAAAAAAAA=</HashCode>
       <FileName>Data models\Payment.cs</FileName>
@@ -39,14 +39,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="EFCore.Data_models.Product" Collapsed="true">
-    <Position X="6" Y="8.5" Width="1.5" />
+    <Position X="5.25" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAQAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data models\Product.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EFCore.Data_models.Product_Tag" Collapsed="true">
-    <Position X="3.5" Y="8.25" Width="1.5" />
+    <Position X="2.75" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data models\Product_Tag.cs</FileName>
@@ -57,7 +57,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="EFCore.Data_models.ProductAmount" Collapsed="true">
-    <Position X="5.5" Y="6.75" Width="1.5" />
+    <Position X="4.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAACAAACAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data models\ProductAmount.cs</FileName>
@@ -68,25 +68,25 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="EFCore.Data_models.Review" Collapsed="true">
-    <Position X="6" Y="10" Width="1.5" />
+    <Position X="5.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEACAAAAAAAgAEAAAAAAAAAACAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Data models\Review.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Employee" />
       <Property Name="Product" />
+      <Property Name="Employee" />
     </ShowAsAssociation>
   </Class>
   <Class Name="EFCore.Data_models.Salary" Collapsed="true">
-    <Position X="7.5" Y="13.5" Width="1.5" />
+    <Position X="6.75" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAASAAAAAAAAAAAAAAAIAAAAAAgAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Data models\Salary.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EFCore.Data_models.SalaryTransfer" Collapsed="true">
-    <Position X="5.5" Y="12.75" Width="1.5" />
+    <Position X="4.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACACADAAAAAAAAAAAAAAAgCAAAAAABAAAAAAAAAAA=</HashCode>
       <FileName>Data models\SalaryTransfer.cs</FileName>
@@ -97,7 +97,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="EFCore.Data_models.Shop" Collapsed="true">
-    <Position X="7.25" Y="6.75" Width="1.5" />
+    <Position X="6.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAECAAAAAAAgAAAAAAAAAAQACAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Data models\Shop.cs</FileName>
@@ -108,32 +108,32 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="EFCore.Data_models.Tag" Collapsed="true">
-    <Position X="1.25" Y="8.25" Width="1.5" />
+    <Position X="0.5" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data models\Tag.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EFCore.Data_models.Transaction" Collapsed="true">
-    <Position X="8.5" Y="9.75" Width="1.5" />
+    <Position X="7.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAECAAAAAAAgAAAAAAAAAAQAAAAAAAABAAAAAAAAAAA=</HashCode>
       <FileName>Data models\Transaction.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Customer" />
       <Property Name="Order" />
+      <Property Name="Customer" />
     </ShowAsAssociation>
   </Class>
   <Class Name="EFCore.Data_models.Customer" Collapsed="true">
-    <Position X="10.75" Y="9.75" Width="1.5" />
+    <Position X="10" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data models\Customer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EFCore.Data_models.Person" Collapsed="true">
-    <Position X="10.75" Y="11.5" Width="1.5" />
+    <Position X="10" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEAAACAAAACAAAAAQAAAAAAQAAACAAAAAAAAAAg=</HashCode>
       <FileName>Data models\Parents\Person.cs</FileName>

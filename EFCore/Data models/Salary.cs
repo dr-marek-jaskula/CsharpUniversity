@@ -7,4 +7,5 @@ public class Salary
     public decimal DiscretionaryBonus { get; set; }
     public decimal IncentiveBonus { get; set; }
     public decimal TaskBonus { get; set; }
+    public Employee? Employee { get; set; }
 }

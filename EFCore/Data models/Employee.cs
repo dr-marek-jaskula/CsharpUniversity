@@ -1,4 +1,7 @@
-﻿namespace EFCore.Data_models;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace EFCore.Data_models;
 
 public class Employee : Person
 {
@@ -7,3 +10,55 @@ public class Employee : Person
     public Salary Salary { get; set; } = new();
     public List<Customer> Customers { get; set; } = new();
 }
+
+public class EmployeeEntityTypeConfiguration : IEntityTypeConfiguration<Employee>
+{
+    public void Configure(EntityTypeBuilder<Employee> builder)
+    {
+        builder.ToTable("employee");
+
+        builder.HasKey(c => c.Id);
+        builder.Property(c => c.Id).UseIdentityColumn();
+
+        builder.Property(c => c.FirstName)
+            .IsRequired(true)
+            .HasColumnType("CHAR(50)");
+
+        builder.Property(c => c.LastName)
+            .IsRequired(true)
+            .HasColumnType("CHAR(50)");
+
+        builder.Property(c => c.Email)
+            .IsRequired(true)
+            .HasColumnType("CHAR(50)");
+
+        builder.Property(c => c.PhoneNumber)
+            .IsRequired(true)
+            .HasColumnType("INT");
+
+        builder.Property(c => c.DateOfBirth)
+            .HasColumnType("DATE")
+            .HasDefaultValue(null);
+
+        builder.Property(c => c.Gender)
+            .IsRequired(true)
+            .HasColumnType("CHAR(7)")
+            .HasConversion(g => g.ToString(),
+            s => (Gender)Enum.Parse(typeof(Gender), s))
+            .HasComment("Male, Female or Unknown");
+
+        builder.Property(c => c.HireDate)
+            .HasColumnType("DATE")
+            .HasDefaultValue(null);
+
+        builder.HasOne(e => e.Salary);
+
+        builder.HasOne(c => c.Address)
+            .WithOne()
+            .HasForeignKey<Customer>(c => c.AddressId);
+
+        builder.HasMany(e => e.Customers)
+            .WithMany;
+    }
+}
+
