@@ -8,8 +8,6 @@ public class Transaction
     public DateOnly Date { get; set; } 
     public Status Status { get; set; }
     public Order Order { get; set; } = new();
-    public int OrderId { get; set; }
     public Customer Customer { get; set; } = new();
-    public int CustomerId { get; set; }
 }
 

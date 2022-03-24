@@ -6,4 +6,3 @@ public class Employee : Person
     public DateTime HireDate { get; set; }
     public Salary Salary { get; set; } = new();
 }
-
