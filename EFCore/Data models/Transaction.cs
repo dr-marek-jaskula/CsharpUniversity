@@ -6,7 +6,6 @@ public class Transaction
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public DateOnly Date { get; set; } 
-    public Status Status { get; set; }
     public Order Order { get; set; } = new();
     public Customer Customer { get; set; } = new();
 }

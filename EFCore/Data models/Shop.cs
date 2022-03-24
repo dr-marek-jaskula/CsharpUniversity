@@ -8,6 +8,5 @@ public class Shop
     public Address Address { get; set; } = new();
     public List<Employee> Employees { get; set; } = new();
     public List<Order> Orders { get; set; } = new();
-    public List<Product> Products { get; set; } = new();
 }
 

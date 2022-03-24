@@ -5,7 +5,6 @@ public class ProductAmount
     public int Id { get; set; }
     public int Amount { get; set; }
     public Product Product { get; set; } = new();
-    public Shop? Shop { get; set; }
-    public Store? Store { get; set; }
+    public Shop Shop { get; set; } = new();
 }
 

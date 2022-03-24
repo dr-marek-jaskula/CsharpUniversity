@@ -5,4 +5,5 @@ public class Employee : Person
     public int Id { get; set; }
     public DateTime HireDate { get; set; }
     public Salary Salary { get; set; } = new();
+    public List<Customer> Customers { get; set; } = new();
 }

@@ -3,6 +3,6 @@
 public class Tag
 {
     public int Id { get; set; }
-    public ProductTag productTag { get; set; }
+    public ProductTag ProductTag { get; set; }
 }
 
