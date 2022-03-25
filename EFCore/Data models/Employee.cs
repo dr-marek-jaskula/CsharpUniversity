@@ -8,7 +8,11 @@ public class Employee : Person
     public int Id { get; set; }
     public DateTime HireDate { get; set; }
     public Salary Salary { get; set; } = new();
+    public int SalaryId { get; set; }
+    public Shop Shop { get; set; } = new();
+    public int ShopId { get; set; }
     public List<Customer> Customers { get; set; } = new();
+    public List<Review> Reviews { get; set; } = new();
 }
 
 public class EmployeeEntityTypeConfiguration : IEntityTypeConfiguration<Employee>
@@ -22,15 +26,15 @@ public class EmployeeEntityTypeConfiguration : IEntityTypeConfiguration<Employee
 
         builder.Property(c => c.FirstName)
             .IsRequired(true)
-            .HasColumnType("CHAR(50)");
+            .HasMaxLength(50);
 
         builder.Property(c => c.LastName)
             .IsRequired(true)
-            .HasColumnType("CHAR(50)");
+            .HasMaxLength(50);
 
         builder.Property(c => c.Email)
             .IsRequired(true)
-            .HasColumnType("CHAR(50)");
+            .HasMaxLength(50);
 
         builder.Property(c => c.PhoneNumber)
             .IsRequired(true)
@@ -51,14 +55,13 @@ public class EmployeeEntityTypeConfiguration : IEntityTypeConfiguration<Employee
             .HasColumnType("DATE")
             .HasDefaultValue(null);
 
-        builder.HasOne(e => e.Salary);
+        builder.HasOne(e => e.Salary)
+            .WithOne(s => s.Employee)
+            .HasForeignKey<Employee>(e => e.SalaryId);
 
-        builder.HasOne(c => c.Address)
-            .WithOne()
-            .HasForeignKey<Customer>(c => c.AddressId);
-
-        builder.HasMany(e => e.Customers)
-            .WithMany;
+        builder.HasOne(e => e.Address)
+            .WithOne(a => a.Employee)
+            .HasForeignKey<Employee>(e => e.AddressId);
     }
 }
 

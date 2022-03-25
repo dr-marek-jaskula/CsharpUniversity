@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EFCore.Data_models;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace EFCore;
@@ -13,25 +14,20 @@ public class MyDbContext : DbContext
 
     //2. DbSets should be determine here
     
-    /*
-    public DbSet<User> Users => Set<User>();
-    public DbSet<UserGroup> UserGroups => Set<UserGroup>();
-    public DbSet<Identity> Identities => Set<Identity>();
-    */
-    
-    //Each class (like User) should be previously defined (and configured. I prefer configuration using IEntityTypeConfiguration)
-
-    //Other example
-    /*
-    public DbSet<IndependentBonusEntity> IndependentBonuses => Set<IndependentBonusEntity>();
-    public DbSet<DependentBonusEntity> DependentBonuses => Set<DependentBonusEntity>();
-    public DbSet<CharacterEntity> Characters => Set<CharacterEntity>();
-    public DbSet<FeatureEntity> Features => Set<FeatureEntity>();
-    public DbSet<ManeuverEntity> Maneuvers => Set<ManeuverEntity>();
-    public DbSet<StanceEntity> Stances => Set<StanceEntity>();
-    public DbSet<StateEntity> States => Set<StateEntity>();
-    public DbSet<ArmorEntity> Armors => Set<ArmorEntity>();
-    */
+    public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<Employee> Employees => Set<Employee>();
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<Address> Addresss => Set<Address>();
+    public DbSet<Payment> Payments => Set<Payment>();
+    public DbSet<Product> Products => Set<Product>();
+    public DbSet<Product_Tag> Products_Tag => Set<Product_Tag>();
+    public DbSet<ProductAmount> ProductAmounts => Set<ProductAmount>();
+    public DbSet<Review> Reviews => Set<Review>();
+    public DbSet<Salary> Salaries => Set<Salary>();
+    public DbSet<SalaryTransfer> SalaryTransfers => Set<SalaryTransfer>();
+    public DbSet<Shop> Shops => Set<Shop>();
+    public DbSet<Tag> Tags => Set<Tag>();
+    public DbSet<Transaction> Transactions => Set<Transaction>();
 
     //3. The OnModelCreating method should be overridden
     protected override void OnModelCreating(ModelBuilder builder)

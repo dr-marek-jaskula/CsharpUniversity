@@ -31,6 +31,7 @@ public class ReadMe
     //8. Create data models id "Data models" folder (models are done for educational use)
 
     //9. Configure data models (data configuration should be in the file in which data model is)
+    //To examine the one-to-one, one-to-many, many-to-many configuration, to go some model classes
 
     //10. We open the power shell (or other CLI), we go to directory where there class library is and then:
     //dotnet ef migrations add Init

@@ -2,6 +2,6 @@
 
 public enum Status
 {
-    Recived, InProgress, Done, Rejected
+    Received, InProgress, Done, Rejected
 }
 

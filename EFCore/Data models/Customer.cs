@@ -7,6 +7,7 @@ public class Customer : Person
 {
     public int Id { get; set; }
     public Rank Rank { get; set; }
+    public List<Transaction> Transactions { get; set; } = new();
 }
 
 public class CustomerEntityTypeConfiguration : IEntityTypeConfiguration<Customer>
@@ -20,15 +21,15 @@ public class CustomerEntityTypeConfiguration : IEntityTypeConfiguration<Customer
 
         builder.Property(c => c.FirstName)
             .IsRequired(true)
-            .HasColumnType("CHAR(50)");
+            .HasMaxLength(50);
 
         builder.Property(c => c.LastName)
             .IsRequired(true)
-            .HasColumnType("CHAR(50)");
+            .HasMaxLength(50);
 
         builder.Property(c => c.Email)
             .IsRequired(true)
-            .HasColumnType("CHAR(50)");
+            .HasMaxLength(50);
 
         builder.Property(c => c.PhoneNumber)
             .IsRequired(true)
@@ -52,7 +53,7 @@ public class CustomerEntityTypeConfiguration : IEntityTypeConfiguration<Customer
             s => (Rank)Enum.Parse(typeof(Rank), s));
 
         builder.HasOne(c => c.Address)
-            .WithOne()
+            .WithOne(a => a.Customer)
             .HasForeignKey<Customer>(c => c.AddressId);
     }
 }
