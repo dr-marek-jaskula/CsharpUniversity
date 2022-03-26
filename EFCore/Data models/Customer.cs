@@ -7,7 +7,7 @@ public class Customer : Person
 {
     public int Id { get; set; }
     public Rank Rank { get; set; }
-    public List<Transaction> Transactions { get; set; } = new();
+    public List<Order> Orders { get; set; } = new();
 }
 
 public class CustomerEntityTypeConfiguration : IEntityTypeConfiguration<Customer>
@@ -31,9 +31,9 @@ public class CustomerEntityTypeConfiguration : IEntityTypeConfiguration<Customer
             .IsRequired(true)
             .HasMaxLength(50);
 
-        builder.Property(c => c.PhoneNumber)
+        builder.Property(c => c.ContactNumber)
             .IsRequired(true)
-            .HasColumnType("INT");
+            .HasMaxLength(40);
 
         builder.Property(c => c.DateOfBirth)
             .HasColumnType("DATE")

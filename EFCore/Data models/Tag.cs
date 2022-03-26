@@ -23,8 +23,7 @@ public class TagEntityTypeConfiguration : IEntityTypeConfiguration<Tag>
             .IsRequired(true)
             .HasColumnType("CHAR(7)")
             .HasConversion(pt => pt.ToString(),
-            s => (ProductTag)Enum.Parse(typeof(ProductTag), s))
-            .HasComment("Cotton, Polo, Wool, Gloves, Top, Pants, Socks, Cap or Panties");
+            s => (ProductTag)Enum.Parse(typeof(ProductTag), s));
     }
 }
 

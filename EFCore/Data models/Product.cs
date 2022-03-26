@@ -8,10 +8,10 @@ public class Product
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public decimal Price { get; set; }
-    public List<Payment> Payments { get; set; } = new();
     public List<Product_Tag> Product_Tags { get; set; } = new();
     public List<Review> Reviews { get; set; } = new();
     public List<ProductAmount> ProductAmounts { get; set; } = new();
+    public List<Order> Order { get; set; } = new();
 }
 
 public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<Product>
@@ -30,5 +30,7 @@ public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.Price)
             .IsRequired(true)
             .HasPrecision(10, 2);
+
+
     }
 }

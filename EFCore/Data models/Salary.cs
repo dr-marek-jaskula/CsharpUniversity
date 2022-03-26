@@ -11,7 +11,7 @@ public class Salary
     public decimal IncentiveBonus { get; set; }
     public decimal TaskBonus { get; set; }
     public Employee? Employee { get; set; }
-    public SalaryTransfer? SalaryTransfer { get; set; }
+    public List<SalaryTransfer>? SalaryTransfer { get; set; }
     public int? SalaryTransferId { get; set; }
 }
 
@@ -40,8 +40,8 @@ public class SalaryEntityTypeConfiguration : IEntityTypeConfiguration<Salary>
             .HasDefaultValue(0)
             .HasPrecision(6, 2);
 
-        builder.HasOne(s => s.SalaryTransfer)
+        builder.HasMany(s => s.SalaryTransfer)
             .WithOne(st => st.Salary)
-            .HasForeignKey<Salary>(s => s.SalaryTransferId);
+            .HasForeignKey(s => s.SalaryId);
     }
 }

@@ -21,7 +21,7 @@ public class Appsettings
     //1) First of all we need to add a NugGet package:
     //Microsoft.Extensions.Configuration.Json
     //2) Add: using Microsoft.Extensions.Configuration; 
-    //3) Add "appsettings.json" file (we can also add "appsettings.Development.json")
+    //3) Add "appsettings.json" file (we can also add "appsettings.Development.json") (its JavaScript JSON Configuration File)
     
     //The example file was added, however for more info go to database project (Entity Framework Core) or web api project (Asp.Net.Core)
 

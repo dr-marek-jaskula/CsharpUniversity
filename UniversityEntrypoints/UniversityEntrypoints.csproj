@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CsharpAdvanced\CsharpAdvanced.csproj" />
     <ProjectReference Include="..\CsharpBasics\CsharpBasics.csproj" />
+    <ProjectReference Include="..\EFCore\EFCore.csproj" />
   </ItemGroup>
 
 </Project>

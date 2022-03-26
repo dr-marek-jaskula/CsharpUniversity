@@ -8,8 +8,8 @@ public class Address
     public int Id { get; set; }
     public string? City { get; set; } = string.Empty;
     public string? Country { get; set; } = string.Empty;
-    public int? PostalCode { get; set; }
-    public int? Street { get; set; }
+    public string? ZipCode { get; set; }
+    public string? Street { get; set; }
     public int? Building { get; set; }
     public int? Flat { get; set; }
     public Customer? Customer { get; set; }
@@ -26,11 +26,12 @@ public class AddressEntityTypeConfiguration : IEntityTypeConfiguration<Address>
         builder.HasKey(a => a.Id);
         builder.Property(a => a.Id).UseIdentityColumn();
 
-        builder.Property(a => a.Street).HasColumnType("TINYINT");
+        builder.Property(a => a.Street).HasMaxLength(100);
         builder.Property(a => a.Building).HasColumnType("TINYINT");
         builder.Property(a => a.Flat).HasColumnType("TINYINT");
         builder.Property(a => a.Country).HasMaxLength(50);
         builder.Property(a => a.City).HasMaxLength(50);
+        builder.Property(a => a.ZipCode).HasMaxLength(50);
     }
 }
 

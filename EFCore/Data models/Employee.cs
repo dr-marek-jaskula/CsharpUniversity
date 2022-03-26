@@ -36,9 +36,9 @@ public class EmployeeEntityTypeConfiguration : IEntityTypeConfiguration<Employee
             .IsRequired(true)
             .HasMaxLength(50);
 
-        builder.Property(c => c.PhoneNumber)
+        builder.Property(c => c.ContactNumber)
             .IsRequired(true)
-            .HasColumnType("INT");
+            .HasMaxLength(40);
 
         builder.Property(c => c.DateOfBirth)
             .HasColumnType("DATE")

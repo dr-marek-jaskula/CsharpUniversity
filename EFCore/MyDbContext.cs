@@ -1,5 +1,6 @@
 ﻿using EFCore.Data_models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
 namespace EFCore;
@@ -17,7 +18,7 @@ public class MyDbContext : DbContext
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<Order> Orders => Set<Order>();
-    public DbSet<Address> Addresss => Set<Address>();
+    public DbSet<Address> Addresses => Set<Address>();
     public DbSet<Payment> Payments => Set<Payment>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Product_Tag> Products_Tag => Set<Product_Tag>();
@@ -27,7 +28,6 @@ public class MyDbContext : DbContext
     public DbSet<SalaryTransfer> SalaryTransfers => Set<SalaryTransfer>();
     public DbSet<Shop> Shops => Set<Shop>();
     public DbSet<Tag> Tags => Set<Tag>();
-    public DbSet<Transaction> Transactions => Set<Transaction>();
 
     //3. The OnModelCreating method should be overridden
     protected override void OnModelCreating(ModelBuilder builder)

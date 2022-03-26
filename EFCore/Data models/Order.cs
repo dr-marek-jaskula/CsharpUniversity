@@ -8,13 +8,15 @@ public class Order
     public int Id { get; set; }
     public int Amount { get; set; }
     public Status Status { get; set; }
-    public DateOnly Deadline { get; set; }
+    public DateTime Deadline { get; set; }
     public Product Product { get; set; } = new();
+    public int ProductId { get; set; }
     public Payment Payment { get; set; } = new();
     public int PaymentId { get; set; }
     public Shop Shop { get; set; } = new();
     public int ShopId { get; set; }
-    public List<Transaction> Transactions { get; set; } = new();
+    public Customer Customer { get; set; } = new();
+    public int CustomerId { get; set; } 
 }
 
 public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
@@ -40,8 +42,12 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(o => o.Deadline)
             .HasColumnType("DATE");
 
-        builder.HasOne(o => o.Payment)
-            .WithOne(p => p.Order)
-            .HasForeignKey<Order>(p => p.PaymentId);
+        builder.HasOne(o => o.Product)
+            .WithMany(p => p.Order)
+            .HasForeignKey(p => p.ProductId);
+
+        builder.HasOne(o => o.Customer)
+            .WithMany(p => p.Orders)
+            .HasForeignKey(p => p.CustomerId);
     }
 }

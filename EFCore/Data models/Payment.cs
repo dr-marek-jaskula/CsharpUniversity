@@ -9,10 +9,8 @@ public class Payment
     public decimal? Discount { get; set; }
     public decimal Total { get; set; }
     public Status Status { get; set; }
-    public DateOnly Deadline { get; set; }
-    public Product Product { get; set; } = new();
-    public int ProductId { get; set; }
-    public Order Order { get; set; } = new();
+    public DateTime Deadline { get; set; }
+    public Order? Order { get; set; }
 }
 
 public class PaymentEntityTypeConfiguration : IEntityTypeConfiguration<Payment>
@@ -33,7 +31,7 @@ public class PaymentEntityTypeConfiguration : IEntityTypeConfiguration<Payment>
 
         builder.Property(p => p.Status)
             .IsRequired(true)
-            .HasColumnType("CHAR(10)")
+            .HasMaxLength(10)
             .HasConversion(status => status.ToString(),
             s => (Status)Enum.Parse(typeof(Status), s))
             .HasComment("Received, InProgress, Done or Rejected");
@@ -41,8 +39,8 @@ public class PaymentEntityTypeConfiguration : IEntityTypeConfiguration<Payment>
         builder.Property(p => p.Deadline)
             .HasColumnType("DATE");
 
-        builder.HasOne(p => p.Product)
-            .WithMany(pr => pr.Payments)
-            .HasForeignKey(p => p.ProductId);
+        builder.HasOne(p => p.Order)
+            .WithOne(o => o.Payment)
+            .HasForeignKey<Order>(o => o.PaymentId);
     }
 }
