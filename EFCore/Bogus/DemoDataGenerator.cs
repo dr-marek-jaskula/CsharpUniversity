@@ -2,11 +2,19 @@
 using EFCore.Data_models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EFCore.Bogus;
+namespace EFCore.BogusDemo;
 
 public class DemoDataGenerator
 {
     private readonly MyDbContext _context;
+
+    private static Bogus.DataSets.Name.Gender ReturnGenderType(Gender gender)
+    {
+        if (gender is Gender.Male)
+            return Bogus.DataSets.Name.Gender.Male;
+        else
+            return Bogus.DataSets.Name.Gender.Female;
+    }
 
     public DemoDataGenerator(MyDbContext context)
     {
@@ -61,14 +69,13 @@ public class DemoDataGenerator
         //Employees
         var employeeFaker = new Faker<Employee>()
             .RuleFor(e => e.Gender, f => f.PickRandom<Gender>())
-            .RuleFor(e => e.FirstName, f => f.Name.FirstName())
-            //.RuleFor(e => e.FirstName, (f, e) => f.Name.FirstName(e.Gender))
+            .RuleFor(e => e.FirstName, (f, e) => f.Name.FirstName(ReturnGenderType(e.Gender)))
             .RuleFor(e => e.LastName, f => f.Name.LastName())
             .RuleFor(e => e.DateOfBirth, f => f.Date.Past(23, DateTime.Now))
             .RuleFor(e => e.HireDate, f => f.Date.Past(3, DateTime.Now))
-            .RuleFor(e => e.Email, f => f.Internet.Email())
-            .RuleFor(e => e.ContactNumber, f => f.Phone.PhoneNumber())
-            .RuleFor(e => e.Address, f => f.Random.Bool(0.9f) ? f.PickRandom(addresses) : null)
+            .RuleFor(e => e.Email, (f, e) => f.Internet.Email(e.FirstName, e.LastName))
+            .RuleFor(e => e.ContactNumber, f => f.Phone.PhoneNumber("### ### ###"))
+            .RuleFor(e => e.Address, f => f.PickRandom(addresses))
             .RuleFor(e => e.Salary, f => f.PickRandom(salaries))
             .RuleFor(e => e.Reviews, f => reviews.Skip(f.Random.Int(0,980)).Take(f.Random.Int(1,4)).ToList());
 
@@ -76,14 +83,14 @@ public class DemoDataGenerator
 
         //Customers
         var customerFaker = new Faker<Customer>()
-            .RuleFor(c => c.FirstName, f => f.Name.FirstName())
+            .RuleFor(c => c.Gender, f => f.PickRandom<Gender>())
+            .RuleFor(c => c.FirstName, (f, e) => f.Name.FirstName(ReturnGenderType(e.Gender)))
             .RuleFor(c => c.LastName, f => f.Name.LastName())
             .RuleFor(c => c.DateOfBirth, f => f.Date.Past(23, DateTime.Now))
             .RuleFor(c => c.Rank, f => f.PickRandom<Rank>())
-            .RuleFor(c => c.Gender, f => f.PickRandom<Gender>())
-            .RuleFor(c => c.Email, f => f.Internet.Email())
-            .RuleFor(c => c.ContactNumber, f => f.Phone.PhoneNumber())
-            .RuleFor(c => c.Address, f => f.Random.Bool(0.1f) ? f.PickRandom(addresses) : null);
+            .RuleFor(c => c.Email, (f, e) => f.Internet.Email(e.FirstName, e.LastName))
+            .RuleFor(c => c.ContactNumber, f => f.Phone.PhoneNumber("### ### ###"))
+            .RuleFor(c => c.Address, f => f.Random.Bool(0.2f) ? f.PickRandom(addresses) : null);
 
         var customers = customerFaker.Generate(400);
 
@@ -118,7 +125,7 @@ public class DemoDataGenerator
         //Payments
         var paymentFaker = new Faker<Payment>()
             .RuleFor(p => p.Status, f => f.PickRandom<Status>())
-            .RuleFor(p => p.Discount, f => f.Random.Decimal())
+            .RuleFor(p => p.Discount, f => f.Random.Int(0, 100)/100)
             .RuleFor(p => p.Deadline, f => f.Date.Soon(60, DateTime.Now));
 
         var payments = paymentFaker.Generate(100);

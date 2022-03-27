@@ -1,5 +1,5 @@
 ﻿using Xunit;
-using EFCore.Bogus;
+using EFCore.BogusDemo;
 using EFCore;
 
 namespace UniversityEntrypoints.EFCore;
