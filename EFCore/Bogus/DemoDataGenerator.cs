@@ -187,15 +187,20 @@ public class DemoDataGenerator
             order.Payment.Total = Helpers.CalculateTotal(order);
         }
 
+        //foreach (var shop in shops)
+        //{
+        //    int index = shops.IndexOf(shop);
+        //    shop.ProductAmounts = productAmounts.Skip(20 * index).Take(20).ToList();
+        //}
+
         #endregion
 
         #region Add to db context sets
 
         //Add to db context sets
         _context.Shops.AddRange(shops);
-        _context.Customers.AddRange(customers); 
-        _context.Employees.AddRange(employees);
-
+        _context.Products_Tag.AddRange(products_tags);
+        _context.ProductAmounts.AddRange(productAmounts);
         _context.Products.AddRange(products);
         _context.Orders.AddRange(orders);
 
