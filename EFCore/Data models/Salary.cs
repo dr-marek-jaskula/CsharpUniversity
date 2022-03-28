@@ -6,13 +6,12 @@ namespace EFCore.Data_models;
 public class Salary
 {
     public int Id { get; set; }
-    public decimal BaseSalary { get; set; }
-    public decimal DiscretionaryBonus { get; set; }
-    public decimal IncentiveBonus { get; set; }
-    public decimal TaskBonus { get; set; }
-    public Employee? Employee { get; set; }
-    public List<SalaryTransfer>? SalaryTransfer { get; set; }
-    public int? SalaryTransferId { get; set; }
+    public int BaseSalary { get; set; }
+    public int DiscretionaryBonus { get; set; }
+    public int IncentiveBonus { get; set; }
+    public int TaskBonus { get; set; }
+    public virtual Employee? Employee { get; set; }
+    public virtual List<SalaryTransfer> SalaryTransfer { get; set; } = new();
 }
 
 public class SalaryEntityTypeConfiguration : IEntityTypeConfiguration<Salary>
@@ -26,19 +25,19 @@ public class SalaryEntityTypeConfiguration : IEntityTypeConfiguration<Salary>
 
         builder.Property(s => s.BaseSalary)
             .HasDefaultValue(0)
-            .HasPrecision(7, 2);
+            .HasColumnType("INT");
 
         builder.Property(s => s.DiscretionaryBonus)
             .HasDefaultValue(0)
-            .HasPrecision(6, 2);
+            .HasColumnType("INT");
 
         builder.Property(s => s.IncentiveBonus)
             .HasDefaultValue(0)
-            .HasPrecision(6, 2);
+            .HasColumnType("INT");
 
         builder.Property(s => s.TaskBonus)
             .HasDefaultValue(0)
-            .HasPrecision(6, 2);
+            .HasColumnType("INT");
 
         builder.HasMany(s => s.SalaryTransfer)
             .WithOne(st => st.Salary)

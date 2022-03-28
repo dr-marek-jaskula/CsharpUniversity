@@ -10,8 +10,8 @@ public class SalaryTransfer
     public bool IsDiscretionaryBonus { get; set; }
     public bool IsIncentiveBonus { get; set; }
     public bool IsTaskBonus { get; set; }
-    public Salary Salary { get; set; } = new();
-    public int SalaryId { get; set; }
+    public virtual Salary? Salary { get; set; }
+    public int? SalaryId { get; set; }
 }
 
 public class SalaryTransferEntityTypeConfiguration : IEntityTypeConfiguration<SalaryTransfer>
@@ -20,7 +20,6 @@ public class SalaryTransferEntityTypeConfiguration : IEntityTypeConfiguration<Sa
     {
         builder.ToTable("salary_transfer");
 
-        builder.HasKey(s => s.Id);
         builder.Property(s => s.Id).UseIdentityColumn();
 
         builder.Property(s => s.Date)

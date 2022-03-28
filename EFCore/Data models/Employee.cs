@@ -11,8 +11,8 @@ public class Employee : Person
     public int SalaryId { get; set; }
     public Shop Shop { get; set; } = new();
     public int ShopId { get; set; }
-    public List<Customer> Customers { get; set; } = new();
-    public List<Review> Reviews { get; set; } = new();
+    public virtual List<Customer> Customers { get; set; } = new();
+    public virtual List<Review> Reviews { get; set; } = new();
 }
 
 public class EmployeeEntityTypeConfiguration : IEntityTypeConfiguration<Employee>

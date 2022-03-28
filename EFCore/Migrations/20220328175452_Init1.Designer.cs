@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220325145645_Init5")]
-    partial class Init5
+    [Migration("20220328175452_Init1")]
+    partial class Init1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,12 +36,12 @@ namespace EFCore.Migrations
                         .HasColumnType("TINYINT");
 
                     b.Property<string>("City")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Country")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<byte?>("Flat")
                         .HasColumnType("TINYINT");
@@ -191,6 +191,9 @@ namespace EFCore.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("INT");
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("DATE");
 
@@ -210,11 +213,12 @@ namespace EFCore.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CustomerId");
+
                     b.HasIndex("PaymentId")
                         .IsUnique();
 
-                    b.HasIndex("ProductId")
-                        .IsUnique();
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("ShopId");
 
@@ -236,9 +240,6 @@ namespace EFCore.Migrations
                         .HasPrecision(3, 2)
                         .HasColumnType("decimal(3,2)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -250,8 +251,6 @@ namespace EFCore.Migrations
                         .HasColumnType("decimal(12,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("payment", (string)null);
                 });
@@ -280,21 +279,13 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("EFCore.Data_models.Product_Tag", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("TagId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
+                    b.HasKey("ProductId", "TagId");
 
                     b.HasIndex("TagId");
 
@@ -303,24 +294,16 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("EFCore.Data_models.ProductAmount", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("INT");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("ShopId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Amount")
+                        .HasColumnType("INT");
 
-                    b.HasIndex("ProductId");
+                    b.HasKey("ProductId", "ShopId");
 
                     b.HasIndex("ShopId");
 
@@ -354,8 +337,8 @@ namespace EFCore.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -374,32 +357,25 @@ namespace EFCore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<decimal>("BaseSalary")
+                    b.Property<int>("BaseSalary")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(7, 2)
-                        .HasColumnType("decimal(7,2)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("INT")
+                        .HasDefaultValue(0);
 
-                    b.Property<decimal>("DiscretionaryBonus")
+                    b.Property<int>("DiscretionaryBonus")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(6, 2)
-                        .HasColumnType("decimal(6,2)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("INT")
+                        .HasDefaultValue(0);
 
-                    b.Property<decimal>("IncentiveBonus")
+                    b.Property<int>("IncentiveBonus")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(6, 2)
-                        .HasColumnType("decimal(6,2)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("INT")
+                        .HasDefaultValue(0);
 
-                    b.Property<int?>("SalaryTransferId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("TaskBonus")
+                    b.Property<int>("TaskBonus")
                         .ValueGeneratedOnAdd()
-                        .HasPrecision(6, 2)
-                        .HasColumnType("decimal(6,2)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("INT")
+                        .HasDefaultValue(0);
 
                     b.HasKey("Id");
 
@@ -432,7 +408,7 @@ namespace EFCore.Migrations
                         .HasColumnType("BIT")
                         .HasDefaultValue(false);
 
-                    b.Property<int>("SalaryId")
+                    b.Property<int?>("SalaryId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -481,47 +457,11 @@ namespace EFCore.Migrations
 
                     b.Property<string>("ProductTag")
                         .IsRequired()
-                        .HasColumnType("CHAR(7)")
-                        .HasComment("Cotton, Polo, Wool, Gloves, Top, Pants, Socks, Cap or Panties");
+                        .HasColumnType("CHAR(7)");
 
                     b.HasKey("Id");
 
                     b.ToTable("tag", (string)null);
-                });
-
-            modelBuilder.Entity("EFCore.Data_models.Transaction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("DATE");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("transaction", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Customer", b =>
@@ -564,6 +504,12 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("EFCore.Data_models.Order", b =>
                 {
+                    b.HasOne("EFCore.Data_models.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EFCore.Data_models.Payment", "Payment")
                         .WithOne("Order")
                         .HasForeignKey("EFCore.Data_models.Order", "PaymentId")
@@ -571,9 +517,9 @@ namespace EFCore.Migrations
                         .IsRequired();
 
                     b.HasOne("EFCore.Data_models.Product", "Product")
-                        .WithOne("Order")
-                        .HasForeignKey("EFCore.Data_models.Order", "ProductId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .WithMany("Order")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EFCore.Data_models.Shop", "Shop")
@@ -582,22 +528,13 @@ namespace EFCore.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Customer");
+
                     b.Navigation("Payment");
 
                     b.Navigation("Product");
 
                     b.Navigation("Shop");
-                });
-
-            modelBuilder.Entity("EFCore.Data_models.Payment", b =>
-                {
-                    b.HasOne("EFCore.Data_models.Product", "Product")
-                        .WithMany("Payments")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Product_Tag", b =>
@@ -657,9 +594,7 @@ namespace EFCore.Migrations
                 {
                     b.HasOne("EFCore.Data_models.Salary", "Salary")
                         .WithMany("SalaryTransfer")
-                        .HasForeignKey("SalaryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SalaryId");
 
                     b.Navigation("Salary");
                 });
@@ -675,25 +610,6 @@ namespace EFCore.Migrations
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("EFCore.Data_models.Transaction", b =>
-                {
-                    b.HasOne("EFCore.Data_models.Customer", "Customer")
-                        .WithMany("Transactions")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EFCore.Data_models.Order", "Order")
-                        .WithMany("Transactions")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("EFCore.Data_models.Address", b =>
                 {
                     b.Navigation("Customer");
@@ -705,7 +621,7 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("EFCore.Data_models.Customer", b =>
                 {
-                    b.Navigation("Transactions");
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Employee", b =>
@@ -715,23 +631,14 @@ namespace EFCore.Migrations
                     b.Navigation("Reviews");
                 });
 
-            modelBuilder.Entity("EFCore.Data_models.Order", b =>
-                {
-                    b.Navigation("Transactions");
-                });
-
             modelBuilder.Entity("EFCore.Data_models.Payment", b =>
                 {
-                    b.Navigation("Order")
-                        .IsRequired();
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Product", b =>
                 {
-                    b.Navigation("Order")
-                        .IsRequired();
-
-                    b.Navigation("Payments");
+                    b.Navigation("Order");
 
                     b.Navigation("ProductAmounts");
 

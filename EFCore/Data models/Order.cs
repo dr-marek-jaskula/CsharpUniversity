@@ -9,13 +9,13 @@ public class Order
     public int Amount { get; set; }
     public Status Status { get; set; }
     public DateTime Deadline { get; set; }
-    public Product Product { get; set; } = new();
+    public virtual Product Product { get; set; } = new();
     public int ProductId { get; set; }
-    public Payment Payment { get; set; } = new();
+    public virtual Payment Payment { get; set; } = new();
     public int PaymentId { get; set; }
-    public Shop Shop { get; set; } = new();
+    public virtual Shop Shop { get; set; } = new();
     public int ShopId { get; set; }
-    public Customer Customer { get; set; } = new();
+    public virtual Customer Customer { get; set; } = new();
     public int CustomerId { get; set; } 
 }
 

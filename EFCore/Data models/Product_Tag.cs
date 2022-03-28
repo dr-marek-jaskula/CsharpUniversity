@@ -5,10 +5,9 @@ namespace EFCore.Data_models;
 
 public class Product_Tag
 {
-    public int Id { get; set; }
-    public Product Product { get; set; } = new();
+    public virtual Product Product { get; set; } = new();
     public int ProductId { get; set; }
-    public Tag Tag { get; set; } = new();
+    public virtual Tag Tag { get; set; } = new();
     public int TagId { get; set; }
 }
 
@@ -18,8 +17,7 @@ public class Product_TagEntityTypeConfiguration : IEntityTypeConfiguration<Produ
     {
         builder.ToTable("product_tag");
 
-        builder.HasKey(pt => pt.Id);
-        builder.Property(pt => pt.Id).UseIdentityColumn();
+        builder.HasKey(pt => new { pt.ProductId, pt.TagId });
 
         builder.HasOne(pt => pt.Product)
            .WithMany(p => p.Product_Tags)

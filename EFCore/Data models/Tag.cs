@@ -7,7 +7,7 @@ public class Tag
 {
     public int Id { get; set; }
     public ProductTag ProductTag { get; set; }
-    public List<Product_Tag> Product_Tags { get; set; } = new();
+    public virtual List<Product_Tag> Product_Tags { get; set; } = new();
 }
 
 public class TagEntityTypeConfiguration : IEntityTypeConfiguration<Tag>

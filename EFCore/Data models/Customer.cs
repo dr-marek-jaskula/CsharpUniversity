@@ -7,7 +7,7 @@ public class Customer : Person
 {
     public int Id { get; set; }
     public Rank Rank { get; set; }
-    public List<Order> Orders { get; set; } = new();
+    public virtual List<Order> Orders { get; set; } = new();
 }
 
 public class CustomerEntityTypeConfiguration : IEntityTypeConfiguration<Customer>

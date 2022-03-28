@@ -10,7 +10,7 @@ public class Payment
     public decimal Total { get; set; }
     public Status Status { get; set; }
     public DateTime Deadline { get; set; }
-    public Order? Order { get; set; }
+    public virtual Order? Order { get; set; }
 }
 
 public class PaymentEntityTypeConfiguration : IEntityTypeConfiguration<Payment>

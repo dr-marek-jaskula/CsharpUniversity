@@ -28,6 +28,9 @@
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Product" />
+      <Property Name="Customer" />
+      <Property Name="Payment" />
+      <Property Name="Shop" />
     </ShowAsAssociation>
   </Class>
   <Class Name="EFCore.Data_models.Product" Collapsed="true">
@@ -90,12 +93,11 @@
   <Class Name="EFCore.Data_models.Shop" Collapsed="true">
     <Position X="6.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QAECAAAAAAAgAAAAAAAAAAQACAAAAAACAAIAAAAAAAA=</HashCode>
+      <HashCode>QAECAAAAAAAgAAAAAAAAAAQACAAAAAAAAAIAAAAAAAA=</HashCode>
       <FileName>Data models\Shop.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="Employees" />
-      <Property Name="Orders" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="EFCore.Data_models.Tag" Collapsed="true">
@@ -111,9 +113,6 @@
       <HashCode>AAEDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data models\Customer.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="Orders" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="EFCore.Data_models.Person" Collapsed="true">
     <Position X="10" Y="5.25" Width="1.5" />
@@ -131,9 +130,6 @@
       <HashCode>AAECAAAEAAAAAAAAAAAAAAAAAAAAQAAAAgEAAAAAAAA=</HashCode>
       <FileName>Data models\Payment.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Order" />
-    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

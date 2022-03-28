@@ -10,9 +10,9 @@ public class Review
     public int Stars { get; set; }
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; } = string.Empty;
-    public Product? Product { get; set; }
+    public virtual Product? Product { get; set; }
     public int? ProductId { get; set; }
-    public Employee? Employee { get; set; }
+    public virtual Employee? Employee { get; set; }
     public int? EmployeeId { get; set; }
 }
 
@@ -27,7 +27,7 @@ public class ReviewEntityTypeConfiguration : IEntityTypeConfiguration<Review>
 
         builder.Property(r => r.UserName)
             .IsRequired(true)
-            .HasMaxLength(50);
+            .HasMaxLength(100);
 
         builder.Property(s => s.Stars)
             .IsRequired(true)

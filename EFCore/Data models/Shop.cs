@@ -8,11 +8,11 @@ public class Shop
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; } = string.Empty;
-    public Address Address { get; set; } = new();
+    public virtual Address Address { get; set; } = new();
     public int? AddressId { get; set; }
-    public List<Employee> Employees { get; set; } = new();
-    public List<Order> Orders { get; set; } = new();
-    public List<ProductAmount> ProductAmounts { get; set; } = new();
+    public virtual List<Employee> Employees { get; set; } = new();
+    public virtual List<Order> Orders { get; set; } = new();
+    public virtual List<ProductAmount> ProductAmounts { get; set; } = new();
 }
 
 public class ShopEntityTypeConfiguration : IEntityTypeConfiguration<Shop>

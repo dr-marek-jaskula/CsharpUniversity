@@ -55,6 +55,10 @@ public class ReadMe
 
     //To revert the migrations:
     //dotnet ef database update <previous-migration-name>
+    //Or:
+    //dotnet ef database update 0
+    //dotnet ef migrations remove
+    //and then delete migrations folder
 
     //12. We can fill the table with random data by Bogus NuGet Package
 

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EFCore.Migrations
 {
-    public partial class Init : Migration
+    public partial class Init1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,16 +15,32 @@ namespace EFCore.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    PostalCode = table.Column<int>(type: "int", nullable: true),
-                    Street = table.Column<byte>(type: "TINYINT", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ZipCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Street = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Building = table.Column<byte>(type: "TINYINT", nullable: true),
                     Flat = table.Column<byte>(type: "TINYINT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_address", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "payment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Discount = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: true),
+                    Total = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false, comment: "Received, InProgress, Done or Rejected"),
+                    Deadline = table.Column<DateTime>(type: "DATE", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_payment", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -42,12 +58,28 @@ namespace EFCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "salary",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BaseSalary = table.Column<int>(type: "INT", nullable: false, defaultValue: 0),
+                    DiscretionaryBonus = table.Column<int>(type: "INT", nullable: false, defaultValue: 0),
+                    IncentiveBonus = table.Column<int>(type: "INT", nullable: false, defaultValue: 0),
+                    TaskBonus = table.Column<int>(type: "INT", nullable: false, defaultValue: 0)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_salary", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tag",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductTag = table.Column<string>(type: "CHAR(7)", nullable: false, comment: "Cotton, Polo, Wool, Gloves, Top, Pants, Socks, Cap or Panties")
+                    ProductTag = table.Column<string>(type: "CHAR(7)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,40 +108,37 @@ namespace EFCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "payment",
+                name: "salary_transfer",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Discount = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: true),
-                    Total = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false, comment: "Received, InProgress, Done or Rejected"),
-                    Deadline = table.Column<DateTime>(type: "DATE", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
+                    Date = table.Column<DateTime>(type: "DATE", nullable: false),
+                    IsDiscretionaryBonus = table.Column<bool>(type: "BIT", nullable: false, defaultValue: false),
+                    IsIncentiveBonus = table.Column<bool>(type: "BIT", nullable: false, defaultValue: false),
+                    IsTaskBonus = table.Column<bool>(type: "BIT", nullable: false, defaultValue: false),
+                    SalaryId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_payment", x => x.Id);
+                    table.PrimaryKey("PK_salary_transfer", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_payment_product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_salary_transfer_salary_SalaryId",
+                        column: x => x.SalaryId,
+                        principalTable: "salary",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "product_tag",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     TagId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_product_tag", x => x.Id);
+                    table.PrimaryKey("PK_product_tag", x => new { x.ProductId, x.TagId });
                     table.ForeignKey(
                         name: "FK_product_tag_product_ProductId",
                         column: x => x.ProductId,
@@ -125,18 +154,55 @@ namespace EFCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "product_amount",
+                name: "employee",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount = table.Column<int>(type: "INT", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    ShopId = table.Column<int>(type: "int", nullable: false)
+                    HireDate = table.Column<DateTime>(type: "DATE", nullable: false),
+                    SalaryId = table.Column<int>(type: "int", nullable: false),
+                    ShopId = table.Column<int>(type: "int", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Gender = table.Column<string>(type: "CHAR(7)", nullable: false, comment: "Male, Female or Unknown"),
+                    DateOfBirth = table.Column<DateTime>(type: "DATE", nullable: true),
+                    ContactNumber = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_product_amount", x => x.Id);
+                    table.PrimaryKey("PK_employee", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_employee_address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "address",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_employee_salary_SalaryId",
+                        column: x => x.SalaryId,
+                        principalTable: "salary",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_employee_shop_ShopId",
+                        column: x => x.ShopId,
+                        principalTable: "shop",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "product_amount",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ShopId = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<int>(type: "INT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_product_amount", x => new { x.ProductId, x.ShopId });
                     table.ForeignKey(
                         name: "FK_product_amount_product_ProductId",
                         column: x => x.ProductId,
@@ -145,41 +211,6 @@ namespace EFCore.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_product_amount_shop_ShopId",
-                        column: x => x.ShopId,
-                        principalTable: "shop",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "order",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount = table.Column<int>(type: "INT", nullable: false),
-                    Status = table.Column<string>(type: "CHAR(10)", nullable: false, comment: "Received, InProgress, Done or Rejected"),
-                    Deadline = table.Column<DateTime>(type: "DATE", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    PaymentId = table.Column<int>(type: "int", nullable: false),
-                    ShopId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_order", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_order_payment_PaymentId",
-                        column: x => x.PaymentId,
-                        principalTable: "payment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_order_product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "product",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_order_shop_ShopId",
                         column: x => x.ShopId,
                         principalTable: "shop",
                         principalColumn: "Id",
@@ -198,7 +229,7 @@ namespace EFCore.Migrations
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Gender = table.Column<string>(type: "CHAR(7)", nullable: false, comment: "Male, Female or Unknown"),
                     DateOfBirth = table.Column<DateTime>(type: "DATE", nullable: true),
-                    PhoneNumber = table.Column<int>(type: "INT", nullable: false),
+                    ContactNumber = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     AddressId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -210,68 +241,11 @@ namespace EFCore.Migrations
                         column: x => x.AddressId,
                         principalTable: "address",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "transaction",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Date = table.Column<DateTime>(type: "DATE", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_transaction", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_transaction_customer_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "customer",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_transaction_order_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "order",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "employee",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    HireDate = table.Column<DateTime>(type: "DATE", nullable: false),
-                    SalaryId = table.Column<int>(type: "int", nullable: false),
-                    ShopId = table.Column<int>(type: "int", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Gender = table.Column<string>(type: "CHAR(7)", nullable: false, comment: "Male, Female or Unknown"),
-                    DateOfBirth = table.Column<DateTime>(type: "DATE", nullable: true),
-                    PhoneNumber = table.Column<int>(type: "INT", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_employee", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_employee_address_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "address",
+                        name: "FK_customer_employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "employee",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_employee_shop_ShopId",
-                        column: x => x.ShopId,
-                        principalTable: "shop",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -280,7 +254,7 @@ namespace EFCore.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Stars = table.Column<byte>(type: "TINYINT", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
@@ -303,48 +277,46 @@ namespace EFCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "salary_transfer",
+                name: "order",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "DATE", nullable: false),
-                    IsDiscretionaryBonus = table.Column<bool>(type: "BIT", nullable: false, defaultValue: false),
-                    IsIncentiveBonus = table.Column<bool>(type: "BIT", nullable: false, defaultValue: false),
-                    IsTaskBonus = table.Column<bool>(type: "BIT", nullable: false, defaultValue: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    Amount = table.Column<int>(type: "INT", nullable: false),
+                    Status = table.Column<string>(type: "CHAR(10)", nullable: false, comment: "Received, InProgress, Done or Rejected"),
+                    Deadline = table.Column<DateTime>(type: "DATE", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    PaymentId = table.Column<int>(type: "int", nullable: false),
+                    ShopId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_salary_transfer", x => x.Id);
+                    table.PrimaryKey("PK_order", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_salary_transfer_employee_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "employee",
+                        name: "FK_order_customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "customer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "salary",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BaseSalary = table.Column<decimal>(type: "decimal(7,2)", precision: 7, scale: 2, nullable: false, defaultValue: 0m),
-                    DiscretionaryBonus = table.Column<decimal>(type: "decimal(6,2)", precision: 6, scale: 2, nullable: false, defaultValue: 0m),
-                    IncentiveBonus = table.Column<decimal>(type: "decimal(6,2)", precision: 6, scale: 2, nullable: false, defaultValue: 0m),
-                    TaskBonus = table.Column<decimal>(type: "decimal(6,2)", precision: 6, scale: 2, nullable: false, defaultValue: 0m),
-                    SalaryTransferId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_salary", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_salary_salary_transfer_SalaryTransferId",
-                        column: x => x.SalaryTransferId,
-                        principalTable: "salary_transfer",
-                        principalColumn: "Id");
+                        name: "FK_order_payment_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "payment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_order_product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_order_shop_ShopId",
+                        column: x => x.ShopId,
+                        principalTable: "shop",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -378,6 +350,11 @@ namespace EFCore.Migrations
                 column: "ShopId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_order_CustomerId",
+                table: "order",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_order_PaymentId",
                 table: "order",
                 column: "PaymentId",
@@ -386,8 +363,7 @@ namespace EFCore.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_order_ProductId",
                 table: "order",
-                column: "ProductId",
-                unique: true);
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_order_ShopId",
@@ -395,24 +371,9 @@ namespace EFCore.Migrations
                 column: "ShopId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_payment_ProductId",
-                table: "payment",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_product_amount_ProductId",
-                table: "product_amount",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_product_amount_ShopId",
                 table: "product_amount",
                 column: "ShopId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_product_tag_ProductId",
-                table: "product_tag",
-                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_product_tag_TagId",
@@ -430,62 +391,21 @@ namespace EFCore.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_salary_SalaryTransferId",
-                table: "salary",
-                column: "SalaryTransferId",
-                unique: true,
-                filter: "[SalaryTransferId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_salary_transfer_EmployeeId",
+                name: "IX_salary_transfer_SalaryId",
                 table: "salary_transfer",
-                column: "EmployeeId");
+                column: "SalaryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_shop_AddressId",
                 table: "shop",
                 column: "AddressId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_transaction_CustomerId",
-                table: "transaction",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_transaction_OrderId",
-                table: "transaction",
-                column: "OrderId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_customer_employee_EmployeeId",
-                table: "customer",
-                column: "EmployeeId",
-                principalTable: "employee",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_employee_salary_SalaryId",
-                table: "employee",
-                column: "SalaryId",
-                principalTable: "salary",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_employee_address_AddressId",
-                table: "employee");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_shop_address_AddressId",
-                table: "shop");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_salary_transfer_employee_EmployeeId",
-                table: "salary_transfer");
+            migrationBuilder.DropTable(
+                name: "order");
 
             migrationBuilder.DropTable(
                 name: "product_amount");
@@ -497,25 +417,19 @@ namespace EFCore.Migrations
                 name: "review");
 
             migrationBuilder.DropTable(
-                name: "transaction");
-
-            migrationBuilder.DropTable(
-                name: "tag");
+                name: "salary_transfer");
 
             migrationBuilder.DropTable(
                 name: "customer");
 
             migrationBuilder.DropTable(
-                name: "order");
-
-            migrationBuilder.DropTable(
                 name: "payment");
 
             migrationBuilder.DropTable(
-                name: "product");
+                name: "tag");
 
             migrationBuilder.DropTable(
-                name: "address");
+                name: "product");
 
             migrationBuilder.DropTable(
                 name: "employee");
@@ -527,7 +441,7 @@ namespace EFCore.Migrations
                 name: "shop");
 
             migrationBuilder.DropTable(
-                name: "salary_transfer");
+                name: "address");
         }
     }
 }

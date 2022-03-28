@@ -16,5 +16,15 @@ public class EFCoreEntrypoint
         DemoDataGenerator demoDataGenerator = new(myDbContext);
         demoDataGenerator.Generate();
     }
+
+    [Fact]
+    public void EFCoreClearEntrypoint()
+    {
+        MyDbContextFactory myDbContextFactory = new();
+        MyDbContext myDbContext = myDbContextFactory.CreateDbContext();
+
+        DemoDataGenerator demoDataGenerator = new(myDbContext);
+        demoDataGenerator.ClearDatabase();
+    }
 }
 
