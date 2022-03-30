@@ -28,9 +28,9 @@
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Product" />
-      <Property Name="Customer" />
       <Property Name="Payment" />
       <Property Name="Shop" />
+      <Property Name="Customer" />
     </ShowAsAssociation>
   </Class>
   <Class Name="EFCore.Data_models.Product" Collapsed="true">
@@ -51,11 +51,11 @@
       <Property Name="Tag" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="EFCore.Data_models.ProductAmount" Collapsed="true">
+  <Class Name="EFCore.Data_models.Product_Amount" Collapsed="true">
     <Position X="4" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>UAACAAAAAAAAAAAAAAAAAACAAACAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Data models\ProductAmount.cs</FileName>
+      <FileName>Data models\Product_Amount.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Product" />
@@ -76,15 +76,15 @@
   <Class Name="EFCore.Data_models.Salary" Collapsed="true">
     <Position X="6.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAASAAAAAAACAAAAIAAIAAAACAgAAAAAAAAAAAAAAEA=</HashCode>
+      <HashCode>AAASAAAAAAACAAAAAAAIAAAACAgAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Data models\Salary.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EFCore.Data_models.SalaryTransfer" Collapsed="true">
+  <Class Name="EFCore.Data_models.Salary_Transfer" Collapsed="true">
     <Position X="6.75" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACACADAAAAAAAAAAAAAAAgAAEAAAABAAAAAAAAAAA=</HashCode>
-      <FileName>Data models\SalaryTransfer.cs</FileName>
+      <FileName>Data models\Salary_Transfer.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Salary" />
@@ -93,7 +93,7 @@
   <Class Name="EFCore.Data_models.Shop" Collapsed="true">
     <Position X="6.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QAECAAAAAAAgAAAAAAAAAAQACAAAAAAAAAIAAAAAAAA=</HashCode>
+      <HashCode>QAECAAAAAAAgAAAAAAAAAAQACAAAAAACAAIAAAAAAAA=</HashCode>
       <FileName>Data models\Shop.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>

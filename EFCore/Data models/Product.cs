@@ -10,7 +10,7 @@ public class Product
     public decimal Price { get; set; }
     public virtual List<Product_Tag> Product_Tags { get; set; } = new();
     public virtual List<Review> Reviews { get; set; } = new();
-    public virtual List<ProductAmount> ProductAmounts { get; set; } = new();
+    public virtual List<Product_Amount> ProductAmounts { get; set; } = new();
     public virtual List<Order> Order { get; set; } = new();
 }
 

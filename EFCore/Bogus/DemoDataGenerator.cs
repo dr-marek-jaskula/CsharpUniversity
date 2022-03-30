@@ -24,7 +24,6 @@ public class DemoDataGenerator
     public void Generate()
     {
         //This Faker class is from the Bogus NuGet package
-        #region Fake data
 
         //Addresses
         var addressFaker = new Faker<Address>()
@@ -41,7 +40,7 @@ public class DemoDataGenerator
         _context.SaveChanges();
 
         //SalaryTransfers
-        var salaryTransferFaker = new Faker<SalaryTransfer>()
+        var salaryTransferFaker = new Faker<Salary_Transfer>()
             .RuleFor(p => p.IsIncentiveBonus, f => f.Random.Bool())
             .RuleFor(p => p.IsTaskBonus, f => f.Random.Bool())
             .RuleFor(p => p.IsDiscretionaryBonus, f => f.Random.Bool())
@@ -72,6 +71,7 @@ public class DemoDataGenerator
         var reviewsFaker = new Faker<Review>()
             .RuleFor(p => p.Stars, f => f.Random.Int(0, 5))
             .RuleFor(p => p.UserName, f => f.Name.Random.Word())
+            .RuleFor(p => p.Description, f => f.Random.Words(4))
             .RuleFor(p => p.Title, f => f.PickRandom(reviewTitles));
 
         var reviews = reviewsFaker.Generate(1000);
@@ -89,12 +89,16 @@ public class DemoDataGenerator
             .RuleFor(e => e.Email, (f, e) => f.Internet.Email(e.FirstName, e.LastName))
             .RuleFor(e => e.ContactNumber, f => f.Phone.PhoneNumber("### ### ###"))
             .RuleFor(e => e.Address, f => f.PickRandom(addresses))
-            .RuleFor(e => e.Salary, f => f.PickRandom(salaries))
-            .RuleFor(e => e.Reviews, f => { f.IndexVariable++; return reviews.Skip(5 * (f.IndexVariable - 1)).Take(5).ToList(); });
+            .RuleFor(e => e.Salary, f => f.PickRandom(salaries));
 
         var employees = employeeFaker.Generate(100);
 
         _context.Employees.AddRange(employees);
+        _context.SaveChanges();
+
+        foreach (Employee employee in employees)
+            employee.Reviews.AddRange(reviews.Skip(5 * (employees.IndexOf(employee)-1)).Take(5));
+        
         _context.SaveChanges();
 
         //Customers
@@ -111,7 +115,12 @@ public class DemoDataGenerator
         var customers = customerFaker.Generate(400);
 
         _context.Customers.AddRange(customers);
-        _context.SaveChangesAsync();
+        _context.SaveChanges();
+
+        foreach (Employee employee in employees)
+            employee.Customers.AddRange(customers.Skip(3 * (employees.IndexOf(employee) - 1)).Take(3));
+
+        _context.SaveChanges();
 
         //Tags
         var tagFaker = new Faker<Tag>()
@@ -119,68 +128,79 @@ public class DemoDataGenerator
 
         var tags = tagFaker.Generate(100);
 
-        //ProductAmounts
-        var productAmountFaker = new Faker<ProductAmount>()
-            .RuleFor(p => p.Amount, f => f.Random.Int(1, 30));
+        _context.Tags.AddRange(tags);
+        _context.SaveChanges();
 
-        var productAmounts = productAmountFaker.Generate(100);
+        //Product_Tag
+        var productTagFaker = new Faker<Product_Tag>();
+
+        var products_tags = productTagFaker.Generate(200);
 
         //Products
         var prodcutNames = new[] { "Piano", "Laptop", "Computer", "Table", "Chair", "Doll", "Ring", "Necklace", "Sword", "Notebook", "Clock", "Painting", "Door", "Balloon", "Shoes" };
 
         var productFaker = new Faker<Product>()
             .RuleFor(p => p.Name, f => f.PickRandom(prodcutNames))
-            .RuleFor(p => p.Price, f => Math.Round(f.Random.Decimal(0.1m, 1) * f.Random.Int(50, 1000), 2))
-            .RuleFor(p => p.Reviews, f => reviews.Skip(f.Random.Int(0, 980)).Take(f.Random.Int(2, 5)).ToList());
+            .RuleFor(p => p.Price, f => Math.Round(f.Random.Decimal(50, 1000), 2));
 
         var products = productFaker.Generate(100);
 
-        //Product_Tag
-        var productTagFaker = new Faker<Product_Tag>()
-            .RuleFor(p => p.Tag, f => f.PickRandom(tags));
+        foreach (var product in products)
+            product.Reviews.AddRange(reviews.SkipLast(5 * (products.IndexOf(product) - 1)).TakeLast(5));
 
-        var products_tags = productTagFaker.Generate(500);
+        foreach (var product_tag in products_tags)
+        {
+            int index = products_tags.IndexOf(product_tag);
+            product_tag.Tag = tags.Skip(index < 100 ? index % 100 : (index+3) % 100).First();
+            product_tag.Product = products.Skip(index % 100).First();
+        }
+
+        _context.Products_Tag.AddRange(products_tags);
+        _context.SaveChanges();
 
         //Payments
         var paymentFaker = new Faker<Payment>()
             .RuleFor(p => p.Status, f => f.PickRandom<Status>())
-            .RuleFor(p => p.Discount, f => f.Random.Int(0, 100)/100)
+            .RuleFor(p => p.Discount, f => Math.Round(f.Random.Decimal(), 2))
             .RuleFor(p => p.Deadline, f => f.Date.Soon(60, DateTime.Now));
 
         var payments = paymentFaker.Generate(100);
+
+        _context.Payments.AddRange(payments);
+        _context.SaveChanges();
 
         //Orders
         var orderFaker = new Faker<Order>()
             .RuleFor(o => o.Status, f => f.PickRandom<Status>())
             .RuleFor(o => o.Amount, f => f.Random.Int(1, 300))
             .RuleFor(o => o.Deadline, f => f.Date.Soon(60, DateTime.Now))
-            .RuleFor(o => o.Payment, f => payments[f.IndexFaker]);
+            .RuleFor(o => o.Payment, f => { f.IndexVariable++; return payments[f.IndexVariable-1]; });
 
         var orders = orderFaker.Generate(100);
+
+        _context.Orders.AddRange(orders);
+        _context.SaveChanges();
 
         //Shops
         var shopFaker = new Faker<Shop>()
             .RuleFor(p => p.Name, f => f.Name.Random.Word())
+            .RuleFor(p => p.Description, f => f.Random.Words(5))
             .RuleFor(p => p.Address, f => f.PickRandom(addresses));
 
         var shops = shopFaker.Generate(5);
 
-        #endregion
-
-        #region Add related data
+        _context.Shops.AddRange(shops);
 
         foreach (var shop in shops)
             shop.Employees.AddRange(employees.Skip(20 * shops.IndexOf(shop)).Take(20));
 
-        foreach (var employee in employees)
-            employee.Customers.AddRange(customers.Skip(4 * employees.IndexOf(employee)).Take(4));
+        _context.SaveChanges();
 
-        foreach (var product_tag in products_tags)
-        {
-            int index = products_tags.IndexOf(product_tag);
-            product_tag.Tag = tags.Skip(index % 80).First();
-            product_tag.Product = products.Skip(index % 100).First();
-        }
+        //ProductAmounts
+        var productAmountFaker = new Faker<Product_Amount>()
+            .RuleFor(p => p.Amount, f => f.Random.Int(1, 30));
+
+        var productAmounts = productAmountFaker.Generate(100);
 
         foreach (var productAmount in productAmounts)
         {
@@ -188,59 +208,21 @@ public class DemoDataGenerator
             productAmount.Shop = shops.Skip(index % 5).First();
             productAmount.Product = products.Skip(index % 100).First();
         }
-        
-        //Put all into shops
-        foreach (var shop in shops)
-        {
-            int index = shops.IndexOf(shop);
 
-            shop.ProductAmounts.AddRange(productAmounts.Where(p => p.Shop == shop));
-            shop.ProductAmounts.ForEach(p => p.Product.Product_Tags.AddRange(products_tags.Where(k => k.Product == p.Product)));
-        }
-
-        foreach (var customer in customers)
-        {
-            int index = customers.IndexOf(customer);
-            customer.Orders.AddRange(orders.Skip(4 * index).Take(4));
-
-            customer.Orders.ForEach(o =>
-            {
-                o.Shop = shops.First(s => s.Employees.Any(emp => emp.Customers.Contains(customer))); 
-                Random random = new();
-                o.Product = o.Shop.ProductAmounts.ElementAt(random.Next(0, o.Shop.ProductAmounts.Count())).Product;
-                o.Payment.Total = Helpers.CalculateTotal(o);
-            });
-
-            if (index == 25)
-                break;
-        }
-
-        #endregion
-
-        #region Add to db context sets
-
-        //_context.Employees.AddRange(employees);
-        _context.SaveChanges();
-        _context.Customers.AddRange(customers);
-        _context.Addresses.AddRange(addresses);
-        _context.Orders.AddRange(orders);
-        _context.Payments.AddRange(payments);
         _context.ProductAmounts.AddRange(productAmounts);
-        _context.Products_Tag.AddRange(products_tags);
-        _context.Reviews.AddRange(reviews);
-        _context.Salaries.AddRange(salaries);
-        _context.SalaryTransfers.AddRange(salaryTransfers);
-        _context.Shops.AddRange(shops);
-        _context.Tags.AddRange(tags);
-        _context.Products.AddRange(products);
-        
+        _context.SaveChanges();
 
-        //bool resolve = shops[0].Orders[0].Customer == shops[0].Employees[0].Customers[0];
+        foreach (var order in orders)
+        {
+            order.Product = products.Skip(orders.IndexOf(order)).First();
+            order.Shop = order.Product.ProductAmounts.First(pa => pa.Product == order.Product).Shop;
+            order.Customer = customers.Skip(orders.IndexOf(order)).First();
+        }
 
-        #endregion
+        foreach (var payment in payments)
+            payment.Total = Helpers.CalculateTotal(payment.Order);
 
-        //Insert fake data into the database
-        _context.SaveChanges(); 
+        _context.SaveChanges();
     }
 
     public void ClearDatabase()
@@ -248,16 +230,16 @@ public class DemoDataGenerator
         _context.Database.ExecuteSqlRaw(@$"
             DELETE FROM [{nameof(Review)}];
             DELETE FROM [{nameof(Customer)}];
-            DELETE FROM [{nameof(Address)}];
             DELETE FROM [{nameof(Employee)}];
+            DELETE FROM [{nameof(Address)}];
             DELETE FROM [{nameof(Order)}];
             DELETE FROM [{nameof(Payment)}];
             DELETE FROM [{nameof(Product)}];
             DELETE FROM [{nameof(Product_Tag)}];
-            DELETE FROM [{"Product_Amount"}];
+            DELETE FROM [{nameof(Product_Amount)}];
             DELETE FROM [{nameof(Salary)}];
             DELETE FROM [{nameof(Shop)}];
-            DELETE FROM [{"Salary_Transfer"}];
+            DELETE FROM [{nameof(Salary_Transfer)}];
             DELETE FROM [{nameof(Tag)}];
         ");
 

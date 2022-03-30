@@ -7,10 +7,10 @@ public class Employee : Person
 {
     public int Id { get; set; }
     public DateTime HireDate { get; set; }
-    public Salary Salary { get; set; } = new();
-    public int SalaryId { get; set; }
-    public Shop Shop { get; set; } = new();
-    public int ShopId { get; set; }
+    public Salary? Salary { get; set; }
+    public int? SalaryId { get; set; }
+    public Shop? Shop { get; set; }
+    public int? ShopId { get; set; }
     public virtual List<Customer> Customers { get; set; } = new();
     public virtual List<Review> Reviews { get; set; } = new();
 }

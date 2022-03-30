@@ -3,18 +3,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EFCore.Data_models;
 
-public class ProductAmount
+public class Product_Amount
 {
     public int Amount { get; set; }
-    public virtual Product Product { get; set; } = new();
-    public int ProductId { get; set; } = new();
-    public virtual Shop Shop { get; set; } = new();
-    public int ShopId { get; set; } = new();
+    public virtual Product? Product { get; set; }
+    public int? ProductId { get; set; }
+    public virtual Shop? Shop { get; set; } 
+    public int? ShopId { get; set; }
 }
 
-public class ProductAmountEntityTypeConfiguration : IEntityTypeConfiguration<ProductAmount>
+public class ProductAmountEntityTypeConfiguration : IEntityTypeConfiguration<Product_Amount>
 {
-    public void Configure(EntityTypeBuilder<ProductAmount> builder)
+    public void Configure(EntityTypeBuilder<Product_Amount> builder)
     {
         builder.ToTable("product_amount");
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EFCore.Data_models;
 
-public class SalaryTransfer
+public class Salary_Transfer
 {
     public int Id { get; set; }
     public DateTime Date { get; set; }
@@ -14,9 +14,9 @@ public class SalaryTransfer
     public int? SalaryId { get; set; }
 }
 
-public class SalaryTransferEntityTypeConfiguration : IEntityTypeConfiguration<SalaryTransfer>
+public class SalaryTransferEntityTypeConfiguration : IEntityTypeConfiguration<Salary_Transfer>
 {
-    public void Configure(EntityTypeBuilder<SalaryTransfer> builder)
+    public void Configure(EntityTypeBuilder<Salary_Transfer> builder)
     {
         builder.ToTable("salary_transfer");
 

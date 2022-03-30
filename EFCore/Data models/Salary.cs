@@ -11,7 +11,7 @@ public class Salary
     public int IncentiveBonus { get; set; }
     public int TaskBonus { get; set; }
     public virtual Employee? Employee { get; set; }
-    public virtual List<SalaryTransfer> SalaryTransfer { get; set; } = new();
+    public virtual List<Salary_Transfer> SalaryTransfer { get; set; } = new();
 }
 
 public class SalaryEntityTypeConfiguration : IEntityTypeConfiguration<Salary>

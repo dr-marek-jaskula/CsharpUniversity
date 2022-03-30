@@ -22,10 +22,10 @@ public class MyDbContext : DbContext
     public DbSet<Payment> Payments => Set<Payment>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Product_Tag> Products_Tag => Set<Product_Tag>();
-    public DbSet<ProductAmount> ProductAmounts => Set<ProductAmount>();
+    public DbSet<Product_Amount> ProductAmounts => Set<Product_Amount>();
     public DbSet<Review> Reviews => Set<Review>();
     public DbSet<Salary> Salaries => Set<Salary>();
-    public DbSet<SalaryTransfer> SalaryTransfers => Set<SalaryTransfer>();
+    public DbSet<Salary_Transfer> SalaryTransfers => Set<Salary_Transfer>();
     public DbSet<Shop> Shops => Set<Shop>();
     public DbSet<Tag> Tags => Set<Tag>();
 

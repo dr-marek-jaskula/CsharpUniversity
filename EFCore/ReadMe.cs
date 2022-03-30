@@ -38,6 +38,7 @@ public class ReadMe
     #endregion
 
     //8. Create data models id "Data models" folder (models are done for educational use)
+    //Examine 
 
     //9. Configure data models (data configuration should be in the file in which data model is)
     //To examine the one-to-one, one-to-many, many-to-many configuration, to go some model classes
@@ -62,7 +63,5 @@ public class ReadMe
 
     //12. We can fill the table with random data by Bogus NuGet Package
 
-    #region Bogus
-
-    #endregion
+    //13. To Examine DataModels go to: DataModelReadMe.cs
 }

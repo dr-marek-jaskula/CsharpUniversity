@@ -21,7 +21,7 @@ public class TagEntityTypeConfiguration : IEntityTypeConfiguration<Tag>
 
         builder.Property(p => p.ProductTag)
             .IsRequired(true)
-            .HasColumnType("CHAR(7)")
+            .HasColumnType("CHAR(9)")
             .HasConversion(pt => pt.ToString(),
             s => (ProductTag)Enum.Parse(typeof(ProductTag), s));
     }
