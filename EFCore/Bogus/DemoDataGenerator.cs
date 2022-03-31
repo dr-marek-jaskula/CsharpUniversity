@@ -88,16 +88,22 @@ public class DemoDataGenerator
             .RuleFor(e => e.HireDate, f => f.Date.Past(3, DateTime.Now))
             .RuleFor(e => e.Email, (f, e) => f.Internet.Email(e.FirstName, e.LastName))
             .RuleFor(e => e.ContactNumber, f => f.Phone.PhoneNumber("### ### ###"))
-            .RuleFor(e => e.Address, f => f.PickRandom(addresses))
-            .RuleFor(e => e.Salary, f => f.PickRandom(salaries));
+            .RuleFor(e => e.Address, f => f.PickRandom(addresses));
 
         var employees = employeeFaker.Generate(100);
+
+        for (int i = 0; i < employees.Count; i++)
+            if (i > 10)
+               employees[i].Manager = employees[i % 10];
 
         _context.Employees.AddRange(employees);
         _context.SaveChanges();
 
         foreach (Employee employee in employees)
+        {
+            employee.Salary = salaries[employees.IndexOf(employee)];
             employee.Reviews.AddRange(reviews.Skip(5 * (employees.IndexOf(employee)-1)).Take(5));
+        }
         
         _context.SaveChanges();
 
