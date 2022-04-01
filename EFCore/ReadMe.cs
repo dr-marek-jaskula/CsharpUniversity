@@ -64,4 +64,6 @@ public class ReadMe
     //12. We can fill the table with random data by Bogus NuGet Package
 
     //13. To Examine DataModels go to: DataModelReadMe.cs
+
+    //14. EF Core features and traps ->
 }

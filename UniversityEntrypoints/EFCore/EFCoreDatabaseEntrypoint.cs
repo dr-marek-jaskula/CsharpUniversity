@@ -4,7 +4,7 @@ using EFCore;
 
 namespace UniversityEntrypoints.EFCore;
 
-public class EFCoreEntrypoint
+public class EFCoreDatabaseEntrypoint
 {
 
     [Fact]

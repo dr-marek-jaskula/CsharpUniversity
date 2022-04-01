@@ -27,14 +27,6 @@
     <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\obj\Debug\net5.0\ref\" />
     <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\obj\Release\net5.0\refint\" />
     <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\obj\Release\net5.0\ref\" />
-    <Folder Include="CsharpAcademy\EFShareForFuture\bin\Debug\net6.0\ref\" />
-    <Folder Include="CsharpAcademy\EFShareForFuture\bin\Release\net6.0\ref\" />
-    <Folder Include="CsharpAcademy\EFShareForFuture\obj\Debug\net6.0\refint\" />
-    <Folder Include="CsharpAcademy\EFShareForFuture\obj\Debug\net6.0\ref\" />
-    <Folder Include="CsharpAcademy\EFShareForFuture\obj\Debug\net6.0\staticwebassets\" />
-    <Folder Include="CsharpAcademy\EFShareForFuture\obj\Release\net6.0\refint\" />
-    <Folder Include="CsharpAcademy\EFShareForFuture\obj\Release\net6.0\ref\" />
-    <Folder Include="CsharpAcademy\EFShareForFuture\obj\Release\net6.0\staticwebassets\" />
     <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\bin\Debug\net5.0\ref\" />
     <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\bin\Release\net5.0\ref\" />
     <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\obj\Debug\net5.0\refint\" />
@@ -58,8 +50,6 @@
     <None Include="CsharpAcademy\DockerLearning\DockerLearning.sln" />
     <None Include="CsharpAcademy\EFAspDotNetVideoGames\EFAspDotNetVideoGames.csproj" />
     <None Include="CsharpAcademy\EFAspDotNetVideoGames\EFAspDotNetVideoGames.sln" />
-    <None Include="CsharpAcademy\EFShareForFuture\EFShareForFuture.csproj" />
-    <None Include="CsharpAcademy\EFShareForFuture\EFShareForFuture.sln" />
     <None Include="CsharpAcademy\ODataWebApiLearningApplication\ODataWebApiLearningApplication.csproj" />
     <None Include="CsharpAcademy\ODataWebApiLearningApplication\ODataWebApiLearningApplication.sln" />
     <None Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\RainerLoggingMonitoringTelemetryErrorHandling.csproj" />
