@@ -34,6 +34,7 @@ public class ReadMe
     //sqllocaldb i MSSQLLocalDB  - this gets info about specified local db
     //sqllocaldb c dev  - this creates a new local db called "dev" (its good because it will make a new local db with newest version)
     //In Azure Data Studio "(localdb)\dev" - in connection to connect to other local db
+    //[Currently I have MSSQLLocalDB, tutorial and for computer connection (DESKTOP-8BJGCQ1)
 
     #endregion
 
