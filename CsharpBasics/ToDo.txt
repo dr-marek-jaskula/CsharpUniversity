@@ -7,7 +7,6 @@
 	Memory:
 
 	Attributes:
-		ParameterAttributes
 
 	Reflections:
 		check the reflection project at laptop
@@ -28,7 +27,7 @@ CsharpBasics:
 
 EFCore:
 	Performance: 
-		Read about indexes and then: https://github.com/JonPSmith/EfCoreinAction-SecondEdition/blob/Part3/BookApp.Persistance.EfCoreSql.Books/Configurations/BookConfig.cs#L14L17
+		Read about indexes  and then: https://github.com/JonPSmith/EfCoreinAction-SecondEdition/blob/Part3/BookApp.Persistance.EfCoreSql.Books/Configurations/BookConfig.cs#L14L17
 
 CustomTools:
 	StringApproxAlgorithms:
