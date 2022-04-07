@@ -12,7 +12,7 @@ public class Shortcuts
     //ctrl + a                              -> select all
     //ctrl + /                              -> comment line or lines by "//" 
     //ctrl + f                              -> find something
-    //ctrl + shift + f                      -> advanced find
+    //ctrl + shift + f                      -> advanced find and replace
     //ctrl + t                              -> find class
     //ctrl + .                              -> to open the vs helper window (use all the time). Do not need to be exactly on the piece of code
 
@@ -29,6 +29,7 @@ public class Shortcuts
     //ctrl + shift + z                      -> Redo
     //ctrl + y                              -> Redo
 
+    //alt + <down/up arrow>                 -> move the current line down or up
     //ctrl + <right/left arrow>             -> move to the next string (fast walking)
     //shift + <right/left arrow>            -> move by character and select it
     //ctrl + shift + <right/left arrow>     -> move by string and select it
@@ -36,6 +37,7 @@ public class Shortcuts
 
     //ctrl + end                            -> move to the end of the document
     //ctrl + home                           -> move to the beginning of the document
+    //ctrl + g                              -> move to specified line
 
     //ctrl + s                              -> save current tab in the file
     //ctrl + shift + s                      -> save all tabs in the file
@@ -70,4 +72,6 @@ public class Shortcuts
 
     //alt + F4                              -> close current window
     //ctrl + F4                             -> close current tab in the window
+
+    //ctrl + -                              -> navigate backward
 }
