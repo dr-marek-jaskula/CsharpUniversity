@@ -18,7 +18,7 @@ public class SalaryTransferEntityTypeConfiguration : IEntityTypeConfiguration<Sa
 {
     public void Configure(EntityTypeBuilder<Salary_Transfer> builder)
     {
-        builder.ToTable("salary_transfer");
+        builder.ToTable("Salary_Transfer");
 
         builder.Property(s => s.Id).UseIdentityColumn();
 

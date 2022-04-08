@@ -15,7 +15,7 @@ public class Product_TagEntityTypeConfiguration : IEntityTypeConfiguration<Produ
 {
     public void Configure(EntityTypeBuilder<Product_Tag> builder)
     {
-        builder.ToTable("product_tag");
+        builder.ToTable("Product_Tag");
 
         builder.HasKey(pt => new { pt.ProductId, pt.TagId });
 

@@ -54,7 +54,7 @@ namespace EFCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("address", (string)null);
+                    b.ToTable("Address", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Customer", b =>
@@ -91,7 +91,7 @@ namespace EFCore.Migrations
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasColumnType("CHAR(7)")
+                        .HasColumnType("VARCHAR(7)")
                         .HasComment("Male, Female or Unknown");
 
                     b.Property<string>("LastName")
@@ -102,7 +102,7 @@ namespace EFCore.Migrations
                     b.Property<string>("Rank")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("CHAR(8)")
+                        .HasColumnType("VARCHAR(8)")
                         .HasDefaultValue("Standard");
 
                     b.HasKey("Id");
@@ -113,7 +113,7 @@ namespace EFCore.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("customer", (string)null);
+                    b.ToTable("Customer", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Employee", b =>
@@ -147,7 +147,7 @@ namespace EFCore.Migrations
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasColumnType("CHAR(7)")
+                        .HasColumnType("VARCHAR(7)")
                         .HasComment("Male, Female or Unknown");
 
                     b.Property<DateTime>("HireDate")
@@ -181,7 +181,7 @@ namespace EFCore.Migrations
 
                     b.HasIndex("ShopId");
 
-                    b.ToTable("employee", (string)null);
+                    b.ToTable("Employee", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Order", b =>
@@ -212,7 +212,7 @@ namespace EFCore.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("CHAR(10)")
+                        .HasColumnType("VARCHAR(10)")
                         .HasComment("Received, InProgress, Done or Rejected");
 
                     b.HasKey("Id");
@@ -227,7 +227,7 @@ namespace EFCore.Migrations
 
                     b.HasIndex("ShopId");
 
-                    b.ToTable("order", (string)null);
+                    b.ToTable("Order", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Payment", b =>
@@ -257,7 +257,7 @@ namespace EFCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("payment", (string)null);
+                    b.ToTable("Payment", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Product", b =>
@@ -279,7 +279,7 @@ namespace EFCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("product", (string)null);
+                    b.ToTable("Product", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Product_Amount", b =>
@@ -297,7 +297,7 @@ namespace EFCore.Migrations
 
                     b.HasIndex("ShopId");
 
-                    b.ToTable("product_amount", (string)null);
+                    b.ToTable("Product_Amount", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Product_Tag", b =>
@@ -312,7 +312,7 @@ namespace EFCore.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("product_tag", (string)null);
+                    b.ToTable("Product_Tag", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Review", b =>
@@ -351,7 +351,7 @@ namespace EFCore.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("review", (string)null);
+                    b.ToTable("Review", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Salary", b =>
@@ -384,7 +384,7 @@ namespace EFCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("salary", (string)null);
+                    b.ToTable("Salary", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Salary_Transfer", b =>
@@ -420,7 +420,7 @@ namespace EFCore.Migrations
 
                     b.HasIndex("SalaryId");
 
-                    b.ToTable("salary_transfer", (string)null);
+                    b.ToTable("Salary_Transfer", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Shop", b =>
@@ -449,7 +449,7 @@ namespace EFCore.Migrations
                         .IsUnique()
                         .HasFilter("[AddressId] IS NOT NULL");
 
-                    b.ToTable("shop", (string)null);
+                    b.ToTable("Shop", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Tag", b =>
@@ -462,11 +462,11 @@ namespace EFCore.Migrations
 
                     b.Property<string>("ProductTag")
                         .IsRequired()
-                        .HasColumnType("CHAR(9)");
+                        .HasColumnType("VARCHAR(9)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("tag", (string)null);
+                    b.ToTable("Tag", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Customer", b =>

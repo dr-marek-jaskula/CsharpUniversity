@@ -16,7 +16,7 @@ public class ProductAmountEntityTypeConfiguration : IEntityTypeConfiguration<Pro
 {
     public void Configure(EntityTypeBuilder<Product_Amount> builder)
     {
-        builder.ToTable("product_amount");
+        builder.ToTable("Product_Amount");
 
         builder.HasKey(pa => new { pa.ProductId, pa.ShopId });
 

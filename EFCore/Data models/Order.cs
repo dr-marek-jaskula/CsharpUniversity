@@ -23,7 +23,7 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
 {
     public void Configure(EntityTypeBuilder<Order> builder)
     {
-        builder.ToTable("order");
+        builder.ToTable("Order");
 
         builder.HasKey(o => o.Id);
         builder.Property(o => o.Id).UseIdentityColumn();
@@ -34,7 +34,7 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
 
         builder.Property(o => o.Status)
             .IsRequired(true)
-            .HasColumnType("CHAR(10)")
+            .HasColumnType("VARCHAR(10)")
             .HasConversion(status => status.ToString(),
             s => (Status)Enum.Parse(typeof(Status), s))
             .HasComment("Received, InProgress, Done or Rejected");

@@ -20,7 +20,7 @@ public class ReviewEntityTypeConfiguration : IEntityTypeConfiguration<Review>
 {
     public void Configure(EntityTypeBuilder<Review> builder)
     {
-        builder.ToTable("review");
+        builder.ToTable("Review");
 
         builder.HasKey(r => r.Id);
         builder.Property(r => r.Id).UseIdentityColumn();

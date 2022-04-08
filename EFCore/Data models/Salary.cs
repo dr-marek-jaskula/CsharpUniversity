@@ -18,7 +18,7 @@ public class SalaryEntityTypeConfiguration : IEntityTypeConfiguration<Salary>
 {
     public void Configure(EntityTypeBuilder<Salary> builder)
     {
-        builder.ToTable("salary");
+        builder.ToTable("Salary");
 
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Id).UseIdentityColumn();

@@ -21,7 +21,7 @@ public class AddressEntityTypeConfiguration : IEntityTypeConfiguration<Address>
 {
     public void Configure(EntityTypeBuilder<Address> builder)
     {
-        builder.ToTable("address");
+        builder.ToTable("Address");
         
         builder.HasKey(a => a.Id);
         builder.Property(a => a.Id).UseIdentityColumn();

@@ -33,7 +33,7 @@ public class EmployeeEntityTypeConfiguration : IEntityTypeConfiguration<Employee
 {
     public void Configure(EntityTypeBuilder<Employee> builder)
     {
-        builder.ToTable("employee");
+        builder.ToTable("Employee");
 
         builder.HasKey(e => e.Id);
         builder.Property(e => e.Id).UseIdentityColumn();
@@ -60,7 +60,7 @@ public class EmployeeEntityTypeConfiguration : IEntityTypeConfiguration<Employee
 
         builder.Property(e => e.Gender)
             .IsRequired(true)
-            .HasColumnType("CHAR(7)")
+            .HasColumnType("VARCHAR(7)")
             .HasConversion(g => g.ToString(),
             s => (Gender)Enum.Parse(typeof(Gender), s))
             .HasComment("Male, Female or Unknown");

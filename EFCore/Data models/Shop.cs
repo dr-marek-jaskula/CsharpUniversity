@@ -19,7 +19,7 @@ public class ShopEntityTypeConfiguration : IEntityTypeConfiguration<Shop>
 {
     public void Configure(EntityTypeBuilder<Shop> builder)
     {
-        builder.ToTable("shop");
+        builder.ToTable("Shop");
 
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Id).UseIdentityColumn();

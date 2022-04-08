@@ -63,16 +63,19 @@ public class QueryPerformance
     //a) Indexes are like "Table of Contents".
     //b) Therefore, it speeds up the querying (SELECT statements)
     //c) However, it slows down the DML (Data Manipulation Language -> Insert, Update, Delete), because changes needs to be reflected in index (additional operation)
+
     /* (where entity is for example 
             entity.HasIndex(x => x.PublishedOn);
             entity.HasIndex(x => x.ActualPrice);
             entity.HasIndex(x => x.ReviewsAverageVotes);
             entity.HasIndex(x => x.SoftDeleted); 
      */
-    //There are few kind of indexes. Basically, use the indexes massively when u mostly query data from the database (or just query).
+    
+    //Basically, use the indexes massively when u mostly query data from the database (or just query).
     //Be careful when using them when u insert, update or delete data from database
     //Use indexes on these columns that are commonly used for filtering and sorting (and for similar operations)
 
     //MORE about Indexes in: MS SQL Server: Jupiter Notebook
+    //More about Indexes in: Indexes.cs
 }
 

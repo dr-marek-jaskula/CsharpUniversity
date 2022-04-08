@@ -14,7 +14,7 @@ public class CustomerEntityTypeConfiguration : IEntityTypeConfiguration<Customer
 {
     public void Configure(EntityTypeBuilder<Customer> builder)
     {
-        builder.ToTable("customer");
+        builder.ToTable("Customer");
 
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).UseIdentityColumn();
@@ -41,14 +41,14 @@ public class CustomerEntityTypeConfiguration : IEntityTypeConfiguration<Customer
 
         builder.Property(c => c.Gender)
             .IsRequired(true)
-            .HasColumnType("CHAR(7)")
+            .HasColumnType("VARCHAR(7)")
             .HasConversion(g => g.ToString(),
             s => (Gender)Enum.Parse(typeof(Gender), s))
             .HasComment("Male, Female or Unknown");
 
         builder.Property(c => c.Rank)
             .HasDefaultValue(Rank.Standard)
-            .HasColumnType("CHAR(8)")
+            .HasColumnType("VARCHAR(8)")
             .HasConversion(r => r.ToString(),
             s => (Rank)Enum.Parse(typeof(Rank), s));
 
