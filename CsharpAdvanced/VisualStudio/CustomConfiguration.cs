@@ -1,23 +1,26 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-
-namespace CsharpAdvanced.VisualStudio;
+﻿namespace CsharpAdvanced.VisualStudio;
 
 public class CustomConfiguration
 {
-    //Change base convention for naming the private fields to use prefix underscore (_)
+            //Change base convention for naming the private fields to use prefix underscore (_)
+    //Tools -> Options -> Text Editor -> C# -> Code Style -> Naming -> Manage Naming Styles -> Add naming style for Private or Internal Field
+    //Naming style: _fieldName
+    //Required prefix: _
+    //Capitalization: camel Case Name
     //https://ardalis.com/configure-visual-studio-to-name-private-fields-with-underscore/
 
     /*
-    Get into the Visual Studio Installer (for example from Tool -> Get Tools and Features -> Singeltons (Pojedyncze))
-    Find "Class Designer" (Projektant Klas)
-    It will anable us to visually design the diagarms of DB model relations
+    Get into the Visual Studio Installer (for example from Tool -> Get Tools and Features -> Singletons)
+    Find "Class Designer"
+    It will enable us to visually design the diagrams of DB model relations
 
     To get class diagram just -> Add New Item -> Class Diagram
-    To make bound just rigth click on certain property of field and "show as association" (for sigular) and collection for multiple
-    to export diagrams as images just rigth lick and export as image
-    to get the class diagram view just type in in search
+    To make bound just right click on certain property of field and "show as association" (for singular) and collection for multiple
+    to export diagrams as images just right click and export as image
+    to get the class diagram view just type in search
      */
 
+            //FILE_SCOPE NAMESPACES
     //In Visual Studio, for c# 10 apply "file-scoped namespaces"
     //To do this:
     //1. Right click on project
@@ -30,6 +33,7 @@ public class CustomConfiguration
     //find "Namespaces declarations" and set it to "refactor only"
 
 
-    //Pinned tabs ->	show pinned tabs in a separate row
+            //PINNED TABS
+    //Pinned tabs -> show pinned tabs in a separate row
 }
 

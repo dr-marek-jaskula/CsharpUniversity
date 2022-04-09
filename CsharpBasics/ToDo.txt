@@ -1,5 +1,6 @@
 ﻿CsharpAdvanced:
 	Introduction:
+		IEnumerable VS IQueryable, IEnumerable VS IList and Var VS IEnumerable.
 
 	Keywords:
 		AwaitForach.cs
@@ -27,8 +28,6 @@ CsharpBasics:
 
 EFCore:
 	Performance: 
-		Read about indexes  and then: https://github.com/JonPSmith/EfCoreinAction-SecondEdition/blob/Part3/BookApp.Persistance.EfCoreSql.Books/Configurations/BookConfig.cs#L14L17
 
 CustomTools:
-	StringApproxAlgorithms:
-		SymSpell
+

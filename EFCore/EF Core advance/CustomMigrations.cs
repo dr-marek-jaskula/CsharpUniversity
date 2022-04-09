@@ -151,7 +151,7 @@ public IQueryable<OfferingSummary> MultiWordSearchSql(params string[] filter)
         FROM    Offerings o
                 INNER JOIN FilteredHits fh ON o.Id = fh.Id
         ORDER BY fh.Hits DESC",
-        new SqlParameter("@Filters", filterTable)
+        new SqlParameter("@Filters", filterTable) //TVP here -> Tabled-Valued Parameter
         {
             SqlDbType = SqlDbType.Structured,
             TypeName = "dbo.FilterTags",
