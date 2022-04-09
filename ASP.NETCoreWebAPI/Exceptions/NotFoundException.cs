@@ -1,0 +1,8 @@
+namespace ASP.NETCoreWebAPI.Exceptions;
+
+public class NotFoundException : Exception
+{
+    public NotFoundException(string message) : base(message)
+    {
+    }
+}

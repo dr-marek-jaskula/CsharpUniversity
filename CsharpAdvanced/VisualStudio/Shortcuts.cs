@@ -20,6 +20,7 @@ public class Shortcuts
     //shift + tab                           -> undo tab
 
     //ctrl + alt + <mouse click>            -> make another cursor (can have multiple)
+    //alt + shift + <down/up arrow>         -> make another cursor (can have multiple) up or down
 
     //ctrl + x                              -> cut current line (good for deleting current line)
     //ctrl + c                              -> copy selected

@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="ReadMe.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="ReadMe.cs" />
+  </ItemGroup>
+
 </Project>

@@ -27,8 +27,7 @@ internal class NullTopic
         var nullValue =  nullHelper?.Property1;
 
         //3) When used after the boolean value, it behaves similar to the if statement: if true, then return the result after '?', otherwise return result alfter ':'
-        string bar = helper is null ? null : helper.Property1;
-
+        string? bar = helper is null ? null : helper.Property1;
 
         //Operator '!' after the object says that we are sure that the property is not null (we take the responsibility)
         //var nullValue2 = nullHelper!.Property1; //this would throw an exception
