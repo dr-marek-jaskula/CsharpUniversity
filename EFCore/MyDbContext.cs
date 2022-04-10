@@ -28,6 +28,8 @@ public class MyDbContext : DbContext
     public DbSet<Salary_Transfer> SalaryTransfers => Set<Salary_Transfer>();
     public DbSet<Shop> Shops => Set<Shop>();
     public DbSet<Tag> Tags => Set<Tag>();
+    public DbSet<Role> Roles => Set<Role>();
+    public DbSet<User> Users => Set<User>();
 
     //3. The OnModelCreating method should be overridden
     protected override void OnModelCreating(ModelBuilder builder)

@@ -4,8 +4,7 @@
 
 namespace EFCore.Migrations
 {
-    public partial class CreateType : Migration
+    public partial class Indexes : Migration
     {
-
     }
 }

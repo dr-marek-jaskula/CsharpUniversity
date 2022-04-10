@@ -2,11 +2,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ASP.NETCoreWebAPI.Authentication;
-using ASP.NETCoreWebAPI.DatabaseEntitiesWebApi;
 using ASP.NETCoreWebAPI.Exceptions;
 using ASP.NETCoreWebAPI.Models.DataTransferObjects;
-using AutoMapper;
 using EFCore;
+using EFCore.Data_models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -36,10 +35,11 @@ public class AccountService : IAccountService
     {
         var newUser = new User()
         {
+            Username = dto.Username,
             Email = dto.Email,
-            DateOfBirth = dto.DateOfBirth,
-            Nationality = dto.Nationality,
-            RoleId = dto.RoleId
+            RoleId = dto.RoleId,
+            CustomerId = dto.CustomerId,
+            EmployeeId = dto.EmployeeId
         };
 
         string hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
@@ -52,10 +52,12 @@ public class AccountService : IAccountService
     public string GenerateJwt(LoginDto dto)
     {
         var user = _context.Users
-            .Include(u=>u.Role)
+            .Include(u => u.Role)
+            .Include(u => u.Employee)
+            .Include(u => u.Customer)
             .FirstOrDefault(u => u.Email == dto.Email);
 
-        if (user is null) 
+        if (user is null)
             throw new BadRequestException("Invalid username or password");
 
         var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
@@ -68,15 +70,31 @@ public class AccountService : IAccountService
         {
             //Claims base types:
             new Claim(type: ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
-            new Claim(ClaimTypes.Role, $"{user.Role.Name}"),
-            //Claims custom types
-            new Claim(type: "DateOfBirth", user.DateOfBirth.Value.ToString("yyyy-MM-dd")),
+            new Claim(ClaimTypes.Name, $"{user.Username}"),
+            new Claim(ClaimTypes.Role, $"{user.Role?.Name}"),
         };
-        
-        //Additional claim and authorization based upon it
-        if (!string.IsNullOrEmpty(user.Nationality))
-            claims.Add(new Claim(type: "Nationality", user.Nationality));
+
+        //Claims custom types (authorization based upon it)
+        if (user is { Employee.DateOfBirth: DateTime } or { Customer.DateOfBirth: DateTime })
+        {
+            claims.Add(new Claim(type: "DateOfBirth", user switch
+            {
+                { Employee.DateOfBirth: DateTime } => user.Employee.DateOfBirth.Value.ToString("yyyy-MM-dd"),
+                { Customer.DateOfBirth: DateTime } => user.Customer.DateOfBirth.Value.ToString("yyyy-MM-dd"),
+                _ => ""
+            }));
+        }
+
+        //NATONIALITYT CLAIM
+        if (user is { Employee.Address.Country: string { Length: > 0 } } or { Customer.Address.Country: string { Length: > 0 } })
+        {
+            claims.Add(new Claim(type: "Nationality", user switch
+            {
+                { Employee.Address.Country: string { Length: > 0 } } => user.Employee.Address.Country,
+                { Customer.Address.Country: string { Length: > 0 } } => user.Customer.Address.Country,
+                _ => ""
+            }));
+        }
 
         //Create key variable using appsetting.json
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));

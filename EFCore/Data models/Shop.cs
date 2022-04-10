@@ -22,7 +22,7 @@ public class ShopEntityTypeConfiguration : IEntityTypeConfiguration<Shop>
         builder.ToTable("Shop");
 
         builder.HasKey(s => s.Id);
-        builder.Property(s => s.Id).UseIdentityColumn();
+        builder.Property(s => s.Id).HasColumnType("TINYINT").UseIdentityColumn();
 
         builder.Property(s => s.Name)
             .IsRequired(true)

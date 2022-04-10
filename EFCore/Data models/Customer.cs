@@ -7,6 +7,7 @@ public class Customer : Person
 {
     public int Id { get; set; }
     public Rank Rank { get; set; }
+    public User? User { get; set; }
     public virtual List<Order> Orders { get; set; } = new();
 }
 

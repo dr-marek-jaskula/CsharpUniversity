@@ -14,3 +14,11 @@
 
 //???? is it importnat?
 //builder.Services.AddEndpointsApiExplorer();
+
+
+//Register User Dto:
+//                { Employee.DateOfBirth: DateTime } => user.Employee.DateOfBirth.Value.ToString("yyyy-MM-dd"),
+//{ Customer.DateOfBirth: DateTime } => user.Customer.DateOfBirth.Value.ToString("yyyy-MM-dd"),
+                //_ => "null"
+
+//sprobowac zrobic DateOfBirth jako null i zobaczyc

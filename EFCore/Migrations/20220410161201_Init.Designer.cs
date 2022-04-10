@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220408163044_CreateType")]
-    partial class CreateType
+    [Migration("20220410161201_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,8 +83,8 @@ namespace EFCore.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("EmployeeId")
-                        .HasColumnType("int");
+                    b.Property<short?>("EmployeeId")
+                        .HasColumnType("SMALLINT");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -100,6 +100,9 @@ namespace EFCore.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Nationality")
+                        .HasColumnType("VARCHAR(50)");
 
                     b.Property<string>("Rank")
                         .IsRequired()
@@ -120,11 +123,11 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("EFCore.Data_models.Employee", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<short>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("SMALLINT");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<short>("Id"), 1L, 1);
 
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
@@ -160,14 +163,17 @@ namespace EFCore.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("ManagerId")
-                        .HasColumnType("int");
+                    b.Property<short?>("ManagerId")
+                        .HasColumnType("SMALLINT");
 
-                    b.Property<int?>("SalaryId")
-                        .HasColumnType("int");
+                    b.Property<string>("Nationality")
+                        .HasColumnType("VARCHAR(50)");
 
-                    b.Property<int?>("ShopId")
-                        .HasColumnType("int");
+                    b.Property<short?>("SalaryId")
+                        .HasColumnType("SMALLINT");
+
+                    b.Property<byte?>("ShopId")
+                        .HasColumnType("TINYINT");
 
                     b.HasKey("Id");
 
@@ -209,8 +215,8 @@ namespace EFCore.Migrations
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ShopId")
-                        .HasColumnType("int");
+                    b.Property<byte?>("ShopId")
+                        .HasColumnType("TINYINT");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -289,8 +295,8 @@ namespace EFCore.Migrations
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ShopId")
-                        .HasColumnType("int");
+                    b.Property<byte>("ShopId")
+                        .HasColumnType("TINYINT");
 
                     b.Property<int>("Amount")
                         .HasColumnType("INT");
@@ -307,8 +313,8 @@ namespace EFCore.Migrations
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TagId")
-                        .HasColumnType("int");
+                    b.Property<short>("TagId")
+                        .HasColumnType("SMALLINT");
 
                     b.HasKey("ProductId", "TagId");
 
@@ -329,8 +335,8 @@ namespace EFCore.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int?>("EmployeeId")
-                        .HasColumnType("int");
+                    b.Property<short?>("EmployeeId")
+                        .HasColumnType("SMALLINT");
 
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
@@ -356,13 +362,33 @@ namespace EFCore.Migrations
                     b.ToTable("Review", (string)null);
                 });
 
+            modelBuilder.Entity("EFCore.Data_models.Role", b =>
+                {
+                    b.Property<byte>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TINYINT");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<byte>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("VARCHAR(13)")
+                        .HasDefaultValue("Customer")
+                        .HasComment("Customer, Employee, Manager, Administrator");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role", (string)null);
+                });
+
             modelBuilder.Entity("EFCore.Data_models.Salary", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<short>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("SMALLINT");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<short>("Id"), 1L, 1);
 
                     b.Property<int>("BaseSalary")
                         .ValueGeneratedOnAdd()
@@ -415,8 +441,8 @@ namespace EFCore.Migrations
                         .HasColumnType("BIT")
                         .HasDefaultValue(false);
 
-                    b.Property<int?>("SalaryId")
-                        .HasColumnType("int");
+                    b.Property<short?>("SalaryId")
+                        .HasColumnType("SMALLINT");
 
                     b.HasKey("Id");
 
@@ -427,11 +453,11 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("EFCore.Data_models.Shop", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<byte>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("TINYINT");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<byte>("Id"), 1L, 1);
 
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
@@ -456,11 +482,11 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("EFCore.Data_models.Tag", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<short>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("SMALLINT");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<short>("Id"), 1L, 1);
 
                     b.Property<string>("ProductTag")
                         .IsRequired()
@@ -469,6 +495,55 @@ namespace EFCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tag", (string)null);
+                });
+
+            modelBuilder.Entity("EFCore.Data_models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DATE")
+                        .HasDefaultValue(new DateTime(2022, 4, 10, 0, 0, 0, 0, DateTimeKind.Local));
+
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(40)");
+
+                    b.Property<short?>("EmployeeId")
+                        .HasColumnType("SMALLINT");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR(514)");
+
+                    b.Property<byte>("RoleId")
+                        .HasColumnType("TINYINT");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(60)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique()
+                        .HasFilter("[CustomerId] IS NOT NULL");
+
+                    b.HasIndex("EmployeeId")
+                        .IsUnique()
+                        .HasFilter("[EmployeeId] IS NOT NULL");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Customer", b =>
@@ -609,6 +684,29 @@ namespace EFCore.Migrations
                     b.Navigation("Address");
                 });
 
+            modelBuilder.Entity("EFCore.Data_models.User", b =>
+                {
+                    b.HasOne("EFCore.Data_models.Customer", "Customer")
+                        .WithOne("User")
+                        .HasForeignKey("EFCore.Data_models.User", "CustomerId");
+
+                    b.HasOne("EFCore.Data_models.Employee", "Employee")
+                        .WithOne("User")
+                        .HasForeignKey("EFCore.Data_models.User", "EmployeeId");
+
+                    b.HasOne("EFCore.Data_models.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("EFCore.Data_models.Address", b =>
                 {
                     b.Navigation("Customer");
@@ -621,6 +719,8 @@ namespace EFCore.Migrations
             modelBuilder.Entity("EFCore.Data_models.Customer", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Employee", b =>
@@ -630,6 +730,8 @@ namespace EFCore.Migrations
                     b.Navigation("Reviews");
 
                     b.Navigation("Subordinates");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Payment", b =>
@@ -646,6 +748,11 @@ namespace EFCore.Migrations
                     b.Navigation("Product_Tags");
 
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("EFCore.Data_models.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Salary", b =>

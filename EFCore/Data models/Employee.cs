@@ -13,9 +13,12 @@ public class Employee : Person
     public Salary? Salary { get; set; }
     public int? SalaryId { get; set; }
 
-    //One to one relationship with Shop table (Shop, ShopId)
+    //One to many relationship with Shop table (Shop, ShopId)
     public Shop? Shop { get; set; }
     public int? ShopId { get; set; }
+
+    //One to one relationship with User table (User, UserId)
+    public User? User { get; set; }
 
     //Many to many relationship with customers (rest is in Customer class)
     public virtual List<Customer> Customers { get; set; } = new();
@@ -36,7 +39,7 @@ public class EmployeeEntityTypeConfiguration : IEntityTypeConfiguration<Employee
         builder.ToTable("Employee");
 
         builder.HasKey(e => e.Id);
-        builder.Property(e => e.Id).UseIdentityColumn();
+        builder.Property(e => e.Id).HasColumnType("SMALLINT").UseIdentityColumn();
 
         builder.Property(e => e.FirstName)
             .IsRequired(true)

@@ -58,10 +58,23 @@ namespace EFCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Role",
+                columns: table => new
+                {
+                    Id = table.Column<byte>(type: "TINYINT", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "VARCHAR(13)", nullable: false, defaultValue: "Customer", comment: "Customer, Employee, Manager, Administrator")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Role", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Salary",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<short>(type: "SMALLINT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BaseSalary = table.Column<int>(type: "INT", nullable: false, defaultValue: 0),
                     DiscretionaryBonus = table.Column<int>(type: "INT", nullable: false, defaultValue: 0),
@@ -77,7 +90,7 @@ namespace EFCore.Migrations
                 name: "Tag",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<short>(type: "SMALLINT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductTag = table.Column<string>(type: "VARCHAR(9)", nullable: false)
                 },
@@ -90,7 +103,7 @@ namespace EFCore.Migrations
                 name: "Shop",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<byte>(type: "TINYINT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
@@ -116,7 +129,7 @@ namespace EFCore.Migrations
                     IsDiscretionaryBonus = table.Column<bool>(type: "BIT", nullable: false, defaultValue: false),
                     IsIncentiveBonus = table.Column<bool>(type: "BIT", nullable: false, defaultValue: false),
                     IsTaskBonus = table.Column<bool>(type: "BIT", nullable: false, defaultValue: false),
-                    SalaryId = table.Column<int>(type: "int", nullable: true)
+                    SalaryId = table.Column<short>(type: "SMALLINT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -133,7 +146,7 @@ namespace EFCore.Migrations
                 columns: table => new
                 {
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    TagId = table.Column<int>(type: "int", nullable: false)
+                    TagId = table.Column<short>(type: "SMALLINT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -156,18 +169,19 @@ namespace EFCore.Migrations
                 name: "Employee",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<short>(type: "SMALLINT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HireDate = table.Column<DateTime>(type: "DATE", nullable: false),
-                    SalaryId = table.Column<int>(type: "int", nullable: true),
-                    ShopId = table.Column<int>(type: "int", nullable: true),
-                    ManagerId = table.Column<int>(type: "int", nullable: true),
+                    SalaryId = table.Column<short>(type: "SMALLINT", nullable: true),
+                    ShopId = table.Column<byte>(type: "TINYINT", nullable: true),
+                    ManagerId = table.Column<short>(type: "SMALLINT", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Gender = table.Column<string>(type: "VARCHAR(7)", nullable: false, comment: "Male, Female or Unknown"),
                     DateOfBirth = table.Column<DateTime>(type: "DATE", nullable: true),
                     ContactNumber = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Nationality = table.Column<string>(type: "VARCHAR(50)", nullable: true),
                     AddressId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -200,7 +214,7 @@ namespace EFCore.Migrations
                 columns: table => new
                 {
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    ShopId = table.Column<int>(type: "int", nullable: false),
+                    ShopId = table.Column<byte>(type: "TINYINT", nullable: false),
                     Amount = table.Column<int>(type: "INT", nullable: false)
                 },
                 constraints: table =>
@@ -227,13 +241,14 @@ namespace EFCore.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Rank = table.Column<string>(type: "VARCHAR(8)", nullable: false, defaultValue: "Standard"),
-                    EmployeeId = table.Column<int>(type: "int", nullable: true),
+                    EmployeeId = table.Column<short>(type: "SMALLINT", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Gender = table.Column<string>(type: "VARCHAR(7)", nullable: false, comment: "Male, Female or Unknown"),
                     DateOfBirth = table.Column<DateTime>(type: "DATE", nullable: true),
                     ContactNumber = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Nationality = table.Column<string>(type: "VARCHAR(50)", nullable: true),
                     AddressId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -262,7 +277,7 @@ namespace EFCore.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: true),
-                    EmployeeId = table.Column<int>(type: "int", nullable: true)
+                    EmployeeId = table.Column<short>(type: "SMALLINT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -290,7 +305,7 @@ namespace EFCore.Migrations
                     Deadline = table.Column<DateTime>(type: "DATE", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: true),
                     PaymentId = table.Column<int>(type: "int", nullable: true),
-                    ShopId = table.Column<int>(type: "int", nullable: true),
+                    ShopId = table.Column<byte>(type: "TINYINT", nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -316,6 +331,41 @@ namespace EFCore.Migrations
                         column: x => x.ShopId,
                         principalTable: "Shop",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "VARCHAR(60)", nullable: false),
+                    Email = table.Column<string>(type: "VARCHAR(40)", nullable: false),
+                    CreateTime = table.Column<DateTime>(type: "DATE", nullable: false, defaultValue: new DateTime(2022, 4, 10, 0, 0, 0, 0, DateTimeKind.Local)),
+                    PasswordHash = table.Column<string>(type: "NVARCHAR(514)", nullable: false),
+                    RoleId = table.Column<byte>(type: "TINYINT", nullable: false),
+                    EmployeeId = table.Column<short>(type: "SMALLINT", nullable: true),
+                    CustomerId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_User_Customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customer",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_User_Employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employee",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_User_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -407,6 +457,25 @@ namespace EFCore.Migrations
                 column: "AddressId",
                 unique: true,
                 filter: "[AddressId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_CustomerId",
+                table: "User",
+                column: "CustomerId",
+                unique: true,
+                filter: "[CustomerId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_EmployeeId",
+                table: "User",
+                column: "EmployeeId",
+                unique: true,
+                filter: "[EmployeeId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_RoleId",
+                table: "User",
+                column: "RoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -427,7 +496,7 @@ namespace EFCore.Migrations
                 name: "Salary_Transfer");
 
             migrationBuilder.DropTable(
-                name: "Customer");
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "Payment");
@@ -437,6 +506,12 @@ namespace EFCore.Migrations
 
             migrationBuilder.DropTable(
                 name: "Product");
+
+            migrationBuilder.DropTable(
+                name: "Customer");
+
+            migrationBuilder.DropTable(
+                name: "Role");
 
             migrationBuilder.DropTable(
                 name: "Employee");

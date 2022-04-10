@@ -1,6 +1,6 @@
 ﻿namespace EFCore.EF_Core_advance;
 
-public class Indexes
+public class IndexesPerformance
 {
     //Here we will cover the topic of indexes for the example database (presented in this project)
     //It is better to create indexes when the database is populated with records. 

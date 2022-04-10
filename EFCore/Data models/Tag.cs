@@ -17,7 +17,7 @@ public class TagEntityTypeConfiguration : IEntityTypeConfiguration<Tag>
         builder.ToTable("Tag");
 
         builder.HasKey(p => p.Id);
-        builder.Property(p => p.Id).UseIdentityColumn();
+        builder.Property(p => p.Id).HasColumnType("SMALLINT").UseIdentityColumn();
 
         builder.Property(p => p.ProductTag)
             .IsRequired(true)

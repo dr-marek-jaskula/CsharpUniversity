@@ -28,8 +28,8 @@ using ASP.NETCoreWebAPI.Services;
 using FluentValidation;
 using ASP.NETCoreWebAPI.Models.DataTransferObjects;
 using ASP.NETCoreWebAPI.Models.Validators;
-using ASP.NETCoreWebAPI.DatabaseEntitiesWebApi;
 using Microsoft.OpenApi.Models;
+using EFCore.Data_models;
 using Serilog;
 using Serilog.Events;
 

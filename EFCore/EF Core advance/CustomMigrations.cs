@@ -76,11 +76,45 @@ namespace EFCore.EF_Core_advance
 //2. Go to migrations -> clean all the migration class (delete everything inside the class)
 //3. Copy it to the new class (for simplicity we will keep it here in scope-range namespace)
 //4. We can change it here because the class is partial.
-//5. Override up and down methods
+//5. Override up and down methods (remember to remove them from the migrations folder)
 //6. Make migrations
 
 namespace EFCore.Migrations
 {
+    //Custom migrations for adding Indexes (for CreateType look below)
+    public partial class Indexes : Migration
+    {
+        const string Index1 = "CREATE UNIQUE INDEX UX_Employee_Email ON [dbo].[Employee](Email) INCLUDE(FirstName, LastName);";
+        const string Index2 = "CREATE UNIQUE INDEX UX_Customer_Email ON [dbo].[Customer](Email) INCLUDE(FirstName, LastName);";
+        const string Index3 = "CREATE INDEX IX_Order_Deadline_Status ON [dbo].[Order](Deadline, Status) INCLUDE(Amount, ProductId) WHERE Status IN('Recieved', 'InProgress');";
+        const string Index4 = "CREATE INDEX IX_Payment_Deadline_Status ON [dbo].[Payment] (Deadline, Status) INCLUDE(Total) WHERE Status<> 'Rejected';";
+        const string Index5 = "CREATE UNIQUE INDEX IX_User_Username ON [dbo].[User](Username) INCLUDE(Email);";
+        const string Index6 = "CREATE UNIQUE INDEX IX_User_Email ON [dbo].[User](Email);";
+        const string Index7 = "CREATE UNIQUE INDEX IX_Customer_Email ON [dbo].[Customer](Email);";
+        const string Index8 = "CREATE UNIQUE INDEX IX_Employee_Email ON [dbo].[Employee](Email);";
+        
+        const string DropIndex1 = "DROP INDEX IX_Employee_Email;";
+        const string DropIndex2 = "DROP INDEX UX_Customer_Email;";
+        const string DropIndex3 = "DROP INDEX IX_Order_Deadline_Status;";
+        const string DropIndex4 = "DROP INDEX IX_Payment_Deadline_Status;";
+        const string DropIndex5 = "DROP INDEX IX_User_Username;";
+        const string DropIndex6 = "DROP INDEX IX_User_Email;";
+        const string DropIndex7 = "DROP INDEX IX_Customer_Email;";
+        const string DropIndex8 = "DROP INDEX IX_Employee_Email;";
+
+        //Up method is performed when the database is updated (upgrade)
+        protected override void Up(MigrationBuilder migrationBuilder)
+{
+            migrationBuilder.Sql($"{Index1}{Index2}{Index3}{Index4}{Index5}{Index6}{Index7}{Index8}");
+        }
+
+        //Down method is used to downgrade the migrations
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.Sql($"{DropIndex1}{DropIndex2}{DropIndex3}{DropIndex4}{DropIndex5}{DropIndex6}{DropIndex7}{DropIndex8}");
+        }
+    }
+
     public partial class CreateType : Migration
     {
         //Up method is performed when the database is updated (upgrade)

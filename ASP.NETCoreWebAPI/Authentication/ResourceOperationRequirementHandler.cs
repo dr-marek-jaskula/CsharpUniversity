@@ -12,9 +12,9 @@ public class ResourceOperationRequirementHandler : AuthorizationHandler<Resource
         if (requirement.ResourceOperation is ResourceOperation.Read || requirement.ResourceOperation is ResourceOperation.Create)
             context.Succeed(requirement);
 
-        var userId = context.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
+        var userId = context.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
-        if (shop.CreatedById == int.Parse(userId))
+        if (shop.Employees.FirstOrDefault(e => e.ManagerId is null && e.Id == int.Parse(userId)) is not null)
             context.Succeed(requirement);
 
         return Task.CompletedTask;

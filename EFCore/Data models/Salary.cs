@@ -21,7 +21,7 @@ public class SalaryEntityTypeConfiguration : IEntityTypeConfiguration<Salary>
         builder.ToTable("Salary");
 
         builder.HasKey(s => s.Id);
-        builder.Property(s => s.Id).UseIdentityColumn();
+        builder.Property(s => s.Id).HasColumnType("SMALLINT").UseIdentityColumn();
 
         builder.Property(s => s.BaseSalary)
             .HasDefaultValue(0)

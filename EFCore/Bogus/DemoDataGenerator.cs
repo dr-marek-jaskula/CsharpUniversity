@@ -93,8 +93,12 @@ public class DemoDataGenerator
         var employees = employeeFaker.Generate(100);
 
         for (int i = 0; i < employees.Count; i++)
-            if (i > 10)
-               employees[i].Manager = employees[i % 10];
+        {
+            if (i % 20 is 0)
+                continue;
+
+            employees[i].Manager = employees[20 * (i / 20)];
+        }
 
         _context.Employees.AddRange(employees);
         _context.SaveChanges();
@@ -200,6 +204,10 @@ public class DemoDataGenerator
         foreach (var shop in shops)
             shop.Employees.AddRange(employees.Skip(20 * shops.IndexOf(shop)).Take(20));
 
+        _context.SaveChanges();
+
+        //Roles
+        _context.Roles.AddRange(new List<Role> { new() { Name = "Customer" }, new() { Name = "Employee" }, new() { Name = "Manager" }, new() { Name = "Administrator" } });
         _context.SaveChanges();
 
         //ProductAmounts

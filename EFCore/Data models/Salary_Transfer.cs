@@ -37,6 +37,9 @@ public class SalaryTransferEntityTypeConfiguration : IEntityTypeConfiguration<Sa
         builder.Property(s => s.IsIncentiveBonus)
             .HasDefaultValue(false)
             .HasColumnType("BIT");
+
+        builder.Property(s => s.SalaryId)
+            .HasColumnType("SMALLINT");
     }
 }
 

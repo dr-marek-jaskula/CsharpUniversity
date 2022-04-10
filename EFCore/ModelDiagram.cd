@@ -13,7 +13,7 @@
   <Class Name="EFCore.Data_models.Employee" Collapsed="true">
     <Position X="6.75" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QAECAGAAAAAAAAAAAAAAAAAAACGAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>QAEDAGAAAAAAAAAAAAAIAAAAACGAhAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data models\Employee.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -117,7 +117,7 @@
   <Class Name="EFCore.Data_models.Person" Collapsed="true">
     <Position X="10" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QAAAAFAAACAAAACAAAAAAAAAAAAQAAACAAAAAAAAAAg=</HashCode>
+      <HashCode>QAAAAFAAACAAAACAAAAAAAAAAAAQAAACAAAAAAAACAg=</HashCode>
       <FileName>Data models\Parents\Person.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -130,6 +130,35 @@
       <HashCode>AAECAAAEAAAAAAAAAAAAAAAAAAAAQAAAAgEAAAAAAAA=</HashCode>
       <FileName>Data models\Payment.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="EFCore.Data_models.User" Collapsed="true">
+    <Position X="10" Y="6.5" Width="1.5" />
+    <AssociationLine Name="Employee" Type="EFCore.Data_models.Employee" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10" Y="6.813" />
+        <Point X="9.42" Y="6.813" />
+        <Point X="9.42" Y="5.908" />
+        <Point X="8.25" Y="5.908" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAGCAAIAACAAAAAAEQAAAAAACAEAABAAAAAAAAACAAA=</HashCode>
+      <FileName>Data models\User.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Employee" />
+      <Property Name="Customer" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="EFCore.Data_models.Role" Collapsed="true">
+    <Position X="10" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data models\Role.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Users" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
