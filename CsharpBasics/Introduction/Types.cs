@@ -91,9 +91,11 @@ public class Types
         float floatNumber;
 
         //'double' is signed 8-bytes number, with precision of approximately 15-17 digits
-        double doubleNumber; 
+        double doubleNumber;
 
         //'decimal' is signed 16-bytes number, with precision of approximately 28-29 digits
+        //'decimal' is based on a decimal system (digits from 0 to 9) that is no native for processor (float, double is native). 
+        //Therefore, the calculations are slower but more accurate (floats and double have a little error)
         decimal decimalNumber;
 
         //By default if we assign a floating-point number to a variable it becomes a 'double' variable

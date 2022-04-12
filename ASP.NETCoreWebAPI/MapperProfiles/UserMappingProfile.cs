@@ -1,8 +1,20 @@
+using ASP.NETCoreWebAPI.Models.DataTransferObjects;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
+using EFCore.Data_models;
 
 namespace ASP.NETCoreWebAPI.MapperProfiles;
+
+public class UserMappingProfile : Profile
+{
+    public UserMappingProfile()
+    {
+        //If types and names are equal, Auto mapper will automate the process
+
+        //Map from RegisterUserDto to User
+        CreateMap<RegisterUserDto, User>();
+
+    }
+}
 
 //public class RestaurantMappingProfile : Profile
 //{

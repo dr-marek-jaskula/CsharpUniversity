@@ -21,5 +21,5 @@ public class UserContextService : IUserContextService
     //Informations about user from Context
     public ClaimsPrincipal? User => _httpContextAccessor.HttpContext?.User;
 
-    public int? GetUserId => User is null ? null : int.Parse(User.FindFirst(c => c.Type is ClaimTypes.NameIdentifier)!.Value);
+    public int? GetUserId => User is null ? null : int.Parse(User.FindFirst(c => c.Type is ClaimTypes.NameIdentifier).Value);
 }

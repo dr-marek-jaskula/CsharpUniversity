@@ -6,23 +6,28 @@ namespace ASP.NETCoreWebAPI.Models.Validators;
 
 public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
 {
+
+     
     public RegisterUserDtoValidator(MyDbContext dbContext)
     {
-        RuleFor(x => x.Email)
-            .NotEmpty()
-            .EmailAddress();
+        RuleFor(ru => ru.Email)
+            .NotEmpty();
+        //    .WithMessage("Email address is required")
+        //    .EmailAddress()
+        //    .WithMessage("A valid email address is required")
+        //     //Custom validation using lambda expression. We inject context to examine if given email is already in the database
+        //    .Custom((value, contex) => //value is the value of the email
+        //    {
+        //         if (dbContext.Users.Any(u => u.Email == value))
+        //             contex.AddFailure("Email", "That email is taken");
+        //    });
 
-        RuleFor(x => x.Password).MinimumLength(6);
+        //RuleFor(ru => ru.Password)
+        //    .MinimumLength(6)
+        //    .WithMessage("Password needs to be at least 6 character");
 
-        RuleFor(x => x.ConfirmPassword).Equal(e => e.Password);
-
-        //Custom validation using lambda expression. We incject context to examine if given email is already in the database
-        RuleFor(x => x.Email).Custom((value, contex) =>
-        {
-            bool emialInUse = dbContext.Users.Any(u => u.Email == value);
-            if (emialInUse)
-                contex.AddFailure("Email", "That email is taken");
-        });
+        //RuleFor(ru => ru.ConfirmPassword)
+        //    .Equal(re => re.Password)
+        //    .WithMessage("Incorrect password");
     }
-
 }

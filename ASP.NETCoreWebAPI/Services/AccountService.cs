@@ -4,6 +4,7 @@ using System.Text;
 using ASP.NETCoreWebAPI.Authentication;
 using ASP.NETCoreWebAPI.Exceptions;
 using ASP.NETCoreWebAPI.Models.DataTransferObjects;
+using AutoMapper;
 using EFCore;
 using EFCore.Data_models;
 using Microsoft.AspNetCore.Identity;
@@ -23,24 +24,20 @@ public class AccountService : IAccountService
     private readonly MyDbContext _context;
     private readonly IPasswordHasher<User> _passwordHasher;
     private readonly AuthenticationSettings _authenticationSettings;
+    private readonly IMapper _mapper;
 
-    public AccountService(MyDbContext context, IPasswordHasher<User> passwordHasher, AuthenticationSettings authenticationSettings)
+    public AccountService(MyDbContext context, IPasswordHasher<User> passwordHasher, AuthenticationSettings authenticationSettings, IMapper mapper)
     {
         _context = context;
         _passwordHasher = passwordHasher;
         _authenticationSettings = authenticationSettings;
+        _mapper = mapper;
     }
 
     public void RegisterUser(RegisterUserDto dto)
     {
-        var newUser = new User()
-        {
-            Username = dto.Username,
-            Email = dto.Email,
-            RoleId = dto.RoleId,
-            CustomerId = dto.CustomerId,
-            EmployeeId = dto.EmployeeId
-        };
+        //Map from RegisterUserDto to User
+        var newUser = _mapper.Map<User>(dto);
 
         string hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
         newUser.PasswordHash = hashedPassword;
@@ -85,7 +82,7 @@ public class AccountService : IAccountService
             }));
         }
 
-        //NATONIALITYT CLAIM
+        //Nationality claim
         if (user is { Employee.Address.Country: string { Length: > 0 } } or { Customer.Address.Country: string { Length: > 0 } })
         {
             claims.Add(new Claim(type: "Nationality", user switch

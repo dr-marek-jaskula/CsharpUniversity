@@ -2,6 +2,9 @@ using ASP.NETCoreWebAPI.Exceptions;
 
 namespace ASP.NETCoreWebAPI.Middlewares;
 
+/// <summary>
+/// Middleware that provides exception handling. Each request needs to be processed by the following try-catch block
+/// </summary>
 public class ErrorHandlingMiddleware : IMiddleware
 {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)

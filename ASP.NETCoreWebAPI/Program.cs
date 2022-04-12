@@ -25,15 +25,13 @@ using ASP.NETCoreWebAPI.Authentication;
 using ASP.NETCoreWebAPI.Middlewares;
 using Microsoft.AspNetCore.Identity;
 using ASP.NETCoreWebAPI.Services;
-using FluentValidation;
-using ASP.NETCoreWebAPI.Models.DataTransferObjects;
-using ASP.NETCoreWebAPI.Models.Validators;
 using Microsoft.OpenApi.Models;
 using EFCore.Data_models;
 using Serilog;
 using Serilog.Events;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
-//Logger (Serilog)
+//Logger (Serilog) as a singleton
 Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .Enrich.FromLogContext()
@@ -82,17 +80,37 @@ builder.Services.AddAuthentication(option =>
 });
 
 //Controllers with Fluent Validation (Models -> Validators)
-builder.Services.AddControllers().AddFluentValidation();
+builder.Services.AddControllers().AddFluentValidation(options =>
+{
+    //Validate child properties and root collection elements
+    //options.ImplicitlyValidateChildProperties = true; //enables validation of child properties. Its an option to enable whether or not child properties should be implicitly validated if a matching validator can be found. You have to enable this option, if you want it, as it by default is set to false.
+    //options.ImplicitlyValidateRootCollectionElements = true; //enables validation of root elements should be implicitly validated. This will only happen when the root model is a collection and a matching validator can be found for the element type.
+    
+    //Automatic registration of validators in assembly (therefore there is no need to register validators below)
+    options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); //Makes sure that we automatically register validators from the assembly. We get the execution assembly by using System.Reflection.
+});
 
-//Versioning
+//Versioning !!!!!!!!!!!!!!!!!!!
 builder.Services.AddApiVersioning(options =>
 {
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.DefaultApiVersion = ApiVersion.Default;
+
+    //options.DefaultApiVersion = new ApiVersion(1, 1); //to robi, ¿e defaultowa wersja jest 1.1
+    //options.ApiVersionReader = new MediaTypeApiVersionReader("version"); //to sprawie, ¿e zamiast jako parametr, bêdzie w headerze "Accept" i trzeba napis¹c "application/json; version=2.0"
+    //options.ApiVersionReader = new HeaderApiVersionReader("CustomHeaderVersion"); // to tworzy ze nie bêdzie w headerze Accept, tylko w "CustomHeaderVersion". Wtedy nie trzeba pisaæ "version=2.0" ale po porstu "2.0"
+
+    /*mo¿na te¿ oba naraz zrobiæ 
+options.ApiVersionReader = ApiVersionReader.Combine(
+    new MediaTypeApiVersionReader("version"),
+    new HeaderApiVersionReader("CustomHeaderVersion")
+    ); */
+
+    //options.ReportApiVersions = true; //to robi, ¿e daje odpowiedz, gdzie w headerze info o supportowanych versjach
 });
 
 //DbContext 
-builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStrings:DefaultConnection")));
+builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 //??????????
 //.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -100,7 +118,7 @@ builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(build
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 //Add Services (dependencies) to the default ASP.Net Core dependency container
-//Services...
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 //Register Polly Policies (method ConfigurePollyPolicies extends IServiceCollection)
 builder.Services.ConfigurePollyPolicies(PollyPolicies.GetPolicies(), PollyPolicies.GetAsyncPolicies());
@@ -112,7 +130,6 @@ builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 //Validators
-builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
 
 //Context
 builder.Services.AddScoped<IUserContextService, UserContextService>();
@@ -165,7 +182,13 @@ app.UseHttpsRedirection();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "CsharpUniversity API v1"); });
+    app.UseSwaggerUI(c => 
+    { 
+        //Set swagger endpoint
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "CsharpUniversity API v1");
+        //Overwirte swagger style to dark style (from static files wwwroot -> swaggerstyles -> SwaggerDark.css)
+        c.InjectStylesheet("/swaggerstyles/SwaggerDark.css");
+    });
 }
 
 //Routing
