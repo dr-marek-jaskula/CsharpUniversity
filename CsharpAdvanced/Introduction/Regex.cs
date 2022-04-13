@@ -91,7 +91,7 @@ public class UniversityRegex
 
             One or more: +
             Matches 1 or more of the preceding token.
-            Example: abc* -> string needs to contain 'ab' and at least one 'c' letter
+            Example: abc+ -> string needs to contain 'ab' and at least one 'c' letter
 
             Optional, Zero or 1: ?
             Matches 0 or 1 of the preceding token, effectively making it optional.
@@ -107,7 +107,7 @@ public class UniversityRegex
             Example: abc{2,5} -> 'ab' and at least two 'c' but max five 'c'
 
             Alternation: |
-            Acts like a boolean OR. Matches the expression before or after the |. Becareful
+            Acts like a boolean OR. Matches the expression before or after the |. Be careful
             It can operate within a group, or on a whole expression. The patterns will be tested in order.
             Example: b(a|e|i)d -> words like "bad", "bed", "bid"
             Example: ba|d -> or 'ba' or 'd'
@@ -132,13 +132,27 @@ public class UniversityRegex
 
         Dotall: s
             Dot (.) will match any character, including newline.
+
+
+    5. Any in the string:
+
+    ^                                            Match the beginning of the string
+    (?=.*[0-9])                                  Require that at least one digit appear anywhere in the string
+    (?=.*[a-z])                                  Require that at least one lowercase letter appear anywhere in the string
+    (?=.*[A-Z])                                  Require that at least one uppercase letter appear anywhere in the string
+    (?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\])        Require that at least one special character appear anywhere in the string
+    .{8,32}                                      The password must be at least 8 characters long, but no more than 32
+    $                                            Match the end of the string.
+
+    summary:
+    ^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\]).{8,32}$
 */
 
     //In order to use regex in c#:
 
     public void InvokeRegexExamples()
     {
-        //For email valida
+        //For email validation
         Regex regex = new(@"^([a-z0-9]+)\.?([a-z0-9]+)@([a-z]+)\.[a-z]{2,3}$");
         string email = "test.test2@gmail.com";
         string email2 = ".test.test2@gmail.com";

@@ -7,7 +7,7 @@ namespace ASP.NETCoreWebAPI.Controllers;
 
 //[controller] in Rount attribute is equivalent to the name of the controller (i.e. "Account")
 [Route("api/[controller]")] 
-[ApiVersion("1.0")] //states about version of the api
+[ApiVersion("1.0")] //states about version of this api controller 
 public class AccountController : ControllerBase
 {
     private readonly IAccountService _accountService;
@@ -23,9 +23,6 @@ public class AccountController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)] //informs about possible response
     public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
     {
-        //if (!ModelState.IsValid)
-        //    return StatusCode(StatusCodes.Status400BadRequest, ModelState);
-
         //Use injected service to inverse the dependency
         _accountService.RegisterUser(dto);
         return Ok();

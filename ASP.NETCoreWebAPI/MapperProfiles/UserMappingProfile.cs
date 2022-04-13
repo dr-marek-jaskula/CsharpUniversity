@@ -4,15 +4,14 @@ using EFCore.Data_models;
 
 namespace ASP.NETCoreWebAPI.MapperProfiles;
 
+//If types and names are equal, AutoMapper will automate the process
+
 public class UserMappingProfile : Profile
 {
     public UserMappingProfile()
     {
-        //If types and names are equal, Auto mapper will automate the process
-
         //Map from RegisterUserDto to User
         CreateMap<RegisterUserDto, User>();
-
     }
 }
 

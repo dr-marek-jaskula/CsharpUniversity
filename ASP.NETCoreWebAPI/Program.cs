@@ -30,6 +30,7 @@ using EFCore.Data_models;
 using Serilog;
 using Serilog.Events;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using ASP.NETCoreWebAPI.Models.Validators;
 
 //Logger (Serilog) as a singleton
 Log.Logger = new LoggerConfiguration()
@@ -90,23 +91,29 @@ builder.Services.AddControllers().AddFluentValidation(options =>
     options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); //Makes sure that we automatically register validators from the assembly. We get the execution assembly by using System.Reflection.
 });
 
-//Versioning !!!!!!!!!!!!!!!!!!!
+//Versioning - api version is different from swagger version (!!!!!!!!!!!!! should connect them)
 builder.Services.AddApiVersioning(options =>
 {
+    //options.DefaultApiVersion = ApiVersion.Default;
+    options.DefaultApiVersion = new ApiVersion(1, 1); //set default version to 1.1
+
+    //Router fallback to the default version (specified by the DefaultApiVersion setting) in cases where the router is unable to determine the requested API version
     options.AssumeDefaultVersionWhenUnspecified = true;
-    options.DefaultApiVersion = ApiVersion.Default;
 
-    //options.DefaultApiVersion = new ApiVersion(1, 1); //to robi, ¿e defaultowa wersja jest 1.1
-    //options.ApiVersionReader = new MediaTypeApiVersionReader("version"); //to sprawie, ¿e zamiast jako parametr, bêdzie w headerze "Accept" i trzeba napis¹c "application/json; version=2.0"
-    //options.ApiVersionReader = new HeaderApiVersionReader("CustomHeaderVersion"); // to tworzy ze nie bêdzie w headerze Accept, tylko w "CustomHeaderVersion". Wtedy nie trzeba pisaæ "version=2.0" ale po porstu "2.0"
+    //This changes the header "Accept" to "CustomHeaderVersion" and there is no need to write "version=2.0" but just "2.0"
+    //options.ApiVersionReader = new HeaderApiVersionReader("CustomHeaderVersion"); 
 
-    /*mo¿na te¿ oba naraz zrobiæ 
-options.ApiVersionReader = ApiVersionReader.Combine(
-    new MediaTypeApiVersionReader("version"),
-    new HeaderApiVersionReader("CustomHeaderVersion")
-    ); */
+    //the version of api needs to be specified in requests. For example in header "Accept" -> "application/json; version=2.0"
+    //options.ApiVersionReader = new MediaTypeApiVersionReader("version");
 
-    //options.ReportApiVersions = true; //to robi, ¿e daje odpowiedz, gdzie w headerze info o supportowanych versjach
+    //responses informs in "api-supported-versions" header about supported versions of api.
+    //options.ReportApiVersions = true;
+
+    //To do both we can:
+    //options.ApiVersionReader = ApiVersionReader.Combine(
+    //new MediaTypeApiVersionReader("version"),
+    //new HeaderApiVersionReader("CustomHeaderVersion")
+    //);
 });
 
 //DbContext 
@@ -129,7 +136,12 @@ builder.Services.AddScoped<ErrorHandlingMiddleware>();
 //Password hasher
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
-//Validators
+//Validators - we can register them manually here. Sometimes we would like to register them as Singletons to optimize process, but mostly we register them at once, in FluentValidation options that are specified above.
+//Configure to automatically send response "Status: 400 BadRequest" with validation details when invalid request is received.
+builder.Services.AddMvc(opt =>
+{
+    opt.Filters.Add(typeof(ValidatorActionFilter));
+});
 
 //Context
 builder.Services.AddScoped<IUserContextService, UserContextService>();
