@@ -16,19 +16,21 @@ public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
             //Property name will be placed there.
             //Other general placeholder: {PropertyValue}
             .EmailAddress()
-            .WithMessage("A valid {PropertyName} address is required");
+            .WithMessage("A valid {PropertyName} address is required")
             //Custom validation using lambda expression. We inject context to examine if given email is already in the database
-            //.Custom((value, context) => //value is the value of the email property
-            //{
-            //    if (dbContext.Users.Any(u => u.Email == value))
-            //        contex.AddFailure("{PropertyName}", "That {PropertyName} is taken");
-            //});
+            .Custom((value, context) => //value is the value of the email property
+            {
+                if (dbContext.Users.Any(u => u.Email == value))
+                    context.AddFailure("Email", "That email is taken");
+            });
 
         RuleFor(ru => ru.Password)
-            //.MinimumLength(6)
-            //.WithMessage("{PropertyName} needs to be at least {MinLength} character")
+            .MinimumLength(6)
+            .WithMessage("{PropertyName} needs to be at least {MinLength} character")
+            .MaximumLength(32)
+            .WithMessage("{PropertyName} needs to be at most {MaxLength} character")
             .Must(IsPasswordValid)
-            .WithMessage("{PropertyName} needs to be 6-32 character long, contain at least one number, one small letter and one capital letter.");
+            .WithMessage("{PropertyName} needs to contain at least one digit, one small letter and one capital letter.");
 
         RuleFor(ru => ru.ConfirmPassword)
             .Equal(re => re.Password)
@@ -37,7 +39,7 @@ public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
 
     private bool IsPasswordValid(string password)
     {
-        Regex regex = new(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,32}$");
+        Regex regex = new(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{0,}$");
         return regex.IsMatch(password);
     }
 }

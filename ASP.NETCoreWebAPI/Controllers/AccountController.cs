@@ -1,13 +1,19 @@
-﻿using ASP.NETCoreWebAPI.Exceptions;
-using ASP.NETCoreWebAPI.Models.DataTransferObjects;
+﻿using ASP.NETCoreWebAPI.Models.DataTransferObjects;
 using ASP.NETCoreWebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NETCoreWebAPI.Controllers;
 
-//[controller] in Rount attribute is equivalent to the name of the controller (i.e. "Account")
-[Route("api/[controller]")] 
-[ApiVersion("1.0")] //states about version of this api controller 
+[ApiController]
+//Describes which version the controller needs to be mapped for, the version is specified in the route
+[ApiVersion("1.0")]
+//Controller supports also 2.0 (because we have one 2.0 method in it)
+[ApiVersion("2.0")]
+//"v{version:apiVersion}" adds the version number defined in the ApiVersion to the route while matching.
+//In this case, both "/api/v1.0/account" and "/api/v1/account" are mapped to this controller. (and for 2.0 also)
+[Route("api/v{version:apiVersion}/[controller]")]
+//[controller] in Route attribute is equivalent to the name of the controller (i.e. "Account")
+[Route("api/[controller]")] // for backward compatibility (/api/account)
 public class AccountController : ControllerBase
 {
     private readonly IAccountService _accountService;
@@ -36,5 +42,28 @@ public class AccountController : ControllerBase
     {
         string token = _accountService.GenerateJwt(dto);
         return Ok(token);
+    }
+
+
+    //Can get by:
+    //https://localhost:7240/api/Account/VersionTestActionV1
+    //https://localhost:7240/api/v1/Account/VersionTestActionV1
+    //https://localhost:7240/api/v1.0/Account/VersionTestActionV1
+    [HttpGet("VersionTest")]
+    public ActionResult VersionTestActionV1()
+    {
+        return Ok("Version 1");
+    }
+
+    //Can get by:
+    //https://localhost:7240/api/Account/VersionTestActionV2
+    //https://localhost:7240/api/v2/Account/VersionTestActionV2
+    //https://localhost:7240/api/v2.0/Account/VersionTestActionV2
+    [HttpGet("VersionTest")]
+    //Tell compiler that this method is for 2.0 version 
+    [MapToApiVersion("2.0")]
+    public ActionResult VersionTestActionV2() //one of the ways of underlining the change
+    {
+        return Ok("Version 2");
     }
 }

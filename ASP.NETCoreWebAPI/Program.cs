@@ -91,29 +91,46 @@ builder.Services.AddControllers().AddFluentValidation(options =>
     options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); //Makes sure that we automatically register validators from the assembly. We get the execution assembly by using System.Reflection.
 });
 
-//Versioning - api version is different from swagger version (!!!!!!!!!!!!! should connect them)
+//Versioning
+//In versioning the different controllers usually are separate in other subfolders named "V1" and "V2".
 builder.Services.AddApiVersioning(options =>
 {
-    //options.DefaultApiVersion = ApiVersion.Default;
-    options.DefaultApiVersion = new ApiVersion(1, 1); //set default version to 1.1
+    //options.DefaultApiVersion = new ApiVersion(1, 0); //set default version to 1.0. This is the same as below (ApiVersion.Default == new ApiVersion(1,0))
+    options.DefaultApiVersion = ApiVersion.Default;
 
-    //Router fallback to the default version (specified by the DefaultApiVersion setting) in cases where the router is unable to determine the requested API version
+    //Router fallback to the default version (specified by the DefaultApiVersion setting) in cases where the router is unable to determine the requested API version.
     options.AssumeDefaultVersionWhenUnspecified = true;
 
-    //This changes the header "Accept" to "CustomHeaderVersion" and there is no need to write "version=2.0" but just "2.0"
-    //options.ApiVersionReader = new HeaderApiVersionReader("CustomHeaderVersion"); 
+    //Response informs about supported versions of api in "api-supported-versions" header.
+    options.ReportApiVersions = true;
 
-    //the version of api needs to be specified in requests. For example in header "Accept" -> "application/json; version=2.0"
-    //options.ApiVersionReader = new MediaTypeApiVersionReader("version");
+    //Api version needs to be specified in requests.
 
-    //responses informs in "api-supported-versions" header about supported versions of api.
-    //options.ReportApiVersions = true;
+    //API Versioning Strategies - How to pass the Version Information:
+    //1. Default approach: by URL Segment
+    //options.ApiVersionReader = new UrlSegmentApiVersionReader();
 
-    //To do both we can:
+    //2. Query approach: via query -> In this approach, the version is attached to the URL as a query parameter
+    //options.ApiVersionReader = new QueryStringApiVersionReader(); // "/api/account/register/?api-version=2.0" which is default option
+    //options.ApiVersionReader = new QueryStringApiVersionReader("v"); // "/api/account/register/?v=2.0" other option
+
+    //3. Header approach: via Header -> In this approach we pass our version information via the request headers
+    options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+
+    //4. ContentType approach: via ContentType -> by extending the media types we use in our request headers to pass on the version information
+    //options.ApiVersionReader = new MediaTypeApiVersionReader(); // Content-Type: "application/json;v=2.0" which is default option ("Accept" header)
+    //options.ApiVersionReader = new MediaTypeApiVersionReader("version"); // Content-Type: "application/json;version=2.0" other option
+
+    //Change header "CustomHeaderVersion" and also "version=2.0" is replace by "2.0"
+    //options.ApiVersionReader = new HeaderApiVersionReader("CustomHeaderVersion");
+
+    //5. Reading from more then one sources:
+    //Our version information can be obtained from various sources instead of sticking to just one common constraint on all times
     //options.ApiVersionReader = ApiVersionReader.Combine(
-    //new MediaTypeApiVersionReader("version"),
-    //new HeaderApiVersionReader("CustomHeaderVersion")
-    //);
+    //  new UrlSegmentApiVersionReader(),
+    //  new HeaderApiVersionReader("api-version"),
+    //  new QueryStringApiVersionReader("api-version"),
+    //  new MediaTypeApiVersionReader("version"));
 });
 
 //DbContext 
