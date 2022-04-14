@@ -7,12 +7,12 @@ namespace ASP.NETCoreWebAPI.Controllers;
 [ApiController]
 //Describes which version the controller needs to be mapped for, the version is specified in the route
 [ApiVersion("1.0")]
-//Controller supports also 2.0 (because we have one 2.0 method in it)
-[ApiVersion("2.0")]
+//Another supported version. Deprecated informs about obsolete versions
+[ApiVersion("1.1", Deprecated = true)]
 //"v{version:apiVersion}" adds the version number defined in the ApiVersion to the route while matching.
-//In this case, both "/api/v1.0/account" and "/api/v1/account" are mapped to this controller. (and for 2.0 also)
+//In this case, both "/api/v1.0/account" and "/api/v1/account" are mapped to this controller. 
 [Route("api/v{version:apiVersion}/[controller]")]
-//[controller] in Route attribute is equivalent to the name of the controller (i.e. "Account")
+//[controller] in Route attribute is equivalent to the name of the controller (i.e. "Account" or "account")
 [Route("api/[controller]")] // for backward compatibility (/api/account)
 public class AccountController : ControllerBase
 {
@@ -46,24 +46,25 @@ public class AccountController : ControllerBase
 
 
     //Can get by:
-    //https://localhost:7240/api/Account/VersionTestActionV1
-    //https://localhost:7240/api/v1/Account/VersionTestActionV1
-    //https://localhost:7240/api/v1.0/Account/VersionTestActionV1
+    //https://localhost:7240/api/Account/VersionTest
+    //https://localhost:7240/api/v1/Account/VersionTest
+    //https://localhost:7240/api/v1.0/Account/VersionTest
+    //https://localhost:7240/api/account/VersionTest/?api-version=1.0    (if it QueryStringApiVersionReader is specified as default)
     [HttpGet("VersionTest")]
     public ActionResult VersionTestActionV1()
     {
         return Ok("Version 1");
     }
 
-    //Can get by:
-    //https://localhost:7240/api/Account/VersionTestActionV2
-    //https://localhost:7240/api/v2/Account/VersionTestActionV2
-    //https://localhost:7240/api/v2.0/Account/VersionTestActionV2
+    ///Can get by:
+    //https://localhost:7240/api/v1.1/Account/VersionTest
+    //https://localhost:7240/api/account/VersionTest/?api-version=1.1    (if QueryStringApiVersionReader())
+    //https://localhost:7240/api/account/VersionTest        (with header "api-version" set to "1.1".) (if HeaderApiVersionReader("api-version"))
+    //https://localhost:7240/api/account/VersionTest        (with header "CustomHeaderVersion" set to "1.1".) (if HeaderApiVersionReader("CustomHeaderVersion"))
     [HttpGet("VersionTest")]
-    //Tell compiler that this method is for 2.0 version 
-    [MapToApiVersion("2.0")]
-    public ActionResult VersionTestActionV2() //one of the ways of underlining the change
+    [MapToApiVersion("1.1")]
+    public ActionResult VersionTestActionV11()
     {
-        return Ok("Version 2");
+        return Ok("Version 1.1");
     }
 }

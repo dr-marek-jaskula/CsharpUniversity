@@ -1,4 +1,4 @@
-﻿namespace ASP.NETCoreWebAPI.SwaggerPostman;
+﻿namespace ASP.NETCoreWebAPI.Swagger;
 
 public class SwaggerPostman
 {

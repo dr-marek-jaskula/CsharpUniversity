@@ -31,6 +31,10 @@ using Serilog;
 using Serilog.Events;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using ASP.NETCoreWebAPI.Models.Validators;
+using Microsoft.Examples;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
+
 
 //Logger (Serilog) as a singleton
 Log.Logger = new LoggerConfiguration()
@@ -101,7 +105,7 @@ builder.Services.AddApiVersioning(options =>
     //Router fallback to the default version (specified by the DefaultApiVersion setting) in cases where the router is unable to determine the requested API version.
     options.AssumeDefaultVersionWhenUnspecified = true;
 
-    //Response informs about supported versions of api in "api-supported-versions" header.
+    //Response informs about supported versions of api in "api-supported-versions" header and about obsolete version in header "api-deprecated-versions"
     options.ReportApiVersions = true;
 
     //Api version needs to be specified in requests.
@@ -111,18 +115,18 @@ builder.Services.AddApiVersioning(options =>
     //options.ApiVersionReader = new UrlSegmentApiVersionReader();
 
     //2. Query approach: via query -> In this approach, the version is attached to the URL as a query parameter
-    //options.ApiVersionReader = new QueryStringApiVersionReader(); // "/api/account/register/?api-version=2.0" which is default option
-    //options.ApiVersionReader = new QueryStringApiVersionReader("v"); // "/api/account/register/?v=2.0" other option
+    //options.ApiVersionReader = new QueryStringApiVersionReader(); // "/api/account/register/?api-version=1.1" which is default option
+    //options.ApiVersionReader = new QueryStringApiVersionReader("v"); // "/api/account/register/?v=1.1" other option
 
     //3. Header approach: via Header -> In this approach we pass our version information via the request headers
-    options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+    //options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+    //Change header "CustomHeaderVersion" with value "1.1"
+    //options.ApiVersionReader = new HeaderApiVersionReader("CustomHeaderVersion");
 
     //4. ContentType approach: via ContentType -> by extending the media types we use in our request headers to pass on the version information
-    //options.ApiVersionReader = new MediaTypeApiVersionReader(); // Content-Type: "application/json;v=2.0" which is default option ("Accept" header)
-    //options.ApiVersionReader = new MediaTypeApiVersionReader("version"); // Content-Type: "application/json;version=2.0" other option
-
-    //Change header "CustomHeaderVersion" and also "version=2.0" is replace by "2.0"
-    //options.ApiVersionReader = new HeaderApiVersionReader("CustomHeaderVersion");
+    //options.ApiVersionReader = new MediaTypeApiVersionReader(); // Content-Type: "application/json;v=1.1" which is default option ("Accept" header)
+    //options.ApiVersionReader = new MediaTypeApiVersionReader("v"); // the same as above
+    //options.ApiVersionReader = new MediaTypeApiVersionReader("version"); // Content-Type: "application/json;version=1.1" other option
 
     //5. Reading from more then one sources:
     //Our version information can be obtained from various sources instead of sticking to just one common constraint on all times
@@ -165,6 +169,9 @@ builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddHttpContextAccessor();
 
 //Swagger
+//Swagger and versioning
+builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "CsharpUniversity API", Version = "v1" });

@@ -27,4 +27,8 @@
     <ProjectReference Include="..\EFCore\EFCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\V1\" />
+  </ItemGroup>
+
 </Project>
