@@ -1,4 +1,5 @@
 using ASP.NETCoreWebAPI.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NETCoreWebAPI.Middlewares;
 
@@ -28,10 +29,21 @@ public class ErrorHandlingMiddleware : IMiddleware
             context.Response.StatusCode = 403;
             await context.Response.WriteAsync(forbidException.Message);
         }
-        catch (Exception)
+        catch (Exception e)
         {
             context.Response.StatusCode = 500;
-            await context.Response.WriteAsync("Something went wrong");
+
+            // Return machine-readable problem details. See RFC 7807 for details.
+            // https://datatracker.ietf.org/doc/html/rfc7807#page-6
+            var problemDetails = new ProblemDetails //this class represents the standard details
+            {
+                Type = "https://CsharpUniversityWebApi.com/errors/internal-server-error", //this is just a identifier (can customize)
+                Title = "An unrecoverable error occurred",
+                Status = StatusCodes.Status500InternalServerError,
+                Detail = "This is a demo error used to demonstrate problem details: " + e.Message,
+            };
+            problemDetails.Extensions.Add("RequestId", context.TraceIdentifier);
+            await context.Response.WriteAsJsonAsync(problemDetails, problemDetails.GetType(), null, contentType: "application/problem+json");
         }
     }
 }

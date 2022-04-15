@@ -17,6 +17,7 @@ public class Shortcuts
     //ctrl + .                              -> to open the vs helper window (use all the time). Do not need to be exactly on the piece of code
     //ctrl + m + f                          -> find current file in the solution (CodeMaid)
     //ctrl + m + z                          -> reorganize file (CodeMaid)
+    //ctrl + m + space                      -> cleanup active document (CodeMaid)
 
     //tab                                   -> make tab
     //shift + tab                           -> undo tab

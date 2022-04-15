@@ -3,6 +3,7 @@
 //In order to configure swagger to many version of api we need to:
 //0. Add Attributes like "[MapToApiVersion("1.0")]", "[MapToApiVersion("1.1")]" to each action if the controller support more then one version (else swagger would make problems)
 //0. Deprecated versions in swagger make action crossed by line
+
 //1. Install NuGet package: Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer
 //2. Add to program.cs
 /*
