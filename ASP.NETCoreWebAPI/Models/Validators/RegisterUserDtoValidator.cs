@@ -12,7 +12,7 @@ public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
         RuleFor(ru => ru.Email)
             .NotEmpty()
             //Override the default error message
-            .WithMessage("{PropertyName} address is required")
+            .WithMessage("{PropertyName} address can not be null, empty string or whitespace only")
             //Property name will be placed there.
             //Other general placeholder: {PropertyValue}
             .EmailAddress()
@@ -37,8 +37,11 @@ public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
             .WithMessage("{PropertyName} failed");
     }
 
-    private bool IsPasswordValid(string password)
+    private bool IsPasswordValid(string? password)
     {
+        if (string.IsNullOrWhiteSpace(password))
+            return false;
+
         Regex regex = new(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{0,}$");
         return regex.IsMatch(password);
     }

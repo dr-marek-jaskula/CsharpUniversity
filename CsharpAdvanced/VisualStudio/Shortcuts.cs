@@ -10,11 +10,13 @@ public class Shortcuts
 
     //ctrl + d                              -> duplicate the line
     //ctrl + a                              -> select all
-    //ctrl + /                              -> comment line or lines by "//" 
+    //ctrl + /                              -> comment line or lines by "//"
     //ctrl + f                              -> find something
     //ctrl + shift + f                      -> advanced find and replace
     //ctrl + t                              -> find class
     //ctrl + .                              -> to open the vs helper window (use all the time). Do not need to be exactly on the piece of code
+    //ctrl + m + f                          -> find current file in the solution (CodeMaid)
+    //ctrl + m + z                          -> reorganize file (CodeMaid)
 
     //tab                                   -> make tab
     //shift + tab                           -> undo tab
@@ -66,7 +68,7 @@ public class Shortcuts
 
     //ctrl + m + m                          -> collapse current scope
 
-    //[when intellisense is open] alt + p   -> narrow results to properties 
+    //[when intellisense is open] alt + p   -> narrow results to properties
     //[when intellisense is open] alt + m   -> narrow results to methods
     //[when intellisense is open] alt + e   -> narrow results to enums
     //[when intellisense is open] alt + c   -> narrow results to classes

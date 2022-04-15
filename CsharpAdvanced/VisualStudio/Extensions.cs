@@ -2,19 +2,20 @@
 
 public class Extensions
 {
-    /*
-    Show Selection Length
-    Live Share
-    Visual Studio Rich Navigation [Preview]
-    Visafora (no for vs 2022 yet)
-    CodeMaid
-    Toggle Comment
-    VsColorOutput
-    Visual Studio Spell Checker
-    NuGetRecommender
-    xUnit Code Snippets
-    Output enhancer
-    Serene
-    */
-}
+    //Show Selection Length
+    //Live Share
+    //Visual Studio Rich Navigation [Preview]
+    //CodeMaid
+    //Toggle Comment
+    //VsColorOutput
+    //Visual Studio Spell Checker
+    //NuGetRecommender
+    //xUnit Code Snippets
+    //Output enhancer
+    //Serene
+    //ZenCoding -> for html/ccs files snippets (good to learn them)
+    //FileDiffer -> right click on file and then "compare files"
+    //SideScroller -> shift + scroll -> horizontal scroll
 
+    //Visafora (no for vs 2022 yet)
+}

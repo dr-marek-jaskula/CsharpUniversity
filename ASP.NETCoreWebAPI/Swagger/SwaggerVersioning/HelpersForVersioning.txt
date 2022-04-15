@@ -1,0 +1,47 @@
+﻿//If there are problems with versioning try with this code (and its modifications)
+//Add it to AddSwaggerGen
+
+/*
+    options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First(a => a.GroupName == "v1.1"));
+
+    options.ResolveConflictingActions(apiDescriptions =>
+    {
+        var descriptions = apiDescriptions as ApiDescription[] ?? apiDescriptions.ToArray();
+        var first = descriptions.First(); // build relative to the 1st method
+        var parameters = descriptions.SelectMany(d => d.ParameterDescriptions).ToList();
+
+        first.ParameterDescriptions.Clear();
+
+        // add parameters and make them optional
+        foreach (var parameter in parameters)
+            if (first.ParameterDescriptions.All(x => x.Name != parameter.Name))
+            {
+                first.ParameterDescriptions.Add(new ApiParameterDescription
+                {
+                    ModelMetadata = parameter.ModelMetadata,
+                    Name = parameter.Name,
+                    ParameterDescriptor = parameter.ParameterDescriptor,
+                    Source = parameter.Source,
+                    IsRequired = false,
+                    DefaultValue = null
+                });
+            }
+        return first;
+    });
+
+    options.DocInclusionPredicate((version, description) =>
+    {
+        //if (version != description.GroupName)
+        //    return false;
+
+        //return true;
+
+        if (!description.TryGetMethodInfo(out MethodInfo methodInfo) || methodInfo.DeclaringType is null)
+            return false;
+
+        var versions = methodInfo.DeclaringType.GetCustomAttributes(true).OfType<ApiVersionAttribute>().SelectMany(attr => attr.Versions);
+        var maps = methodInfo.GetCustomAttributes(true).OfType<MapToApiVersionAttribute>().SelectMany(attr => attr.Versions).ToArray();
+        version = version.Replace("v", "");
+        return versions.Any(v => v.ToString() == version && maps.Any(v => v.ToString() == version));
+    });
+*/

@@ -12,29 +12,31 @@
 //Serilog.AspNetCore
 //Serilog.Sinks.Seq
 //SerilogTimings
+//Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer
+//Microsoft.Extensions.PlatformAbstractions
 
-using EFCore;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Reflection;
-using ASP.NETCoreWebAPI.PollyPolicies;
 using ASP.NETCoreWebAPI.Authentication;
 using ASP.NETCoreWebAPI.Middlewares;
-using Microsoft.AspNetCore.Identity;
+using ASP.NETCoreWebAPI.Models.Validators;
+using ASP.NETCoreWebAPI.PollyPolicies;
 using ASP.NETCoreWebAPI.Services;
-using Microsoft.OpenApi.Models;
+using ASP.NETCoreWebAPI.Swagger.SwaggerVersioning;
+using EFCore;
 using EFCore.Data_models;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
-using Microsoft.AspNetCore.Mvc.Versioning;
-using ASP.NETCoreWebAPI.Models.Validators;
-using Microsoft.Examples;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
-
+using System.Reflection;
+using System.Text;
 
 //Logger (Serilog) as a singleton
 Log.Logger = new LoggerConfiguration()
@@ -90,7 +92,7 @@ builder.Services.AddControllers().AddFluentValidation(options =>
     //Validate child properties and root collection elements
     //options.ImplicitlyValidateChildProperties = true; //enables validation of child properties. Its an option to enable whether or not child properties should be implicitly validated if a matching validator can be found. You have to enable this option, if you want it, as it by default is set to false.
     //options.ImplicitlyValidateRootCollectionElements = true; //enables validation of root elements should be implicitly validated. This will only happen when the root model is a collection and a matching validator can be found for the element type.
-    
+
     //Automatic registration of validators in assembly (therefore there is no need to register validators below)
     options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); //Makes sure that we automatically register validators from the assembly. We get the execution assembly by using System.Reflection.
 });
@@ -137,7 +139,19 @@ builder.Services.AddApiVersioning(options =>
     //  new MediaTypeApiVersionReader("version"));
 });
 
-//DbContext 
+//Versioning + Swagger
+builder.Services.AddVersionedApiExplorer(options =>
+{
+    //Add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
+    //The specified format code will format the version as "'v'major[.minor][-status]"
+    options.GroupNameFormat = "'v'VVV";
+
+    //This option is only necessary when versioning by url segment.
+    //The SubstitutionFormat can also be used to control the format of the API version in route templates
+    options.SubstituteApiVersionInUrl = true;
+});
+
+//DbContext
 builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 //??????????
 //.AddDatabaseDeveloperPageExceptionFilter();
@@ -172,9 +186,22 @@ builder.Services.AddHttpContextAccessor();
 //Swagger and versioning
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(options =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "CsharpUniversity API", Version = "v1" });
+    options.OperationFilter<SwaggerDefaultValues>();
+
+    //Replaces "{version}" in swagger to for example "1.0" or "1.1"
+    //It is not necessary because of "options.SubstituteApiVersionInUrl = true;"
+    //Can be used for other purposes
+    //options.DocumentFilter<ReplaceVersionWithExactValueInPathFilter>();
+
+    //Without versioning we just need:
+    //options.SwaggerDoc("v1", new OpenApiInfo { Title = "CsharpUniversity API", Version = "v1" });
+
+    //Integrate xml comments (ones with "///" before the method)
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
 });
 
 //Corse
@@ -215,15 +242,24 @@ app.UseAuthentication();
 app.UseHttpsRedirection();
 
 //Swagger
+//Swagger versioning (add version provider)
+var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
 if (app.Environment.IsDevelopment())
 {
+    //What is this????????????????????
+    //app.UseDeveloperExceptionPage();
+    //????????????????????????????????
+
     app.UseSwagger();
-    app.UseSwaggerUI(c => 
-    { 
-        //Set swagger endpoint
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "CsharpUniversity API v1");
-        //Overwirte swagger style to dark style (from static files wwwroot -> swaggerstyles -> SwaggerDark.css)
-        c.InjectStylesheet("/swaggerstyles/SwaggerDark.css");
+    app.UseSwaggerUI(options =>
+    {
+        //Build a swagger endpoint for each discovered API version
+        foreach (var description in provider.ApiVersionDescriptions)
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+
+        //Overwrite swagger style to dark style (from static files wwwroot -> swaggerstyles -> SwaggerDark.css)
+        options.InjectStylesheet("/swaggerstyles/SwaggerDark.css");
     });
 }
 
