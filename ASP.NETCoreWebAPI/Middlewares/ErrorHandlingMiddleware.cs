@@ -47,9 +47,9 @@ public class ErrorHandlingMiddleware : IMiddleware
     {
         // Return machine-readable problem details. See RFC 7807 for details.
         // https://datatracker.ietf.org/doc/html/rfc7807#page-6
-        var problemDetails = new ProblemDetails //this class represents the standard details
+        var problemDetails = new ProblemDetails //this class represents the standard details. Very important class in real-life web api
         {
-            Type = "https://CsharpUniversityWebApi.com/errors/internal-server-error", //this is just a identifier (can customize)
+            Type = "https://CsharpUniversityWebApi.com/errors/internal-server-error", //this is URI (uniform resource identifier) [not URL!!] just a identifier (can customize for example for database problem or division by 0 problems)
             Title = "An unrecoverable error occurred",
             Status = context.Response.StatusCode,
             Detail = "This is a demo error used to demonstrate problem details: " + exception.Message,

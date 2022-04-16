@@ -21,26 +21,12 @@
     <Folder Include="CsharpAcademy\DockerLearning\obj\Debug\net5.0\ref\" />
     <Folder Include="CsharpAcademy\DockerLearning\obj\Release\net5.0\refint\" />
     <Folder Include="CsharpAcademy\DockerLearning\obj\Release\net5.0\ref\" />
-    <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\bin\Debug\net5.0\ref\" />
-    <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\bin\Release\net5.0\ref\" />
-    <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\obj\Debug\net5.0\refint\" />
-    <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\obj\Debug\net5.0\ref\" />
-    <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\obj\Release\net5.0\refint\" />
-    <Folder Include="CsharpAcademy\EFAspDotNetVideoGames\obj\Release\net5.0\ref\" />
     <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\bin\Debug\net5.0\ref\" />
     <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\bin\Release\net5.0\ref\" />
     <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\obj\Debug\net5.0\refint\" />
     <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\obj\Debug\net5.0\ref\" />
     <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\obj\Release\net5.0\refint\" />
     <Folder Include="CsharpAcademy\ODataWebApiLearningApplication\obj\Release\net5.0\ref\" />
-    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\bin\Debug\net6.0\ref\" />
-    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\bin\Release\net6.0\ref\" />
-    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\obj\Debug\net6.0\refint\" />
-    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\obj\Debug\net6.0\ref\" />
-    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\obj\Debug\net6.0\staticwebassets\" />
-    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\obj\Release\net6.0\refint\" />
-    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\obj\Release\net6.0\ref\" />
-    <Folder Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\obj\Release\net6.0\staticwebassets\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,12 +34,8 @@
     <None Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\ASPDotNetLearningApplication.sln" />
     <None Include="CsharpAcademy\DockerLearning\DockerLearning.csproj" />
     <None Include="CsharpAcademy\DockerLearning\DockerLearning.sln" />
-    <None Include="CsharpAcademy\EFAspDotNetVideoGames\EFAspDotNetVideoGames.csproj" />
-    <None Include="CsharpAcademy\EFAspDotNetVideoGames\EFAspDotNetVideoGames.sln" />
     <None Include="CsharpAcademy\ODataWebApiLearningApplication\ODataWebApiLearningApplication.csproj" />
     <None Include="CsharpAcademy\ODataWebApiLearningApplication\ODataWebApiLearningApplication.sln" />
-    <None Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\RainerLoggingMonitoringTelemetryErrorHandling.csproj" />
-    <None Include="CsharpAcademy\RainerLoggingMonitoringTelemetryErrorHandling\RainerLoggingMonitoringTelemetryErrorHandling.sln" />
   </ItemGroup>
 
 </Project>

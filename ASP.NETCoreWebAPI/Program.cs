@@ -97,7 +97,7 @@ try
         options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); //Makes sure that we automatically register validators from the assembly. We get the execution assembly by using System.Reflection.
     });
 
-    //Versioning
+    //Versioning (examine AccountController)
     //In versioning the different controllers usually are separate in other subfolders named "V1" and "V2".
     builder.Services.AddApiVersioning(options =>
     {
