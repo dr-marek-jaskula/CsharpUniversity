@@ -23,7 +23,7 @@ namespace ASPDotNetLearningApplication
     [ApiVersion("1.0", Deprecated = true)] //można wypisać jakei wersje dopuszcza. Deprecated dają dodatkową informację w headerach opowiedzi, że ta versja będzie usunięta (ze jest przestarzała)
     [ApiVersion("2.0")] //czyli tutaj dwie versie są dopuszczone
     public class RestaurantController : ControllerBase //nazwa pozinna konczyc sie na "Controller"
-	{
+    {
         private readonly IRestaurantService _restaurantService;
 
         //wstrzykujemy abstrakcje restaurantServicea (nie trzeba dbContext ani abstrakcji mappera bo jest w service)
@@ -40,7 +40,7 @@ namespace ASPDotNetLearningApplication
         {
             //on tu poprzez parametry rozumie parametry obiektu (ciekawe). Można normalnie, ze 3 parametry
             var restaurantsDtos = _restaurantService.GetAll(query);
-			return Ok(restaurantsDtos);
+            return Ok(restaurantsDtos);
         }
 
         [HttpGet("{id}")]
@@ -52,7 +52,7 @@ namespace ASPDotNetLearningApplication
         }
 
         //jak jest tylko Action Result to nic nie zwraca poza statusem
-        //dodaje przez ciało zapytania 
+        //dodaje przez ciało zapytania
         [HttpPost]
         [Authorize(Roles = "Admin,Manager")]
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
@@ -81,7 +81,7 @@ namespace ASPDotNetLearningApplication
         [AllowAnonymous]
         [Consumes("text/json")] //requested in heading in "Content-Type" as "text/json". Aczkolwiek jeśli nie ma header to tez przepuszcza, trzeba wymusic, zeby był header "Content-Type"
         [ProducesResponseType(StatusCodes.Status200OK)] //informuje o statusach jakie oddaje. Aczkolwiek jako, że sie robi statusy przez exceptions, to średnie to. Można tylko określić co zwróci sama akcja.
-        [ProducesResponseType(StatusCodes.Status400BadRequest)] 
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult ExampleMethod()
         {
             //dzieki temu wymusza aby był nagłówek o nazwie "Content-Type"
@@ -108,10 +108,9 @@ namespace ASPDotNetLearningApplication
             return Ok("Wersja 2.0 inna");
         }
 
-
         [HttpGet("[action]")] // https://localhost:5001/api/Restaurant/ExampleMethod2
         [AllowAnonymous]
-        public ActionResult ExampleMethod2() 
+        public ActionResult ExampleMethod2()
         {
             return Ok();
         }
@@ -151,11 +150,9 @@ namespace ASPDotNetLearningApplication
         //[Consumes(MediaTypeNames.Application.Json)]
         //ProducesAttribute is used to specify the content type of the output that will be sent by the API, and the corresponding ConsumesAttribute is used to specify the request content types the API expects to receive
 
-
         //[ServiceFilter(typeof(ValidationFilterAttribute))]
 
         //[ResponseCache(CacheProfileName = "120SecondsDuration")]
-
 
         //[ApiExplorerSettings(GroupName = "v2")]
 

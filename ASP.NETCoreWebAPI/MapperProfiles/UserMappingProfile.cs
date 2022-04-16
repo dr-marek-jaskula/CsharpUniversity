@@ -12,12 +12,21 @@ public class UserMappingProfile : Profile
     {
         //Map from RegisterUserDto to User
         CreateMap<RegisterUserDto, User>();
+
+        //Map from Order to OrderDto
+        CreateMap<Order, OrderDto>()
+            .ForMember(o => o.Status, c => c.MapFrom(o => o.Status.ToString()));
+
+        CreateMap<Payment, PaymentDto>()
+            .ForMember(p => p.Status, c => c.MapFrom(o => o.Status.ToString()));
+
+        CreateMap<Product, OrderProductDto>();
     }
 }
 
 //public class RestaurantMappingProfile : Profile
 //{
-//    public RestaurantMappingProfile() 
+//    public RestaurantMappingProfile()
 //    {
 //        //tutaj tworzymy mapowanie. Najpierw sk¹d dok¹d (w typach generycznych).
 //        //Potem jaki props (czyli member) w obiekcie na który mapujemy
@@ -25,10 +34,6 @@ public class UserMappingProfile : Profile
 //            .ForMember(m => m.City, c => c.MapFrom(s => s.Address.City))
 //            .ForMember(m => m.Street, c => c.MapFrom(s => s.Address.Street))
 //            .ForMember(m => m.PostalCode, c => c.MapFrom(s => s.Address.PostalCode));
-
-//        //jeœli typy i nazwy w³aœciwoœci siê zgadzaj¹, to AutoMapper zmapuje automatycznie.
-
-//        CreateMap<Dish, DishDto>(); //te same s¹ wiêc zmapuje sam
 
 //        //ten profil mappowania robi z trzech propsów obiekt, gdzie te propsy nale¿¹
 //        CreateMap<CreateRestaurantDto, Restaurant>()

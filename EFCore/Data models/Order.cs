@@ -16,7 +16,7 @@ public class Order
     public virtual Shop? Shop { get; set; }
     public int? ShopId { get; set; }
     public virtual Customer? Customer { get; set; }
-    public int? CustomerId { get; set; } 
+    public int? CustomerId { get; set; }
 }
 
 public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
@@ -36,7 +36,7 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
             .IsRequired(true)
             .HasColumnType("VARCHAR(10)")
             .HasConversion(status => status.ToString(),
-            s => (Status)Enum.Parse(typeof(Status), s))
+             s => (Status)Enum.Parse(typeof(Status), s))
             .HasComment("Received, InProgress, Done or Rejected");
 
         builder.Property(o => o.Deadline)

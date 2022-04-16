@@ -21,9 +21,11 @@ using ASP.NETCoreWebAPI.Models.Validators;
 using ASP.NETCoreWebAPI.PollyPolicies;
 using ASP.NETCoreWebAPI.Services;
 using ASP.NETCoreWebAPI.Swagger.SwaggerVersioning;
+using ASPDotNetLearningApplication;
 using EFCore;
 using EFCore.Data_models;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -85,6 +87,26 @@ try
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey)),
         };
     });
+
+    //Add custom authorization based on the custom claims and requirements
+    builder.Services.AddAuthorization(options =>
+    {
+        //Add policy based on a custom claim "Nationality" specified in AccountService in GenerateJwt method
+        options.AddPolicy("HasNationality", builder => builder.RequireClaim("Nationality", "Germany", "Poland", "Valheim"));
+        //Add policy based on a custom requirement "MinimumAgeRequirement" specified in Authentication -> MinimumAgeRequirement, MinimumAgeRequirementHandler
+        options.AddPolicy("AtLeast18", builder => builder.AddRequirements(new MinimumAgeRequirement(18)));
+        //Add policy based on a custom requirement "OrderCountRequirement" specified in Authentication -> OrderCountRequirement, OrderCountRequirementHandler
+        options.AddPolicy("CreatedAtLeastTwoOrders", builder => builder.AddRequirements(new OrderCountRequirement(2)));
+    });
+
+    //Next we need to register handlers
+    builder.Services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
+    builder.Services.AddScoped<IAuthorizationHandler, OrderCountRequirementHandler>();
+
+    //Then we register handler connected with dynamic requirements
+    //We will execute this handler when the specific shop resource is reached
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
 
     //Controllers with Fluent Validation (Models -> Validators)
     builder.Services.AddControllers().AddFluentValidation(options =>
@@ -153,7 +175,7 @@ try
 
     //DbContext
     builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-    //??????????
+    // Both with UseDeveloperExceptionPage provides default exception handling for "Developer" stage of api. More information below near "UseDeveloperExceptionPage"
     //.AddDatabaseDeveloperPageExceptionFilter();
 
     //AutoMapper (mapping entities to DataTransferObjects, short. DTO's)
@@ -161,6 +183,7 @@ try
 
     //Add Services (dependencies) to the default ASP.Net Core dependency container
     builder.Services.AddScoped<IAccountService, AccountService>();
+    builder.Services.AddScoped<IOrderService, OrderService>();
 
     //Register Polly Policies (method ConfigurePollyPolicies extends IServiceCollection)
     builder.Services.ConfigurePollyPolicies(PollyPolicies.GetPolicies(), PollyPolicies.GetAsyncPolicies());
@@ -214,7 +237,7 @@ try
         });
     });
 
-    //????
+    //This is default approach to obtain the endpoints (and its descriptions) in the browser -> but swagger its the better approach => use Swagger!
     //builder.Services.AddEndpointsApiExplorer();
 
     #endregion Configure Services
