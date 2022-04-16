@@ -40,7 +40,7 @@ public class AccountController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))] //informs about possible response and states that the return type of action is string
     [ProducesResponseType(StatusCodes.Status400BadRequest)] //informs about possible response
     [MapToApiVersion("1.0")]
-    public ActionResult Login([FromBody] LoginDto dto)
+    public ActionResult Login([FromBody] LoginDto dto) //If we would not specify [FromBody] is would be specified by default
     {
         string token = _accountService.GenerateJwt(dto);
         return Ok(token);

@@ -40,7 +40,7 @@ using System.Text;
 Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .Enrich.FromLogContext()
-            .WriteTo.Console()
+            .WriteTo.Console() //to console, because at the very beginning we have only console
             .CreateBootstrapLogger();
 
 try
@@ -51,7 +51,7 @@ try
     //Create a application builder using WebApplication factory
     var builder = WebApplication.CreateBuilder(args);
 
-    //Configure the Serilog using settings from appsettings.json
+    //Configure the Serilog using settings from appsettings.json and enables serilog. We need to also use Serilog in request pipeline
     builder.Host.UseSerilog((context, services, configuration) => configuration
         .ReadFrom.Configuration(context.Configuration)
         .ReadFrom.Services(services)
@@ -224,7 +224,7 @@ try
 
     #region Configure HTTP request pipeline
 
-    //Serilog
+    //Serilog (middleware for logging every request)
     app.UseSerilogRequestLogging(options =>
     {
         options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} ({UserId}) responded {StatusCode} in {Elapsed:0.0000}ms";
@@ -255,9 +255,11 @@ try
 
     if (app.Environment.IsDevelopment())
     {
-        //What is this????????????????????
+        //We can also use the DeveloperExpectionPage (just when "ASPNETCORE_ENVIRONMENT": "Development")
+        //Nevertheless, it will disable our custom exception handling (middleware one). Moreover, it will not be available when ASPNETCORE_ENVIRONMENT is set to "Production"
+        //This provide for us detail information about the exception when the call is done by browser. For example by Firefox:
+        //https://localhost:7240/LogDemo/PingException
         //app.UseDeveloperExceptionPage();
-        //????????????????????????????????
 
         app.UseSwagger();
         app.UseSwaggerUI(options =>

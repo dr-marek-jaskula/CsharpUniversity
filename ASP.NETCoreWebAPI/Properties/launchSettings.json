@@ -1,13 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:52769",
-      "sslPort": 44379
-    }
-  },
   "profiles": {
     "ASP.NETCoreWebAPI": {
       "commandName": "Project",
