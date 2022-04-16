@@ -78,28 +78,41 @@ public class UniversityController : ControllerBase
 
     //Parameter attributes:
 
+    //1. FromBody: the request must include JSON object in the request body
     [HttpPost("[action]")]
     public ActionResult Create([FromBody] CreateOrderDto dto)
     {
         return Created($"/api/create/best", null);
     }
 
-    //Authorization is required even it is not specified on the action level - it is specified on the controller level
+    //2 FromRoute: the request route will be used as a action parameter
     [HttpDelete("{id}")]
     public ActionResult Delete([FromRoute] int id)
     {
-        //_restaurantService.Delete(id);
         return NoContent();
     }
 
-    [HttpPut("{id}")]
-    //Authorization is required: based on the requirements that are needed to be satisfied
-    [Authorize(Policy = "CreatedAtLeastTwoOrders")]
-    public ActionResult Update([FromBody] UpdateOrderDto dto, [FromRoute] int id)
-    {
-        //_restaurantService.Update(id, dto);
-        return Ok(); //or Update
-    }
+    //3. FromForm:
+    //[HttpPost]
+    //public ActionResult Upload([FromForm] IFormFile file)
+    //{
+    //    //w interface'sie IFormFile jest pare fajnych info
+
+    //    if (file is not null && file.Length > 0)
+    //    {
+    //        var rootPath = Directory.GetCurrentDirectory();
+    //        var fileName = file.FileName;
+    //        var fullPath = $"{rootPath}/PrivateFiles/{fileName}";
+
+    //        //otwieramy połączenie do pliku, dajemy enum, że będziemy tworzyć plik
+    //        using var stream = new FileStream(fullPath, FileMode.Create);
+    //        //zapisujemy plik pod konkretną ścieżką
+    //        file.CopyTo(stream);
+
+    //        return Ok();
+    //    }
+    //    return BadRequest();
+    //}
 
     //Other
 
