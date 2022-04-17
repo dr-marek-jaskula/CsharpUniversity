@@ -229,11 +229,17 @@ try
     });
 
     //Corse
+    //Configures CORSE (Cross-Origin Resource Sharing) Policy. Required for connection with frontend
     builder.Services.AddCors(option =>
     {
+        //Name of the policy needs to be the same as the name of the Cors policy in the configuration region (below)
         option.AddPolicy("FrontEndClient", policyBuilder =>
         {
-            policyBuilder.AllowAnyMethod().AllowAnyHeader().WithOrigins(builder.Configuration["AllowedOrigins"]);
+            policyBuilder
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            //In "appsettings.json" we determine what hosts are allowed. To allow all origins we specify "*"
+            .WithOrigins(builder.Configuration["AllowedOrigins"]);
         });
     });
 
@@ -256,10 +262,10 @@ try
     //ResponseCaching
     app.UseResponseCaching();
 
-    //Static files
+    //Static files (the default path for static files is "wwwroot")
     app.UseStaticFiles();
 
-    //Corse
+    //Corse (use policy added above)
     app.UseCors("FrontEndClient");
 
     //Middlewares

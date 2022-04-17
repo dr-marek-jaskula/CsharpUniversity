@@ -1,6 +1,7 @@
 ﻿using ASP.NETCoreWebAPI.Models.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 
 namespace ASP.NETCoreWebAPI.Controllers;
 
@@ -38,13 +39,15 @@ public class UniversityController : ControllerBase
     //Else, the 404 error will be returned
     [Route("minimalId/{id:int:min(1)}")]
     [AllowAnonymous]
-    public ActionResult ConditionsInRoute()
+    public IActionResult ConditionsInRoute()
     {
         //Other status code we return
         return NotFound();
     }
 
-    //We can give route a name. Two times writting [HttpGet] is due to the Swagger issue.
+    //As an return value we can specify ActionResult or IActionResult
+
+    //We can give route a name. Two times writing [HttpGet] is due to the Swagger issue.
     [HttpGet]
     [HttpGet("bestRoute", Name = "NamedRoute")]
     //We can give route a name in standard way
@@ -85,61 +88,49 @@ public class UniversityController : ControllerBase
         return Created($"/api/create/best", null);
     }
 
-    //2 FromRoute: the request route will be used as a action parameter
+    //2. FromRoute: the request route will be used as a action parameter
     [HttpDelete("{id}")]
     public ActionResult Delete([FromRoute] int id)
     {
         return NoContent();
     }
 
-    //3. FromForm:
-    //[HttpPost]
-    //public ActionResult Upload([FromForm] IFormFile file)
-    //{
-    //    //w interface'sie IFormFile jest pare fajnych info
+    //3. FromQuery: the request must specify an parameter for example "https://localhost:7240/api/University/GetFromQuery?myPageNumber=21&api-version=1.0"
+    [HttpGet]
+    [Route("[action]")]
+    public IActionResult GetFromQuery([FromQuery(Name = "myBestPageNumber")] int myPageNumber) //We can also change the name or the parameter for the request
+    {
+        return Ok(myPageNumber);
+    }
 
-    //    if (file is not null && file.Length > 0)
-    //    {
-    //        var rootPath = Directory.GetCurrentDirectory();
-    //        var fileName = file.FileName;
-    //        var fullPath = $"{rootPath}/PrivateFiles/{fileName}";
+    //4. FromHeader: the request header "CreditCard" value will be used
+    [HttpGet]
+    [Route("[action]")]
+    public IActionResult GetFromHeader([FromHeader(Name = "CreditCard")] string creditCardNumber)
+    {
+        //curl -X 'GET' \
+        //'https://localhost:7240/api/University/GetFromHeader?api-version=1.0' \
+        //  -H 'accept: */*' \
+        //  -H 'CreditCard: 52436673'
+        return Ok(creditCardNumber);
+    }
 
-    //        //otwieramy połączenie do pliku, dajemy enum, że będziemy tworzyć plik
-    //        using var stream = new FileStream(fullPath, FileMode.Create);
-    //        //zapisujemy plik pod konkretną ścieżką
-    //        file.CopyTo(stream);
+    //5. FromForm: look at "FileController"
 
-    //        return Ok();
-    //    }
-    //    return BadRequest();
-    //}
+    //Other functionalities
 
-    //Other
+    //No emphasize that a method in the controller is not an action we use [NotAction] attribute
+    [NonAction]
+    public void ThisIsNotAnAction()
+    {
+    }
 
-    //ProducesAttribute is used to specify the content type of the output that will be sent by the API.
-    //The corresponding ConsumesAttribute is used to specify the request content types the API expects to receive
-
-    //[Produces("application/json")]
-    //[Consumes("application/json")]
-
-    //The same of:
-    //[Produces(MediaTypeNames.Application.Json)]
-    //[Consumes(MediaTypeNames.Application.Json)]
-
-    //[HttpGet]
-    ////Inform user about return and request body
-    //[Route("ProducesConsumes")]
-    //[Produces(MediaTypeNames.Application.Json)]
-    //[Consumes(MediaTypeNames.Application.Json)]
-    //[AllowAnonymous]
-    //public ActionResult GetProducesConumes([FromBody] int body)
-    //{
-    //    return Ok();
-    //}
-
-    //[ServiceFilter(typeof(ValidationFilterAttribute))]
-
-    //[ResponseCache(CacheProfileName = "120SecondsDuration")]
-
-    //[ApiExplorerSettings(GroupName = "v2")]
+    [HttpGet]
+    [Route("swaggerIgnore")]
+    //To ignore the action by swagger we use "ApiExplorerSettings" attribute and IngoreApi = true. Nevertheless, the endpoint is still valid
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public ActionResult IgnoredAction()
+    {
+        return Ok("This is ignored by swagger but it is still a valid endpoint");
+    }
 }

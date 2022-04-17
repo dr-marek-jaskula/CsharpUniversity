@@ -1,50 +1,27 @@
 ﻿//Controllers (general info) -> UniversityController
-//Logging and telemetry -> Program, LogDemoController, Logs (folder)
+//Logging and Telemetry -> Program, LogDemoController, Logs (folder) [with RegulatiosLogStoring.txt]
 //Versioning and Swagger -> Program, AccountController, Swagger, wwwroot swaggerstyles
 //Validation (Fluent) -> Program, Models (folder) -> Validators, DataTransferObjects
 //Exception Handling -> Program, Middlewares (folder) -> ErrorHandlingMiddleware
 //AutoMapper -> Program, MapperProfiles, Services (Account, Order)
 //Authentication and Authorization -> Program, Authentication (folder), OrderController
+//Static Files -> FileController, wwwroot, PrivateFiles, Program.cs
 //Polly -> PollyPollicies
 
 //Additional -> Enums, Exceptions
 
-/////////////
+//Same Origin Policy (SOP): the requests are banned until CORS is applied.
+//CORS policy: Cross-Origin Resource Sharing
+//To examine if the request is possible to be executed at first the request with HTTP verb "OPTIONS" is send
+//The Headers with this request are (can be):
+//"Access-Control-Request-Method" with HTTP verb like "Access-Control-Request-Method: GET"
+//"Access-Control-Request-Headers" with Header like "Access-Control-Request-Headers: Authorization"
+
+//The response for this OPTIONS request with Headers like:
+//"Access-Control-Allow-Origin" with domain name like "Access-Control-Allow-Origin: https://CsharpUniversity.com"
+//"Access-Control-Allow-Method" with HTTP verb like "Access-Control-Allow-Method: GET, POST, PUT, PATCH"
+//"Access-Control-Allow-Headers" with Header like "Access-Control-Allow-Headers: Authorization"
+
+//Configure CORS Policy -> Program (services.AddCore())
 
 //Consider secrets for Authentication
-
-//CreateById do -> mb in this database for users, Or expand our database
-
-//Default value for user name
-
-//Register User Dto:
-//                { Employee.DateOfBirth: DateTime } => user.Employee.DateOfBirth.Value.ToString("yyyy-MM-dd"),
-//{ Customer.DateOfBirth: DateTime } => user.Customer.DateOfBirth.Value.ToString("yyyy-MM-dd"),
-//_ => "null"
-
-//sprobowac zrobic DateOfBirth jako null i zobaczyc
-
-//TO DO:
-//[Produces("application/json")]
-//[Consumes("application/json")]
-
-//The same of:
-//[Produces(MediaTypeNames.Application.Json)]
-//[Consumes(MediaTypeNames.Application.Json)]
-
-//[HttpGet]
-////Inform user about return and request body
-//[Route("ProducesConsumes")]
-//[Produces(MediaTypeNames.Application.Json)]
-//[Consumes(MediaTypeNames.Application.Json)]
-//[AllowAnonymous]
-//public ActionResult GetProducesConumes([FromBody] int body)
-//{
-//    return Ok();
-//}
-
-//[ServiceFilter(typeof(ValidationFilterAttribute))]
-
-//[ResponseCache(CacheProfileName = "120SecondsDuration")]
-
-//[ApiExplorerSettings(GroupName = "v2")]
