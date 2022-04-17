@@ -21,7 +21,8 @@ namespace ASP.NETCoreWebAPI.Controllers;
 //7. Now we will create a controller to get private files for authorized users
 
 [Route("[controller]")]
-[Authorize]
+//[Authorize]
+[ApiController]
 public class FileController : ControllerBase
 {
     /// <summary>
@@ -83,6 +84,7 @@ public class FileController : ControllerBase
             return Ok();
         }
         return BadRequest();
-        //in postman get header "file" select for value "File" and select file from disk
+        //POST na route file
+        //in postman get to body -> "form-data" -> key: file (change key to "file") -> Value "Select Files" (select)
     }
 }
