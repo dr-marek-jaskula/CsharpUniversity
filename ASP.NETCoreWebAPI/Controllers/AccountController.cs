@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NETCoreWebAPI.Controllers;
 
+//Down below are example user accounts
+//Authentication and authorization is done in OrderController
+
 [ApiController]
 //Describes which version the controller needs to be mapped for, the version is specified in the route
 [ApiVersion("1.0")]
@@ -78,3 +81,34 @@ public class AccountController : ControllerBase
         return Ok("Version 1.1");
     }
 }
+
+/* User Accounts (I have changed in a database binding to the customers/employees manually)
+
+ * RoleId = 1 (Customer)
+  "username": "PawelCustomer",
+  "email": "pawel123@gmail.com",
+  "password": "myPassword123",
+  "confirmPassword": "myPassword123"
+
+ * RoleId = 2 (Employee)
+  "username": "PawelEmployee",
+  "email": "pawel321@gmail.com",
+  "password": "myPassword321",
+  "confirmPassword": "myPassword321",
+  "RoleId": 2
+
+ * RoleId = 3 (Manager)
+  "username": "MichalManager",
+  "email": "michal123@gmail.com",
+  "password": "michalPassword123",
+  "confirmPassword": "michalPassword123",
+  "RoleId": 3
+
+ * RoleId = 4 (Administrator)
+  "username": "MichalAdministrator",
+  "email": "michal321@gmail.com",
+  "password": "michalPassword321",
+  "confirmPassword": "michalPassword321",
+  "RoleId": 4
+
+*/

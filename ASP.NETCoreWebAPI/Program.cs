@@ -92,11 +92,20 @@ try
     builder.Services.AddAuthorization(options =>
     {
         //Add policy based on a custom claim "Nationality" specified in AccountService in GenerateJwt method
-        options.AddPolicy("HasNationality", builder => builder.RequireClaim("Nationality", "Germany", "Poland", "Valheim"));
+        options.AddPolicy(name: MyAuthorizationPolicy.HasNationality, builder =>
+            builder.RequireClaim(
+                claimType: ClaimPolicy.Nationality,
+                ClaimHasNationality.Germany,
+                ClaimHasNationality.Poland,
+                ClaimHasNationality.Valheim));
+
         //Add policy based on a custom requirement "MinimumAgeRequirement" specified in Authentication -> MinimumAgeRequirement, MinimumAgeRequirementHandler
-        options.AddPolicy("AtLeast18", builder => builder.AddRequirements(new MinimumAgeRequirement(18)));
+        options.AddPolicy(name: MyAuthorizationPolicy.Mature,
+            builder => builder.AddRequirements(new MinimumAgeRequirement(MaturePolicy.Eighteen)));
+
         //Add policy based on a custom requirement "OrderCountRequirement" specified in Authentication -> OrderCountRequirement, OrderCountRequirementHandler
-        options.AddPolicy("CreatedAtLeastTwoOrders", builder => builder.AddRequirements(new OrderCountRequirement(2)));
+        options.AddPolicy(name: MyAuthorizationPolicy.CreateAtLeastTwoOrders,
+            builder => builder.AddRequirements(new OrderCountRequirement(CreateAtLeastTwoOrders.Two)));
     });
 
     //Next we need to register handlers

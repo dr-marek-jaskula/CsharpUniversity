@@ -51,12 +51,19 @@ public class AccountService : IAccountService
     {
         var user = _context.Users
             .Include(u => u.Role)
-            .Include(u => u.Employee)
-            .Include(u => u.Customer)
             .FirstOrDefault(u => u.Email == dto.Email);
 
         if (user is null)
             throw new BadRequestException("Invalid username or password");
+
+        if (user.EmployeeId is int employeeId)
+            user.Employee = _context.Employees
+                .Include(e => e.Address)
+                .FirstOrDefault(e => e.Id == employeeId);
+        else if (user.CustomerId is int customerId)
+            user.Customer = _context.Customers
+                .Include(c => c.Address)
+                .FirstOrDefault(c => c.Id == customerId);
 
         var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
 
@@ -75,7 +82,7 @@ public class AccountService : IAccountService
         //Claims custom types (authorization based upon it)
         if (user is { Employee.DateOfBirth: DateTime } or { Customer.DateOfBirth: DateTime })
         {
-            claims.Add(new Claim(type: "DateOfBirth", user switch
+            claims.Add(new Claim(type: ClaimPolicy.DateOfBirth, user switch
             {
                 { Employee.DateOfBirth: DateTime } => user.Employee.DateOfBirth.Value.ToString("yyyy-MM-dd"),
                 { Customer.DateOfBirth: DateTime } => user.Customer.DateOfBirth.Value.ToString("yyyy-MM-dd"),
@@ -86,7 +93,7 @@ public class AccountService : IAccountService
         //Nationality claim
         if (user is { Employee.Address.Country: string { Length: > 0 } } or { Customer.Address.Country: string { Length: > 0 } })
         {
-            claims.Add(new Claim(type: "Nationality", user switch
+            claims.Add(new Claim(type: ClaimPolicy.Nationality, user switch
             {
                 { Employee.Address.Country: string { Length: > 0 } } => user.Employee.Address.Country,
                 { Customer.Address.Country: string { Length: > 0 } } => user.Customer.Address.Country,
