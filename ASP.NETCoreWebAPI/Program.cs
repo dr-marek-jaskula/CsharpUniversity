@@ -21,7 +21,6 @@ using ASP.NETCoreWebAPI.Models.Validators;
 using ASP.NETCoreWebAPI.PollyPolicies;
 using ASP.NETCoreWebAPI.Services;
 using ASP.NETCoreWebAPI.Swagger.SwaggerVersioning;
-using ASPDotNetLearningApplication;
 using EFCore;
 using EFCore.Data_models;
 using FluentValidation.AspNetCore;
@@ -89,6 +88,7 @@ try
     });
 
     //Add custom authorization based on the custom claims and requirements
+    //Nevertheless, this authorization is not dynamic, the dynamic one is defined below for example for "ResourceOperationRequirementHandler"
     builder.Services.AddAuthorization(options =>
     {
         //Add policy based on a custom claim "Nationality" specified in AccountService in GenerateJwt method
@@ -105,16 +105,21 @@ try
 
         //Add policy based on a custom requirement "OrderCountRequirement" specified in Authentication -> OrderCountRequirement, OrderCountRequirementHandler
         options.AddPolicy(name: MyAuthorizationPolicy.CreateAtLeastTwoOrders,
-            builder => builder.AddRequirements(new OrderCountRequirement(CreateAtLeastTwoOrders.Two)));
+            builder => builder.AddRequirements(new MinimumOrderCountRequirement(CreateAtLeast.Two)));
     });
 
-    //Next we need to register handlers
+    //Next we need to register handlers for authorization policy
     builder.Services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
-    builder.Services.AddScoped<IAuthorizationHandler, OrderCountRequirementHandler>();
+    builder.Services.AddScoped<IAuthorizationHandler, MinimumOrderCountRequirementHandler>();
 
-    //Then we register handler connected with dynamic requirements
+    //Then we register handler connected with dynamic requirements (One that need to be defined in run-time)
     //We will execute this handler when the specific shop resource is reached
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //1. Inject into OrderService the IAuthorizationService
+    //2. Add to Update method in OrderService parameter "ClaimsPrincipal user"
+    //3. In certain method like "Update" use
+    //_authorizationService.AuthorizeAsync(user, order, new ResourceOperationRequirement(ResourceOperation.Update));
+    //To verify the requirement
+    //4. By default in Controller there is a "User" variable that is a certain user making the request
     builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
 
     //Controllers with Fluent Validation (Models -> Validators)

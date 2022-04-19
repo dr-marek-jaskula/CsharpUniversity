@@ -68,12 +68,6 @@ public class OrderController : ControllerBase
         return Ok(order);
     }
 
-    [HttpPost("[action]")]
-    public ActionResult CreateOrder([FromBody] CreateOrderDto dto)
-    {
-        return Created($"/api/restaurant/{2}", null);
-    }
-
     //Authorization is required even it is not specified on the action level - it is specified on the controller level
     [HttpDelete("{id}")]
     public ActionResult Delete([FromRoute] int id)
@@ -82,12 +76,18 @@ public class OrderController : ControllerBase
         return NoContent();
     }
 
+    [HttpPost("[action]")]
+    public ActionResult CreateOrder([FromBody] CreateOrderDto dto)
+    {
+        return Created($"/api/restaurant/{2}", null);
+    }
+
     [HttpPut("{id}")]
     //Authorization is required: based on the requirements that are needed to be satisfied
     [Authorize(Policy = MyAuthorizationPolicy.CreateAtLeastTwoOrders)]
     public ActionResult Update([FromBody] UpdateOrderDto dto, [FromRoute] int id)
     {
-        //_restaurantService.Update(id, dto);
+        _orderService.Update(id, dto, User);
         return Ok(); //or Update
     }
 }

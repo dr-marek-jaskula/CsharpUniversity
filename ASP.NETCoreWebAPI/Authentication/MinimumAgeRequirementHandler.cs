@@ -14,11 +14,11 @@ public class MinimumAgeRequirementHandler : AuthorizationHandler<MinimumAgeRequi
 
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, MinimumAgeRequirement requirement)
     {
-        if (context.User.FindFirstValue("DateOfBirth") is string stringDateOfTime)
+        if (context.User.FindFirstValue(ClaimPolicy.DateOfBirth) is string stringDateOfTime)
         {
             DateTime dateOfBirth = DateTime.Parse(stringDateOfTime);
 
-            var username = context.User.FindFirst(c => c.Type == ClaimTypes.Name).Value;
+            var username = context.User.FindFirstValue(ClaimTypes.Name);
 
             _logger.LogInformation($"User: {username} with date of birth: {dateOfBirth} - ");
 
@@ -30,7 +30,6 @@ public class MinimumAgeRequirementHandler : AuthorizationHandler<MinimumAgeRequi
             }
         }
 
-        //DateTime dateOfBirth = DateTime.Parse(context.User.FindFirst(c => c.Type is "DateOfBirth").Value);
         _logger.LogInformation("Authorization failed");
 
         return Task.CompletedTask;

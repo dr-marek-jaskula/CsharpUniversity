@@ -1,7 +1,7 @@
 ﻿namespace ASP.NETCoreWebAPI.Authentication;
 
 //General
-
+//My Authorization Policy
 public static class MyAuthorizationPolicy
 {
     public const string HasNationality = "HasNationality";
@@ -22,7 +22,7 @@ public static class MaturePolicy
     public const int Eighteen = 18;
 }
 
-public static class CreateAtLeastTwoOrders
+public static class CreateAtLeast
 {
     public const int Two = 2;
 }

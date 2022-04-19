@@ -4,7 +4,7 @@
 //Validation (Fluent) -> Program, Models (folder) -> Validators, DataTransferObjects
 //Exception Handling -> Program, Middlewares (folder) -> ErrorHandlingMiddleware
 //AutoMapper -> Program, MapperProfiles, Services (Account, Order)
-//Authentication and Authorization -> Program, Authentication (folder), OrderController
+//Authentication and Authorization -> Program, Authentication (folder), OrderService, OrderController
 //Static Files -> FileController, wwwroot, PrivateFiles, Program.cs
 //Polly -> PollyPollicies
 
