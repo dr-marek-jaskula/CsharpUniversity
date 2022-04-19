@@ -1,5 +1,8 @@
 ﻿namespace ASP.NETCoreWebAPI.Authentication;
 
+//ClaimPolicy are my own custom claims
+//ClaimTypes are default claims
+
 //General
 //My Authorization Policy
 public static class MyAuthorizationPolicy
@@ -13,6 +16,7 @@ public static class ClaimPolicy
 {
     public const string Nationality = "Nationality";
     public const string DateOfBirth = "DateOfBirth";
+    public const string PersonId = "PersonId";
 }
 
 //Requirements

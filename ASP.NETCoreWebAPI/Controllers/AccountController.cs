@@ -90,6 +90,12 @@ public class AccountController : ControllerBase
   "password": "myPassword123",
   "confirmPassword": "myPassword123"
 
+ * RoleId = 1 (Customer)
+  "username": "MichalCustomer",
+  "email": "michalCustomer123@gmail.com",
+  "password": "Customer123",
+  "confirmPassword": "Customer123"
+
  * RoleId = 2 (Employee)
   "username": "PawelEmployee",
   "email": "pawel321@gmail.com",

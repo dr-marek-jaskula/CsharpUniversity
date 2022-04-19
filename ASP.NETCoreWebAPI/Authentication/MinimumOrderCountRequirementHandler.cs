@@ -18,11 +18,11 @@ public class MinimumOrderCountRequirementHandler : AuthorizationHandler<MinimumO
 
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, MinimumOrderCountRequirement requirement)
     {
-        if (context.User.FindFirstValue(ClaimTypes.NameIdentifier) is string stringUserId)
+        if (context.User.FindFirstValue(ClaimPolicy.PersonId) is string stringPersonId)
         {
-            var userId = int.Parse(stringUserId);
+            var personId = int.Parse(stringPersonId);
 
-            var orderCount = _context.Orders.Count(o => o.CustomerId == userId);
+            var orderCount = _context.Orders.Count(o => o.CustomerId == personId);
 
             if (orderCount >= requirement.MinimumOrderCount)
             {

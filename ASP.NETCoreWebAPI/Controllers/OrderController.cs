@@ -72,22 +72,23 @@ public class OrderController : ControllerBase
     [HttpDelete("{id}")]
     public ActionResult Delete([FromRoute] int id)
     {
-        //_restaurantService.Delete(id);
         return NoContent();
     }
 
     [HttpPost("[action]")]
-    public ActionResult CreateOrder([FromBody] CreateOrderDto dto)
+    public ActionResult Create([FromBody] CreateOrderDto dto)
     {
-        return Created($"/api/restaurant/{2}", null);
+        return Created($"/api/order/{2}", null);
     }
 
+    //There is another, dynamic policy here: ResourceOperationRequirementHandler: if the resource was created by the user, then user can modify it, otherwise it is forbidden for user
     [HttpPut("{id}")]
     //Authorization is required: based on the requirements that are needed to be satisfied
     [Authorize(Policy = MyAuthorizationPolicy.CreateAtLeastTwoOrders)]
     public ActionResult Update([FromBody] UpdateOrderDto dto, [FromRoute] int id)
     {
-        _orderService.Update(id, dto, User);
-        return Ok(); //or Update
+        //"User" here is the object with claims, that is required for the authorization
+        _orderService.Update(id, dto);
+        return Ok();
     }
 }

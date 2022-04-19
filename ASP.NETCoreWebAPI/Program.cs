@@ -115,11 +115,17 @@ try
     //Then we register handler connected with dynamic requirements (One that need to be defined in run-time)
     //We will execute this handler when the specific shop resource is reached
     //1. Inject into OrderService the IAuthorizationService
-    //2. Add to Update method in OrderService parameter "ClaimsPrincipal user"
-    //3. In certain method like "Update" use
+    //2. Inject into OrderService the IUserContextService (custom made in Services). Made for flexibility of using user claims (its Dependency Inversion): to do this first
+    //3. Register Service "IUserContextService"
+    builder.Services.AddScoped<IUserContextService, UserContextService>();
+    //4. Then we need to Register Service "AddHttpContextAccessor" to be able to Access the IUserService (by this we can inject "IHttpContextAccessor" into IUserContextService)
+    builder.Services.AddHttpContextAccessor();
+    //5. Add to for instance OrderService "ClaimsPrincipal? user = _userContextService.User;"
+    //6. In certain method like "Update" use
     //_authorizationService.AuthorizeAsync(user, order, new ResourceOperationRequirement(ResourceOperation.Update));
     //To verify the requirement
-    //4. By default in Controller there is a "User" variable that is a certain user making the request
+    //4. "User" in the OrderService is the object with claims, that is required for the authorization
+    //5. I add claim "PersonId" (in GenerateJwt, in AccountService) to identify if the user has created this order
     builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
 
     //Controllers with Fluent Validation (Models -> Validators)
@@ -215,10 +221,6 @@ try
     {
         opt.Filters.Add(typeof(ValidatorActionFilter));
     });
-
-    //Context
-    builder.Services.AddScoped<IUserContextService, UserContextService>();
-    builder.Services.AddHttpContextAccessor();
 
     //Swagger
     //Swagger and versioning

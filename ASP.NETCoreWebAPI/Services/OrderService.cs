@@ -22,7 +22,7 @@ public interface IOrderService
 
     //void Delete(int id);
 
-    void Update(int id, UpdateOrderDto dto, ClaimsPrincipal user);
+    void Update(int id, UpdateOrderDto dto);
 }
 
 public class OrderService : IOrderService
@@ -33,7 +33,7 @@ public class OrderService : IOrderService
     //_authorizationService is for a dynamic requirements (in our case it is "ResourceOperationHandler")
     private readonly IAuthorizationService _authorizationService;
 
-    //????????????????
+    //This is very flexible way to get the user data (custom made in Services). We inject if to have user information easy to get
     private readonly IUserContextService _userContextService;
 
     public OrderService(MyDbContext dbContex, IMapper mapper, ILogger<OrderService> logger, IAuthorizationService authorizationService, IUserContextService userContextService)
@@ -59,19 +59,24 @@ public class OrderService : IOrderService
     }
 
     //Method with dynamic requirement "ResourceOperationRequirement"
-    public void Update(int id, UpdateOrderDto dto, ClaimsPrincipal user)
+    public void Update(int id, UpdateOrderDto dto)
     {
         var order = _dbContex.Orders
             .Include(o => o.Product)
             .Include(o => o.Payment)
             .FirstOrDefault(o => o.Id == id);
 
+        ClaimsPrincipal? user = _userContextService.User;
+
+        if (user is null)
+            throw new ForbidException("Unauthorized user");
+
         //If the employee is a manager then return success, else fail the authorization
-        var authorizationResult = _authorizationService.AuthorizeAsync(user, order, new ResourceOperationRequirement(ResourceOperation.Read)).Result;
+        var authorizationResult = _authorizationService.AuthorizeAsync(user, order, new ResourceOperationRequirement(ResourceOperation.Update)).Result;
 
         //If authorization fails, throw new ForbidException
         if (!authorizationResult.Succeeded)
-            throw new ForbidException();
+            throw new ForbidException("User has no access to this order");
 
         if (order is null)
             throw new NotFoundException("Order not found");
@@ -79,15 +84,8 @@ public class OrderService : IOrderService
         order.Amount = dto.Amount;
 
         if (dto.ProductId is not null)
-        {
             order.ProductId = dto.ProductId;
-        }
 
         _dbContex.SaveChanges();
-
-        var order2 = _dbContex.Orders
-            .Include(o => o.Product)
-            .Include(o => o.Payment)
-            .FirstOrDefault(o => o.Id == id);
     }
 }

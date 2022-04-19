@@ -101,6 +101,17 @@ public class AccountService : IAccountService
             }));
         }
 
+        //PersonId (EmployeeId or CustomerId) claim to examine CreatedById (for ResourceOperationHandlerRequirement)
+        if (user.Employee is not null || user.Customer is not null)
+        {
+            claims.Add(new Claim(type: ClaimPolicy.PersonId, user switch
+            {
+                { EmployeeId: null } => $"{user.CustomerId}",
+                { CustomerId: null } => $"{user.EmployeeId}",
+                _ => ""
+            }));
+        }
+
         //Create key variable using appsetting.json
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));
 
