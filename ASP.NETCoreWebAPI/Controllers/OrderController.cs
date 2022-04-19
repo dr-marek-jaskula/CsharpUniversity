@@ -91,4 +91,15 @@ public class OrderController : ControllerBase
         _orderService.Update(id, dto);
         return Ok();
     }
+
+    //Pagination region
+
+    //filtering is done on the searchPhase that is specified by the request parameter
+    [HttpGet("{name}", Name = "GetOrderByName")]
+    [AllowAnonymous]
+    public async Task<ActionResult<OrderDto>> GetByName([FromQuery] string name)
+    {
+        var orderDto = await _orderService.GetByName(name);
+        return Ok(orderDto);
+    }
 }

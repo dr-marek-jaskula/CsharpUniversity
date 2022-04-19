@@ -6,7 +6,9 @@
 //AutoMapper -> Program, MapperProfiles, Services (Account, Order)
 //Authentication and Authorization -> Program, Authentication (folder), OrderService, OrderController
 //Static Files -> FileController, wwwroot, PrivateFiles, Program.cs
-//Polly -> PollyPollicies
+
+//Polly -> PollyPollicies and look below
+//Filtering and Pagination with async programming and Polly -> Models (PageResult [mainly], QueryObjects), OrderController, OrderService, Polly
 
 //Additional -> Enums, Exceptions
 

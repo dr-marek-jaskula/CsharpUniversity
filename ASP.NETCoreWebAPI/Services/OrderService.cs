@@ -3,11 +3,13 @@ using ASP.NETCoreWebAPI.Exceptions;
 using ASP.NETCoreWebAPI.Models;
 using ASP.NETCoreWebAPI.Models.DataTransferObjects;
 using ASP.NETCoreWebAPI.Models.QueryObjects;
+using ASP.NETCoreWebAPI.PollyPolicies;
 using AutoMapper;
 using EFCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Enums;
 using Microsoft.EntityFrameworkCore;
+using Polly;
 using System.Security.Claims;
 
 namespace ASP.NETCoreWebAPI.Services;
@@ -15,6 +17,8 @@ namespace ASP.NETCoreWebAPI.Services;
 public interface IOrderService
 {
     OrderDto GetById(int id);
+
+    Task<OrderDto> GetByName(string name);
 
     //PageResult<OrderDto> GetAll(OrderQuery query);
 
@@ -87,5 +91,34 @@ public class OrderService : IOrderService
             order.ProductId = dto.ProductId;
 
         _dbContex.SaveChanges();
+    }
+
+    //Filtering and Pagination with async programming
+
+    /// <summary>
+    /// Basic filtration
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public Task<OrderDto> GetByName(string name)
+    {
+        //string approximatedName = Helpers.ApproximateName(name, _context.Champions);
+        string approximatedName = name;
+
+        return await((AsyncPolicy)PollyRegister.registry["AsyncCacheStrategy"]).ExecuteAsync(async context =>
+       {
+           if (approximatedName is "")
+               throw new NotFoundException("Order not found");
+
+           var order = await _dbContex.Orders
+                .AsNoTracking() //to improve performance, because they are read only
+                .Include(o => o.Payment)
+                .Include(o => o.Product)
+                .FirstOrDefaultAsync(o => o.Product != null && (o.Product.Name.Contains(name) || o.Product.Name.Contains(approximatedName)));
+
+           var result = _mapper.Map<OrderDto>(order);
+
+           return result;
+       }, new Context($"{approximatedName}"));
     }
 }
