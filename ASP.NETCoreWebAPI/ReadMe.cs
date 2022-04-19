@@ -8,7 +8,8 @@
 //Static Files -> FileController, wwwroot, PrivateFiles, Program.cs
 
 //Polly -> PollyPollicies and look below
-//Filtering and Pagination with async programming and Polly -> Models (PageResult [mainly], QueryObjects), OrderController, OrderService, Polly
+//Filtering and Pagination with async programming and Polly -> Models (PageResult [mainly], QueryObjects), OrderQueryValidator, OrderController, OrderService, Polly
+//  Pagination: PageResult -> OrderQueryValidator -> QueryObjects -> OrderController -> OrderService
 
 //Additional -> Enums, Exceptions
 

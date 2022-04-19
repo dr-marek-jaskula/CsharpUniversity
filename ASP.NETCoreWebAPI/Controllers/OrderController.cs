@@ -1,5 +1,6 @@
 ﻿using ASP.NETCoreWebAPI.Authentication;
 using ASP.NETCoreWebAPI.Models.DataTransferObjects;
+using ASP.NETCoreWebAPI.Models.QueryObjects;
 using ASP.NETCoreWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -94,12 +95,20 @@ public class OrderController : ControllerBase
 
     //Pagination region
 
-    //filtering is done on the searchPhase that is specified by the request parameter
+    //filtering is done on the name that is specified by the request parameter
     [HttpGet("{name}", Name = "GetOrderByName")]
     [AllowAnonymous]
     public async Task<ActionResult<OrderDto>> GetByName([FromQuery] string name)
     {
         var orderDto = await _orderService.GetByName(name);
         return Ok(orderDto);
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<OrderDto>>> GetAll([FromQuery] OrderQuery query)
+    {
+        var championsDtos = await _orderService.GetAll(query);
+        return Ok(championsDtos);
     }
 }

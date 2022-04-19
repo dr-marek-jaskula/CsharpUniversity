@@ -11,7 +11,7 @@ public static class PollyRegister
     {
         foreach (KeyValuePair<string, Policy> policy in policies)
             registry.Add(policy.Key, policy.Value);
-            
+
         foreach (KeyValuePair<string, AsyncPolicy> policy in asyncPolicies)
             registry.Add(policy.Key, policy.Value);
 
