@@ -5,6 +5,20 @@
 //1. Get SymSpell from NuGet package (free to use, commercially also)
 //2. Use the code below
 
+/*
+SymSpell includes an English frequency dictionary
+
+Dictionaries for Chinese, English, French, German, Hebrew, Italian, Russian and Spanish are located here:
+SymSpell.FrequencyDictionary
+
+Frequency dictionaries in many other languages can be found here:
+FrequencyWords repository
+Frequency dictionaries
+Frequency dictionaries
+
+https://github.com/hermitdave/FrequencyWords/tree/master/content/2018
+*/
+
 public class StringApproximationBySymSpell
 {
     public static void InvokeSymSpellExamples()

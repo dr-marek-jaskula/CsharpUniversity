@@ -1,32 +1,28 @@
-﻿namespace CustomTools.StringApproxAlgorithms.Eltin_Buchard_Keller_Algorithm;
+﻿namespace Eltin_Buchard_Keller_Algorithm;
 
 /// <summary>
 /// This class is an implementation of a Burkhard-Keller tree. The BK-Tree is a tree structure used to quickly find close matches to any defined object.
 /// </summary>
-/// <typeparam name="T"></typeparam>
-public class BKTree<T> where T : BKTreeNode
+public class BKTree
 {
-    private T _root;
-    private readonly Dictionary<T, Int32> _matches;
+    private readonly BKTreeNode _root;
+    private readonly Dictionary<BKTreeNode, Int32> _matches;
 
-    public BKTree()
+    public BKTree(BKTreeNode initialNode)
     {
-        _root = null;
-        _matches = new Dictionary<T, Int32>();
+        _root = initialNode;
+        _matches = new Dictionary<BKTreeNode, Int32>();
     }
 
-    public BKTree(T node)
+    public void Add(BKTreeNode node)
     {
-        _root = node;
-        _matches = new Dictionary<T, Int32>();
+        _root.Add(node);
     }
 
-    public void Add(T node)
+    public void AddMultiple(List<string> list)
     {
         if (_root != null)
-            _root.Add(node);
-        else
-            _root = node;
+            _root.AddMultiple(list);
     }
 
     /// <summary>
@@ -35,11 +31,12 @@ public class BKTree<T> where T : BKTreeNode
     /// <param name="searchNode"></param>
     /// <param name="threshold"></param>
     /// <returns></returns>
-    public Dictionary<T, Int32> Query(BKTreeNode searchNode, int threshold)
+    public List<string> Query(BKTreeNode searchNode, int threshold)
     {
         Dictionary<BKTreeNode, Int32> matches = new();
         _root.Query(searchNode, threshold, matches);
-        return CopyMatches(matches);
+        var dictionary = CopyMatches(matches);
+        return dictionary.Keys.Select(x => x.Data).ToList();
     }
 
     /// <summary>
@@ -57,10 +54,10 @@ public class BKTree<T> where T : BKTreeNode
     /// </summary>
     /// <param name="node"></param>
     /// <returns>A match that is within the best edit distance of the search node.</returns>
-    public T FindBestNode(BKTreeNode node)
+    public BKTreeNode FindBestNode(BKTreeNode node)
     {
         _root.FindBestMatch(node, Int32.MaxValue, out BKTreeNode bestNode);
-        return (T)bestNode;
+        return bestNode;
     }
 
     /// <summary>
@@ -68,20 +65,33 @@ public class BKTree<T> where T : BKTreeNode
     /// </summary>
     /// <param name="node"></param>
     /// <returns>A match that is within the best edit distance of the search node.</returns>
-    public Dictionary<T, Int32> FindBestNodeWithDistance(BKTreeNode node)
+    public string FindBestNodeWithDistance(string name)
     {
-        int distance = _root.FindBestMatch(node, Int32.MaxValue, out BKTreeNode bestNode);
+        int distance = _root.FindBestMatch(_root, Int32.MaxValue, out BKTreeNode bestNode);
         _matches.Clear();
-        _matches.Add((T)bestNode, distance);
-        return _matches;
+        _matches.Add(bestNode, distance);
+        var listOfPossibleResults = _matches.Keys.First()._children.Select(x => x.Value).ToList();
+
+        foreach (var item in listOfPossibleResults)
+            item.Distance = DistanceMetric.CalculateLevenshteinDistance(item.Data, name);
+
+        if (listOfPossibleResults.OrderBy(x => x.Distance).First().Distance > 10)
+            return "";
+        else
+            return listOfPossibleResults.OrderBy(x => x.Distance).First().Data;
     }
 
-    private Dictionary<T, Int32> CopyMatches(Dictionary<BKTreeNode, Int32> source)
+    /// <summary>
+    /// Make source input same as _matches private dictionary
+    /// </summary>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    private Dictionary<BKTreeNode, Int32> CopyMatches(Dictionary<BKTreeNode, Int32> source)
     {
         _matches.Clear();
 
         foreach (KeyValuePair<BKTreeNode, Int32> pair in source)
-            _matches.Add((T)pair.Key, pair.Value);
+            _matches.Add(pair.Key, pair.Value);
 
         return _matches;
     }

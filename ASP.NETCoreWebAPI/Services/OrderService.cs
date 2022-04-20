@@ -73,6 +73,7 @@ public class OrderService : IOrderService
             .Include(o => o.Payment)
             .FirstOrDefault(o => o.Id == id);
 
+        //We get the user from the _userContextService, so the we apply the Dependency Inversion
         ClaimsPrincipal? user = _userContextService.User;
 
         if (user is null)
@@ -106,8 +107,11 @@ public class OrderService : IOrderService
     public async Task<OrderDto> GetByName(string name)
     {
         //Approximation algorithm used to match the given name with product name list
-        //string approximatedName = Helpers.ApproximateName(name, _context.Champions);
-        string approximatedName = name;
+        //BK-Tree algorithm (for a list overload) (we use Helpers namespace here)
+        string approximatedName = Helpers.Helpers.ApproximateNameByBKTree(name, GetAllUniqueProductNames());
+
+        //SymSpell algorithm
+        //string approximatedName = name;
 
         //Get the Polly policy from the policy registry. The policy defines the caching strategy (policies are defined in PollyPolicies)
         AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.registry["AsyncCacheStrategy"];
@@ -178,11 +182,12 @@ public class OrderService : IOrderService
         }, new Context($"{query}"));
     }
 
-    public List<string> GetAllProductNames()
+    private List<string> GetAllUniqueProductNames()
     {
         return _dbContex.Products
             .AsNoTracking()
             .Select(p => p.Name)
+            .Distinct()
             .ToList();
     }
 }

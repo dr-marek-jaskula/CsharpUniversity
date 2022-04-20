@@ -1,6 +1,8 @@
 ﻿namespace CustomTools.StringApproxAlgorithms.Eltin_Buchard_Keller_Algorithm;
 using System.Diagnostics;
 
+//In ASP.NETCoreWebAPI in "Helpers" folder there is applicable BK-Tree algorithm for LevenshteinNodeRecord approach
+
 /*  
     To use BKTree:
     1. Create a class dervied from BKTreeNode
