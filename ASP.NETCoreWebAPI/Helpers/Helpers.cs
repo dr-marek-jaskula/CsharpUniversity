@@ -73,8 +73,7 @@ public static class Helpers
     /// <returns></returns>
     public static string ApproximateNameBySymSpell(string name, List<string> approximateTo)
     {
-        //Initial Capacity 
-        SymSpellAlgorithm symSpellAlgorithm = new(SymSpellFactory.CreateSymSpell(initialCapacity: 4, maxDirectoryEditDistance: 2));
+        SymSpellAlgorithm symSpellAlgorithm = new(SymSpellFactory.CreateSymSpell());
         return symSpellAlgorithm.FindBestSuggestion(name);
     }
 

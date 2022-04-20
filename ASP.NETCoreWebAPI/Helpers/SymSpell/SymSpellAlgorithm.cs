@@ -12,12 +12,17 @@ public class SymSpellAlgorithm
     private readonly SymSpell _symSpell;
     private Verbosity _verbosity = Verbosity.Closest;
 
-    //Inject the SymSpell [mb Dependency Inversion on approx algorithm]
+    //Inject the SymSpell [Dependency Inversion on approx algorithm can be implemented]
     public SymSpellAlgorithm(SymSpell symSpell)
     {
         _symSpell = symSpell;
     }
 
+    /// <summary>
+    /// Returns the closest term to the input, based on the predefined directory
+    /// </summary>
+    /// <param name="name">Input string to approximate</param>
+    /// <returns>Output approximated string</returns>
     public string FindBestSuggestion(string name)
     {
         int _maxEditDistanceLookup = 1;
