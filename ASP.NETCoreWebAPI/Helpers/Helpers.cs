@@ -1,6 +1,8 @@
-﻿using CustomTools.StringApproxAlgorithms.SymSpellAlgorithm;
+﻿using Bogus.DataSets;
+using CustomTools.StringApproxAlgorithms.SymSpellAlgorithm;
 using Eltin_Buchard_Keller_Algorithm;
 using Microsoft.EntityFrameworkCore;
+using static SymSpell;
 
 namespace ASP.NETCoreWebAPI.Helpers;
 
@@ -71,10 +73,9 @@ public static class Helpers
     /// <returns></returns>
     public static string ApproximateNameBySymSpell(string name, List<string> approximateTo)
     {
-        SymSpellAlgorithm symSpellAlgorithm = new(4, 2);
-
-
-        return suggestions.OrderBy(s => s.distance).First().term;
+        //Initial Capacity 
+        SymSpellAlgorithm symSpellAlgorithm = new(SymSpellFactory.CreateSymSpell(initialCapacity: 4, maxDirectoryEditDistance: 2));
+        return symSpellAlgorithm.FindBestSuggestion(name);
     }
 
     #endregion
