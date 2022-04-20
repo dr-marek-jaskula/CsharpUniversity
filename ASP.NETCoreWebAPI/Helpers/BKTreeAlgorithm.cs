@@ -1,14 +1,16 @@
-﻿using CustomTools.StringApproxAlgorithms.SymSpellAlgorithm;
-using Eltin_Buchard_Keller_Algorithm;
+﻿using Eltin_Buchard_Keller_Algorithm;
 using Microsoft.EntityFrameworkCore;
 
 namespace ASP.NETCoreWebAPI.Helpers;
 
-public static class Helpers
+public interface IName
+{
+    string Name { get; set; }
+}
+
+public static class BKTreeAlgorithm
 {
     //Approx algorithms can be stored in the external project, but for simplicity we adapt it do the current project
-
-    #region BK-Tree
 
     //Maximum distances and other algorithm parameters can be modified directly in algorithm classes
 
@@ -50,32 +52,5 @@ public static class Helpers
         BKTree tree = new(new(name));
         tree.AddMultiple(approximateTo);
         return tree.FindBestNodeWithDistance(name);
-    }
-
-    #endregion BK-Tree
-
-    #region SymSpell
-
-    //Maximum distances and other algorithm parameters can be modified directly in algorithm classes
-
-    /// <summary>
-    /// Approximate name of entity, based on the fuzzy search by SymSpell algorithm.
-    /// </summary>
-    /// <param name="name">String to be approximated</param>
-    /// <returns></returns>
-    public static string ApproximateNameBySymSpell(string name)
-    {
-        SymSpellAlgorithm symSpellAlgorithm = new(SymSpellFactory.CreateSymSpell());
-        return symSpellAlgorithm.FindBestSuggestion(name);
-    }
-
-    #endregion SymSpell
-
-    /// <summary>
-    /// Capitalizes the given string input. First letter will be capitalized and the following ones will be lowered.
-    /// <param name="input">The input to be capitalized</param>
-    public static void Capitalize(ref string input)
-    {
-        input = $"{input[0].ToString().ToUpper()}{input[1..].ToLower()}";
     }
 }

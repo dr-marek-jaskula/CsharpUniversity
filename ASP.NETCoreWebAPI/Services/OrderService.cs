@@ -108,10 +108,10 @@ public class OrderService : IOrderService
     {
         //Approximation algorithm used to match the given name with product name list
         //BK-Tree algorithm (for a list overload) (we use Helpers namespace here)
-        string approximatedName = Helpers.Helpers.ApproximateNameByBKTree(name, GetAllUniqueProductNames());
+        //string approximatedName = Helpers.Helpers.ApproximateNameByBKTree(name, GetAllUniqueProductNames());
 
         //SymSpell algorithm
-        //string approximatedName = name;
+        string approximatedName = name;
 
         //Get the Polly policy from the policy registry. The policy defines the caching strategy (policies are defined in PollyPolicies)
         AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.registry["AsyncCacheStrategy"];
