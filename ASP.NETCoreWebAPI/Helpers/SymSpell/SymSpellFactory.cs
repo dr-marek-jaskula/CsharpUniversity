@@ -1,4 +1,4 @@
-﻿namespace CustomTools.StringApproxAlgorithms.SymSpellAlgorithm;
+﻿namespace ASP.NETCoreWebAPI.StringApproxAlgorithms;
 
 //SymSpell is the fastest spell checker algorithm, and generally with same use of memory
 //1. Get SymSpell from NuGet package (free to use, commercially also)
@@ -28,7 +28,7 @@ public class SymSpellFactory
     // Dictionary that contains a mapping of lists of suggested correction words to the hashCodes
     // of the original words and the deletes derived from them. Collisions of hashCodes is tolerated,
     // because suggestions are ultimately verified via an edit distance function.
-    // A list of suggestions might have a single suggestion, or multiple suggestions. 
+    // A list of suggestions might have a single suggestion, or multiple suggestions.
     // private Dictionary<int, string[]> deletes;
 
     // Dictionary of unique correct spelling words, and the frequency count for each word.

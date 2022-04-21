@@ -22,7 +22,6 @@ using ASP.NETCoreWebAPI.PollyPolicies;
 using ASP.NETCoreWebAPI.Services;
 using ASP.NETCoreWebAPI.StringApproxAlgorithms;
 using ASP.NETCoreWebAPI.Swagger.SwaggerVersioning;
-using CustomTools.StringApproxAlgorithms.SymSpellAlgorithm;
 using EFCore;
 using EFCore.Data_models;
 using FluentValidation.AspNetCore;
@@ -208,8 +207,10 @@ try
     builder.Services.AddScoped<IOrderService, OrderService>();
 
     //ApproximationAlgorithm (there should be one for dictionary, and maybe more for approximation to certain set of strings)
+    SymSpells symSpells = new();
     SymSpell symSpellEnDictionary = SymSpellFactory.CreateSymSpell();
-    builder.Services.AddSingleton(symSpellEnDictionary);
+    symSpells.SymSpellsDictionary.Add("en", symSpellEnDictionary);
+    builder.Services.AddSingleton(symSpells);
 
     //Register Polly Policies (method ConfigurePollyPolicies extends IServiceCollection)
     builder.Services.ConfigurePollyPolicies(PollyPolicies.GetPolicies(), PollyPolicies.GetAsyncPolicies());
