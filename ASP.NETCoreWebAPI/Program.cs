@@ -20,7 +20,9 @@ using ASP.NETCoreWebAPI.Middlewares;
 using ASP.NETCoreWebAPI.Models.Validators;
 using ASP.NETCoreWebAPI.PollyPolicies;
 using ASP.NETCoreWebAPI.Services;
+using ASP.NETCoreWebAPI.StringApproxAlgorithms;
 using ASP.NETCoreWebAPI.Swagger.SwaggerVersioning;
+using CustomTools.StringApproxAlgorithms.SymSpellAlgorithm;
 using EFCore;
 using EFCore.Data_models;
 using FluentValidation.AspNetCore;
@@ -204,6 +206,10 @@ try
     //Add Services (dependencies) to the default ASP.Net Core dependency container
     builder.Services.AddScoped<IAccountService, AccountService>();
     builder.Services.AddScoped<IOrderService, OrderService>();
+
+    //ApproximationAlgorithm (there should be one for dictionary, and maybe more for approximation to certain set of strings)
+    SymSpell symSpellEnDictionary = SymSpellFactory.CreateSymSpell();
+    builder.Services.AddSingleton(symSpellEnDictionary);
 
     //Register Polly Policies (method ConfigurePollyPolicies extends IServiceCollection)
     builder.Services.ConfigurePollyPolicies(PollyPolicies.GetPolicies(), PollyPolicies.GetAsyncPolicies());

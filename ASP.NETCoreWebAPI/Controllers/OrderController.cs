@@ -98,7 +98,7 @@ public class OrderController : ControllerBase
     //filtering is done on the name that is specified by the request parameter
     [HttpGet("{name}", Name = "GetOrderByName")]
     [AllowAnonymous]
-    public async Task<ActionResult<OrderDto>> GetByName([FromQuery] string name)
+    public async Task<ActionResult<OrderDto>> GetByName([FromRoute] string name)
     {
         var orderDto = await _orderService.GetByName(name);
         return Ok(orderDto);

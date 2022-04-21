@@ -1,13 +1,14 @@
 ﻿using Eltin_Buchard_Keller_Algorithm;
 using Microsoft.EntityFrameworkCore;
 
-namespace ASP.NETCoreWebAPI.Helpers;
+namespace ASP.NETCoreWebAPI.StringApproxAlgorithms;
 
 public interface IName
 {
     string Name { get; set; }
 }
 
+//BKTree can be used for small dictionaries and not so many searches. OTherwise, use more efficient SymSpell
 public static class BKTreeAlgorithm
 {
     //Approx algorithms can be stored in the external project, but for simplicity we adapt it do the current project

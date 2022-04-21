@@ -4,7 +4,9 @@ using ASP.NETCoreWebAPI.Models;
 using ASP.NETCoreWebAPI.Models.DataTransferObjects;
 using ASP.NETCoreWebAPI.Models.QueryObjects;
 using ASP.NETCoreWebAPI.PollyPolicies;
+using ASP.NETCoreWebAPI.StringApproxAlgorithms;
 using AutoMapper;
+using CustomTools.StringApproxAlgorithms.SymSpellAlgorithm;
 using EFCore;
 using EFCore.Data_models;
 using Microsoft.AspNetCore.Authorization;
@@ -36,6 +38,8 @@ public class OrderService : IOrderService
 {
     private readonly MyDbContext _dbContex;
     private readonly IMapper _mapper;
+    //SymSpellAlgorithm for dictionary equal to English frequency dictionary. 
+    private readonly SymSpell _symSpellEnDictionary;
 
     //_authorizationService is for a dynamic requirements (in our case it is "ResourceOperationHandler")
     private readonly IAuthorizationService _authorizationService;
@@ -43,12 +47,13 @@ public class OrderService : IOrderService
     //This is very flexible way to get the user data (custom made in Services). We inject if to have user information easy to get
     private readonly IUserContextService _userContextService;
 
-    public OrderService(MyDbContext dbContex, IMapper mapper, ILogger<OrderService> logger, IAuthorizationService authorizationService, IUserContextService userContextService)
+    public OrderService(MyDbContext dbContex, IMapper mapper, ILogger<OrderService> logger, IAuthorizationService authorizationService, IUserContextService userContextService, SymSpell symSpellEnDictionary)
     {
         _dbContex = dbContex;
         _mapper = mapper;
         _authorizationService = authorizationService;
         _userContextService = userContextService;
+        _symSpellEnDictionary = symSpellEnDictionary;
     }
 
     public OrderDto GetById(int id)
@@ -68,11 +73,6 @@ public class OrderService : IOrderService
     //Method with dynamic requirement "ResourceOperationRequirement"
     public void Update(int id, UpdateOrderDto dto)
     {
-        var order = _dbContex.Orders
-            .Include(o => o.Product)
-            .Include(o => o.Payment)
-            .FirstOrDefault(o => o.Id == id);
-
         //We get the user from the _userContextService, so the we apply the Dependency Inversion
         ClaimsPrincipal? user = _userContextService.User;
 
@@ -85,6 +85,11 @@ public class OrderService : IOrderService
         //If authorization fails, throw new ForbidException
         if (!authorizationResult.Succeeded)
             throw new ForbidException("User has no access to this order");
+
+        var order = _dbContex.Orders
+            .Include(o => o.Product)
+            .Include(o => o.Payment)
+            .FirstOrDefault(o => o.Id == id);
 
         if (order is null)
             throw new NotFoundException("Order not found");
@@ -100,33 +105,40 @@ public class OrderService : IOrderService
     //Filtering and Pagination with async programming
 
     /// <summary>
-    /// Basic filtration
+    /// Order filtration by name. String approximation and caching is ensured.
     /// </summary>
-    /// <param name="name"></param>
-    /// <returns></returns>
+    /// <param name="name">Name of the product</param>
+    /// <returns>User order</returns>
     public async Task<OrderDto> GetByName(string name)
     {
-        //Approximation algorithm used to match the given name with product name list
-        //BK-Tree algorithm (for a list overload) (we use Helpers namespace here)
-        //string approximatedName = Helpers.Helpers.ApproximateNameByBKTree(name, GetAllUniqueProductNames());
+        //?????????
 
-        //SymSpell algorithm
-        string approximatedName = name;
+        //Approximation algorithm used to match the given name with product name list
+
+        //BK-Tree algorithm
+        //string approximatedName = BKTreeAlgorithm.ApproximateNameByBKTree(name, GetAllUniqueProductNames());
+
+        //SymSpell algorithm for English dictionary
+        //string approximatedName = SymSpellAlgorithm.FindBestSuggestion(name, _symSpellEnDictionary);
+
+        //SymSpell algorithm for dictionary made of product name list
+        SymSpell symSpell = SymSpellFactory.CreateSymSpell(GetAllUniqueProductNames()); //this symSpell can be stored in the memory for efficiency (or make it Singleton like _symSpellEnDictionary)
+        string approximatedName = SymSpellAlgorithm.FindBestSuggestion(name, symSpell);
 
         //Get the Polly policy from the policy registry. The policy defines the caching strategy (policies are defined in PollyPolicies)
         AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.registry["AsyncCacheStrategy"];
 
         return await pollyPolicy.ExecuteAsync(async context =>
         {
-            if (approximatedName is "")
-                throw new NotFoundException("Order not found");
-
             var order = await _dbContex.Orders
                   .AsNoTracking() //to improve performance, because they are read only
                   .Include(o => o.Payment)
                   .Include(o => o.Product)
                   .FirstOrDefaultAsync(o => o.Product != null
                         && (o.Product.Name.ToLower().Contains(name.ToLower()) || o.Product.Name.ToLower().Contains(approximatedName.ToLower())));
+
+            if (order is null)
+                throw new NotFoundException("Order not found");
 
             var result = _mapper.Map<OrderDto>(order);
 

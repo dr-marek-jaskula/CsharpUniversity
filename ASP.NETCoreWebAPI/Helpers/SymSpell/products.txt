@@ -1,0 +1,9 @@
+﻿Ring
+Ballon
+Monkey
+Moron
+Goblin Ring Ring Ring
+Ring is the Ring
+Uruk
+Damage
+Instead of running an external program with its path, I would like to get the current Project Dir. I'm calling an external program using a process in the custom task.
