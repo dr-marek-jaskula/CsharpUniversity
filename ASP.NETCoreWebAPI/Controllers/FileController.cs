@@ -1,5 +1,4 @@
 ﻿using ASP.NETCoreWebAPI.Exceptions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 

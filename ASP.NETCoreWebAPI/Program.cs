@@ -206,6 +206,7 @@ try
     //Add Services (dependencies) to the default ASP.Net Core dependency container
     builder.Services.AddScoped<IAccountService, AccountService>();
     builder.Services.AddScoped<IOrderService, OrderService>();
+    builder.Services.AddScoped<IGitHubService, GitHubService>();
 
     //ApproximationAlgorithm (there should be one for dictionary, and maybe more for approximation to certain set of strings)
     SymSpells symSpells = new();
@@ -215,6 +216,18 @@ try
 
     //Register Polly Policies (method ConfigurePollyPolicies extends IServiceCollection)
     builder.Services.ConfigurePollyPolicies(PollyPolicies.GetSyncPolicies(), PollyPolicies.GetAsyncPolicies(), PollyPolicies.GetAsyncPoliciesGitHubUser(), PollyPolicies.GetAsyncPoliciesHttpResponseMessage());
+
+    //Configure IHttpClientFactory for GitHub. "Named client" (it is for GitHub service)
+    builder.Services.AddHttpClient("GitHub", client =>
+    {
+        //Headers required by GitHub
+        //Base address
+        client.BaseAddress = new Uri("https://api.github.com/");
+        //GitHub API versioning
+        client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+        //GitHub requires a user-agent
+        client.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+    });
 
     //Middlewares
     builder.Services.AddScoped<ErrorHandlingMiddleware>();

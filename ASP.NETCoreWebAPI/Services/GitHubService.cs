@@ -4,10 +4,9 @@ using ASP.NETCoreWebAPI.PollyPolicies;
 using Newtonsoft.Json;
 using Polly;
 using Polly.CircuitBreaker;
-using Polly.Timeout;
 using Polly.Wrap;
 
-namespace ASP.NETCoreWebAPI.Controllers;
+namespace ASP.NETCoreWebAPI.Services;
 
 public interface IGitHubService
 {
@@ -40,7 +39,7 @@ public interface IGitHubService
 
 public class GitHubService : IGitHubService
 {
-    //Best way to create a HttpCient
+    //Best way to create a HttpCient. At first Clients need to be configured (Headers etc.) in Program.cs (after Polly registration)
     private readonly IHttpClientFactory _httpClientFactory;
 
     private readonly Random _random = new();

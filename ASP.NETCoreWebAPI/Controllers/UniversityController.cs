@@ -48,6 +48,7 @@ public class UniversityController : ControllerBase
     //As an return value we can specify ActionResult or IActionResult
 
     //We can give route a name. Two times writing [HttpGet] is due to the Swagger issue.
+
     [HttpGet]
     [HttpGet("bestRoute", Name = "NamedRoute")]
     //We can give route a name in standard way
@@ -56,6 +57,12 @@ public class UniversityController : ControllerBase
     [Route("Home", Order = 2)]
     public ActionResult NamedRoutsAndOrderHierarchy()
     {
+        //The Name property can be used for easier urls generating to certain action
+        //For this particular one it would be:
+        //string url = urlHelper.Link("NamedRoute", new { id = 5, query = "test" }); //this new { id = 5, query = "test" } is for some values, but not for this action because it has no parameters
+        //or if there is no urlHelper.
+        //Url.Link("NamedRoute", null);
+        //The second parameter is the action values
         return Ok();
     }
 
