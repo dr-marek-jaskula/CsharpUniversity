@@ -55,7 +55,7 @@ public class GitHubService : IGitHubService
     {
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["RetryStrategy2"];
+        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["RetryStrategy"];
 
         return await pollyPolicy.ExecuteAsync(async () =>
         {

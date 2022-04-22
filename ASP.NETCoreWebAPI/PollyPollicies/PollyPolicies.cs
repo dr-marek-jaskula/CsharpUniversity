@@ -112,7 +112,7 @@ public static class PollyPolicies
         //It is good to have randomized retry, because u can ddos your app by have multiple same time requests
         AsyncRetryPolicy asyncRetryPolicy = Policy.Handle<HttpRequestException>().WaitAndRetryAsync(_maxRetries, times => TimeSpan.FromMilliseconds(times * 1000 + _random.Next(0, 1000)), onRetry: (exception, timeSpan) => { Console.WriteLine($"I'm retrying. Exception message is: {exception.Message} and time span {timeSpan.TotalSeconds} total seconds"); });
         // Retry policy with additional predicate.
-        AsyncRetryPolicy asyncRetryPolicy2 = Policy.Handle<HttpRequestException>(exception => exception.Message is not "This is a fake request exception").WaitAndRetryAsync(_maxRetries, times => TimeSpan.FromMilliseconds(times * 1000 + _random.Next(0, 1000)));
+        AsyncRetryPolicy asyncRetryPolicy2 = Policy.Handle<HttpRequestException>(exception => exception.Message is not "This is a fake request exception").WaitAndRetryAsync(_maxRetries, times => TimeSpan.FromMilliseconds(times * 10 + _random.Next(0, 1000)));
 
         #endregion Retry
 
