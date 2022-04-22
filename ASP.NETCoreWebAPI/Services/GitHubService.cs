@@ -4,6 +4,7 @@ using ASP.NETCoreWebAPI.PollyPolicies;
 using Newtonsoft.Json;
 using Polly;
 using Polly.CircuitBreaker;
+using Polly.Fallback;
 using Polly.Wrap;
 
 namespace ASP.NETCoreWebAPI.Services;
@@ -32,7 +33,7 @@ public interface IGitHubService
 
     Task<GitHubUser?> GetUserByUserNameAsyncFallbackPolly(string userName);
 
-    Task<GitHubUser?> GetUserByUserNameAsyncFallbackPolly2(string userName);
+    Task<GitHubUser?> GetUserByUserNameAsyncFallbackPolly2(string userName, CancellationToken token);
 
     Task<GitHubUser?> GetUserByUserNameAsyncWrapMultiplePolicies(string userName, CancellationToken token);
 }
@@ -92,8 +93,8 @@ public class GitHubService : IGitHubService
 
         var task = pollyRetryPolicy.ExecuteAsync(async () =>
         {
-            if (_random.Next(1, 3) == 1)
-                throw new HttpRequestException("This is a fake request exception");
+            //if (_random.Next(1, 3) == 1)
+            throw new HttpRequestException("This is a fake request exceptionv");
 
             var result = await client.GetAsync($"/users/{userName}");
 
@@ -196,7 +197,7 @@ public class GitHubService : IGitHubService
         {
             Console.WriteLine(cancellationToken.IsCancellationRequested);
             Console.WriteLine("I'm before the 3 seconds delay");
-            await Task.Delay(3000, cancellationToken);
+            await Task.Delay(3000);
             Console.WriteLine("I'm after the 3 second delay");
             Console.WriteLine(cancellationToken.IsCancellationRequested);
 
@@ -233,11 +234,15 @@ public class GitHubService : IGitHubService
         {
             Console.WriteLine(cancellationToken.IsCancellationRequested);
             Console.WriteLine("I'm before the 3 seconds delay");
-            await Task.Delay(3000, cancellationToken);
+            await Task.Delay(3000, cancellationToken).ContinueWith(task =>
+            {
+                Console.WriteLine("Task was canceled");
+                cancellationToken.ThrowIfCancellationRequested();
+            });
             Console.WriteLine("I'm after the 3 second delay");
             Console.WriteLine(cancellationToken.IsCancellationRequested);
 
-            HttpResponseMessage? result = await client.GetAsync($"/users/{userName}", cancellationToken).ContinueWith((task) =>
+            HttpResponseMessage? result = await client.GetAsync($"/users/{userName}", cancellationToken).ContinueWith(task =>
             {
                 if (task.Status is not (TaskStatus.Canceled or TaskStatus.Faulted))
                     return task.Result;
@@ -260,7 +265,7 @@ public class GitHubService : IGitHubService
         }, cancellationToken: cancellationToken);
     }
 
-    // More Timeouts with Polly with made CancellationToken
+    //More Timeouts with Polly with made CancellationToken (Cancellation Token should be provided by the user)
     public async Task<GitHubUser?> GetUserByUserNameAsyncTimeoutPolly4(string userName)
     {
         var client = _httpClientFactory.CreateClient("GitHub");
@@ -385,7 +390,7 @@ public class GitHubService : IGitHubService
     {
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["UserFallbackStrategy"];
+        AsyncFallbackPolicy<GitHubUser> pollyPolicy = (AsyncFallbackPolicy<GitHubUser>)PollyRegister.asyncRegistry["UserFallbackStrategy"];
 
         return await pollyPolicy.ExecuteAsync(async () =>
         {
@@ -402,14 +407,22 @@ public class GitHubService : IGitHubService
         });
     }
 
-    public async Task<GitHubUser?> GetUserByUserNameAsyncFallbackPolly2(string userName)
+    //Add CancelationToken
+    public async Task<GitHubUser?> GetUserByUserNameAsyncFallbackPolly2(string userName, CancellationToken token)
     {
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["UserFallbackStrategy2"];
+        AsyncFallbackPolicy<GitHubUser> pollyPolicy = (AsyncFallbackPolicy<GitHubUser>)PollyRegister.asyncRegistry["UserFallbackStrategy2"];
 
-        return await pollyPolicy.ExecuteAsync(async () =>
+        return await pollyPolicy.ExecuteAsync(async (cancellationToken) =>
         {
+            //???????? Why cancellation token does not execute strategy message
+            //await Task.Delay(3000, cancellationToken).ContinueWith(task =>
+            //{
+            //    Console.WriteLine("Task was canceled");
+            //    cancellationToken.ThrowIfCancellationRequested();
+            //});
+
             throw new TaskCanceledException(); //so this exception will result in giving the new GitHub user by fallback policy
 
             var result = await client.GetAsync($"/users/{userName}");
@@ -420,7 +433,7 @@ public class GitHubService : IGitHubService
             var resultString = await result.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<GitHubUser>(resultString);
-        });
+        }, cancellationToken: token);
     }
 
     #endregion Fallback
