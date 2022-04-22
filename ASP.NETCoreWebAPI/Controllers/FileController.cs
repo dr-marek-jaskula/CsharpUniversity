@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ASP.NETCoreWebAPI.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 
@@ -54,7 +55,10 @@ public class FileController : ControllerBase
         var contentProvider = new FileExtensionContentTypeProvider();
 
         //fileName or filePath?
-        contentProvider.TryGetContentType(fileName, out string contentType);
+        contentProvider.TryGetContentType(fileName, out string? contentType);
+
+        if (contentType is null)
+            throw new NotFoundException("File type not found!");
 
         //To return files we use "File" method (like OK) that takes: fileContent, contentType, fileName
         return File(fileContent, contentType, fileName);

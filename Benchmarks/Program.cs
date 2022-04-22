@@ -1,6 +1,8 @@
-﻿using Benchmarks;
+﻿using BenchmarkDotNet.Running;
+using Benchmarks;
 
 //StringBenchmarks.RunBenchmarks();
-//ReflectionBenchmarks.RunBenchmarks(); 
+//ReflectionBenchmarks.RunBenchmarks();
+//SpanBenchmarks.RunBenchmarks();
 
-SpanBenchmarks.RunBenchmarks(); 
+BenchmarkRunner.Run<DateParserBenchmarks>();

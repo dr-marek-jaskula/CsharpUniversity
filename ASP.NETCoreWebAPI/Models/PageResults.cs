@@ -1,7 +1,6 @@
 ﻿namespace ASP.NETCoreWebAPI.Models;
 
-//Pagination is mainly done here and
-//
+//Generic pagination schema
 
 //Generic class for paginating different objects
 public class PageResult<T>

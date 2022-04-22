@@ -7,7 +7,8 @@
 //Authentication and Authorization -> Program, Authentication (folder), OrderService, OrderController
 //Static Files -> FileController, wwwroot, PrivateFiles, Program.cs
 
-//Polly -> PollyPollicies and look below
+//IHttpCLientFactory -> GitHubService
+//Polly -> PollyPollicies, GitHubController, GitHubServices and look below
 //Filtering and Pagination with async programming and Polly -> Models (PageResult [mainly], QueryObjects), OrderQueryValidator, OrderController, OrderService, Polly
 //  Pagination: PageResult -> OrderQueryValidator -> QueryObjects -> OrderController -> OrderService
 
@@ -20,7 +21,7 @@
 //"Access-Control-Request-Method" with HTTP verb like "Access-Control-Request-Method: GET"
 //"Access-Control-Request-Headers" with Header like "Access-Control-Request-Headers: Authorization"
 
-//The response for this OPTIONS request with Headers like:
+//The response for this OPTIONS request with Headers like:s
 //"Access-Control-Allow-Origin" with domain name like "Access-Control-Allow-Origin: https://CsharpUniversity.com"
 //"Access-Control-Allow-Method" with HTTP verb like "Access-Control-Allow-Method: GET, POST, PUT, PATCH"
 //"Access-Control-Allow-Headers" with Header like "Access-Control-Allow-Headers: Authorization"

@@ -63,7 +63,7 @@ public class BKTree
     /// <summary>
     /// Attempts to find the closest match to the search node.
     /// </summary>
-    /// <param name="node"></param>
+    /// <param name="name">String beeing approximated</param>
     /// <returns>A match that is within the best edit distance of the search node.</returns>
     public string FindBestNodeWithDistance(string name)
     {

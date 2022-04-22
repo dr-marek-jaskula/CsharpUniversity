@@ -124,7 +124,7 @@ public class OrderService : IOrderService
         string approximatedName = SymSpellAlgorithm.FindBestSuggestion(name, _symSpells.SymSpellsDictionary["Products"]);
 
         //Get the Polly policy from the policy registry. The policy defines the caching strategy (policies are defined in PollyPolicies)
-        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.registry["AsyncCacheStrategy"];
+        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["AsyncCacheStrategy"];
 
         return await pollyPolicy.ExecuteAsync(async context =>
         {
@@ -146,7 +146,7 @@ public class OrderService : IOrderService
 
     public async Task<PageResult<OrderDto>> GetAll(OrderQuery query)
     {
-        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.registry["AsyncCacheStrategy"];
+        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["AsyncCacheStrategy"];
 
         return await pollyPolicy.ExecuteAsync(async context =>
         {

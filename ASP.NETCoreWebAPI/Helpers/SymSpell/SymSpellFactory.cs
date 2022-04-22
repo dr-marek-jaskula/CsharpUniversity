@@ -8,16 +8,16 @@
 /// <remarks>For every word there are deletes with an edit distance of 1..maxEditDistance created and added to the
 /// dictionary. Every delete entry has a suggestions list, which points to the original term(s) it was created from.
 /// The dictionary may be dynamically updated (word frequency and new words) at any time by calling CreateDictionaryEntry</remarks>
-/// <param name="key">The word to add to dictionary.</param>
-/// <param name="count">The frequency count for word.</param>
-/// <param name="staging">Optional staging object to speed up adding many entries by staging them to a temporary structure.</param>
+/// "key" - The word to add to dictionary.
+/// "count" -The frequency count for word.
+/// "staging" - Optional staging object to speed up adding many entries by staging them to a temporary structure.
 /// <returns>True if the word was added as a new correctly spelled word,
 /// or false if the word is added as a below threshold word, or updates an
 /// existing correctly spelled word.</returns>
 
 /// <summary>Load multiple dictionary words from a file containing plain text.</summary>
 /// <remarks>Merges with any dictionary data already loaded.</remarks>
-/// <param name="corpus">The path+filename of the file.</param>
+/// "corpus" - The path+filename of the file.
 /// <returns>True if file loaded, or false if file not found.</returns>
 //public bool CreateDictionary(string corpus)
 

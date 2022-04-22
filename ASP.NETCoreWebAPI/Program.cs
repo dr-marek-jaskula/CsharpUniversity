@@ -14,6 +14,7 @@
 //SerilogTimings
 //Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer
 //Microsoft.Extensions.PlatformAbstractions
+//Newtonsoft.Json
 
 using ASP.NETCoreWebAPI.Authentication;
 using ASP.NETCoreWebAPI.Middlewares;
@@ -213,7 +214,7 @@ try
     builder.Services.AddSingleton(symSpells);
 
     //Register Polly Policies (method ConfigurePollyPolicies extends IServiceCollection)
-    builder.Services.ConfigurePollyPolicies(PollyPolicies.GetPolicies(), PollyPolicies.GetAsyncPolicies());
+    builder.Services.ConfigurePollyPolicies(PollyPolicies.GetSyncPolicies(), PollyPolicies.GetAsyncPolicies(), PollyPolicies.GetAsyncPoliciesGitHubUser(), PollyPolicies.GetAsyncPoliciesHttpResponseMessage());
 
     //Middlewares
     builder.Services.AddScoped<ErrorHandlingMiddleware>();
