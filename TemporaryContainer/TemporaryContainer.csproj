@@ -8,12 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\bin\Debug\net5.0\ref\" />
-    <Folder Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\bin\Release\net5.0\ref\" />
-    <Folder Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\obj\Debug\net5.0\refint\" />
-    <Folder Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\obj\Debug\net5.0\ref\" />
-    <Folder Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\obj\Release\net5.0\refint\" />
-    <Folder Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\obj\Release\net5.0\ref\" />
     <Folder Include="CsharpAcademy\DockerLearningRainer\Kubernetes\DockerVS2015Intro\" />
     <Folder Include="CsharpAcademy\DockerLearning\bin\Debug\net5.0\ref\" />
     <Folder Include="CsharpAcademy\DockerLearning\bin\Release\net5.0\ref\" />
@@ -30,8 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\ASPDotNetLearningApplication.csproj" />
-    <None Include="CsharpAcademy\ASPDotNetLearningApplication - TestPattern\ASPDotNetLearningApplication.sln" />
     <None Include="CsharpAcademy\DockerLearning\DockerLearning.csproj" />
     <None Include="CsharpAcademy\DockerLearning\DockerLearning.sln" />
     <None Include="CsharpAcademy\ODataWebApiLearningApplication\ODataWebApiLearningApplication.csproj" />

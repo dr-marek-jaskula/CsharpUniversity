@@ -174,7 +174,11 @@ public static class PollyPolicies
         //Fallback
         //For instance we can use them for GET requests - getting data from db
         AsyncFallbackPolicy<GitHubUser> asyncUserFallbackPolicy = Policy<GitHubUser>.Handle<TaskCanceledException>().FallbackAsync(new GitHubUser());
-        AsyncFallbackPolicy<GitHubUser> asyncUserFallbackPolicy2 = Policy<GitHubUser>.Handle<TaskCanceledException>().FallbackAsync(token => Task.Run(() => { Console.WriteLine("Fallback is on"); return new GitHubUser(); }));
+        AsyncFallbackPolicy<GitHubUser> asyncUserFallbackPolicy2 = Policy<GitHubUser>.Handle<TaskCanceledException>().Or<OperationCanceledException>().FallbackAsync(token => Task.Run(() =>
+        {
+            Console.WriteLine("Fallback is on");
+            return new GitHubUser();
+        }));
         AsyncFallbackPolicy<GitHubUser> asyncUserFallbackPolicy3 = Policy<GitHubUser>.Handle<TaskCanceledException>().FallbackAsync(token => Task.Run(() => { Console.WriteLine("Fallback is on"); return new GitHubUser(); }), onFallbackAsync: result =>
         {
             return Task.Run(

@@ -416,14 +416,8 @@ public class GitHubService : IGitHubService
 
         return await pollyPolicy.ExecuteAsync(async (cancellationToken) =>
         {
-            //???????? Why cancellation token does not execute strategy message
-            //await Task.Delay(3000, cancellationToken).ContinueWith(task =>
-            //{
-            //    Console.WriteLine("Task was canceled");
-            //    cancellationToken.ThrowIfCancellationRequested();
-            //});
-
-            throw new TaskCanceledException(); //so this exception will result in giving the new GitHub user by fallback policy
+            throw new OperationCanceledException(); //so this exception will result in giving the new GitHub user by fallback policy
+            //throw new TaskCanceledException(); //so this exception will result in giving the new GitHub user by fallback policy
 
             var result = await client.GetAsync($"/users/{userName}");
 
@@ -442,16 +436,9 @@ public class GitHubService : IGitHubService
 
     public async Task<GitHubUser?> GetUserByUserNameAsyncWrapMultiplePolicies(string userName, CancellationToken cancellationToken)
     {
-        AsyncCircuitBreakerPolicy pollyCircuitBreakerPolicy = (AsyncCircuitBreakerPolicy)PollyRegister.asyncRegistry["CircuitBreakerStrategy2"];
-
-        Console.WriteLine($"Circuit state {pollyCircuitBreakerPolicy.CircuitState}");
-
-        if (pollyCircuitBreakerPolicy.CircuitState is CircuitState.Open)
-            throw new UnavailableException("Service is currently unavailable"); //To verify if CircuitBreaker is working
+        AsyncPolicyWrap<GitHubUser> pollyMultiplePolicies = (AsyncPolicyWrap<GitHubUser>)PollyRegister.asyncRegistry["UserUltimateStrategy"];
 
         var client = _httpClientFactory.CreateClient("GitHub");
-
-        AsyncPolicyWrap<GitHubUser> pollyMultiplePolicies = (AsyncPolicyWrap<GitHubUser>)PollyRegister.asyncRegistry["UserUltimateStrategy"];
 
         return await pollyMultiplePolicies.ExecuteAsync(async (context, token) =>
         {
@@ -464,8 +451,8 @@ public class GitHubService : IGitHubService
 
             //await Task.Delay(3000, token); //timeout is working
 
-            if (_random.Next(1, 3) == 1)
-                throw new HttpRequestException("This is a fake request exception"); //retry is working //Circuit-breaker is working: RETRIES do not work on CIRCUIT-BREAKER
+            //if (_random.Next(1, 3) == 1)
+            //throw new HttpRequestException("This is a fake request exception"); //retry is working //Circuit-breaker is working: RETRIES do not work on CIRCUIT-BREAKER
 
             var result = await client.GetAsync($"/users/{userName}", token);
 
