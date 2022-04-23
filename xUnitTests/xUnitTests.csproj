@@ -20,4 +20,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ASP.NETCoreWebAPI\ASP.NETCoreWebAPI.csproj" />
+  </ItemGroup>
+
 </Project>

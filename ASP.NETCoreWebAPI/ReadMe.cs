@@ -29,3 +29,11 @@
 //Configure CORS Policy -> Program (services.AddCore())
 
 //Consider secrets for Authentication
+
+//Continuous Integration (short. CI), Continuous Delivery (short. CD)
+//In order to build an app and check all test when pushing, we can manage CI - automatic process of building and testing our app when pushing to the master branch
+//Local -> Pull Request (pipeline) [restore dependencies -> build an application -> run tests] -> merge -> GitHub repository
+//Tools for CI: Jenkins, Azure DevOps, TeamCity, TravisCI, GitHub Actions
+//GitHub Actions is a free tool
+//In order to learn CI, first create a simple tests for our application
+// -> folder CI_CD 

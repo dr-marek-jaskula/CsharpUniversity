@@ -10,8 +10,8 @@ public class Threads
 
     public static void InvokeThreadsExamples()
     {
-        //This command will be executed in the main thread
-        Debug.WriteLine($"Hello from main thread {Thread.CurrentThread.Name}, {Thread.CurrentThread.ManagedThreadId}");
+        //This command will be executed in the main thread (two ways to get the Thread info)
+        Debug.WriteLine($"Hello from main thread {Thread.CurrentThread.Name}, {Environment.CurrentManagedThreadId}");
 
         //We create a new thread called "threadOne"
         //We need to provide the ThreadStart delegate. that is just a parameterless Action
@@ -20,7 +20,7 @@ public class Threads
         //To execute the other thread, we use method "Start"
         threadOne.Start();
 
-        //For example we will download 
+        //For example we will download
         Thread threadOneVersionTwo = new(() =>
         {
             Debug.WriteLine("Start downloading...");

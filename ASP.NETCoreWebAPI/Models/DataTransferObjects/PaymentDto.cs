@@ -3,7 +3,7 @@
 public record class PaymentDto
 (
     int Id,
-    string Discount,
+    decimal Discount,
     decimal Total,
     string Status,
     DateTime Deadline

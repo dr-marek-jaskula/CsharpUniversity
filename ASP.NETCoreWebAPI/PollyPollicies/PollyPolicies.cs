@@ -19,7 +19,7 @@ public static class PollyPolicies
     private static readonly Random _random = new();
 
     private static readonly Action<Exception, TimeSpan> _onBreak = (Exception, timeSpan) => { Console.WriteLine("I'm on break"); };
-    private static Action _onReset = () => { Console.WriteLine("I'm on reset"); };
+    private static readonly Action _onReset = () => { Console.WriteLine("I'm on reset"); };
 
     private static readonly ISyncCacheProvider _cacheProvider = new MemoryCacheProvider(new MemoryCache(new MemoryCacheOptions()));
     private static readonly IAsyncCacheProvider _asyncCacheProvider = new MemoryCacheProvider(new MemoryCache(new MemoryCacheOptions()));
