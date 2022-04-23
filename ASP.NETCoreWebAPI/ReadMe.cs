@@ -30,7 +30,7 @@
 
 //Consider secrets for Authentication
 
-//Continuous Integration (short. CI), Continuous Delivery (short. CD)
+//Continuous Integration (short. CI), Continuous Deployment (short. CD). Sometime CD is called Continuous Delivery (which is almost the same, because in delivery the manual acceptation i needed and in Deployment all is automatic the same sense)
 //In order to build an app and check all test when pushing, we can manage CI - automatic process of building and testing our app when pushing to the master branch
 //Local -> Pull Request (pipeline) [restore dependencies -> build an application -> run tests] -> merge -> GitHub repository
 //Tools for CI: Jenkins, Azure DevOps, TeamCity, TravisCI, GitHub Actions

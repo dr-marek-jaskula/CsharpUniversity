@@ -2,7 +2,7 @@
 
 public class ContinuousIntegration
 {
-    //Continuous Integration (short. CI), Continuous Delivery (short. CD)
+    //Continuous Integration (short. CI), Continuous Deployment (short. CD)
     //In order to build an app and check all test when pushing, we can manage CI - automatic process of building and testing our app when pushing to the master branch
     //Local -> Pull Request (pipeline) [restore dependencies -> build an application -> run tests] -> merge -> GitHub repository
     //Tools for CI: Jenkins, Azure DevOps, TeamCity, TravisCI, GitHub Actions
@@ -81,4 +81,12 @@ jobs:
     */
 
     //this file is in ".github/workflows", one folder above the solution
+
+    //9. Changes branch politics: do not commit the push if something in the pipeline fails (for example code does not build)
+    //Go to GitHub -> -> Settings -> Branches -> Add rule: (Protected branches are available to Pro, Team, and Enterprise users!!)
+    //fill branch name (for example "master")
+    //Then we check the options of branch protection like:
+    //"Require a pull request before merging" -> "Require approvals" (at least one person besides author needs to approve the merge)
+    //"Require status checks to pass before merging" -> search for "build" and use it (this is important, what we need)
+    //"Include administration" -> to prevent overriding the new rule
 }
