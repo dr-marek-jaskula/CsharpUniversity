@@ -55,6 +55,30 @@ public class ContinuousIntegration
 
     //8. The final "yml" file has the following form:
     /*
+    name: CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v2.0.0                       #predefined template to install sdk if needed
+        with:
+          dotnet-version: 6.0.x                                 #specified the version
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --filter DisplayName=XUnitTests.OrderControllerTest.GetAll_Returns_The_Correct_Numer_Of_Orders             #run just the single specified test
     */
+
+    //this file is in ".github/workflows", one folder above the solution
 }

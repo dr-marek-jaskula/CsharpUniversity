@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsharpBasics", "CsharpBasic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsharpAdvanced", "CsharpAdvanced\CsharpAdvanced.csproj", "{EE8559AD-8194-430F-8355-C00B21205137}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemporaryContainer", "TemporaryContainer\TemporaryContainer.csproj", "{71BEAB17-023A-467F-980A-D991ECF4593F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversityEntrypoints", "UniversityEntrypoints\UniversityEntrypoints.csproj", "{0FD2F567-E294-4F81-8D19-754F675D4D74}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{6E1703FA-87B3-46DA-B787-18D4D0A34B5F}"
@@ -17,11 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomTools", "CustomTools\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCore", "EFCore\EFCore.csproj", "{8A3770EA-19B8-44DC-88D5-52B7562C1FD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASP.NETCoreWebAPI", "ASP.NETCoreWebAPI\ASP.NETCoreWebAPI.csproj", "{996E982D-585E-44B0-BD96-C78827580FBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASP.NETCoreWebAPI", "ASP.NETCoreWebAPI\ASP.NETCoreWebAPI.csproj", "{996E982D-585E-44B0-BD96-C78827580FBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnitTests", "xUnitTests\xUnitTests.csproj", "{16344B34-2845-47D4-B2EA-20799384BAE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xUnitTests", "xUnitTests\xUnitTests.csproj", "{16344B34-2845-47D4-B2EA-20799384BAE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalAPI", "MinimalAPI\MinimalAPI.csproj", "{3FA5093A-06ED-4A68-A3BA-BAF4A737FF11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalAPI", "MinimalAPI\MinimalAPI.csproj", "{3FA5093A-06ED-4A68-A3BA-BAF4A737FF11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +35,6 @@ Global
 		{EE8559AD-8194-430F-8355-C00B21205137}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE8559AD-8194-430F-8355-C00B21205137}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE8559AD-8194-430F-8355-C00B21205137}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71BEAB17-023A-467F-980A-D991ECF4593F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71BEAB17-023A-467F-980A-D991ECF4593F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71BEAB17-023A-467F-980A-D991ECF4593F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71BEAB17-023A-467F-980A-D991ECF4593F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0FD2F567-E294-4F81-8D19-754F675D4D74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0FD2F567-E294-4F81-8D19-754F675D4D74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FD2F567-E294-4F81-8D19-754F675D4D74}.Release|Any CPU.ActiveCfg = Release|Any CPU
