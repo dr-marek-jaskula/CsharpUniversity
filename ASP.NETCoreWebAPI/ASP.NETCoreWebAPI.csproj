@@ -54,14 +54,14 @@
 	<ItemGroup>
 	<None Include="appsettings.json">
 		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
-		<ExcludeFromSingleFile>false</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	</None>
 	<None Include="appsettings.Development.json">
 		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+		<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 		<DependentUpon>appsettings.json</DependentUpon>
-		<ExcludeFromSingleFile>false</ExcludeFromSingleFile>
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	</None>
 	</ItemGroup>
 
