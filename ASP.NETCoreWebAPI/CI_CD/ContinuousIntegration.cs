@@ -17,6 +17,8 @@ public class ContinuousIntegration
     //5. We will create a file in "yml" format for the certain repository
     //6. Name the file like "ci". The base "yml" file (without comments) should look like this (i add my comment on the right hand side):
 
+    //!!!!! #Here on push were deleted, because it should be in CD (deploy file), here only for pull requests.
+
     /*
     name: CI
     on:                                                         #The first section (starting from "on") determines when the pipeline will be executed (check documentation to examine more options)
