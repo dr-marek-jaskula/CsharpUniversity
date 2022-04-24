@@ -54,6 +54,7 @@
 	<ItemGroup>
 	<None Include="appsettings.json">
 		<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
 		<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	</None>
