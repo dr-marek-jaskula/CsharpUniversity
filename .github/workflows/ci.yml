@@ -1,7 +1,5 @@
 name: CI
-on:
-  push:
-    branches: [ master ]
+on:                               #Here on push were delated, because it should be in CD (deploy file), here only for pull requests.
   pull_request:
     branches: [ master ]
   workflow_dispatch:
