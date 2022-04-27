@@ -9,7 +9,7 @@ WORKDIR /app
 #3. Copy the .csproj file to the working directory
 COPY *.csproj ./
 
-#4. Restore dependencies present in the project file
+#4. Restore dependencies present in the project file.
 RUN dotnet restore
 
 #5. Cope all project files to the working directory
@@ -23,8 +23,8 @@ RUN dotnet build "ASP.NETCoreWebAPI.csproj" -c Release -o /app/build
 #1. From build image crated in the previous set, create a new image named "publish"
 FROM build AS publish
 
-#2. Publish the application and set the output directory to /app/publish
-RUN dotnet publish "ASP.NETCoreWebAPI.csproj" -c Release -o /app/publish
+#2. Publish the application (with no restore, becasue restore was done previously) and set the output directory to /app/publish
+RUN dotnet publish "ASP.NETCoreWebAPI.csproj" -c Release -o /app/publish --no-restore
 
 	#Final stage
 
