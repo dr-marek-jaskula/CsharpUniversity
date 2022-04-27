@@ -52,12 +52,16 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<Content Remove="appsettings.json"/>
+		<Content Remove="appsettings.json" />
 		<None Include="appsettings.json">
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 			<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Dockerize\DockerCommands\" />
 	</ItemGroup>
 
 </Project>
