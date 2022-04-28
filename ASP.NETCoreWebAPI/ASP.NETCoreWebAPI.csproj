@@ -22,10 +22,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Dockerize\ExampleDockerfiles\CustomDockerfile1" />
     <None Remove="Swagger\SwaggerVersioning\HelpersForVersioning.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Dockerize\ExampleDockerfiles\CustomDockerfile1" />
     <Compile Include="Swagger\SwaggerVersioning\HelpersForVersioning.txt" />
   </ItemGroup>
 
