@@ -2,6 +2,10 @@
 
 public class GeneralCLI
 {
+    //cls -> cleans the console
+
+    //exit -> exit the certain command line
+
     //dotnet sdk check -> checks the sdk version and all dotnets
 
     //dotnet restore -> perform a NuGet restore operation. Important to performed before the build, especially in docker containers
