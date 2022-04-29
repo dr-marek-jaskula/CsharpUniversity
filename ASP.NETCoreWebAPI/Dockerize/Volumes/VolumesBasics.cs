@@ -15,4 +15,6 @@ public class VolumesBasics
 
     //Deletes the volume named "my-volume"
     //docker volume rm my-volume
+
+    //The automatized process of connecting to the volume is made by "docker-compose.yaml" file
 }

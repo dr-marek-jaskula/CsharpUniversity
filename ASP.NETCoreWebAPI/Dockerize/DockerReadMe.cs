@@ -10,6 +10,8 @@
 
 //Data will perish when the container closes. To deal with this problem go to: Volumes
 
+//The automatized process of connecting to the volume to the container and creating a network between different container is made by "docker-compose.yaml" file approach
+
 public class DockerReadMe
 {
     //Choosing the Linux or Windows container can be specified in the Docker Desktop -> choose Linux containers

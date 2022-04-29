@@ -2,12 +2,13 @@
 
 public class DockerCompseFiles
 {
-    //Docker compose file named "docker-compose.yaml" or "docker-compose.yml" are use to automatize the process presented in the "CreatingNetworks" file
+    //Docker compose file named "docker-compose.yaml" or "docker-compose.yml" are use to automatize the process presented in the "ManualCompose" folder and also automatize the process of connecting to the volume
+    //Keep the docker-compose.yaml file in the same directory that Dockerfile
 
     //The key command to use the docker-compose.yaml is:
     //docker-compose up
 
-    //The base structure of this file is:
+    //The base structure of this file requires tabulator (spacer) in the proper manner (like in python):
 
     #region Example docker-compole.yaml
 

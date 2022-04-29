@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
-namespace ASP.NETCoreWebAPI.Dockerize.Volumes;
+﻿namespace ASP.NETCoreWebAPI.Dockerize.Volumes;
 
 public class AttachVolumeToContainer
 {
