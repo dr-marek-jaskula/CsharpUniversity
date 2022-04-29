@@ -2,7 +2,7 @@
 
 public class CustomConfiguration
 {
-            //Change base convention for naming the private fields to use prefix underscore (_)
+    //Change base convention for naming the private fields to use prefix underscore (_)
     //Tools -> Options -> Text Editor -> C# -> Code Style -> Naming -> Manage Naming Styles -> Add naming style for Private or Internal Field
     //Naming style: _fieldName
     //Required prefix: _
@@ -20,7 +20,7 @@ public class CustomConfiguration
     to get the class diagram view just type in search
      */
 
-            //FILE_SCOPE NAMESPACES
+    //FILE_SCOPE NAMESPACES
     //In Visual Studio, for c# 10 apply "file-scoped namespaces"
     //To do this:
     //1. Right click on project
@@ -32,8 +32,13 @@ public class CustomConfiguration
     //Options -> Text Editor -> Basic -> Code Style -> General
     //find "Namespaces declarations" and set it to "refactor only"
 
+    //PINNED TABS
+    //Pinned tabs (in search) -> show pinned tabs in a separate row
 
-            //PINNED TABS
-    //Pinned tabs -> show pinned tabs in a separate row
+    //Add folder, add class
+    //Tools -> Options -> General -> Keyboard -> Project.AddClass -> Global -> Alt + n
+    //Tools -> Options -> General -> Keyboard -> Project.NewFolder -> Global -> Alt + f
+
+    //ToggleComment
+    //Tools -> Options -> General -> Keyboard -> Edit.ToggleComment -> Global -> ctrl + /
 }
-

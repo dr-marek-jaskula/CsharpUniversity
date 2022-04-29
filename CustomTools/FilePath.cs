@@ -1,7 +1,7 @@
 ﻿namespace CustomTools;
 
 //Much better FilePath system with case insensitivity and implicit conversion!
-//Write one, use multiple times
+//Write once, use multiple times
 
 public record class FilePath
 {
@@ -23,7 +23,7 @@ public record class FilePath
 
     public virtual bool Equals(FilePath? other)
     {
-        return (Path).Equals(other?.Path, StringComparison.InvariantCultureIgnoreCase);
+        return Path.Equals(other?.Path, StringComparison.InvariantCultureIgnoreCase);
     }
 
     public override int GetHashCode()
