@@ -23,6 +23,9 @@ public class BasicCommands
     //Examines the ip addresses in the container (of running one when we are inside the container)
     //ip addr
 
-    //Specify custom dockerfile in the current directory
+    //To run a Dockerfile (when it is in the current folder)
+    //docker build .
+
+    //Specify custom Dockerfile in the current directory
     //docker build -f hehe.Dockerfile .
 }

@@ -10,45 +10,46 @@ public class DockerCompseFiles
 
     //The base structure of this file requires tabulator (spacer) in the proper manner (like in python):
 
+    //IMPORTANT: yaml files are easy to make an error due to the invalid formatt
+    //yaml validator: https://codebeautify.org/yaml-validator
+
     #region Example docker-compole.yaml
 
     /*
 
- version: '3.1'
+version: '3'
 
-services:    
-  api:                                          #determines the container for WebApi
-    container_name: api-container               #write the container name
-    build:
-      context: .                                #set the context to the current folder
-      dockerfile: Dockerfile                    #specify the name of the Dockerfile
-    image: api                                  #determine the image from which the container will be created
-    networks:
-      - db-net                                  #connect the container to the network name "db-net"
-    ports:
-      - 8081:80                                 #specify the ports
-    depends_on:
-      - "db"                                    #explicitly tell that this container will rely on container "db"
-  db:
-    image: mysql:latest
-    container_name: mysql-container
-    volumes:
-      - dbdata:/var/lib/mysql                   #determines the volume connected to this container
-    environment:
-     MYSQL_ROOT_PASSWORD: test
-     MYSQL_DATABASE: TestDataBase
-     MYSQL_USER: marek
-     MYSQL_PASSWORD: hunter
-    ports:
-      - 5432:5432
-    networks:
-      - db-net
+services:
+  api:
+    container_name: api-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: api
+    networks:
+      - db-net
+    ports:
+      - 8081:80
+    depends_on:
+      - "db"
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sql-container
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      SA_PASSWORD: My_password123
+      ACCEPT_EULA: Y
+    ports:
+      - 5434:1433
+    networks:
+      - db-net
 
 networks:
-  db-net:                                       #define the network
+  db-net:
 
 volumes:
-  dbdata:                                       #define the volume
+  dbdata:
 
     */
 
