@@ -1,9 +1,10 @@
 ﻿namespace CustomTools.StringApproxAlgorithms.Eltin_Buchard_Keller_Algorithm;
+
 using System.Diagnostics;
 
 //In ASP.NETCoreWebAPI in "Helpers" folder there is applicable BK-Tree algorithm for LevenshteinNodeRecord approach
 
-/*  
+/*
     To use BKTree:
     1. Create a class dervied from BKTreeNode
     2. Add a member variable of your data to be sorted / retrieved
@@ -17,16 +18,16 @@ public class EltinBuchardKellerAlgorithEntrypoint
 {
     public static void DemonstrateTheAlgorith()
     {
-        Debug.WriteLine(DistanceMetric.CalculateLevenshteinDistance("kitten", "sitten"));
-        Debug.WriteLine(DistanceMetric.CalculateLevenshteinDistance("sittin", "sitten"));
-        Debug.WriteLine(DistanceMetric.CalculateLevenshteinDistance("sittin", "sitting"));
-        Debug.WriteLine(DistanceMetric.CalculateLevenshteinDistance("thme", "them"));
-        Debug.WriteLine(DistanceMetric.CalculateLevenshteinDistance("arithmatic", "arithmetic"));
-        Debug.WriteLine(DistanceMetric.CalculateLevenshteinDistance("helo", "hello"));
-        Debug.WriteLine(DistanceMetric.CalculateLevenshteinDistance("tommorrow", "tomorrow"));
-        Debug.WriteLine(DistanceMetric.CalculateLevenshteinDistance("Ahri", "Ari"));
-        Debug.WriteLine(DistanceMetric.CalculateLevenshteinDistance("Ahri", "Arhi"));
-        Debug.WriteLine(DistanceMetric.CalculateLevenshteinDistance("Ahri", "Arh"));
+        Console.WriteLine(DistanceMetric.CalculateLevenshteinDistance("kitten", "sitten"));
+        Console.WriteLine(DistanceMetric.CalculateLevenshteinDistance("sittin", "sitten"));
+        Console.WriteLine(DistanceMetric.CalculateLevenshteinDistance("sittin", "sitting"));
+        Console.WriteLine(DistanceMetric.CalculateLevenshteinDistance("thme", "them"));
+        Console.WriteLine(DistanceMetric.CalculateLevenshteinDistance("arithmatic", "arithmetic"));
+        Console.WriteLine(DistanceMetric.CalculateLevenshteinDistance("helo", "hello"));
+        Console.WriteLine(DistanceMetric.CalculateLevenshteinDistance("tommorrow", "tomorrow"));
+        Console.WriteLine(DistanceMetric.CalculateLevenshteinDistance("Ahri", "Ari"));
+        Console.WriteLine(DistanceMetric.CalculateLevenshteinDistance("Ahri", "Arhi"));
+        Console.WriteLine(DistanceMetric.CalculateLevenshteinDistance("Ahri", "Arh"));
         //for string above the appropriate threshold should be equal to 2
 
         //Now let us demonstrate the whole algorithm
@@ -47,10 +48,11 @@ public class EltinBuchardKellerAlgorithEntrypoint
         // Get best nodes below threshold
         results = tree.Query(new LevenshteinNodeRecord("kitten"), 3); // arbitrary threshold 3
 
-        Debug.WriteLine("End of the application");
+        Console.WriteLine("End of the application");
     }
 
     #region Example of use
+
     /*
     public interface IName
     {
@@ -79,6 +81,6 @@ public class EltinBuchardKellerAlgorithEntrypoint
         return tree.FindBestNodeWithDistance(name);
     }
     */
-    #endregion
-}
 
+    #endregion Example of use
+}

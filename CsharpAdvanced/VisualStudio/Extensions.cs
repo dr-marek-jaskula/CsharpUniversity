@@ -16,6 +16,7 @@ public class Extensions
     //ZenCoding -> for html/ccs files snippets (good to learn them)
     //FileDiffer -> right click on file and then "compare files"
     //SideScroller -> shift + scroll -> horizontal scroll
+    //DotENV
 
     //Visafora (no for vs 2022 yet)
 }

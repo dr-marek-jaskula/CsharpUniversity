@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace CsharpAdvanced.Attributes;
 
@@ -27,7 +28,7 @@ public class ParameterAttributes
     }
 }
 
-class Worker
+internal class Worker
 {
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
@@ -42,5 +43,20 @@ class Worker
         Type type = value.GetType();
         var attribute = type.GetCustomAttribute<DisplayPropertyAttribute>();
         Debug.WriteLine($"My true name is {attribute?.DisplayName} and I will {value}");
+
+        string? name = null;
+        Guardian.ThrowIfNullOrWhiteSpace(name);
+    }
+}
+
+internal class Guardian
+{
+    //The CallerArgumentExpression takes the name of the parameter that is passed to the method
+
+    //In .net 7 probably we can use "nameof(arg)" in the CallerArgumentExpression instead of literal
+    public static void ThrowIfNullOrWhiteSpace(string? arg, [CallerArgumentExpression("arg")] string paramName = "")
+    {
+        if (string.IsNullOrWhiteSpace(arg))
+            throw new ArgumentNullException("Argument can not be null or whitespace", paramName);
     }
 }
