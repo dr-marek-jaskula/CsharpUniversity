@@ -2,11 +2,12 @@ using ASP.NETCoreWebAPI.Controllers;
 using ASP.NETCoreWebAPI.Services;
 using Bogus;
 using EFCore.Data_models;
+using FluentAssertions;
 using System.Collections.Generic;
 using Xunit;
 using xUnitTests.BogusGenerator;
 
-namespace xUnitTests;
+namespace WebApiTests;
 
 public class OrderControllerTest
 {
@@ -37,7 +38,7 @@ public class OrderControllerTest
 
         //var result = actionResult.Result;
 
-        Assert.Equal(1, 1);
+        1.Should().Be(1);
 
         #endregion Assert
     }
