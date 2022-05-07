@@ -1,5 +1,5 @@
 ﻿//Controllers (general info) -> UniversityController
-//Logging and Telemetry -> Program, LogDemoController, Logs (folder) [with RegulatiosLogStoring.txt]
+//Logging and Telemetry -> Program, LogDemoController, Logs (folder) [with RegulatiosLogStoring.txt], appsettings.json
 //Versioning and Swagger -> Program, AccountController, Swagger, wwwroot swaggerstyles
 //Validation (Fluent) -> Program, Models (folder) -> Validators, DataTransferObjects
 //Exception Handling -> Program, Middlewares (folder) -> ErrorHandlingMiddleware
