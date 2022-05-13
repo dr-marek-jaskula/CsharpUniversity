@@ -13,7 +13,7 @@ public class UniversityRegex
     //Escape character for regex "\"
 
     /*
-        1. Anchors 
+        1. Anchors
 
             Beginning: ^
                 Matches the beginning of the string, or the beginning of a line if the multiline flag (m) is enabled. This matches a position, not a character.
@@ -21,7 +21,7 @@ public class UniversityRegex
 
             End: $
                 Matches the end of the string, or the end of a line if the multiline flag (m) is enabled. This matches a position, not a character.
-                Example: Regex$     
+                Example: Regex$
 
             Word boundary:
                 Matches a word boundary position between a word character and non-word character or position (start / end of string). See the word character class (w) for more info.
@@ -32,9 +32,9 @@ public class UniversityRegex
                 Example: s\B -> from 'she sells seashells' -> selects all 's' that are not selected by s\b
 
             More examples:
-            ^Good 
+            ^Good
             morning$
-            
+
             To combine both we write:
             ^Good morning$ -> match the string to start from Good and end on morning
 
@@ -60,7 +60,7 @@ public class UniversityRegex
             Dot: .
                 Matches any character except linebreaks. Equivalent to [^\n\r]. When dotall flag is enabled, . represents any character (including newline)
 
-            Word: \w 
+            Word: \w
                 Matches any word character (alphanumeric & underscore). Only matches low-ascii characters (no accented or non-roman characters). Equivalent to [A-Za-z0-9_]
                 Example: \w -> match for example "bonjur"
 
@@ -83,7 +83,7 @@ public class UniversityRegex
 
     /*
        3. Quantifiers
- 
+
             Zero or more: *
             Matches 0 or more of the preceding token.
             Example: abc* -> string needs to contain 'ab' and some 'c' letters (zero or more)
@@ -98,10 +98,10 @@ public class UniversityRegex
             Example: abc? -> string needs to contain 'ab' and zero or one 'c' letter
 
             Quantifier: {1,3}
-            Matches the specified quantity of the previous token. 
-            {1,3} will match 1 to 3. 
-            {3} will match exactly 3. 
-            {3,} will match 3 or more. 
+            Matches the specified quantity of the previous token.
+            {1,3} will match 1 to 3.
+            {3} will match exactly 3.
+            {3,} will match 3 or more.
             Example: abc{2} -> 'ab' and 'cc'
             Example: abc{2,} -> 'ab' and at least two 'c'
             Example: abc{2,5} -> 'ab' and at least two 'c' but max five 'c'
@@ -113,7 +113,7 @@ public class UniversityRegex
             Example: ba|d -> or 'ba' or 'd'
     */
 
-    /*    
+    /*
       4. Flags:
 
         Global: g
@@ -122,9 +122,8 @@ public class UniversityRegex
             RegExr only searches for a single match when the global flag is disabled to avoid infinite match errors.
                 Without global it gives just first occurrence
 
-
         Multiline flag: m
-            When the multiline flag is enabled, beginning and end anchors (^ and $) will match the start and end of a line, instead of the start and end of the whole string. 
+            When the multiline flag is enabled, beginning and end anchors (^ and $) will match the start and end of a line, instead of the start and end of the whole string.
             Note that patterns such as /^[\s\S]+$/m may return matches that span multiple lines because the anchors will match the start/end of any line.
 
         Ignore case: i
@@ -132,7 +131,6 @@ public class UniversityRegex
 
         Dotall: s
             Dot (.) will match any character, including newline.
-
 
     5. Any in the string:
 
@@ -161,6 +159,8 @@ public class UniversityRegex
         bool IsMatch2 = regex.IsMatch(email2);
         Debug.WriteLine(IsMatch);
         Debug.WriteLine(IsMatch2);
+
+        //Regex for email starting from small or capital letter and then can be a number.
+        Regex regex2 = new(@"^([a-zA-Z])([a-zA-Z0-9]+)\.?([a-zA-Z0-9]+)@([a-z]+)\.[a-z]{2,3}$");
     }
 }
-

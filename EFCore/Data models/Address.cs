@@ -22,7 +22,7 @@ public class AddressEntityTypeConfiguration : IEntityTypeConfiguration<Address>
     public void Configure(EntityTypeBuilder<Address> builder)
     {
         builder.ToTable("Address");
-        
+
         builder.HasKey(a => a.Id);
         builder.Property(a => a.Id).UseIdentityColumn();
 
@@ -34,5 +34,3 @@ public class AddressEntityTypeConfiguration : IEntityTypeConfiguration<Address>
         builder.Property(a => a.ZipCode).HasMaxLength(50);
     }
 }
-
-

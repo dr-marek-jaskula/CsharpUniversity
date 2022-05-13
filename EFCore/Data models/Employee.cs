@@ -7,14 +7,17 @@ public class Employee : Person
 {
     //Properties that defined the database relations should be mark as virtual
     public int Id { get; set; }
+
     public DateTime HireDate { get; set; }
 
     //One to one relationship with Salary table (Salary, SalaryId)
     public Salary? Salary { get; set; }
+
     public int? SalaryId { get; set; }
 
     //One to many relationship with Shop table (Shop, ShopId)
     public Shop? Shop { get; set; }
+
     public int? ShopId { get; set; }
 
     //One to one relationship with User table (User, UserId)
@@ -25,9 +28,10 @@ public class Employee : Person
 
     //Many to many relationship with Reviews (rest is in Reviews class)
     public virtual List<Review> Reviews { get; set; } = new();
-    
+
     //One to many relationship with same table (ManagerId, Manager, Subordinates)
     public virtual int? ManagerId { get; set; }
+
     public virtual Employee? Manager { get; set; }
     public virtual List<Employee>? Subordinates { get; set; } = new();
 }
@@ -88,4 +92,3 @@ public class EmployeeEntityTypeConfiguration : IEntityTypeConfiguration<Employee
             .IsRequired(false);
     }
 }
-

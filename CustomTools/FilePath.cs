@@ -32,7 +32,7 @@ public record class FilePath
     }
 
     //This implicit conversion allow us to just write: FilePath myFilePath = "test.txt";
-    //Also this allow us to put a normal string to a method wil parameter of type "test.txt"
+    //Also this allow us to put a normal string to a method with parameter of type FilePath
     public static implicit operator FilePath(string name)
     {
         return new FilePath(name);

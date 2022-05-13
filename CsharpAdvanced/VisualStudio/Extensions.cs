@@ -17,6 +17,6 @@ public class Extensions
     //FileDiffer -> right click on file and then "compare files"
     //SideScroller -> shift + scroll -> horizontal scroll
     //DotENV
-
-    //Visafora (no for vs 2022 yet)
+    //Visafora
+    //Extension Manager 2022
 }
