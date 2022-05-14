@@ -20,21 +20,38 @@ public class MyDbContext : DbContext
     public DbSet<Address> Addresses => Set<Address>();
     public DbSet<Payment> Payments => Set<Payment>();
     public DbSet<Product> Products => Set<Product>();
-    public DbSet<Product_Tag> Products_Tag => Set<Product_Tag>();
-    public DbSet<Product_Amount> ProductAmounts => Set<Product_Amount>();
     public DbSet<Review> Reviews => Set<Review>();
     public DbSet<Salary> Salaries => Set<Salary>();
-    public DbSet<Salary_Transfer> SalaryTransfers => Set<Salary_Transfer>();
     public DbSet<Shop> Shops => Set<Shop>();
     public DbSet<Tag> Tags => Set<Tag>();
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<User> Users => Set<User>();
+    public DbSet<Product_Tag> ProductTags => Set<Product_Tag>();
+    public DbSet<Product_Amount> ProductAmounts => Set<Product_Amount>();
+    public DbSet<Salary_Transfer> SalaryTransfers => Set<Salary_Transfer>();
 
     //3. The OnModelCreating method should be overridden
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        //4 My preferred way is to get configuration from the Assembly (from each file separately). Nevertheless, it can be done all here
+        //4. My preferred way is to get configuration from the Assembly (from each file separately). Nevertheless, it can be done all here
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        //5. The exception (not required, it still can be done in certain model files) is when we apply brand new approach for many-to-many relationship:
+
+        //Use Product_Tag model even if the c# models relations are direct
+        builder.Entity<Product>(eb =>
+        {
+            eb.HasMany(p => p.Tags).WithMany(t => t.Products)
+                .UsingEntity<Product_Tag>(
+                    //two lambdas for many-to-many relation. (If there is no reference in the class, then the WithMany() should not have any parameters)
+                    p => p.HasOne(pt => pt.Tag).WithMany().HasForeignKey(pt => pt.TagId),
+                    p => p.HasOne(pt => pt.Product).WithMany().HasForeignKey(pt => pt.ProductId),
+                    //configuring Protuct_Tag class
+                    pt =>
+                    {
+                        pt.HasKey(x => new { x.TagId, x.ProductId });
+                    });
+        });
     }
 }
 

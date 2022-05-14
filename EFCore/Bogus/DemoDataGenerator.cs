@@ -164,7 +164,7 @@ public class DemoDataGenerator
             product_tag.Product = products.Skip(index % 100).First();
         }
 
-        _context.Products_Tag.AddRange(products_tags);
+        _context.ProductTags.AddRange(products_tags);
         _context.SaveChanges();
 
         //Payments

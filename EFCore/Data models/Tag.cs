@@ -7,7 +7,7 @@ public class Tag
 {
     public int Id { get; set; }
     public ProductTag ProductTag { get; set; }
-    public virtual List<Product_Tag> Product_Tags { get; set; } = new();
+    public virtual List<Product> Products { get; set; } = new();
 }
 
 public class TagEntityTypeConfiguration : IEntityTypeConfiguration<Tag>
@@ -26,4 +26,3 @@ public class TagEntityTypeConfiguration : IEntityTypeConfiguration<Tag>
             s => (ProductTag)Enum.Parse(typeof(ProductTag), s));
     }
 }
-
