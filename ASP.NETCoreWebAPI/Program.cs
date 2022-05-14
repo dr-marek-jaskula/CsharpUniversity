@@ -15,8 +15,13 @@
 //Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer
 //Microsoft.Extensions.PlatformAbstractions
 //Newtonsoft.Json
+//AspNetCore.HealthChecks.SqlServer
+//AspNetCore.HealthChecks.UI
+//AspNetCore.HealthChecks.UI.Client
+//AspNetCore.HealthChecks.UI.InMemory.Storage
 
 using ASP.NETCoreWebAPI.Authentication;
+using ASP.NETCoreWebAPI.HealthChecks;
 using ASP.NETCoreWebAPI.Middlewares;
 using ASP.NETCoreWebAPI.Models.Validators;
 using ASP.NETCoreWebAPI.PollyPolicies;
@@ -26,7 +31,9 @@ using ASP.NETCoreWebAPI.Swagger.SwaggerVersioning;
 using EFCore;
 using EFCore.Data_models;
 using FluentValidation.AspNetCore;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -204,6 +211,14 @@ try
     // Both with UseDeveloperExceptionPage provides default exception handling for "Developer" stage of api. More information below near "UseDeveloperExceptionPage"
     //.AddDatabaseDeveloperPageExceptionFilter();
 
+    //HealthChecks (need to also Map to the endpoint in the "Configure HTTP request pipeline" region, using the minimal API approach)
+    //Add SqlServer health checks and custom one MyHealthCheck (go to: HealthChecks folder)
+    builder.Services.AddHealthChecks()
+        .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+        .AddCheck<RandomHealthCheck>("Random health check")
+        .AddCheck<EndpointHealthCheck>("Endpoint health check");
+    builder.Services.AddHealthChecksUI().AddInMemoryStorage();
+
     //AutoMapper (mapping entities to DataTransferObjects, short. DTO's)
     builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -353,6 +368,14 @@ try
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapControllers();
+        //Additional Map the HealthChecks endpoint and health check UI. Additional configuration need to be added to the appsettings.json
+        endpoints.MapHealthChecks("/health", new HealthCheckOptions //the /health endpoint give info about the health checks in not bad format
+        {
+            //To bring together the /healthcheck endpoint and the healthcheksUI
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+            Predicate = _ => true
+        });
+        endpoints.MapHealthChecksUI(); //the UI url will be "HealthChecks-ui"
     });
 
     #endregion Configure HTTP request pipeline

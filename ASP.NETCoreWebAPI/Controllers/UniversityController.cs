@@ -1,7 +1,6 @@
 ﻿using ASP.NETCoreWebAPI.Models.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.RegularExpressions;
 
 namespace ASP.NETCoreWebAPI.Controllers;
 

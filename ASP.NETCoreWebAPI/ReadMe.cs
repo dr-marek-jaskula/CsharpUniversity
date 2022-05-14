@@ -6,6 +6,7 @@
 //AutoMapper -> Program, MapperProfiles, Services (Account, Order)
 //Authentication and Authorization -> Program, Authentication (folder), OrderService, OrderController
 //Static Files -> FileController, wwwroot, PrivateFiles, Program.cs
+//HealthChecks -> program.cs (in configure and configure services), appsettings.json, HealthChecks folder
 
 //IHttpCLientFactory -> GitHubService
 //Polly -> PollyPollicies, GitHubController, GitHubServices and look below
