@@ -8,7 +8,7 @@ public class User
     public int Id { get; set; }
     public string Username { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public DateTime CreateTime { get; set; }
+    public DateTime CreatedDate { get; set; }
     public string PasswordHash { get; set; } = string.Empty;
     public int RoleId { get; set; }
     public virtual Role? Role { get; set; }
@@ -35,12 +35,12 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
             .IsRequired(true)
             .HasColumnType("VARCHAR(40)");
 
-        builder.Property(u => u.CreateTime)
-            .HasDefaultValue(DateTime.Now.Date)
+        builder.Property(u => u.CreatedDate)
+            .HasDefaultValueSql("getutcdate()") //need to use HasDefaultValueSql with "getutcdate" because it need to be the sql command
             .HasColumnType("DATE");
 
         builder.Property(u => u.PasswordHash)
-            .HasColumnType("NVARCHAR(514)");
+            .HasColumnType("NCHAR(514)"); //512 + 2 for 'N' characters
 
         builder.Property(u => u.RoleId)
             .HasColumnType("TINYINT");

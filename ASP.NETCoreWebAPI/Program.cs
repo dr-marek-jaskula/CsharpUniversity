@@ -46,6 +46,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json.Serialization;
 
 //This attribute make the Program class (that is from this Top-Level-Statement file and which is internal by default) visible to project "xUnitTestsForWebApi"
 [assembly: InternalsVisibleTo("xUnitTestsForWebApi")]
@@ -283,6 +284,13 @@ try
         var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
         options.IncludeXmlComments(xmlPath);
     });
+
+    //Optionally -> to avoid the cyclic reference in the serialized json file (DTO is the better approach, but sometime this approach can be useful)
+    //builder.Services.Configure<JsonOptions>(options =>
+    //{
+    //    //options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    //    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    //});
 
     //Corse
     //Configures CORSE (Cross-Origin Resource Sharing) Policy. Required for connection with frontend

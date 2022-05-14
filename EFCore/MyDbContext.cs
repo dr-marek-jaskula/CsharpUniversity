@@ -1,6 +1,5 @@
 ﻿using EFCore.Data_models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
 namespace EFCore;
@@ -14,7 +13,7 @@ public class MyDbContext : DbContext
     public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
     //2. DbSets should be determine here
-    
+
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<Order> Orders => Set<Order>();

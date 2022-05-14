@@ -35,6 +35,7 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(o => o.Status)
             .IsRequired(true)
             .HasColumnType("VARCHAR(10)")
+            .HasDefaultValue(Status.Received)
             .HasConversion(status => status.ToString(),
              s => (Status)Enum.Parse(typeof(Status), s))
             .HasComment("Received, InProgress, Done or Rejected");

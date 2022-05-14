@@ -27,5 +27,13 @@ public class RoleEntityTypeConfiguration : IEntityTypeConfiguration<Role>
         builder.HasMany(r => r.Users)
             .WithOne(u => u.Role)
             .HasForeignKey(u => u.RoleId);
+
+        //Inserting static data (data that are not related to other)
+        builder.HasData(
+            new Role() { Id = 1, Name = "Customer" },
+            new Role() { Id = 2, Name = "Employee" },
+            new Role() { Id = 3, Name = "Manager" },
+            new Role() { Id = 4, Name = "Administrator" }
+            );
     }
 }

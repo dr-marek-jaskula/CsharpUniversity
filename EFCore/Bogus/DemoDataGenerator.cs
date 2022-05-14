@@ -51,14 +51,13 @@ public class DemoDataGenerator
         _context.SalaryTransfers.AddRange(salaryTransfers);
         _context.SaveChanges();
 
-
         //Salary
         var salaryFaker = new Faker<Salary>()
             .RuleFor(p => p.BaseSalary, f => f.Random.Int(2000, 5000))
             .RuleFor(p => p.DiscretionaryBonus, f => f.Random.Int(100, 500))
             .RuleFor(p => p.IncentiveBonus, f => f.Random.Int(100, 500))
             .RuleFor(p => p.TaskBonus, f => f.Random.Int(100, 500))
-            .RuleFor(p => p.SalaryTransfer, f => { f.IndexVariable++; return salaryTransfers.Skip(20 * (f.IndexVariable-1)).Take(20).ToList(); });
+            .RuleFor(p => p.SalaryTransfer, f => { f.IndexVariable++; return salaryTransfers.Skip(20 * (f.IndexVariable - 1)).Take(20).ToList(); });
 
         var salaries = salaryFaker.Generate(100);
 
@@ -106,9 +105,9 @@ public class DemoDataGenerator
         foreach (Employee employee in employees)
         {
             employee.Salary = salaries[employees.IndexOf(employee)];
-            employee.Reviews.AddRange(reviews.Skip(5 * (employees.IndexOf(employee)-1)).Take(5));
+            employee.Reviews.AddRange(reviews.Skip(5 * (employees.IndexOf(employee) - 1)).Take(5));
         }
-        
+
         _context.SaveChanges();
 
         //Customers
@@ -161,7 +160,7 @@ public class DemoDataGenerator
         foreach (var product_tag in products_tags)
         {
             int index = products_tags.IndexOf(product_tag);
-            product_tag.Tag = tags.Skip(index < 100 ? index % 100 : (index+3) % 100).First();
+            product_tag.Tag = tags.Skip(index < 100 ? index % 100 : (index + 3) % 100).First();
             product_tag.Product = products.Skip(index % 100).First();
         }
 
@@ -184,7 +183,7 @@ public class DemoDataGenerator
             .RuleFor(o => o.Status, f => f.PickRandom<Status>())
             .RuleFor(o => o.Amount, f => f.Random.Int(1, 300))
             .RuleFor(o => o.Deadline, f => f.Date.Soon(60, DateTime.Now))
-            .RuleFor(o => o.Payment, f => { f.IndexVariable++; return payments[f.IndexVariable-1]; });
+            .RuleFor(o => o.Payment, f => { f.IndexVariable++; return payments[f.IndexVariable - 1]; });
 
         var orders = orderFaker.Generate(100);
 
@@ -207,8 +206,7 @@ public class DemoDataGenerator
         _context.SaveChanges();
 
         //Roles
-        _context.Roles.AddRange(new List<Role> { new() { Name = "Customer" }, new() { Name = "Employee" }, new() { Name = "Manager" }, new() { Name = "Administrator" } });
-        _context.SaveChanges();
+        //Role are static data, they were inserted during migrations
 
         //ProductAmounts
         var productAmountFaker = new Faker<Product_Amount>()
@@ -260,4 +258,3 @@ public class DemoDataGenerator
         _context.ChangeTracker.Clear();
     }
 }
-

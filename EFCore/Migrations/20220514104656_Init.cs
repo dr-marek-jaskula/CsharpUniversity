@@ -181,7 +181,6 @@ namespace EFCore.Migrations
                     DateOfBirth = table.Column<DateTime>(type: "DATE", nullable: true),
                     ContactNumber = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Nationality = table.Column<string>(type: "VARCHAR(50)", nullable: true),
                     AddressId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -248,7 +247,6 @@ namespace EFCore.Migrations
                     DateOfBirth = table.Column<DateTime>(type: "DATE", nullable: true),
                     ContactNumber = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Nationality = table.Column<string>(type: "VARCHAR(50)", nullable: true),
                     AddressId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -274,6 +272,8 @@ namespace EFCore.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Stars = table.Column<byte>(type: "TINYINT", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "DATETIME2", nullable: false, defaultValueSql: "getutcdate()"),
+                    UpdatedDate = table.Column<DateTime>(type: "DATETIME2", nullable: false, defaultValueSql: "getutcdate()"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: true),
@@ -301,7 +301,7 @@ namespace EFCore.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Amount = table.Column<int>(type: "INT", nullable: false),
-                    Status = table.Column<string>(type: "VARCHAR(10)", nullable: false, comment: "Received, InProgress, Done or Rejected"),
+                    Status = table.Column<string>(type: "VARCHAR(10)", nullable: false, defaultValue: "Received", comment: "Received, InProgress, Done or Rejected"),
                     Deadline = table.Column<DateTime>(type: "DATE", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: true),
                     PaymentId = table.Column<int>(type: "int", nullable: true),
@@ -341,8 +341,8 @@ namespace EFCore.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "VARCHAR(60)", nullable: false),
                     Email = table.Column<string>(type: "VARCHAR(40)", nullable: false),
-                    CreateTime = table.Column<DateTime>(type: "DATE", nullable: false, defaultValue: new DateTime(2022, 4, 10, 0, 0, 0, 0, DateTimeKind.Local)),
-                    PasswordHash = table.Column<string>(type: "NVARCHAR(514)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "DATE", nullable: false, defaultValueSql: "getutcdate()"),
+                    PasswordHash = table.Column<string>(type: "NCHAR(514)", nullable: false),
                     RoleId = table.Column<byte>(type: "TINYINT", nullable: false),
                     EmployeeId = table.Column<short>(type: "SMALLINT", nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: true)
@@ -366,6 +366,17 @@ namespace EFCore.Migrations
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { (byte)1, "Customer" },
+                    { (byte)2, "Employee" },
+                    { (byte)3, "Manager" },
+                    { (byte)4, "Administrator" }
                 });
 
             migrationBuilder.CreateIndex(

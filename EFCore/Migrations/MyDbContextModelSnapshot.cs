@@ -17,7 +17,7 @@ namespace EFCore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.3")
+                .HasAnnotation("ProductVersion", "6.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -99,9 +99,6 @@ namespace EFCore.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Nationality")
-                        .HasColumnType("VARCHAR(50)");
-
                     b.Property<string>("Rank")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -164,9 +161,6 @@ namespace EFCore.Migrations
                     b.Property<short?>("ManagerId")
                         .HasColumnType("SMALLINT");
 
-                    b.Property<string>("Nationality")
-                        .HasColumnType("VARCHAR(50)");
-
                     b.Property<short?>("SalaryId")
                         .HasColumnType("SMALLINT");
 
@@ -218,7 +212,9 @@ namespace EFCore.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("VARCHAR(10)")
+                        .HasDefaultValue("Received")
                         .HasComment("Received, InProgress, Done or Rejected");
 
                     b.HasKey("Id");
@@ -329,6 +325,11 @@ namespace EFCore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DATETIME2")
+                        .HasDefaultValueSql("getutcdate()");
+
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
@@ -345,6 +346,11 @@ namespace EFCore.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("DATETIME2")
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -378,6 +384,28 @@ namespace EFCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Role", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = (byte)1,
+                            Name = "Customer"
+                        },
+                        new
+                        {
+                            Id = (byte)2,
+                            Name = "Employee"
+                        },
+                        new
+                        {
+                            Id = (byte)3,
+                            Name = "Manager"
+                        },
+                        new
+                        {
+                            Id = (byte)4,
+                            Name = "Administrator"
+                        });
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Salary", b =>
@@ -503,10 +531,10 @@ namespace EFCore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("DATE")
-                        .HasDefaultValue(new DateTime(2022, 4, 10, 0, 0, 0, 0, DateTimeKind.Local));
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
@@ -520,7 +548,7 @@ namespace EFCore.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR(514)");
+                        .HasColumnType("NCHAR(514)");
 
                     b.Property<byte>("RoleId")
                         .HasColumnType("TINYINT");
