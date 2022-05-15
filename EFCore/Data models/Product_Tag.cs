@@ -18,13 +18,5 @@ public class Product_TagEntityTypeConfiguration : IEntityTypeConfiguration<Produ
         builder.ToTable("Product_Tag");
 
         builder.HasKey(pt => new { pt.ProductId, pt.TagId });
-
-        builder.HasOne(pt => pt.Product)
-           .WithMany(p => p.Product_Tags)
-           .HasForeignKey(pt => pt.ProductId);
-
-        builder.HasOne(pt => pt.Tag)
-            .WithMany(t => t.Product_Tags)
-            .HasForeignKey(pt => pt.TagId);
     }
 }

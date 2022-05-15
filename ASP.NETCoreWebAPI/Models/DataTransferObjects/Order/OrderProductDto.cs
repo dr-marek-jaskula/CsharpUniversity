@@ -4,5 +4,6 @@ public record class OrderProductDto
 (
     int Id,
     string Name,
-    decimal Price
+    decimal Price,
+    List<TagDto> Tags
 );

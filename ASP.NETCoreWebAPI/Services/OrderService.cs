@@ -43,7 +43,7 @@ public class OrderService : IOrderService
     //_authorizationService is for a dynamic requirements (in our case it is "ResourceOperationHandler")
     private readonly IAuthorizationService _authorizationService;
 
-    //This is very flexible way to get the user data (custom made in Services). We inject if to have user information easy to get
+    //This is very flexible way to get the user data (custom made in Services). We inject it to have user information easy to get
     private readonly IUserContextService _userContextService;
 
     public OrderService(MyDbContext dbContex, IMapper mapper, ILogger<OrderService> logger, IAuthorizationService authorizationService, IUserContextService userContextService, SymSpells symSpells)
@@ -59,6 +59,7 @@ public class OrderService : IOrderService
     {
         var order = _dbContex.Orders
             .Include(o => o.Product)
+                .ThenInclude(p => p!.Tags)
             .Include(o => o.Payment)
             .FirstOrDefault(o => o.Id == id);
 

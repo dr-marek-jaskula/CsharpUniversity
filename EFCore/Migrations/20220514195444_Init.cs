@@ -150,7 +150,7 @@ namespace EFCore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product_Tag", x => new { x.ProductId, x.TagId });
+                    table.PrimaryKey("PK_Product_Tag", x => new { x.TagId, x.ProductId });
                     table.ForeignKey(
                         name: "FK_Product_Tag_Product_ProductId",
                         column: x => x.ProductId,
@@ -443,9 +443,9 @@ namespace EFCore.Migrations
                 column: "ShopId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_Tag_TagId",
+                name: "IX_Product_Tag_ProductId",
                 table: "Product_Tag",
-                column: "TagId");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Review_EmployeeId",

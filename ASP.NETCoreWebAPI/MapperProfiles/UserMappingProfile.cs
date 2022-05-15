@@ -21,5 +21,11 @@ public class UserMappingProfile : Profile
             .ForMember(p => p.Status, c => c.MapFrom(o => o.Status.ToString()));
 
         CreateMap<Product, OrderProductDto>();
+
+        CreateMap<Tag, TagDto>()
+            .ForMember(t => t.ProductTag, c => c.MapFrom(t => t.ProductTag.ToString()));
+
+        CreateMap<Address, AddressDto>();
+        CreateMap<CreateAddressDto, Address>();
     }
 }

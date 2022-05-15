@@ -23,13 +23,5 @@ public class ProductAmountEntityTypeConfiguration : IEntityTypeConfiguration<Pro
         builder.Property(pa => pa.Amount)
             .IsRequired(true)
             .HasColumnType("INT");
-
-        builder.HasOne(pa => pa.Product)
-           .WithMany(p => p.ProductAmounts)
-           .HasForeignKey(pt => pt.ProductId);
-
-        builder.HasOne(pa => pa.Shop)
-            .WithMany(s => s.ProductAmounts)
-            .HasForeignKey(pa => pa.ShopId);
     }
 }

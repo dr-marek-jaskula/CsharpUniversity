@@ -12,7 +12,7 @@ public class Shop
     public int? AddressId { get; set; }
     public virtual List<Employee> Employees { get; set; } = new();
     public virtual List<Order> Orders { get; set; } = new();
-    public virtual List<Product_Amount> ProductAmounts { get; set; } = new();
+    public virtual List<Product> Products { get; set; } = new();
 }
 
 public class ShopEntityTypeConfiguration : IEntityTypeConfiguration<Shop>

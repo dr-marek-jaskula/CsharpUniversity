@@ -304,15 +304,15 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("EFCore.Data_models.Product_Tag", b =>
                 {
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<short>("TagId")
                         .HasColumnType("SMALLINT");
 
-                    b.HasKey("ProductId", "TagId");
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("TagId");
+                    b.HasKey("TagId", "ProductId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Product_Tag", (string)null);
                 });
@@ -661,13 +661,13 @@ namespace EFCore.Migrations
             modelBuilder.Entity("EFCore.Data_models.Product_Tag", b =>
                 {
                     b.HasOne("EFCore.Data_models.Product", "Product")
-                        .WithMany("Product_Tags")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EFCore.Data_models.Tag", "Tag")
-                        .WithMany("Product_Tags")
+                        .WithMany()
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -771,8 +771,6 @@ namespace EFCore.Migrations
 
                     b.Navigation("ProductAmounts");
 
-                    b.Navigation("Product_Tags");
-
                     b.Navigation("Reviews");
                 });
 
@@ -795,11 +793,6 @@ namespace EFCore.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("ProductAmounts");
-                });
-
-            modelBuilder.Entity("EFCore.Data_models.Tag", b =>
-                {
-                    b.Navigation("Product_Tags");
                 });
 #pragma warning restore 612, 618
         }

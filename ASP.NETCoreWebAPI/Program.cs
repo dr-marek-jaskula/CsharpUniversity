@@ -19,6 +19,7 @@
 //AspNetCore.HealthChecks.UI
 //AspNetCore.HealthChecks.UI.Client
 //AspNetCore.HealthChecks.UI.InMemory.Storage
+//Swashbuckle.AspNetCore.FiltersSwashbuckle.AspNetCore.Filters
 
 using ASP.NETCoreWebAPI.Authentication;
 using ASP.NETCoreWebAPI.HealthChecks;
@@ -40,13 +41,15 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
+using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Text.Json.Serialization;
+using System.Xml.Linq;
 
 //This attribute make the Program class (that is from this Top-Level-Statement file and which is internal by default) visible to project "xUnitTestsForWebApi"
 [assembly: InternalsVisibleTo("xUnitTestsForWebApi")]
@@ -227,6 +230,7 @@ try
     builder.Services.AddScoped<IAccountService, AccountService>();
     builder.Services.AddScoped<IOrderService, OrderService>();
     builder.Services.AddScoped<IGitHubService, GitHubService>();
+    builder.Services.AddScoped<IAddressService, AddressService>();
 
     //ApproximationAlgorithm (there should be one for dictionary, and maybe more for approximation to certain set of strings)
     SymSpells symSpells = new();
@@ -279,11 +283,38 @@ try
         //Without versioning we just need:
         //options.SwaggerDoc("v1", new OpenApiInfo { Title = "CsharpUniversity API", Version = "v1" });
 
+        //Add filters from this assembly (look "Swagger" folder), needed for "builder.Services.AddSwaggerExamplesFromAssemblyOf();"
+        options.ExampleFilters();
+
+        //// adds any string you like to the request headers - in this case, a correlation id
+        //options.OperationFilter<AddHeaderOperationFilter>("correlationId", "Correlation Id for the request", false);
+        //// [SwaggerResponseHeader]
+        //options.OperationFilter<AddResponseHeadersFilter>();
+
         //Integrate xml comments (ones with "///" before the method)
         var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
         var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
         options.IncludeXmlComments(xmlPath);
+
+        // Adds "(Auth)" to the summary so that you can see which endpoints have Authorization (additionally add info about claims and requirements)
+        options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+
+        // add Security information to each operation for OAuth2 (on the right they are padlock generated -> open or close)
+        options.OperationFilter<SecurityRequirementsOperationFilter>();
+
+        //To tell the Swagger that authorization is needed -> give bearer and token to be authorized in the swagger
+        options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+        {
+            Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
+            In = ParameterLocation.Header, //where the "bearer {toke}" will be stored
+            Name = "Authorization", //name of the header
+            Type = SecuritySchemeType.ApiKey //the type of security
+        });
     });
+
+    //We add swagger response/request examples that can be found in "Swagger" folder. We use "Swashbuckle.AspNetCore.Filters"
+    //Then we need to Add another configuration into "AddWaggerGen"
+    builder.Services.AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly());
 
     //Optionally -> to avoid the cyclic reference in the serialized json file (DTO is the better approach, but sometime this approach can be useful)
     //builder.Services.Configure<JsonOptions>(options =>

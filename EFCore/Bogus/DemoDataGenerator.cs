@@ -227,7 +227,7 @@ public class DemoDataGenerator
         foreach (var order in orders)
         {
             order.Product = products.Skip(orders.IndexOf(order)).First();
-            order.Shop = order.Product.ProductAmounts.First(pa => pa.Product == order.Product).Shop;
+            order.Shop = order.Product.Shops.First(s => s.Products.Contains(order.Product));
             order.Customer = customers.Skip(orders.IndexOf(order)).First();
         }
 

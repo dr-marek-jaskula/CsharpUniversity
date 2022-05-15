@@ -22,13 +22,13 @@ public class MyDbContext : DbContext
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Review> Reviews => Set<Review>();
     public DbSet<Salary> Salaries => Set<Salary>();
+    public DbSet<Salary_Transfer> SalaryTransfers => Set<Salary_Transfer>();
     public DbSet<Shop> Shops => Set<Shop>();
     public DbSet<Tag> Tags => Set<Tag>();
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<User> Users => Set<User>();
     public DbSet<Product_Tag> ProductTags => Set<Product_Tag>();
     public DbSet<Product_Amount> ProductAmounts => Set<Product_Amount>();
-    public DbSet<Salary_Transfer> SalaryTransfers => Set<Salary_Transfer>();
 
     //3. The OnModelCreating method should be overridden
     protected override void OnModelCreating(ModelBuilder builder)
@@ -37,8 +37,9 @@ public class MyDbContext : DbContext
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         //5. The exception (not required, it still can be done in certain model files) is when we apply brand new approach for many-to-many relationship:
+        //Use models even if the c# models relations are direct
 
-        //Use Product_Tag model even if the c# models relations are direct
+        //Product_Tag
         builder.Entity<Product>(eb =>
         {
             eb.HasMany(p => p.Tags).WithMany(t => t.Products)
@@ -50,6 +51,19 @@ public class MyDbContext : DbContext
                     pt =>
                     {
                         pt.HasKey(x => new { x.TagId, x.ProductId });
+                    });
+        });
+
+        //Product_Amount (with additional data: "Amount")
+        builder.Entity<Product>(eb =>
+        {
+            eb.HasMany(p => p.Shops).WithMany(s => s.Products)
+                .UsingEntity<Product_Amount>(
+                    p => p.HasOne(pa => pa.Shop).WithMany().HasForeignKey(pa => pa.ShopId),
+                    p => p.HasOne(pa => pa.Product).WithMany().HasForeignKey(pa => pa.ProductId),
+                    pt =>
+                    {
+                        pt.HasKey(x => new { x.ShopId, x.ProductId });
                     });
         });
     }
