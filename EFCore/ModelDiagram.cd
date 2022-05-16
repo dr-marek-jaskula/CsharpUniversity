@@ -36,7 +36,7 @@
   <Class Name="EFCore.Data_models.Product" Collapsed="true">
     <Position X="5.25" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAECAEAAAQAAAAAAAAAAAAQAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <HashCode>AAECAEAAAQAAAAAAEAAAAAQAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Data models\Product.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -65,7 +65,7 @@
   <Class Name="EFCore.Data_models.Review" Collapsed="true">
     <Position X="5.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EEACAAAAAAAgAEAAAAAAAAAACAAAAAAAAQAAAAACAAA=</HashCode>
+      <HashCode>EEACAAAAAAAgAEAAAAAAAAAACAAAAAAAAwAAAAICAAA=</HashCode>
       <FileName>Data models\Review.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -93,7 +93,7 @@
   <Class Name="EFCore.Data_models.Shop" Collapsed="true">
     <Position X="6.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QAECAAAAAAAgAAAAAAAAAAQACAAAAAACAAIAAAAAAAA=</HashCode>
+      <HashCode>QAECAAAAAAAgAAAAAAAAAAQACAAAAAACAAAAAAAAAAQ=</HashCode>
       <FileName>Data models\Shop.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -103,7 +103,7 @@
   <Class Name="EFCore.Data_models.Tag" Collapsed="true">
     <Position X="0.5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAEAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>Data models\Tag.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -117,7 +117,7 @@
   <Class Name="EFCore.Data_models.Person" Collapsed="true">
     <Position X="10" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QAAAAFAAACAAAACAAAAAAAAAAAAQAAACAAAAAAAACAg=</HashCode>
+      <HashCode>QAAAAFAAACAAAACAAAAAAAAAAAAQAAACAAAAAAAAAAg=</HashCode>
       <FileName>Data models\Parents\Person.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -142,7 +142,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAGCAAIAACAAAAAAEQAAAAAACAEAABAAAAAAAAACAAA=</HashCode>
+      <HashCode>AAGCAAIAACAAAAAAEQAAAAAACAAAABAAAgAAAAACAAA=</HashCode>
       <FileName>Data models\User.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>

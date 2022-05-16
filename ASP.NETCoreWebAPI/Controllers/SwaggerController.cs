@@ -1,10 +1,8 @@
 ﻿using ASP.NETCoreWebAPI.Models.DataTransferObjects;
 using ASP.NETCoreWebAPI.Services;
-using Bogus;
 using EFCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static Humanizer.In;
 
 //Add //Swashbuckle.AspNetCore.FiltersSwashbuckle.AspNetCore.Filters in program.cs
 

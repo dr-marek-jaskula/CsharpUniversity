@@ -27,7 +27,8 @@ public interface IOrderService
 
     //int Create(CreateOrderDto dto);
 
-    //void Delete(int id);
+    //Delete without querying a record
+    void Delete(int id);
 
     void Update(int id, UpdateOrderDto dto);
 }
@@ -59,7 +60,9 @@ public class OrderService : IOrderService
     {
         var order = _dbContex.Orders
             .Include(o => o.Product)
-                .ThenInclude(p => p!.Tags)
+                .ThenInclude(p => p == null ? null : p.Shops)
+            .Include(o => o.Product) //To get the Tags also
+                .ThenInclude(p => p == null ? null : p.Tags)
             .Include(o => o.Payment)
             .FirstOrDefault(o => o.Id == id);
 
@@ -205,5 +208,25 @@ public class OrderService : IOrderService
     private void UpdateProductsSymSpellDictionary()
     {
         _symSpells.SymSpellsDictionary["Products"] = SymSpellFactory.CreateSymSpell(GetAllUniqueProductNames());
+    }
+
+    //Delete a record without querying it
+    public void Delete(int id)
+    {
+        //At first we create a new Order with an id given by the user
+        var orderToDelete = new Order() { Id = id };
+        //Then we Attach this instance to the ChangeTracker and get the entry from it
+        var entry = _dbContex.Orders.Attach(orderToDelete);
+        //Next we change the entry status to "Delete"
+        entry.State = EntityState.Deleted;
+        //Finally we save changes
+        try
+        {
+            _dbContex.SaveChanges();
+        }
+        catch
+        {
+            throw new NotFoundException($"Order with id = {id} not found");
+        }
     }
 }

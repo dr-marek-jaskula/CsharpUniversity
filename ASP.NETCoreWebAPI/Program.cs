@@ -49,7 +49,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Xml.Linq;
 
 //This attribute make the Program class (that is from this Top-Level-Statement file and which is internal by default) visible to project "xUnitTestsForWebApi"
 [assembly: InternalsVisibleTo("xUnitTestsForWebApi")]

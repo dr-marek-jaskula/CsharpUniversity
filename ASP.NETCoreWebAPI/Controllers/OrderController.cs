@@ -73,8 +73,10 @@ public class OrderController : ControllerBase
 
     //Authorization is required even it is not specified on the action level - it is specified on the controller level
     [HttpDelete("{id}")]
+    [AllowAnonymous]
     public ActionResult Delete([FromRoute] int id)
     {
+        _orderService.Delete(id);
         return NoContent();
     }
 
