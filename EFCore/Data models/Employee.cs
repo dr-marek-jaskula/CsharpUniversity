@@ -5,7 +5,7 @@ namespace EFCore.Data_models;
 
 public class Employee : Person
 {
-    //Properties that defined the database relations should be mark as virtual
+    //Properties that defines the database relations should be mark as virtual
     public int Id { get; set; }
 
     public DateTime HireDate { get; set; }

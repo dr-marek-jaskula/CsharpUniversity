@@ -9,4 +9,11 @@ public class ClassInheritance
     //Therefore, use "Table-per-hierarchy"
 
     //Comparison is done for "Table-per-hierarchy" vs "Table-per-type" approach at "Performance-comparison"
+
+    //Nevertheless, sometimes the "Table-per-type" is required:
+
+    //Examples:
+
+    //"Table-per-type"
+    //Data models -> Person (parents folder) + Customer + Employee
 }
