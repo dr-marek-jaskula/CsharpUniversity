@@ -1,9 +1,6 @@
 ﻿using Bogus;
-using Bogus.DataSets;
 using EFCore.Data_models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace EFCore.BogusDemo;
 
@@ -24,7 +21,24 @@ public class DemoDataGenerator
         _context = context;
     }
 
-    public void Generate()
+    public void ClearDatabase()
+    {
+        //-- Disable all constraints
+        //-- Delete data in all tables and use SET QUOTED_IDENTIFIES ON -> (QUOTED_IDENTIFIER controls the behavior of SQL Server handling double-quotes)
+        //-- Enable all constraints
+        //-- Reseed identity columns
+        _context.Database.ExecuteSqlRaw(@"
+            EXEC sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT all';
+            EXEC sp_MSForEachTable 'SET QUOTED_IDENTIFIER ON; DELETE FROM ?'
+            EXEC sp_MSForEachTable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all';
+            EXEC sp_MSForEachTable 'DBCC CHECKIDENT (''?'', RESEED, 0)';
+            ");
+        //make no error
+
+        _context.ChangeTracker.Clear();
+    }
+
+    public void SeedDatabase()
     {
         //This Faker class is from the Bogus NuGet package
 
@@ -149,7 +163,7 @@ public class DemoDataGenerator
             .RuleFor(t => t.Description, f => f.Random.Words(20))
             .RuleFor(t => t.Title, f => f.Random.Word())
             .RuleFor(t => t.Priority, f => f.Random.Number(1, 10));
-        
+
         var projects = projectsFaker.Generate(2);
         projects.ForEach(p =>
         {
@@ -288,62 +302,5 @@ public class DemoDataGenerator
             payment.Total = Helpers.CalculateTotal(payment.Order);
 
         _context.SaveChanges();
-    }
-
-    public void ClearDatabase()
-    {
-        List<string> listOfTableNames = new()
-        {
-            "Address",
-            "Customer",
-            "Employee",
-            "Order",
-            "Payment",
-            "Person",
-            "Product",
-            "Product_Amount",
-            "Product_Tag",
-            "Review",
-            "Role",
-            "Salary",
-            "Salary_Transfer",
-            "Shop",
-            "Tag",
-            "User",
-            "WorkItem"
-        };
-
-
-        //--disable all constraints
-        //--delete data in all tables and use SET QUOTED_IDENTIFIES ON -> (QUOTED_IDENTIFIER controls the behavior of SQL Server handling double-quotes)
-        //--enable all constraints
-        //--Reseed identity columns
-        _context.Database.ExecuteSqlRaw(@"
-            EXEC sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT all';
-            EXEC sp_MSForEachTable 'SET QUOTED_IDENTIFIER ON; DELETE FROM ?'
-            EXEC sp_MSForEachTable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all';
-            EXEC sp_MSForEachTable 'DBCC CHECKIDENT (''?'', RESEED, 0)';
-            ");
-
-        foreach (var tableName in listOfTableNames)
-            _context.Database.ExecuteSqlRaw("TRUNCATE TABLE [" + tableName + "]");
-
-        //_context.Database.ExecuteSqlRaw(@$"
-        //    DELETE FROM [{nameof(Review)}];
-        //    DELETE FROM [{nameof(Customer)}];
-        //    DELETE FROM [{nameof(Employee)}];
-        //    DELETE FROM [{nameof(Address)}];
-        //    DELETE FROM [{nameof(Order)}];
-        //    DELETE FROM [{nameof(Payment)}];
-        //    DELETE FROM [{nameof(Product)}];
-        //    DELETE FROM [{nameof(Product_Tag)}];
-        //    DELETE FROM [{nameof(Product_Amount)}];
-        //    DELETE FROM [{nameof(Salary)}];
-        //    DELETE FROM [{nameof(Shop)}];
-        //    DELETE FROM [{nameof(Salary_Transfer)}];
-        //    DELETE FROM [{nameof(Tag)}];
-        //");
-
-        _context.ChangeTracker.Clear();
     }
 }

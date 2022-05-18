@@ -521,7 +521,7 @@ namespace EFCore.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(30)");
+                        .HasColumnType("VARCHAR(45)");
 
                     b.HasKey("Id");
 

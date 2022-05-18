@@ -5,7 +5,7 @@ namespace EFCore.Data_models;
 
 //Table-per-hierarchy approach
 
-//The additional "Discriminator" column to distinguish the different children of a WorkItem 
+//The additional "Discriminator" column to distinguish the different children of a WorkItem
 
 public abstract class WorkItem
 {
@@ -40,7 +40,7 @@ public class WorkItemEntityTypeConfiguration : IEntityTypeConfiguration<WorkItem
             .HasComment("Received, InProgress, Done or Rejected");
 
         builder.Property(wi => wi.Title)
-            .HasColumnType("VARCHAR(30)")
+            .HasColumnType("VARCHAR(45)")
             .IsRequired(true);
 
         builder.Property(wi => wi.Description)

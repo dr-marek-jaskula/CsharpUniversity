@@ -6,19 +6,18 @@ namespace UniversityEntrypoints.EFCore;
 
 public class EFCoreDatabaseEntrypoint
 {
-
     [Fact]
-    public void EFCoreGenerateEntrypoint()
+    public void EFCoreSeedDatabaseEntrypoint()
     {
         MyDbContextFactory myDbContextFactory = new();
         MyDbContext myDbContext = myDbContextFactory.CreateDbContext();
 
         DemoDataGenerator demoDataGenerator = new(myDbContext);
-        demoDataGenerator.Generate();
+        demoDataGenerator.SeedDatabase();
     }
 
     [Fact]
-    public void EFCoreClearEntrypoint()
+    public void EFCoreClearDatabaseEntrypoint()
     {
         MyDbContextFactory myDbContextFactory = new();
         MyDbContext myDbContext = myDbContextFactory.CreateDbContext();
@@ -27,4 +26,3 @@ public class EFCoreDatabaseEntrypoint
         demoDataGenerator.ClearDatabase();
     }
 }
-

@@ -309,7 +309,7 @@ namespace EFCore.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Priority = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
                     Status = table.Column<string>(type: "VARCHAR(10)", nullable: false, defaultValue: "Received", comment: "Received, InProgress, Done or Rejected"),
-                    Title = table.Column<string>(type: "VARCHAR(30)", nullable: false),
+                    Title = table.Column<string>(type: "VARCHAR(45)", nullable: false),
                     Description = table.Column<string>(type: "VARCHAR(600)", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Cost = table.Column<decimal>(type: "decimal(6,2)", nullable: true),

@@ -23,7 +23,7 @@ namespace EFCore.EF_Core_advance
             INSERT INTO @Filters VALUES('%chair%');
             INSERT INTO @Filters VALUES('%plastic%');
 
-        -- The first query(Hits) gives 0 or 1 for each filter.
+        -- The first query (Hits) gives 0 or 1 for each filter.
         -- For example we can 3 offerings: 1,2,3 and 2 filters: chair, plastic
         -- Then after CROSS JOIN we have: "1 chair", "1 plastic", "2 chair", "2 plastic", "3 chair", "3 plastic"
         -- Next we use CASE WHEN to set 1 or 0 to this elements (if in Title or description or tag there are such filters)
@@ -66,10 +66,8 @@ namespace EFCore.EF_Core_advance
 
         #endregion RAW SQR for multi criteria search
 
-        //To Table-Valued Parameter in c#.
-        //The solution is "DataTable" class
+        //To obtain Table-Valued Parameter in c# solution is "DataTable" class
         //Example:
-        //To Table-Valued Parameter in c#. The solution is "DataTable" class
         //var filterTable = new DataTable();
         //filterTable.Columns.Add("Filter", typeof(string));
     }
@@ -88,34 +86,30 @@ namespace EFCore.Migrations
     //Custom migrations for adding Indexes (for CreateType look below)
     public partial class Indexes : Migration
     {
-        private const string Index1 = "CREATE UNIQUE INDEX UX_Employee_Email ON [dbo].[Employee](Email) INCLUDE(FirstName, LastName);";
-        private const string Index2 = "CREATE UNIQUE INDEX UX_Customer_Email ON [dbo].[Customer](Email) INCLUDE(FirstName, LastName);";
-        private const string Index3 = "CREATE INDEX IX_Order_Deadline_Status ON [dbo].[Order](Deadline, Status) INCLUDE(Amount, ProductId) WHERE Status IN('Recieved', 'InProgress');";
-        private const string Index4 = "CREATE INDEX IX_Payment_Deadline_Status ON [dbo].[Payment] (Deadline, Status) INCLUDE(Total) WHERE Status<> 'Rejected';";
-        private const string Index5 = "CREATE UNIQUE INDEX IX_User_Username ON [dbo].[User](Username) INCLUDE(Email);";
-        private const string Index6 = "CREATE UNIQUE INDEX IX_User_Email ON [dbo].[User](Email);";
-        private const string Index7 = "CREATE UNIQUE INDEX IX_Customer_Email ON [dbo].[Customer](Email);";
-        private const string Index8 = "CREATE UNIQUE INDEX IX_Employee_Email ON [dbo].[Employee](Email);";
+        private const string Index1 = "CREATE UNIQUE INDEX UX_Person_Email ON [dbo].[Person](Email) INCLUDE(FirstName, LastName);";
+        private const string Index2 = "CREATE INDEX IX_Order_Deadline_Status ON [dbo].[Order](Deadline, Status) INCLUDE(Amount, ProductId) WHERE Status IN('Recieved', 'InProgress');";
+        private const string Index3 = "CREATE INDEX IX_Payment_Deadline_Status ON [dbo].[Payment] (Deadline, Status) INCLUDE(Total) WHERE Status<> 'Rejected';";
+        private const string Index4 = "CREATE UNIQUE INDEX IX_User_Username ON [dbo].[User](Username) INCLUDE(Email);";
+        private const string Index5 = "CREATE UNIQUE INDEX IX_User_Email ON [dbo].[User](Email);";
+        private const string Index6 = "CREATE UNIQUE INDEX IX_Person_Email ON [dbo].[Person](Email);";
 
-        private const string DropIndex1 = "DROP INDEX IX_Employee_Email;";
-        private const string DropIndex2 = "DROP INDEX UX_Customer_Email;";
-        private const string DropIndex3 = "DROP INDEX IX_Order_Deadline_Status;";
-        private const string DropIndex4 = "DROP INDEX IX_Payment_Deadline_Status;";
-        private const string DropIndex5 = "DROP INDEX IX_User_Username;";
-        private const string DropIndex6 = "DROP INDEX IX_User_Email;";
-        private const string DropIndex7 = "DROP INDEX IX_Customer_Email;";
-        private const string DropIndex8 = "DROP INDEX IX_Employee_Email;";
+        private const string DropIndex1 = "DROP INDEX UX_Person_Email;";
+        private const string DropIndex2 = "DROP INDEX IX_Order_Deadline_Status;";
+        private const string DropIndex3 = "DROP INDEX IX_Payment_Deadline_Status;";
+        private const string DropIndex4 = "DROP INDEX IX_User_Username;";
+        private const string DropIndex5 = "DROP INDEX IX_User_Email;";
+        private const string DropIndex6 = "DROP INDEX IX_Person_Email;";
 
         //Up method is performed when the database is updated (upgrade)
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql($"{Index1}{Index2}{Index3}{Index4}{Index5}{Index6}{Index7}{Index8}");
+            migrationBuilder.Sql($"{Index1}{Index2}{Index3}{Index4}{Index5}{Index6}");
         }
 
         //Down method is used to downgrade the migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql($"{DropIndex1}{DropIndex2}{DropIndex3}{DropIndex4}{DropIndex5}{DropIndex6}{DropIndex7}{DropIndex8}");
+            migrationBuilder.Sql($"{DropIndex1}{DropIndex2}{DropIndex3}{DropIndex4}{DropIndex5}{DropIndex6}");
         }
     }
 
@@ -143,7 +137,7 @@ namespace EFCore.Migrations
 
 public IQueryable<OfferingSummary> MultiWordSearchSql(params string[] filter)
 {
-    //To Table-Valued Parameter in c#. The solution is "DataTable" class
+    //To obtain Table-Valued Parameter in c# solution is "DataTable" class
     var filterTable = new DataTable();
     filterTable.Columns.Add("Filter", typeof(string));
     foreach (var f in filter)

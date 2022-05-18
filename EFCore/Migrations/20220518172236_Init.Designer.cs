@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220518084900_Init")]
+    [Migration("20220518172236_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -523,7 +523,7 @@ namespace EFCore.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(30)");
+                        .HasColumnType("VARCHAR(45)");
 
                     b.HasKey("Id");
 
