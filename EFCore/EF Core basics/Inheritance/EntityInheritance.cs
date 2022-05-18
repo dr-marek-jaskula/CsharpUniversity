@@ -1,6 +1,6 @@
 ﻿namespace EFCore.EF_Core_basics;
 
-public class ClassInheritance
+public class EntityInheritance
 {
     //We have to different approaches of an Entity Framework Core in case when the inheritance occurs.
     //They are presented on the pictures
@@ -16,4 +16,7 @@ public class ClassInheritance
 
     //"Table-per-type"
     //Data models -> Person (parents folder) + Customer + Employee
+
+    //"Table-per-hierarchy"
+    //Data models -> WorkItem (parents folder) + Project, Task, Issue
 }

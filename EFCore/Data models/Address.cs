@@ -12,8 +12,7 @@ public class Address
     public string? Street { get; set; }
     public int? Building { get; set; }
     public int? Flat { get; set; }
-    public virtual Customer? Customer { get; set; }
-    public virtual Employee? Employee { get; set; }
+    public virtual Person? Person { get; set; }
     public virtual Shop? Shop { get; set; }
 }
 

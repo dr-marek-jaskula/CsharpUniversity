@@ -14,8 +14,15 @@ public class MyDbContext : DbContext
 
     //2. DbSets should be determine here
 
+    public DbSet<WorkItem> WorkItems => Set<WorkItem>();
+    public DbSet<Issue> Issues => Set<Issue>();
+    public DbSet<Data_models.Task> Tasks => Set<Data_models.Task>();
+    public DbSet<Project> Projects => Set<Project>();
+
+    public DbSet<Person> People => Set<Person>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Employee> Employees => Set<Employee>();
+
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<Address> Addresses => Set<Address>();
     public DbSet<Payment> Payments => Set<Payment>();
@@ -27,6 +34,7 @@ public class MyDbContext : DbContext
     public DbSet<Tag> Tags => Set<Tag>();
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<User> Users => Set<User>();
+
     public DbSet<Product_Tag> ProductTags => Set<Product_Tag>();
     public DbSet<Product_Amount> ProductAmounts => Set<Product_Amount>();
 

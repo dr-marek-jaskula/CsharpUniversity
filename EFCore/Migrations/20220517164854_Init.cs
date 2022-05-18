@@ -100,6 +100,30 @@ namespace EFCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Person",
+                columns: table => new
+                {
+                    Id = table.Column<short>(type: "SMALLINT", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Gender = table.Column<string>(type: "VARCHAR(7)", nullable: false, comment: "Male, Female or Unknown"),
+                    DateOfBirth = table.Column<DateTime>(type: "DATE", nullable: true),
+                    ContactNumber = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Person", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Person_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Shop",
                 columns: table => new
                 {
@@ -169,32 +193,24 @@ namespace EFCore.Migrations
                 name: "Employee",
                 columns: table => new
                 {
-                    Id = table.Column<short>(type: "SMALLINT", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<short>(type: "SMALLINT", nullable: false),
                     HireDate = table.Column<DateTime>(type: "DATE", nullable: false),
                     SalaryId = table.Column<short>(type: "SMALLINT", nullable: true),
                     ShopId = table.Column<byte>(type: "TINYINT", nullable: true),
-                    ManagerId = table.Column<short>(type: "SMALLINT", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Gender = table.Column<string>(type: "VARCHAR(7)", nullable: false, comment: "Male, Female or Unknown"),
-                    DateOfBirth = table.Column<DateTime>(type: "DATE", nullable: true),
-                    ContactNumber = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: true)
+                    ManagerId = table.Column<short>(type: "SMALLINT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employee", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Employee_Address_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Address",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Employee_Employee_ManagerId",
                         column: x => x.ManagerId,
                         principalTable: "Employee",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Employee_Person_Id",
+                        column: x => x.Id,
+                        principalTable: "Person",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Employee_Salary_SalaryId",
@@ -218,7 +234,7 @@ namespace EFCore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product_Amount", x => new { x.ProductId, x.ShopId });
+                    table.PrimaryKey("PK_Product_Amount", x => new { x.ShopId, x.ProductId });
                     table.ForeignKey(
                         name: "FK_Product_Amount_Product_ProductId",
                         column: x => x.ProductId,
@@ -237,30 +253,22 @@ namespace EFCore.Migrations
                 name: "Customer",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<short>(type: "SMALLINT", nullable: false),
                     Rank = table.Column<string>(type: "VARCHAR(8)", nullable: false, defaultValue: "Standard"),
-                    EmployeeId = table.Column<short>(type: "SMALLINT", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Gender = table.Column<string>(type: "VARCHAR(7)", nullable: false, comment: "Male, Female or Unknown"),
-                    DateOfBirth = table.Column<DateTime>(type: "DATE", nullable: true),
-                    ContactNumber = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: true)
+                    EmployeeId = table.Column<short>(type: "SMALLINT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customer", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Customer_Address_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Address",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Customer_Employee_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employee",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Customer_Person_Id",
+                        column: x => x.Id,
+                        principalTable: "Person",
                         principalColumn: "Id");
                 });
 
@@ -306,7 +314,7 @@ namespace EFCore.Migrations
                     ProductId = table.Column<int>(type: "int", nullable: true),
                     PaymentId = table.Column<int>(type: "int", nullable: true),
                     ShopId = table.Column<byte>(type: "TINYINT", nullable: true),
-                    CustomerId = table.Column<int>(type: "int", nullable: true)
+                    CustomerId = table.Column<short>(type: "SMALLINT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -345,7 +353,7 @@ namespace EFCore.Migrations
                     PasswordHash = table.Column<string>(type: "NCHAR(514)", nullable: false),
                     RoleId = table.Column<byte>(type: "TINYINT", nullable: false),
                     EmployeeId = table.Column<short>(type: "SMALLINT", nullable: true),
-                    CustomerId = table.Column<int>(type: "int", nullable: true)
+                    CustomerId = table.Column<short>(type: "SMALLINT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -380,23 +388,9 @@ namespace EFCore.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customer_AddressId",
-                table: "Customer",
-                column: "AddressId",
-                unique: true,
-                filter: "[AddressId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Customer_EmployeeId",
                 table: "Customer",
                 column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Employee_AddressId",
-                table: "Employee",
-                column: "AddressId",
-                unique: true,
-                filter: "[AddressId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employee_ManagerId",
@@ -438,9 +432,16 @@ namespace EFCore.Migrations
                 column: "ShopId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_Amount_ShopId",
+                name: "IX_Person_AddressId",
+                table: "Person",
+                column: "AddressId",
+                unique: true,
+                filter: "[AddressId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_Amount_ProductId",
                 table: "Product_Amount",
-                column: "ShopId");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_Tag_ProductId",
@@ -526,6 +527,9 @@ namespace EFCore.Migrations
 
             migrationBuilder.DropTable(
                 name: "Employee");
+
+            migrationBuilder.DropTable(
+                name: "Person");
 
             migrationBuilder.DropTable(
                 name: "Salary");
