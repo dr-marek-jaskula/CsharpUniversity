@@ -3,16 +3,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EFCore.Data_models;
 
-public class Issue : WorkItem
+public class Issue : WorkItem 
 {
-    public decimal Efford { get; set; }
+    public decimal Cost { get; set; }
 }
 
 public class IssueEntityTypeConfiguration : IEntityTypeConfiguration<Issue>
 {
     public void Configure(EntityTypeBuilder<Issue> builder)
     {
-        builder.Property(wi => wi.Efford)
-            .HasColumnType("decimal(5,2)");
+        builder.Property(wi => wi.Cost)
+            .HasColumnType("decimal(6,2)");
     }
 }

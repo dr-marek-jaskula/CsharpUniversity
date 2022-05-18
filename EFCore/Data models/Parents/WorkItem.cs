@@ -5,7 +5,9 @@ namespace EFCore.Data_models;
 
 //Table-per-hierarchy approach
 
-public class WorkItem
+//The additional "Discriminator" column to distinguish the different children of a WorkItem 
+
+public abstract class WorkItem
 {
     //Guid primary key
 
@@ -42,7 +44,7 @@ public class WorkItemEntityTypeConfiguration : IEntityTypeConfiguration<WorkItem
             .IsRequired(true);
 
         builder.Property(wi => wi.Description)
-            .HasColumnType("VARCHAR(300)")
+            .HasColumnType("VARCHAR(600)")
             .IsRequired(true);
     }
 }

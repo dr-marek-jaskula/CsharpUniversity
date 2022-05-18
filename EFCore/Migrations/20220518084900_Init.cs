@@ -303,6 +303,38 @@ namespace EFCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "WorkItem",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
+                    Status = table.Column<string>(type: "VARCHAR(10)", nullable: false, defaultValue: "Received", comment: "Received, InProgress, Done or Rejected"),
+                    Title = table.Column<string>(type: "VARCHAR(30)", nullable: false),
+                    Description = table.Column<string>(type: "VARCHAR(600)", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cost = table.Column<decimal>(type: "decimal(6,2)", nullable: true),
+                    ProjectLeaderId = table.Column<short>(type: "SMALLINT", nullable: true),
+                    StartDate = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2(0)", precision: 0, nullable: true),
+                    EmployeeId = table.Column<short>(type: "SMALLINT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WorkItem_Employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employee",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_WorkItem_Employee_ProjectLeaderId",
+                        column: x => x.ProjectLeaderId,
+                        principalTable: "Employee",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Order",
                 columns: table => new
                 {
@@ -488,6 +520,20 @@ namespace EFCore.Migrations
                 name: "IX_User_RoleId",
                 table: "User",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkItem_EmployeeId",
+                table: "WorkItem",
+                column: "EmployeeId",
+                unique: true,
+                filter: "[EmployeeId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkItem_ProjectLeaderId",
+                table: "WorkItem",
+                column: "ProjectLeaderId",
+                unique: true,
+                filter: "[ProjectLeaderId] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -509,6 +555,9 @@ namespace EFCore.Migrations
 
             migrationBuilder.DropTable(
                 name: "User");
+
+            migrationBuilder.DropTable(
+                name: "WorkItem");
 
             migrationBuilder.DropTable(
                 name: "Payment");

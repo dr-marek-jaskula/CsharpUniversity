@@ -1,6 +1,9 @@
 ﻿using Bogus;
+using Bogus.DataSets;
 using EFCore.Data_models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace EFCore.BogusDemo;
 
@@ -26,7 +29,7 @@ public class DemoDataGenerator
         //This Faker class is from the Bogus NuGet package
 
         //Addresses
-        var addressFaker = new Faker<Address>()
+        var addressFaker = new Faker<EFCore.Data_models.Address>()
             .RuleFor(a => a.Street, f => f.Address.StreetName())
             .RuleFor(a => a.City, f => f.Address.City())
             .RuleFor(a => a.Country, f => f.Address.Country())
@@ -107,6 +110,56 @@ public class DemoDataGenerator
             employee.Salary = salaries[employees.IndexOf(employee)];
             employee.Reviews.AddRange(reviews.Skip(5 * (employees.IndexOf(employee) - 1)).Take(5));
         }
+
+        _context.SaveChanges();
+
+        //WorkItems:
+        //Tasks
+        var tasksFaker = new Faker<EFCore.Data_models.Task>()
+            .RuleFor(t => t.Id, f => f.Random.Guid())
+            .RuleFor(t => t.Status, f => f.PickRandom(Status.Received, Status.InProgress))
+            .RuleFor(t => t.Description, f => f.Random.Words(20))
+            .RuleFor(t => t.Title, f => f.Random.Word())
+            .RuleFor(t => t.Priority, f => f.Random.Number(1, 10))
+            .RuleFor(t => t.StartDate, f => f.Date.Past(1, DateTime.Now))
+            .RuleFor(t => t.EndDate, f => f.Date.Future(1, DateTime.Now));
+
+        var tasks = tasksFaker.Generate(20);
+        tasks.ForEach(t =>
+        {
+            t.Employee = employees.First(e => e.Manager is not null && e.CurrentTask is null);
+            t.Employee.CurrentTask = t;
+        });
+
+        //Issues
+        var issuesFaker = new Faker<Issue>()
+            .RuleFor(t => t.Id, f => f.Random.Guid())
+            .RuleFor(t => t.Status, f => f.PickRandom(Status.Received, Status.InProgress))
+            .RuleFor(t => t.Description, f => f.Random.Words(20))
+            .RuleFor(t => t.Title, f => f.Random.Word())
+            .RuleFor(t => t.Priority, f => f.Random.Number(1, 10))
+            .RuleFor(t => t.Cost, f => f.Random.Decimal(1, 2000));
+
+        var issues = issuesFaker.Generate(8);
+
+        //Projects
+        var projectsFaker = new Faker<Project>()
+            .RuleFor(t => t.Id, f => f.Random.Guid())
+            .RuleFor(t => t.Status, f => f.PickRandom(Status.Received, Status.InProgress))
+            .RuleFor(t => t.Description, f => f.Random.Words(20))
+            .RuleFor(t => t.Title, f => f.Random.Word())
+            .RuleFor(t => t.Priority, f => f.Random.Number(1, 10));
+        
+        var projects = projectsFaker.Generate(2);
+        projects.ForEach(p =>
+        {
+            p.ProjectLeader = employees.First(e => e.Manager is null && e.Project is null);
+            p.ProjectLeader.Project = p;
+        });
+
+        _context.Issues.AddRange(issues);
+        _context.Tasks.AddRange(tasks);
+        _context.Projects.AddRange(projects);
 
         _context.SaveChanges();
 
@@ -239,21 +292,57 @@ public class DemoDataGenerator
 
     public void ClearDatabase()
     {
-        _context.Database.ExecuteSqlRaw(@$"
-            DELETE FROM [{nameof(Review)}];
-            DELETE FROM [{nameof(Customer)}];
-            DELETE FROM [{nameof(Employee)}];
-            DELETE FROM [{nameof(Address)}];
-            DELETE FROM [{nameof(Order)}];
-            DELETE FROM [{nameof(Payment)}];
-            DELETE FROM [{nameof(Product)}];
-            DELETE FROM [{nameof(Product_Tag)}];
-            DELETE FROM [{nameof(Product_Amount)}];
-            DELETE FROM [{nameof(Salary)}];
-            DELETE FROM [{nameof(Shop)}];
-            DELETE FROM [{nameof(Salary_Transfer)}];
-            DELETE FROM [{nameof(Tag)}];
-        ");
+        List<string> listOfTableNames = new()
+        {
+            "Address",
+            "Customer",
+            "Employee",
+            "Order",
+            "Payment",
+            "Person",
+            "Product",
+            "Product_Amount",
+            "Product_Tag",
+            "Review",
+            "Role",
+            "Salary",
+            "Salary_Transfer",
+            "Shop",
+            "Tag",
+            "User",
+            "WorkItem"
+        };
+
+
+        //--disable all constraints
+        //--delete data in all tables and use SET QUOTED_IDENTIFIES ON -> (QUOTED_IDENTIFIER controls the behavior of SQL Server handling double-quotes)
+        //--enable all constraints
+        //--Reseed identity columns
+        _context.Database.ExecuteSqlRaw(@"
+            EXEC sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT all';
+            EXEC sp_MSForEachTable 'SET QUOTED_IDENTIFIER ON; DELETE FROM ?'
+            EXEC sp_MSForEachTable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all';
+            EXEC sp_MSForEachTable 'DBCC CHECKIDENT (''?'', RESEED, 0)';
+            ");
+
+        foreach (var tableName in listOfTableNames)
+            _context.Database.ExecuteSqlRaw("TRUNCATE TABLE [" + tableName + "]");
+
+        //_context.Database.ExecuteSqlRaw(@$"
+        //    DELETE FROM [{nameof(Review)}];
+        //    DELETE FROM [{nameof(Customer)}];
+        //    DELETE FROM [{nameof(Employee)}];
+        //    DELETE FROM [{nameof(Address)}];
+        //    DELETE FROM [{nameof(Order)}];
+        //    DELETE FROM [{nameof(Payment)}];
+        //    DELETE FROM [{nameof(Product)}];
+        //    DELETE FROM [{nameof(Product_Tag)}];
+        //    DELETE FROM [{nameof(Product_Amount)}];
+        //    DELETE FROM [{nameof(Salary)}];
+        //    DELETE FROM [{nameof(Shop)}];
+        //    DELETE FROM [{nameof(Salary_Transfer)}];
+        //    DELETE FROM [{nameof(Tag)}];
+        //");
 
         _context.ChangeTracker.Clear();
     }

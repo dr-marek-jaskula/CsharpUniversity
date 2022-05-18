@@ -20,6 +20,7 @@
 //AspNetCore.HealthChecks.UI.Client
 //AspNetCore.HealthChecks.UI.InMemory.Storage
 //Swashbuckle.AspNetCore.FiltersSwashbuckle.AspNetCore.Filters
+//Microsoft.Extensions.Configuration.UserSecrets -> for secrets to override the appsettings.json locally
 
 using ASP.NETCoreWebAPI.Authentication;
 using ASP.NETCoreWebAPI.HealthChecks;

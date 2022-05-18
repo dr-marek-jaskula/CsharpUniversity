@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220517164854_Init")]
+    [Migration("20220518084900_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.4")
+                .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -495,6 +495,43 @@ namespace EFCore.Migrations
                     b.ToTable("User", (string)null);
                 });
 
+            modelBuilder.Entity("EFCore.Data_models.WorkItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(600)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Priority")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("VARCHAR(10)")
+                        .HasDefaultValue("Received")
+                        .HasComment("Received, InProgress, Done or Rejected");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WorkItem", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("WorkItem");
+                });
+
             modelBuilder.Entity("EFCore.Data_models.Customer", b =>
                 {
                     b.HasBaseType("EFCore.Data_models.Person");
@@ -538,6 +575,52 @@ namespace EFCore.Migrations
                     b.HasIndex("ShopId");
 
                     b.ToTable("Employee", (string)null);
+                });
+
+            modelBuilder.Entity("EFCore.Data_models.Issue", b =>
+                {
+                    b.HasBaseType("EFCore.Data_models.WorkItem");
+
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("decimal(6,2)");
+
+                    b.HasDiscriminator().HasValue("Issue");
+                });
+
+            modelBuilder.Entity("EFCore.Data_models.Project", b =>
+                {
+                    b.HasBaseType("EFCore.Data_models.WorkItem");
+
+                    b.Property<short>("ProjectLeaderId")
+                        .HasColumnType("SMALLINT");
+
+                    b.HasIndex("ProjectLeaderId")
+                        .IsUnique()
+                        .HasFilter("[ProjectLeaderId] IS NOT NULL");
+
+                    b.HasDiscriminator().HasValue("Project");
+                });
+
+            modelBuilder.Entity("EFCore.Data_models.Task", b =>
+                {
+                    b.HasBaseType("EFCore.Data_models.WorkItem");
+
+                    b.Property<short?>("EmployeeId")
+                        .HasColumnType("SMALLINT");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasPrecision(0)
+                        .HasColumnType("datetime2(0)");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasPrecision(0)
+                        .HasColumnType("datetime2(0)");
+
+                    b.HasIndex("EmployeeId")
+                        .IsUnique()
+                        .HasFilter("[EmployeeId] IS NOT NULL");
+
+                    b.HasDiscriminator().HasValue("Task");
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Order", b =>
@@ -710,6 +793,26 @@ namespace EFCore.Migrations
                     b.Navigation("Shop");
                 });
 
+            modelBuilder.Entity("EFCore.Data_models.Project", b =>
+                {
+                    b.HasOne("EFCore.Data_models.Employee", "ProjectLeader")
+                        .WithOne("Project")
+                        .HasForeignKey("EFCore.Data_models.Project", "ProjectLeaderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProjectLeader");
+                });
+
+            modelBuilder.Entity("EFCore.Data_models.Task", b =>
+                {
+                    b.HasOne("EFCore.Data_models.Employee", "Employee")
+                        .WithOne("CurrentTask")
+                        .HasForeignKey("EFCore.Data_models.Task", "EmployeeId");
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("EFCore.Data_models.Address", b =>
                 {
                     b.Navigation("Person");
@@ -757,7 +860,11 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("EFCore.Data_models.Employee", b =>
                 {
+                    b.Navigation("CurrentTask");
+
                     b.Navigation("Customers");
+
+                    b.Navigation("Project");
 
                     b.Navigation("Reviews");
 
