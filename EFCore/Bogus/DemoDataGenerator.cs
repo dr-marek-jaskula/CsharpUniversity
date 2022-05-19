@@ -33,7 +33,6 @@ public class DemoDataGenerator
             EXEC sp_MSForEachTable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all';
             EXEC sp_MSForEachTable 'IF (OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity'') = 1) DBCC CHECKIDENT (''?'', RESEED, 0)';
             ");
-        //make no error
 
         _context.ChangeTracker.Clear();
     }
