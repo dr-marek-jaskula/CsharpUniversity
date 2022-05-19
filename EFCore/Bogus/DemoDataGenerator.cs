@@ -26,12 +26,12 @@ public class DemoDataGenerator
         //-- Disable all constraints
         //-- Delete data in all tables and use SET QUOTED_IDENTIFIES ON -> (QUOTED_IDENTIFIER controls the behavior of SQL Server handling double-quotes)
         //-- Enable all constraints
-        //-- Reseed identity columns
+        //-- Reseed identity columns if the table has identity
         _context.Database.ExecuteSqlRaw(@"
             EXEC sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT all';
             EXEC sp_MSForEachTable 'SET QUOTED_IDENTIFIER ON; DELETE FROM ?'
             EXEC sp_MSForEachTable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all';
-            EXEC sp_MSForEachTable 'DBCC CHECKIDENT (''?'', RESEED, 0)';
+            EXEC sp_MSForEachTable 'IF (OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity'') = 1) DBCC CHECKIDENT (''?'', RESEED, 0)';
             ");
         //make no error
 
