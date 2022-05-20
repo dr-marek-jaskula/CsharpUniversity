@@ -1,4 +1,5 @@
 ﻿using EFCore.Data_models;
+using EFCore.Data_models.Views;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -37,6 +38,9 @@ public class MyDbContext : DbContext
 
     public DbSet<Product_Tag> ProductTags => Set<Product_Tag>();
     public DbSet<Product_Amount> ProductAmounts => Set<Product_Amount>();
+
+    //Views
+    public DbSet<EmployeeContactData> ViewEmployeeContactData => Set<EmployeeContactData>();
 
     //3. The OnModelCreating method should be overridden
     protected override void OnModelCreating(ModelBuilder builder)

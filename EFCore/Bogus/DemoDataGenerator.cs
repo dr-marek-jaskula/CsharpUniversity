@@ -39,7 +39,20 @@ public class DemoDataGenerator
 
     public void SeedDatabase()
     {
-        //This Faker class is from the Bogus NuGet package
+        //Faker class is from the Bogus NuGet package
+
+        //Roles
+        if (!_context.Roles.Any())
+        {
+            var roles = new Role[] {
+                new Role() { Name = "Customer" },
+                new Role() { Name = "Employee" },
+                new Role() { Name = "Manager" },
+                new Role() { Name = "Administrator" }
+            };
+            _context.Roles.AddRange(roles);
+            _context.SaveChanges();
+        }
 
         //Addresses
         var addressFaker = new Faker<EFCore.Data_models.Address>()

@@ -9,6 +9,3 @@ using Serilog.Events;
 //BenchmarkRunner.Run<DateParserBenchmarks>();
 
 LogBenchmarks.RunBenchmarks();
-//LogBenchmarks LogBenchmarks = new();
-//LogBenchmarks.Log_WithtIf_WithParams();
-//LogBenchmarks.Log_WithoutIf_WithParams();

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220518172236_Init")]
-    partial class Init
+    [Migration("20220520093709_Indexes")]
+    partial class Indexes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -493,6 +493,31 @@ namespace EFCore.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("User", (string)null);
+                });
+
+            modelBuilder.Entity("EFCore.Data_models.Views.EmployeeContactData", b =>
+                {
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Manager")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToView("View_EmployeeContactData");
                 });
 
             modelBuilder.Entity("EFCore.Data_models.WorkItem", b =>
