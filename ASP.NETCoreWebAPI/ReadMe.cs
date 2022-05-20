@@ -10,6 +10,11 @@
 
 //bulkUpdates / bulkDelets with "linq2db.EntityFrameworkCore" -> See EFCore -> EF Core advance -> Problems -> BulkUpdateOrDelete
 
+//Safe raw sql with interpolation example:
+//.FromSqlInterpolated($@"
+//    SELECT * FROM [table_name] WHERE Id = {variable};
+//    ");
+
 //LazyLoading -> (in this project the Lazy Loading is turned off
 //  A) Proxies approach
 //1) Install package "Microsoft.EntityFrameworkCore.Proxies"
