@@ -7,6 +7,5 @@ public record class RegisterUserDto
     string Password,
     string ConfirmPassword,
     int RoleId = 1,
-    int? EmployeeId = null,
-    int? CustomerId = null
+    int? PersonId = null
 );

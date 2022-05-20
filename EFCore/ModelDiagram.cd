@@ -3,7 +3,7 @@
   <Class Name="EFCore.Data_models.Address" Collapsed="true">
     <Position X="12.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIACABAAAAAAAAAIAAAAEAAAAAKAAAABAAIAAAAAAAA=</HashCode>
+      <HashCode>AIACABAAAAAABAAIAAAAEAAAAAKAAAABAAIAAAAAAAA=</HashCode>
       <FileName>Data models\Address.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -184,11 +184,11 @@
       <Property Name="ProjectLeader" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="EFCore.Data_models.Task" Collapsed="true">
+  <Class Name="EFCore.Data_models.WorkTask" Collapsed="true">
     <Position X="3.5" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgCAAAAAAAAAAAAEACAAA=</HashCode>
-      <FileName>Data models\Task.cs</FileName>
+      <FileName>Data models\WorkTask.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Employee" />

@@ -15,6 +15,9 @@ public class Person
     public string Email { get; set; } = string.Empty;
     public Address? Address { get; set; }
     public int? AddressId { get; set; }
+
+    //One to one relationship with User table (User, UserId)
+    public virtual User? User { get; set; }
 }
 
 public class PersonEntityTypeConfiguration : IEntityTypeConfiguration<Person>

@@ -18,9 +18,6 @@ public class Employee : Person
 
     public int? ShopId { get; set; }
 
-    //One to one relationship with User table (User, UserId)
-    public virtual User? User { get; set; }
-
     //Many to many relationship with customers (rest is in Customer class)
     public virtual List<Customer> Customers { get; set; } = new();
 
@@ -34,7 +31,7 @@ public class Employee : Person
     public virtual List<Employee>? Subordinates { get; set; } = new();
 
     //WorkItems relations
-    public virtual EFCore.Data_models.Task? CurrentTask { get; set; }
+    public virtual WorkTask? CurrentTask { get; set; }
 
     public virtual Project? Project { get; set; }
 }

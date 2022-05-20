@@ -8,6 +8,7 @@ using ASP.NETCoreWebAPI.StringApproxAlgorithms;
 using AutoMapper;
 using EFCore;
 using EFCore.Data_models;
+using LinqToDB.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,9 @@ public interface IOrderService
 
     //Delete without querying a record
     void Delete(int id);
+
+    //Bulk Update -> update many records using single sql command which is not possible by simple linq (we use "linq2db.EntityFrameworkCore"
+    void BulkUpdate(int addAmount);
 
     void Update(int id, UpdateOrderDto dto);
 }
@@ -238,5 +242,24 @@ public class OrderService : IOrderService
         {
             throw new NotFoundException($"Order with id = {id} not found");
         }
+    }
+
+    //Bulk Update -> update many records using single sql command which is not possible by simple linq (we use "linq2db.EntityFrameworkCore"
+    public void BulkUpdate(int addAmount)
+    {
+        //1) Install NuGet Package "linq2db.EntityFrameworkCore"
+        //2) Make IQueryable
+        var orders = _dbContex.Orders
+            //.AsQueryable() //If not filters or other, just use "AsQueryable"
+            .Where(o => o.Status == Status.InProgress);
+
+        //Use LinqToDB
+        LinqToDB.LinqExtensions.Update(orders.ToLinqToDB(), o => new Order
+        {
+            Amount = o.Amount + addAmount,
+        });
+        //We do not need to call db.SaveChanges() because Linq to db will use it
+
+        //Just one command will be used
     }
 }

@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace EFCore.Data_models;
 
-public class Task : WorkItem
+public class WorkTask : WorkItem
 {
     public DateTime? StartDate { get; set; }
     public DateTime? EndDate { get; set; }
@@ -12,9 +11,9 @@ public class Task : WorkItem
     public virtual Employee? Employee { get; set; }
 }
 
-public class TaskEntityTypeConfiguration : IEntityTypeConfiguration<Data_models.Task>
+public class TaskEntityTypeConfiguration : IEntityTypeConfiguration<WorkTask>
 {
-    public void Configure(EntityTypeBuilder<Data_models.Task> builder)
+    public void Configure(EntityTypeBuilder<WorkTask> builder)
     {
         builder.Property(wi => wi.EndDate)
             .HasPrecision(0);
@@ -24,6 +23,6 @@ public class TaskEntityTypeConfiguration : IEntityTypeConfiguration<Data_models.
 
         builder.HasOne(wi => wi.Employee)
             .WithOne(e => e.CurrentTask)
-            .HasForeignKey<Data_models.Task>(e => e.EmployeeId);
+            .HasForeignKey<WorkTask>(e => e.EmployeeId);
     }
 }

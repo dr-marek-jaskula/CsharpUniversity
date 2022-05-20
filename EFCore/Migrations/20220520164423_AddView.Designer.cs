@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220520102327_CoordinateToAddressAdded")]
-    partial class CoordinateToAddressAdded
+    [Migration("20220520164423_AddView")]
+    partial class AddView
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -459,19 +459,16 @@ namespace EFCore.Migrations
                         .HasColumnType("DATE")
                         .HasDefaultValueSql("getutcdate()");
 
-                    b.Property<short?>("CustomerId")
-                        .HasColumnType("SMALLINT");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("VARCHAR(40)");
 
-                    b.Property<short?>("EmployeeId")
-                        .HasColumnType("SMALLINT");
-
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("NCHAR(514)");
+
+                    b.Property<short?>("PersonId")
+                        .HasColumnType("SMALLINT");
 
                     b.Property<byte>("RoleId")
                         .HasColumnType("TINYINT");
@@ -482,13 +479,9 @@ namespace EFCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
+                    b.HasIndex("PersonId")
                         .IsUnique()
-                        .HasFilter("[CustomerId] IS NOT NULL");
-
-                    b.HasIndex("EmployeeId")
-                        .IsUnique()
-                        .HasFilter("[EmployeeId] IS NOT NULL");
+                        .HasFilter("[PersonId] IS NOT NULL");
 
                     b.HasIndex("RoleId");
 
@@ -626,7 +619,7 @@ namespace EFCore.Migrations
                     b.HasDiscriminator().HasValue("Project");
                 });
 
-            modelBuilder.Entity("EFCore.Data_models.Task", b =>
+            modelBuilder.Entity("EFCore.Data_models.WorkTask", b =>
                 {
                     b.HasBaseType("EFCore.Data_models.WorkItem");
 
@@ -645,7 +638,7 @@ namespace EFCore.Migrations
                         .IsUnique()
                         .HasFilter("[EmployeeId] IS NOT NULL");
 
-                    b.HasDiscriminator().HasValue("Task");
+                    b.HasDiscriminator().HasValue("WorkTask");
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Address", b =>
@@ -785,13 +778,9 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("EFCore.Data_models.User", b =>
                 {
-                    b.HasOne("EFCore.Data_models.Customer", "Customer")
+                    b.HasOne("EFCore.Data_models.Person", "Person")
                         .WithOne("User")
-                        .HasForeignKey("EFCore.Data_models.User", "CustomerId");
-
-                    b.HasOne("EFCore.Data_models.Employee", "Employee")
-                        .WithOne("User")
-                        .HasForeignKey("EFCore.Data_models.User", "EmployeeId");
+                        .HasForeignKey("EFCore.Data_models.User", "PersonId");
 
                     b.HasOne("EFCore.Data_models.Role", "Role")
                         .WithMany("Users")
@@ -799,9 +788,7 @@ namespace EFCore.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customer");
-
-                    b.Navigation("Employee");
+                    b.Navigation("Person");
 
                     b.Navigation("Role");
                 });
@@ -857,11 +844,11 @@ namespace EFCore.Migrations
                     b.Navigation("ProjectLeader");
                 });
 
-            modelBuilder.Entity("EFCore.Data_models.Task", b =>
+            modelBuilder.Entity("EFCore.Data_models.WorkTask", b =>
                 {
                     b.HasOne("EFCore.Data_models.Employee", "Employee")
                         .WithOne("CurrentTask")
-                        .HasForeignKey("EFCore.Data_models.Task", "EmployeeId");
+                        .HasForeignKey("EFCore.Data_models.WorkTask", "EmployeeId");
 
                     b.Navigation("Employee");
                 });
@@ -876,6 +863,11 @@ namespace EFCore.Migrations
             modelBuilder.Entity("EFCore.Data_models.Payment", b =>
                 {
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("EFCore.Data_models.Person", b =>
+                {
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Product", b =>
@@ -907,8 +899,6 @@ namespace EFCore.Migrations
             modelBuilder.Entity("EFCore.Data_models.Customer", b =>
                 {
                     b.Navigation("Orders");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EFCore.Data_models.Employee", b =>
@@ -922,8 +912,6 @@ namespace EFCore.Migrations
                     b.Navigation("Reviews");
 
                     b.Navigation("Subordinates");
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

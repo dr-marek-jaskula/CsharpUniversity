@@ -72,11 +72,23 @@ public class OrderController : ControllerBase
     }
 
     //Authorization is required even it is not specified on the action level - it is specified on the controller level
+    //Delete a record without querying it
     [HttpDelete("{id}")]
     [AllowAnonymous]
     public ActionResult Delete([FromRoute] int id)
     {
         _orderService.Delete(id);
+        return NoContent();
+    }
+
+    //Authorization is required even it is not specified on the action level - it is specified on the controller level
+    //BulkUpdate with "linq2db.EntityFrameworkCore" (updating many record with one statement, which cannot be done by simple linq -> only raw sql or this package)
+    [HttpPatch("{addAmount}")]
+    [AllowAnonymous]
+    public ActionResult BulkUpdate([FromRoute] int addAmount)
+    {
+        //We can also create bulk deletes
+        _orderService.BulkUpdate(addAmount);
         return NoContent();
     }
 

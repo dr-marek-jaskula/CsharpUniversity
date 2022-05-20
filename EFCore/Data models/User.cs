@@ -12,10 +12,8 @@ public class User
     public string PasswordHash { get; set; } = string.Empty;
     public int RoleId { get; set; }
     public virtual Role? Role { get; set; }
-    public int? EmployeeId { get; set; }
-    public virtual Employee? Employee { get; set; }
-    public int? CustomerId { get; set; }
-    public virtual Customer? Customer { get; set; }
+    public int? PersonId { get; set; }
+    public virtual Person? Person { get; set; }
 }
 
 public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
@@ -45,12 +43,8 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.RoleId)
             .HasColumnType("TINYINT");
 
-        builder.HasOne(u => u.Employee)
-            .WithOne(e => e.User)
-            .HasForeignKey<User>(u => u.EmployeeId);
-
-        builder.HasOne(u => u.Customer)
+        builder.HasOne(u => u.Person)
             .WithOne(c => c.User)
-            .HasForeignKey<User>(u => u.CustomerId);
+            .HasForeignKey<User>(u => u.PersonId);
     }
 }

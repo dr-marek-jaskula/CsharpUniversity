@@ -8,8 +8,9 @@
 //Static Files -> FileController, wwwroot, PrivateFiles, Program.cs
 //HealthChecks -> program.cs (in configure and configure services), appsettings.json, HealthChecks folder
 
-//LazyLoading -> (in this project the Lazy Loading is turned off)
+//bulkUpdates / bulkDelets with "linq2db.EntityFrameworkCore" -> See EFCore -> EF Core advance -> Problems -> BulkUpdateOrDelete
 
+//LazyLoading -> (in this project the Lazy Loading is turned off
 //  A) Proxies approach
 //1) Install package "Microsoft.EntityFrameworkCore.Proxies"
 //2) Confirm that are database references (relation) are marked as "virtual"

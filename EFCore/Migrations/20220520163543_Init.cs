@@ -20,7 +20,9 @@ namespace EFCore.Migrations
                     ZipCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Street = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Building = table.Column<byte>(type: "TINYINT", nullable: true),
-                    Flat = table.Column<byte>(type: "TINYINT", nullable: true)
+                    Flat = table.Column<byte>(type: "TINYINT", nullable: true),
+                    Longitude = table.Column<decimal>(type: "decimal(18,7)", precision: 18, scale: 7, nullable: true),
+                    Latitude = table.Column<decimal>(type: "decimal(18,7)", precision: 18, scale: 7, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -185,6 +187,35 @@ namespace EFCore.Migrations
                         name: "FK_Product_Tag_Tag_TagId",
                         column: x => x.TagId,
                         principalTable: "Tag",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "VARCHAR(60)", nullable: false),
+                    Email = table.Column<string>(type: "VARCHAR(40)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "DATE", nullable: false, defaultValueSql: "getutcdate()"),
+                    PasswordHash = table.Column<string>(type: "NCHAR(514)", nullable: false),
+                    RoleId = table.Column<byte>(type: "TINYINT", nullable: false),
+                    PersonId = table.Column<short>(type: "SMALLINT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_User_Person_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Person",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_User_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -373,41 +404,6 @@ namespace EFCore.Migrations
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "User",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "VARCHAR(60)", nullable: false),
-                    Email = table.Column<string>(type: "VARCHAR(40)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "DATE", nullable: false, defaultValueSql: "getutcdate()"),
-                    PasswordHash = table.Column<string>(type: "NCHAR(514)", nullable: false),
-                    RoleId = table.Column<byte>(type: "TINYINT", nullable: false),
-                    EmployeeId = table.Column<short>(type: "SMALLINT", nullable: true),
-                    CustomerId = table.Column<short>(type: "SMALLINT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_User_Customer_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customer",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_User_Employee_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employee",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_User_Role_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Role",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "Role",
                 columns: new[] { "Id", "Name" },
@@ -503,18 +499,11 @@ namespace EFCore.Migrations
                 filter: "[AddressId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_CustomerId",
+                name: "IX_User_PersonId",
                 table: "User",
-                column: "CustomerId",
+                column: "PersonId",
                 unique: true,
-                filter: "[CustomerId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_EmployeeId",
-                table: "User",
-                column: "EmployeeId",
-                unique: true,
-                filter: "[EmployeeId] IS NOT NULL");
+                filter: "[PersonId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_RoleId",
@@ -560,6 +549,9 @@ namespace EFCore.Migrations
                 name: "WorkItem");
 
             migrationBuilder.DropTable(
+                name: "Customer");
+
+            migrationBuilder.DropTable(
                 name: "Payment");
 
             migrationBuilder.DropTable(
@@ -567,9 +559,6 @@ namespace EFCore.Migrations
 
             migrationBuilder.DropTable(
                 name: "Product");
-
-            migrationBuilder.DropTable(
-                name: "Customer");
 
             migrationBuilder.DropTable(
                 name: "Role");

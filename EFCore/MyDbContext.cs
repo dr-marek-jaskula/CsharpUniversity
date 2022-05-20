@@ -17,7 +17,7 @@ public class MyDbContext : DbContext
 
     public DbSet<WorkItem> WorkItems => Set<WorkItem>();
     public DbSet<Issue> Issues => Set<Issue>();
-    public DbSet<Data_models.Task> Tasks => Set<Data_models.Task>();
+    public DbSet<WorkTask> Tasks => Set<WorkTask>();
     public DbSet<Project> Projects => Set<Project>();
 
     public DbSet<Person> People => Set<Person>();

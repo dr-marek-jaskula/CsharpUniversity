@@ -141,7 +141,7 @@ public class DemoDataGenerator
 
         //WorkItems:
         //Tasks
-        var tasksFaker = new Faker<EFCore.Data_models.Task>()
+        var tasksFaker = new Faker<WorkTask>()
             .RuleFor(t => t.Id, f => f.Random.Guid())
             .RuleFor(t => t.Status, f => f.PickRandom(Status.Received, Status.InProgress))
             .RuleFor(t => t.Description, f => f.Random.Words(20))
