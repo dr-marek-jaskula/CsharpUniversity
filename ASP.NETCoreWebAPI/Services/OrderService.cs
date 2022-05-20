@@ -169,6 +169,16 @@ public class OrderService : IOrderService
                     { nameof(Order.Product.Name), o => o.Product != null ? o.Product.Name : ""},
                     { nameof(Order.Amount), o => o.Amount },
                 };
+                //Above we have boxing. To avoid it we can list the possible types (string, int and other if necessary) and create different Expressions for different types:
+                /*
+                Expression<Func<Order, string>> stringExpression;
+                Expression<Func<Order, int>> intExpression;
+                if (query.SortBy == nameof(Order.Product.Name))
+                    stringExpression = o => o.Product != null ? o.Product.Name : "";
+                if (query.SortBy == nameof(Order.Amount))
+                    intExpression = o => o.Amount;
+                */
+                //Then, the below code should also be modified.
 
                 var selectedColumn = columnsSelector[query.SortBy];
 

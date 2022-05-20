@@ -211,7 +211,9 @@ try
     });
 
     //DbContext
-    builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    builder.Services.AddDbContext<MyDbContext>(options => options
+        //.UseLazyLoadingProxies() //To configure all queries on LazyLoading (be careful of it, LazyLoading can cause troubles)
+        .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
     // Both with UseDeveloperExceptionPage provides default exception handling for "Developer" stage of api. More information below near "UseDeveloperExceptionPage"
     //.AddDatabaseDeveloperPageExceptionFilter();
 

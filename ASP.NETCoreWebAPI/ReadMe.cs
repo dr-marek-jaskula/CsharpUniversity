@@ -8,6 +8,25 @@
 //Static Files -> FileController, wwwroot, PrivateFiles, Program.cs
 //HealthChecks -> program.cs (in configure and configure services), appsettings.json, HealthChecks folder
 
+//LazyLoading -> (in this project the Lazy Loading is turned off)
+
+//  A) Proxies approach
+//1) Install package "Microsoft.EntityFrameworkCore.Proxies"
+//2) Confirm that are database references (relation) are marked as "virtual"
+//3) Add "UseLazyLoadingProxies()" on DbContext registration (Be careful, because LazyLoading can cause troubles!)
+
+//  B) ILazyLoader approach (https://www.learnentityframeworkcore.com/lazy-loading)
+//Use the "Microsoft.EntityFrameworkCore.Abstractions"
+//Inject ILazyLoader into the certain data model (with using Microsoft.EntityFrameworkCore.Infrastructure;):
+//Then the getter should be like:
+/*
+    public virtual List<Book> Books
+    {
+        get => _lazyLoader.Load(this, ref _books);
+        set => _books = value;
+    }
+*/
+
 //IHttpCLientFactory -> GitHubService
 //Polly -> PollyPollicies, GitHubController, GitHubServices and look below
 //Filtering and Pagination with async programming and Polly -> Models (PageResult [mainly], QueryObjects), OrderQueryValidator, OrderController, OrderService, Polly

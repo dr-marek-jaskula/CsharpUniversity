@@ -31,6 +31,7 @@ public class PageResult<T>
         //LastElement
         ItemsTo = ItemsFrom + pageSize - 1;
 
+        //Total number of pages
         TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
     }
 }
