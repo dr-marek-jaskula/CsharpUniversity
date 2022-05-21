@@ -641,7 +641,7 @@ namespace EFCore.Migrations
 
             modelBuilder.Entity("EFCore.Data_models.Address", b =>
                 {
-                    b.OwnsOne("EFCore.Data_models.Owned.Coordinate", "Coordinate", b1 =>
+                    b.OwnsOne("EFCore.Data_models.Address.Coordinate#EFCore.Data_models.Owned.Coordinate", "Coordinate", b1 =>
                         {
                             b1.Property<int>("AddressId")
                                 .HasColumnType("int");
@@ -658,7 +658,7 @@ namespace EFCore.Migrations
 
                             b1.HasKey("AddressId");
 
-                            b1.ToTable("Address");
+                            b1.ToTable("Address", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("AddressId");
