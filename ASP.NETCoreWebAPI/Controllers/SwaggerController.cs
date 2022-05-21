@@ -92,7 +92,7 @@ public class SwaggerController : ControllerBase
     /// <response code="200">*Returns* ok (my **custom** description)</response>
     /// <response code="400">>Returns bad request (my other custom description)</response>
     /// <response code="404">>>Returns not found (again my other custom description)</response>
-    [HttpGet("BasicDescribedRespose")]
+    [HttpGet("BasicDescribedRespose/{message}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(404)]

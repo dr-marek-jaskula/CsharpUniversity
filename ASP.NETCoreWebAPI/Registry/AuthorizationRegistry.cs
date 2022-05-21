@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace ASP.NETCoreWebAPI.Installers;
+namespace ASP.NETCoreWebAPI.Registry;
 
-public static class AuthorizationRegistry
+public static class AuthenticationRegistry
 {
-    public static AuthenticationSettings ConfigureAuthorization(this ConfigurationManager configuration)
+    public static AuthenticationSettings ConfigureAuthentication(this ConfigurationManager configuration)
     {
         AuthenticationSettings authenticationSettings = new();
 
@@ -18,7 +18,7 @@ public static class AuthorizationRegistry
         return authenticationSettings;
     }
 
-    public static void RegisterAuthorization(this IServiceCollection services, AuthenticationSettings authenticationSettings)
+    public static void RegisterAuthentication(this IServiceCollection services, AuthenticationSettings authenticationSettings)
     {
         //There should be only one authenticationSettings for the whole WebApi. Therefore, it should be Singleton (life cycle equal to application life cycle)
         services.AddSingleton(authenticationSettings);
