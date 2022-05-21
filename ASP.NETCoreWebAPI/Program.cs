@@ -1,4 +1,5 @@
 //This is the main entrypoint of our application.
+//Most of the code was move to the registries in the "Registry" folder
 
 //Install NuGet Packages:
 //AutoMapper.Extensions.Microsoft.DependencyInjection

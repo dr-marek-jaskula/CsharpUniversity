@@ -1,4 +1,6 @@
-﻿//Controllers (general info) -> UniversityController
+﻿//Most of the code was move to the registries in the "Registry" folder
+
+//Controllers (general info) -> UniversityController
 //Logging and Telemetry -> Program, LogDemoController, Logs (folder) [with RegulatiosLogStoring.txt], appsettings.json
 //Versioning and Swagger -> Program, AccountController, Swagger (folder), wwwroot swaggerstyles, SwaggerController + FILTERING (https://github.com/mattfrear/Swashbuckle.AspNetCore.Filters)
 //Validation (Fluent) -> Program, Models (folder) -> Validators, DataTransferObjects
