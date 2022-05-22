@@ -29,13 +29,12 @@
 //Use the "Microsoft.EntityFrameworkCore.Abstractions"
 //Inject ILazyLoader into the certain data model (with using Microsoft.EntityFrameworkCore.Infrastructure;):
 //Then the getter should be like:
-/*
-    public virtual List<Book> Books
-    {
-        get => _lazyLoader.Load(this, ref _books);
-        set => _books = value;
-    }
-*/
+
+//  public virtual List<Book> Books
+//  {
+//      get => _lazyLoader.Load(this, ref _books);
+//      set => _books = value;
+//  }
 
 //IHttpCLientFactory -> GitHubService
 //Polly -> PollyPollicies, GitHubController, GitHubServices and look below

@@ -14,8 +14,8 @@ public record class Email
         Regex regex = new(@"^([a-zA-Z])([a-zA-Z0-9]+)\.?([a-zA-Z0-9]+)@([a-z]+)\.[a-z]{2,3}$");
 
         Value = regex.IsMatch(email) ?
-            throw new ArgumentException("Email needs to start from a letter, contain '@' and after that '.'") :
-            email;
+            email :
+            throw new ArgumentException("Email needs to start from a letter, contain '@' and after that '.'");
     }
 
     public override string ToString()
