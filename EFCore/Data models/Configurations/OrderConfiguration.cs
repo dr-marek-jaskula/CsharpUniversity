@@ -34,5 +34,10 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
         builder.HasOne(o => o.Customer)
             .WithMany(p => p.Orders)
             .HasForeignKey(p => p.CustomerId);
+
+        //Indexes
+        builder.HasIndex(o => new { o.Deadline, o.Status }, "IX_Order_Deadline_Status")
+            .IncludeProperties(o => new { o.Amount, o.ProductId })
+            .HasFilter("Status IN ('Received', 'InProgress')");
     }
 }

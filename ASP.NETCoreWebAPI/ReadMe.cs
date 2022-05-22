@@ -12,6 +12,8 @@
 
 //bulkUpdates / bulkDelets with "linq2db.EntityFrameworkCore" -> See EFCore -> EF Core advance -> Problems -> BulkUpdateOrDelete
 
+//Includes with expression user like "Order order = await GetOrder(10252, db, o => o.Customer, o => o.Payment);" -> Services -> OrderService -> GoDown
+
 //Safe raw sql with interpolation example:
 //.FromSqlInterpolated($@"
 //    SELECT * FROM [table_name] WHERE Id = {variable};

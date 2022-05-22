@@ -33,5 +33,13 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
         builder.HasOne(u => u.Person)
             .WithOne(c => c.User)
             .HasForeignKey<User>(u => u.PersonId);
+
+        //Indexes
+        builder.HasIndex(u => u.Username, "IX_User_Username")
+            .IsUnique()
+            .IncludeProperties(o => o.Email);
+
+        builder.HasIndex(u => u.Email, "IX_User_Email")
+            .IsUnique();
     }
 }

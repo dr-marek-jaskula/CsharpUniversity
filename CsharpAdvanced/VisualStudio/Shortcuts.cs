@@ -66,6 +66,7 @@ public class Shortcuts
 
     //alt + f                               -> create new folder (custom made)
     //alt + n                               -> create new class (custom made)
+    //ctrl + p                              -> open PowerShell (custom made)
 
     //ctrl + m + m                          -> collapse current scope
 

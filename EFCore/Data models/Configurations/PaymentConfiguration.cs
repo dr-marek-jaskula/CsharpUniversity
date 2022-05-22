@@ -32,5 +32,10 @@ public class PaymentEntityTypeConfiguration : IEntityTypeConfiguration<Payment>
         builder.HasOne(p => p.Order)
             .WithOne(o => o.Payment)
             .HasForeignKey<Order>(o => o.PaymentId);
+
+        //Indexes
+        builder.HasIndex(o => new { o.Deadline, o.Status }, "IX_Payment_Deadline_Status")
+            .IncludeProperties(o => o.Total)
+            .HasFilter("Status <> 'Rejected'");
     }
 }

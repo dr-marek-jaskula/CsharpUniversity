@@ -262,4 +262,23 @@ public class OrderService : IOrderService
 
         //Just one command will be used
     }
+
+    //Great Helper method, generic. Example of use: " Order order = await GetOrder(3, db, o => o.Customer, o => o.Payment);"
+    public async Task<Order> GetOrder(int orderId, MyDbContext db, params Expression<Func<Order, object?>>[] includes)
+    {
+        //Solution: create a IQueryable object
+        var baseQuery = db.Orders
+            .Where(o => o.Id == orderId);
+        //.AsQueryable(); //if there is no method that will make is IQueryable
+
+        //Include data that are required
+        if (includes.Any())
+            foreach (var include in includes)
+                baseQuery = baseQuery.Include(include);
+
+        //Materialize the result
+        Order order = await baseQuery.FirstAsync();
+
+        return order;
+    }
 }
