@@ -1,6 +1,7 @@
 # .NET Learning Solution
 
-In this solution I present wide range of .NET topics for the learning purpose. 
+In this solution the wide range of .NET topics is presented for the learning purpose. 
+Both the basics and advanced issues are discussed 
 
 ## Technologies
 
@@ -21,3 +22,4 @@ In this solution I present wide range of .NET topics for the learning purpose.
 * Custom Migrations
 * Query optimization
 * Random data generating
+* String approximation algorithms
