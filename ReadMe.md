@@ -1,7 +1,7 @@
 # .NET Learning Solution
 
 In this solution the wide range of .NET topics is presented for the learning purpose. 
-Both the basics and advanced issues are discussed 
+Both the basics and advanced issues are discussed.
 
 ## Technologies
 
