@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace ASP.NETCoreWebAPI.Models.Validators;
+namespace ASP.NETCoreWebAPI.Filters;
 
 public class ValidatorActionFilter : IActionFilter
 {
@@ -19,6 +19,5 @@ public class ValidatorActionFilter : IActionFilter
 
     public void OnActionExecuted(ActionExecutedContext filterContext)
     {
-
     }
 }

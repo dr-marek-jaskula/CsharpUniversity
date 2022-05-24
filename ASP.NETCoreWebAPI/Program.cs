@@ -23,8 +23,8 @@
 //Swashbuckle.AspNetCore.FiltersSwashbuckle.AspNetCore.Filters
 //Microsoft.Extensions.Configuration.UserSecrets -> for secrets to override the appsettings.json locally
 
+using ASP.NETCoreWebAPI.Filters;
 using ASP.NETCoreWebAPI.HealthChecks;
-using ASP.NETCoreWebAPI.Models.Validators;
 using ASP.NETCoreWebAPI.PollyPolicies;
 using ASP.NETCoreWebAPI.Registry;
 using EFCore;
@@ -120,10 +120,8 @@ try
 
     //Validators - we can register them manually here. Sometimes we would like to register them as Singletons to optimize process, but mostly we register them at once, in FluentValidation options that are specified above.
     //Configure to automatically send response "Status: 400 BadRequest" with validation details when invalid request is received.
-    builder.Services.AddMvc(opt =>
-    {
-        opt.Filters.Add(typeof(ValidatorActionFilter));
-    });
+    //Filters are like Middlewares but for the specific endpoint or controller
+    builder.Services.RegisterFilters();
 
     //Swagger
     //Swagger and versioning (go to: Registry: SwaggerRegistry)

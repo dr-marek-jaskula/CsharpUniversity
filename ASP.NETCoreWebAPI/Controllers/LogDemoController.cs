@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ASP.NETCoreWebAPI.Filters;
+using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using SerilogTimings;
 
@@ -51,6 +52,7 @@ public class LogDemoController : ControllerBase
     }
 
     [HttpGet]
+    [ServiceFilter(typeof(LoggingFilter))]
     public string Ping()
     {
         //ASP.NET Core has a basic logger for simple purposes. Therefore, we could just use it like that without serilog (log to console is easy)
