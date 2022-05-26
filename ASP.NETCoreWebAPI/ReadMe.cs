@@ -1,4 +1,6 @@
 ﻿//Most of the code was move to the registries in the "Registry" folder
+//In registry there is also an "MyCustomExtension", a template for extension method with an additional options parameter, in form of lambda (action)
+//This approach is very common in many libraries
 
 //Controllers (general info) -> UniversityController
 //Logging and Telemetry -> Program, LogDemoController, Logs (folder) [with RegulatiosLogStoring.txt], appsettings.json

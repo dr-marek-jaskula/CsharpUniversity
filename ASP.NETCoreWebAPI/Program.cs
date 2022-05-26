@@ -23,7 +23,6 @@
 //Swashbuckle.AspNetCore.FiltersSwashbuckle.AspNetCore.Filters
 //Microsoft.Extensions.Configuration.UserSecrets -> for secrets to override the appsettings.json locally
 
-using ASP.NETCoreWebAPI.Filters;
 using ASP.NETCoreWebAPI.HealthChecks;
 using ASP.NETCoreWebAPI.PollyPolicies;
 using ASP.NETCoreWebAPI.Registry;

@@ -4,7 +4,7 @@ namespace CsharpBasics.Linq;
 
 //this is s library that is dedicated for operation on collection
 //this important to master at least some of the functionalities that ensures linq
-//One of the main advantages of the linq library is harmonizes with Entitiy Framework Core, letting to translate formulas to SQL statements (make operation on db side)
+//One of the main advantages of the linq library is harmonizes with Entity Framework Core, letting to translate formulas to SQL statements (make operation on db side)
 
 //Many liq method allow to use predicates (delegates, that can be passed in using lambda expressions) to determine elements on which some operation should be done
 //Linq method can be chained, so we can use one method after another, because mostly they return collection
@@ -13,6 +13,7 @@ public class Linq
 {
     //let us introduce lits that will be use to demonstrate linq possibilities (classes ale defined below)
     public static List<Employee> Employees1 { get; set; } = new();
+
     public static List<Employee> Employees2 { get; set; } = new();
     public static List<Job> Jobs { get; set; } = new();
 
@@ -37,7 +38,7 @@ public class Linq
         }).ToList();
 
         //The following example shows, that from the Employee1 list, the list of chars is selected (char are from employee last names)
-        var employeesLastNameLetters = Employees1.SelectMany(e => e.LastName).ToList(); 
+        var employeesLastNameLetters = Employees1.SelectMany(e => e.LastName).ToList();
 
         Jobs = jobNames.SelectMany(jobNames => jobDescriptions, (jobName, jobDescription) => new Job
         {
@@ -49,7 +50,7 @@ public class Linq
         //Select method return a collection obtained from a given collection, based on a delegate that determines the result
         Random random = new();
         var modifiedEmployeesName = Employees1.Select(e => e.FirstName + " Modification " + random.Next(10, 20).ToString()).ToList();
-        var modifiedEmployees = modifiedEmployeesName.Select(m => new Employee(m, possibleLastNames[random.Next(0,5)]));
+        var modifiedEmployees = modifiedEmployeesName.Select(m => new Employee(m, possibleLastNames[random.Next(0, 5)]));
 
         #endregion SelectMany, Select
 
@@ -76,7 +77,7 @@ public class Linq
         //this gives the same result, however using other keyword syntax. Usually not preferred syntax (mb for joins)
         var orderByAnotherSyntax = from s in StudentLinqList orderby s.Name select s;
         //with Select
-        var orderByAnotherSyntax2 = from s in StudentLinqList orderby s.Name select s.Id; 
+        var orderByAnotherSyntax2 = from s in StudentLinqList orderby s.Name select s.Id;
 
         //this is the same, because the by default the ascending order is selected
         var orderByAnotherWay3 = from s in StudentLinqList orderby s.Name ascending select s.Id;
@@ -94,9 +95,11 @@ public class Linq
         var orderByThenByAscending = StudentLinqList.OrderBy(s => s.Name).ThenBy(s => s.Id);
 
         //grouping, using keyword syntax. Grouping on common first character of a name. Results in a collection of collections
-        var sortedGroups = from s in StudentLinqList orderby s.Name, s.Id 
-                           group s by s.Name[0] into newGroup 
-                           orderby newGroup.Key select newGroup;
+        var sortedGroups = from s in StudentLinqList
+                           orderby s.Name, s.Id
+                           group s by s.Name[0] into newGroup
+                           orderby newGroup.Key
+                           select newGroup;
 
         #endregion OrderBy i ThenBy
 
@@ -152,7 +155,7 @@ public class Linq
 
         var groupedEmployees8 = Employees2.GroupBy(s => s.FirstName).Where(s => s.All(s => s.LastName.StartsWith("W")));
 
-        #endregion
+        #endregion Any, All
 
         #region Range, Concat, Union, Except, Intersect (set operations)
 
@@ -165,23 +168,23 @@ public class Linq
 
         //Union returns a collection that is a sum of both, excluding duplicates (same are math union of sets)
         IEnumerable<int> unionOfEnumerables = Enumerable.Union(firstEnumerable, secondEnumerable);
-        
+
         //Except method returns the collection that is a set difference of two collections
         IEnumerable<int> exceptOfEnumerables = Enumerable.Except(firstEnumerable, secondEnumerable);
 
         //Intersect is the set intersection
         IEnumerable<int> intersectOfEnumerables = Enumerable.Intersect(firstEnumerable, secondEnumerable);
 
-        #endregion Operacje na zbiorach
+        #endregion Range, Concat, Union, Except, Intersect (set operations)
 
         #region Contains, ElementAt
 
         //Contains method returns true if the element is the element of the collection
         if (Employees2.Contains(new Employee()))
             Console.WriteLine("New employee is in the collection");
-        
+
         Random rand = new();
-        
+
         int randomIndex = rand.Next(0, Employees2.Count());
 
         //ElementAt return the element at the given position
@@ -190,7 +193,9 @@ public class Linq
         if (Employees2.Contains(emp))
             Console.WriteLine("This element is in the collection");
 
-        #endregion 
+        #endregion Contains, ElementAt
+
+
 
         #region First, FirstOfDefault, Last, LastOrDefault, Single, SingleOrDefault
 
@@ -213,7 +218,7 @@ public class Linq
         //Single method returns the element that satisfied the predicate if there ir only ONE such element, otherwise it throws an exception
         var singleEmployee = Employees2.Single(employee => employee.FirstName == "Arek");
 
-        #endregion
+        #endregion First, FirstOfDefault, Last, LastOrDefault, Single, SingleOrDefault
     }
 }
 
