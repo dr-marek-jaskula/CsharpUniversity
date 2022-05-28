@@ -18,5 +18,6 @@ public class Extensions
     //SideScroller -> shift + scroll -> horizontal scroll
     //DotENV
     //Visafora
+    //File Path On Footer
     //Extension Manager 2022
 }
