@@ -32,7 +32,7 @@ internal class ReflectionShapeFactory
     {
         //Get assembly
         Assembly assembly = Assembly.GetExecutingAssembly();
-        //Get all ReflectionShape direct children
+        //Get all direct children of ReflectionShape
         _types.AddRange(assembly.GetTypes().Where(type => type.BaseType == typeof(ReflectionShape)));
     }
 
@@ -77,6 +77,7 @@ internal class ReflectionTriangle : ReflectionShape
     }
 }
 
+//Added after the factory was finished
 internal class ReflectionTrapezoid : ReflectionShape
 {
     public override void Render()
