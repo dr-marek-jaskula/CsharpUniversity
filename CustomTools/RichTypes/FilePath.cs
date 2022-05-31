@@ -1,36 +1,22 @@
-﻿using System.Collections;
+﻿using System.Text.RegularExpressions;
 
 namespace CustomTools;
 
 //Much better FilePath system with case insensitivity and implicit conversion!
 //Write once, use multiple times
 
-public record class FilePath : IEnumerable<char>
+//FilePath is for Windows paths
+public record class FilePath : AsString
 {
-    public string Value { get; }
+    private static readonly char[] _illegalCharacter = new[] { '<', '>', '|', '/', '?' };
 
     public FilePath(string path)
     {
         Value = string.IsNullOrWhiteSpace(path)
             ? throw new ArgumentException("Path cannot be null or empty")
-            : System.IO.Path.GetInvalidPathChars().Intersect(path).Any()
+            : System.IO.Path.GetInvalidPathChars().Union(_illegalCharacter).Intersect(path).Any() || path[2..].Contains(':')
             ? throw new ArgumentException("Path contains illegal characters")
             : System.IO.Path.GetFullPath(path.Trim());
-    }
-
-    public override string ToString()
-    {
-        return Value;
-    }
-
-    public virtual bool Equals(FilePath? other)
-    {
-        return Value.Equals(other?.Value, StringComparison.InvariantCultureIgnoreCase);
-    }
-
-    public override int GetHashCode()
-    {
-        return Value.ToLowerInvariant().GetHashCode();
     }
 
     //This implicit conversion allow us to just write: FilePath myFilePath = "test.txt";
@@ -38,16 +24,6 @@ public record class FilePath : IEnumerable<char>
     public static implicit operator FilePath(string name)
     {
         return new FilePath(name);
-    }
-
-    public IEnumerator<char> GetEnumerator()
-    {
-        return Value.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return Value.GetEnumerator();
     }
 
     public FileInfo GetInfo()
