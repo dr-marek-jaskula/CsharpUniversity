@@ -8,3 +8,4 @@ using CustomTools;
 
 //AES.InvokeAESExamples();
 //RSA.InvokeRSAExample();
+Console.WriteLine();
