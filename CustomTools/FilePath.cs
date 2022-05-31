@@ -1,15 +1,17 @@
-﻿namespace CustomTools;
+﻿using System.Collections;
+
+namespace CustomTools;
 
 //Much better FilePath system with case insensitivity and implicit conversion!
 //Write once, use multiple times
 
-public record class FilePath
+public record class FilePath : IEnumerable<char>
 {
-    public string Path { get; }
+    public string Value { get; }
 
     public FilePath(string path)
     {
-        Path = string.IsNullOrWhiteSpace(path)
+        Value = string.IsNullOrWhiteSpace(path)
             ? throw new ArgumentException("Path cannot be null or empty")
             : System.IO.Path.GetInvalidPathChars().Intersect(path).Any()
             ? throw new ArgumentException("Path contains illegal characters")
@@ -18,17 +20,17 @@ public record class FilePath
 
     public override string ToString()
     {
-        return Path;
+        return Value;
     }
 
     public virtual bool Equals(FilePath? other)
     {
-        return Path.Equals(other?.Path, StringComparison.InvariantCultureIgnoreCase);
+        return Value.Equals(other?.Value, StringComparison.InvariantCultureIgnoreCase);
     }
 
     public override int GetHashCode()
     {
-        return Path.ToLowerInvariant().GetHashCode();
+        return Value.ToLowerInvariant().GetHashCode();
     }
 
     //This implicit conversion allow us to just write: FilePath myFilePath = "test.txt";
@@ -38,13 +40,23 @@ public record class FilePath
         return new FilePath(name);
     }
 
+    public IEnumerator<char> GetEnumerator()
+    {
+        return Value.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return Value.GetEnumerator();
+    }
+
     public FileInfo GetInfo()
     {
-        return new FileInfo(Path);
+        return new FileInfo(Value);
     }
 
     public FilePath Combine(params string[] paths)
     {
-        return System.IO.Path.Combine(paths.Prepend(Path).ToArray());
+        return System.IO.Path.Combine(paths.Prepend(Value).ToArray());
     }
 }

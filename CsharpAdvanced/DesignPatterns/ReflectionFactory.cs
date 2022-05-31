@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
 
 namespace CsharpAdvanced.DesignPatterns;
@@ -40,6 +39,10 @@ internal class ReflectionShapeFactory
     {
         if (_types.Contains(type))
             return (ReflectionShape)Activator.CreateInstance(type)!;
+
+        //If the there is for example an additional constructor with 1 parameter:
+        //var parameterlessConstructor = type.GetConstructors().SingleOrDefault(c => c.GetParameters().Length == 0);
+        //return parameterlessConstructor is not null ? Activator.CreateInstance(type) : Activator.CreateInstance(type, param1);
 
         throw new ArgumentException($"Invalid input of {MethodBase.GetCurrentMethod()!.Name}. \"{type.Name}\" type is not supported. Please choose one of supported types: {string.Join(", ", _types.Select(t => t.Name))}.");
     }

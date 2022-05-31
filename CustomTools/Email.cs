@@ -1,11 +1,12 @@
 ﻿using System.Text.RegularExpressions;
+using System.Collections;
 
 namespace CustomTools;
 
 //Much better Email system with case sensitivity and implicit conversion!
 //Write once, use multiple times
 
-public record class Email
+public record class Email : IEnumerable<char>
 {
     public string Value { get; }
 
@@ -31,6 +32,16 @@ public record class Email
     public override int GetHashCode()
     {
         return Value.GetHashCode();
+    }
+
+    public IEnumerator<char> GetEnumerator()
+    {
+        return Value.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return Value.GetEnumerator();
     }
 
     //This implicit conversion allow us to just write: Email myEmail = "marek.kowalski@gmail.com";
