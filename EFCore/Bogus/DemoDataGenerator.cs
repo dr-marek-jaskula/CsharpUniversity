@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using EFCore.Data_models;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace EFCore.BogusDemo;
 
@@ -112,7 +113,7 @@ public class DemoDataGenerator
             .RuleFor(e => e.Gender, f => f.PickRandom<Gender>())
             .RuleFor(e => e.FirstName, (f, e) => f.Name.FirstName(ReturnGenderType(e.Gender)))
             .RuleFor(e => e.LastName, f => f.Name.LastName())
-            .RuleFor(e => e.DateOfBirth, f => f.Date.Past(23, DateTime.Now))
+            .RuleFor(e => e.DateOfBirth, f => DateOnly.FromDateTime(f.Date.Past(23, DateTime.Now)))
             .RuleFor(e => e.HireDate, f => f.Date.Past(3, DateTime.Now))
             .RuleFor(e => e.Email, (f, e) => f.Internet.Email(e.FirstName, e.LastName))
             .RuleFor(e => e.ContactNumber, f => f.Phone.PhoneNumber("### ### ###"))
@@ -194,7 +195,7 @@ public class DemoDataGenerator
             .RuleFor(c => c.Gender, f => f.PickRandom<Gender>())
             .RuleFor(c => c.FirstName, (f, e) => f.Name.FirstName(ReturnGenderType(e.Gender)))
             .RuleFor(c => c.LastName, f => f.Name.LastName())
-            .RuleFor(c => c.DateOfBirth, f => f.Date.Past(23, DateTime.Now))
+            .RuleFor(c => c.DateOfBirth, f => DateOnly.FromDateTime(f.Date.Past(23, DateTime.Now)))
             .RuleFor(c => c.Rank, f => f.PickRandom<Rank>())
             .RuleFor(c => c.Email, (f, e) => f.Internet.Email(e.FirstName, e.LastName))
             .RuleFor(c => c.ContactNumber, f => f.Phone.PhoneNumber("### ### ###"))

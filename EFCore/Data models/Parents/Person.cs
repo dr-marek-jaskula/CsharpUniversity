@@ -7,7 +7,10 @@ public class Person
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public Gender Gender { get; set; }
-    public DateTime? DateOfBirth { get; set; }
+
+    //DateOnly property needs a conversion to SQL Server DATE format
+    public DateOnly? DateOfBirth { get; set; }
+
     public string ContactNumber { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public Address? Address { get; set; }

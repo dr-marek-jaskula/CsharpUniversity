@@ -77,7 +77,7 @@ public class AccountService : IAccountService
         //Claims custom types (authorization based upon it)
         claims.Add(new Claim(type: ClaimPolicy.DateOfBirth, user switch
         {
-            { Person.DateOfBirth: DateTime } => user.Person.DateOfBirth.Value.ToString("yyyy-MM-dd"),
+            { Person.DateOfBirth: DateOnly } => user.Person.DateOfBirth.Value.ToString("yyyy-MM-dd"),
             _ => ""
         }));
 

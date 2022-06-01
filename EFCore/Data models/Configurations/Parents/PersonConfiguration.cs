@@ -29,6 +29,7 @@ public class PersonEntityTypeConfiguration : IEntityTypeConfiguration<Person>
             .HasMaxLength(40);
 
         builder.Property(c => c.DateOfBirth)
+            .HasConversion<DateOnlyConverter, DateOnlyComparer>()
             .HasColumnType("DATE")
             .HasDefaultValue(null);
 
