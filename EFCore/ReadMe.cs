@@ -69,3 +69,5 @@
 //14. EF Core features, performance issues and traps -> EF Core advance
 //!! Use bulkUpdate / bulkDelete
 //!! Use safe raw sql interpolation
+
+//To use DateOnly instead of DateTime see "Helpers" (Person, User) classes
