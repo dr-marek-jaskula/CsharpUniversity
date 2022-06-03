@@ -43,16 +43,18 @@
 //Filtering and Pagination with async programming and Polly -> Models (PageResult [mainly], QueryObjects), OrderQueryValidator, OrderController, OrderService, Polly
 //  Pagination: PageResult -> OrderQueryValidator -> QueryObjects -> OrderController -> OrderService
 
+//Avoiding exception approach using "LanguageExt.Core" NuGet Package. For performance in specific cases -> NoThrowController, NoThrowService
+
 //Additional -> Enums, Exceptions
 
-//Same Origin Policy (SOP): the requests are banned until CORS is applied.
+//Same Origin Policy (SOP): the requests are banned until CORS is applied
 //CORS policy: Cross-Origin Resource Sharing
 //To examine if the request is possible to be executed at first the request with HTTP verb "OPTIONS" is send
 //The Headers with this request are (can be):
 //"Access-Control-Request-Method" with HTTP verb like "Access-Control-Request-Method: GET"
 //"Access-Control-Request-Headers" with Header like "Access-Control-Request-Headers: Authorization"
 
-//The response for this OPTIONS request with Headers like:s
+//The response for this OPTIONS request with Headers like
 //"Access-Control-Allow-Origin" with domain name like "Access-Control-Allow-Origin: https://CsharpUniversity.com"
 //"Access-Control-Allow-Method" with HTTP verb like "Access-Control-Allow-Method: GET, POST, PUT, PATCH"
 //"Access-Control-Allow-Headers" with Header like "Access-Control-Allow-Headers: Authorization"

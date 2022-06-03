@@ -1,0 +1,42 @@
+﻿using ASP.NETCoreWebAPI.Exceptions;
+using ASP.NETCoreWebAPI.Models.DataTransferObjects;
+using AutoMapper;
+using EFCore;
+using LanguageExt.Common;
+
+namespace ASP.NETCoreWebAPI.Services;
+
+public interface INoThrowService
+{
+    Result<CustomerDto> GetById(int id);
+}
+
+public class NoThrowService : INoThrowService
+{
+    private readonly MyDbContext _dbContex;
+    private readonly IMapper _mapper;
+
+    public NoThrowService(MyDbContext dbContex, IMapper mapper)
+    {
+        _dbContex = dbContex;
+        _mapper = mapper;
+    }
+
+    //Result is a structure from the LanguageExt.Common NuGet Package. This class has implicit conversion to the generic type it gets
+    //Moreover, this class can store either the value of given type (CustomerDto) or a exception.
+    public Result<CustomerDto> GetById(int id)
+    {
+        var customer = _dbContex.Customers
+            .FirstOrDefault(c => c.Id == id);
+
+        if (customer is null)
+        {
+            var notFoundException = new NotFoundException("Customer not found");
+            //The Result will store info like "exception would be thrown when CustomerDto object was supposed to be returned"
+            return new Result<CustomerDto>(notFoundException);
+        }
+
+        var result = _mapper.Map<CustomerDto>(customer);
+        return result;
+    }
+}

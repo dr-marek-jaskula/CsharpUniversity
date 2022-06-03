@@ -10,5 +10,6 @@ public static class ServiceRegistry
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IGitHubService, GitHubService>();
         services.AddScoped<IAddressService, AddressService>();
+        services.AddScoped<INoThrowService, NoThrowService>();
     }
 }

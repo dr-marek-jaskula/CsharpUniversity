@@ -27,5 +27,10 @@ public class UserMappingProfile : Profile
 
         CreateMap<Address, AddressDto>();
         CreateMap<CreateAddressDto, Address>();
+
+        CreateMap<Customer, CustomerDto>()
+            .ForMember(p => p.Gender, c => c.MapFrom(o => o.Gender.ToString()))
+            .ForMember(p => p.DateOfBirth, c => c.MapFrom(o => o.DateOfBirth.ToString()))
+            .ForMember(p => p.Rank, c => c.MapFrom(o => o.Rank.ToString()));
     }
 }
