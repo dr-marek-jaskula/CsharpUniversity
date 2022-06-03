@@ -7,6 +7,7 @@ internal class Generics
     public static void InvokeGenericsExamples()
     {
         #region Generic List Example
+
         GenericList<int> numbers = new();
         numbers.Add(10);
         numbers.Add(20);
@@ -29,7 +30,8 @@ internal class Generics
             Console.WriteLine($"The title of the {i} book is {item.Title} while its ISBN is {item.ISBN}");
             i++;
         }
-        #endregion
+
+        #endregion Generic List Example
 
         #region Second Example
 
@@ -41,11 +43,11 @@ internal class Generics
         Console.WriteLine(book.Price);
         Console.WriteLine(DiscountCalculator<Book>.CalculateDiscount(book));
 
-        #endregion
+        #endregion Second Example
     }
 
     //This is an example of generic method. Independently of give type the swap will be executed. We can also place constraints, same as for classes.
-    public static void Swap<T>(ref T first, ref T second) // where T : IEntity, new() 
+    public static void Swap<T>(ref T first, ref T second)// where T : IEntity, new()
     {
         //We use the tuple to swap the values
         (second, first) = (first, second);
@@ -55,7 +57,7 @@ internal class Generics
 //Example of non generic class and the generic method inside
 public class Utilities
 {
-    static public int Max(int a, int b)
+    public static int Max(int a, int b)
     {
         return a > b ? a : b;
     }
@@ -69,8 +71,9 @@ public class Utilities
 }
 
 #region Generic list example
+
 //Rather then use multiple classes for different types, we create one generic class.
-public class GenericList<T> 
+public class GenericList<T>
 {
     private readonly List<T> _list;
 
@@ -81,26 +84,22 @@ public class GenericList<T>
         _list = new List<T>();
     }
 
-    public void Add(T value) 
+    public void Add(T value)
     {
         MyList.Add(value);
     }
 
     //This overrides the index operation. No matter what we just throw an exception
-    public T this[int index] 
+    public T this[int index]
     {
-        get { throw new NotImplementedException(); } 
+        get { throw new NotImplementedException(); }
         set { throw new AccessViolationException(); }
     }
 }
-#endregion
 
-#region Interesting example
+#endregion Generic list example
 
-public class Book : Product
-{
-    public int ISBN;
-}
+#region Interesting example with generic constraint
 
 public class Product
 {
@@ -108,22 +107,28 @@ public class Product
     public float Price { get; set; }
 }
 
+public class Book : Product
+{
+    public int ISBN;
+}
+
 //Generic approach is used here with constraint, so the information about the input type can be used as follows
-public class DiscountCalculator<T> where T : Product 
+public class DiscountCalculator<T> where T : Product
 {
     public static float CalculateDiscount(T product) => product.Price;
 }
 
-#endregion
+#endregion Interesting example with generic constraint
 
-#region Example with two types
+#region Example with two types and generic constraints
 
 public interface IEntity
 {
     public int Id { get; set; }
 }
 
-public class DoubleProduct<T, K> where T: class, new() where K : IEntity
+//Multiple constraints for single type (T type).
+public class DoubleProduct<T, K> where T : class, new() where K : IEntity
 {
     public string? Title { get; set; }
     public float Price { get; set; }
@@ -136,5 +141,10 @@ public class DoubleProduct<T, K> where T: class, new() where K : IEntity
     }
 }
 
-#endregion
+#endregion Example with two types and generic constraints
 
+//Other generic constraints:
+//struct
+//notnull
+//unmanaged -> A type is an unmanaged type (sbyte, byte, short, ushort, int, uint, long, ulong, char, float, double, decimal, bool, Any enum type, user-defned struct with unmanaged fields
+//default

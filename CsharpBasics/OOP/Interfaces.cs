@@ -8,12 +8,12 @@ internal class Interfaces
     //Interfaces generally does not contain any logic (since c# 8. 0 they, can, but the default implementation is not crucial, it is mostly redundant)
     //Interfaces are used for Dependency Injection and Dependency Inversion!
     //Interlaces provide the outline of a functionality that some class/struct possess
-    
+
     //For more information about Dependency Injection go to "CsharpAdvaced"
 
-    //Great example is the example of "IDispose" interface. 
+    //Great example is the example of "IDispose" interface.
     //All entities that implements "IDispose" will execute their "Dispose" method when the current scoped is abandoned
-    
+
     //Interfaces can be also used as a markers: an empty interface just to mark the a class/struct.
 
     //Interfaces members cannot be "private" and by default they are "public"
@@ -22,6 +22,7 @@ internal class Interfaces
     public static void InvokeInterfacesExamples()
     {
         #region First Example (single implementation)
+
         //crate an object
         Citizen citizen = new(1, "Mark", "Kennedy", new(1992, 4, 20));
         //use the function that is present in the interface
@@ -38,9 +39,11 @@ internal class Interfaces
         //now we have two casted to ITaxCalculator object.
         //The only knowledge we have about them now is that they can use the "Calculate" method (and we can use this method)
         //However, this is the only information we need to know -> use interfaces to provide (inform about) the sufficient functionalities of the casted object (more in DI)
-        #endregion
+
+        #endregion First Example (single implementation)
 
         #region Second Example (multiple implementation)
+
         //Now, let us consider the example with multiple interfaces (two of them have method with the same method)
         Duelist duelist = new(3, 5, 1);
         duelist.Cut(2);
@@ -54,9 +57,11 @@ internal class Interfaces
 
         IHammerAtack duelistHammerAttack = duelist;
         duelistHammerAttack.Crush(2);
-        #endregion
 
-        #region Third Example 
+        #endregion Second Example (multiple implementation)
+
+        #region Third Example
+
         Vehicle vehicle1 = new("Buick", 4, 160);
         Console.WriteLine(vehicle1.Speed);
         Console.WriteLine(vehicle1.Brand);
@@ -69,34 +74,34 @@ internal class Interfaces
         }
         else
             Console.WriteLine("the {0} cant be driven", vehicle1.Brand);
-        #endregion
+
+        #endregion Third Example
 
         #region Fourth Example (interesting one)
 
-        IElectronicDevice Tv1 = TvRemote.GetDevice(); //stworzenie obiektu telewizor, który ogranicza swoją funkcjonalność do metod zawartych w interface IElectronicDevice
-        PowerButton powBut1 = new PowerButton(Tv1); //zaznaczyliśmy, że tylko obiekt typu interfacu IElectronicDevice (czyli Tv1 ok) ma dostęp do metod execute i undo ponieważ device w definicji interfacu jest typu interfacu ICommand
+        IElectronicDevice Tv1 = TvRemote.GetDevice();
+        PowerButton powBut1 = new PowerButton(Tv1);
         powBut1.Execute();
         powBut1.Undo();
-        // Tv1.VoiceFromTheShadowRealm(); //to nie zadziała
+        // Tv1.VoiceFromTheShadowRealm(); //wont work
 
         Console.WriteLine("\n \n");
 
-        Televistion Tv2 = TvRemote.GetDevice(); //stworzenie obiektu telewizor, który ma funkcjonalność metod zawarych w interface IElectronicDevice oraz w klasie Telewizor
+        Televistion Tv2 = TvRemote.GetDevice();
         Tv2.VoiceFromTv();
         Tv2.On();
 
         Tv1.MethodWithDefaultImplementation();
-        // Tv2.TestCSharp8MethodDefinitionInInterface(); //to nie zdziałą, ponieważ Tv2 nie odziedziczył interface'u
-        //czyli albo bierze z interface'u i wtedy nie ma wlasnych, albo z wlasnych i nie ma tych funkcji, które zostały zdefiniowane w interface.
+        // Tv2.TestCSharp8MethodDefinitionInInterface(); //wont work, because Tv2 does not inherit the interface
 
-        PowerButton powBut2 = new PowerButton(Tv2); //można stworzyc nowy przycisk na bazie obiektu Television, ale potraktuje to przez pryzmat interface, ktory dalismy w definicji argumentu konstruktora PowerButton
+        PowerButton powBut2 = new PowerButton(Tv2);
         powBut2.Execute();
         powBut2.Undo();
 
-        IElectronicDevice Tv3 = Tv2 as IElectronicDevice; //to działa, przypisuje nowemy Tv2 ale tylko oraniczone do interface IElectronicDevice, ma wiec rzeczy definiowane w IEletronicdevice i to co jest od niego dziedziczone, ale nie ma tego co jest w klasie Television
+        IElectronicDevice Tv3 = Tv2 as IElectronicDevice;
         Tv3.MethodWithDefaultImplementation();
 
-        #endregion
+        #endregion Fourth Example (interesting one)
     }
 }
 
@@ -160,13 +165,14 @@ internal class Politician : ITaxCalculator
     }
 }
 
-#endregion
+#endregion First Example: Citizen and Politician
 
 #region Second example: Duelist
 
 internal interface ISwordAttack
 {
     void Slice(int enemyResistance);
+
     void Cut(int enemyResistance);
 
     //the third method will be common for ISwordAttack and IHammerAtack
@@ -182,10 +188,11 @@ internal interface ISwordAttack
 internal interface IHammerAtack
 {
     void Bash(int enemyResistance);
+
     void Crush(int enemyResistance);
 
     //the third method will be common for ISwordAttack and IHammerAtack
-    void Feint(int enemyResistance);  
+    void Feint(int enemyResistance);
 
     void DefaultHammerAttack(int enemyResistance)
     {
@@ -211,12 +218,12 @@ internal class Duelist : ISwordAttack, IHammerAtack
 
     public void Bash(int enemyResistance)
     {
-        Console.WriteLine($"Deal {Strength - enemyResistance/2} damage");
+        Console.WriteLine($"Deal {Strength - enemyResistance / 2} damage");
     }
 
     public void Crush(int enemyResistance)
     {
-        Console.WriteLine($"Deal {Strength/2} damage");
+        Console.WriteLine($"Deal {Strength / 2} damage");
     }
 
     public void Slice(int enemyResistance)
@@ -226,12 +233,12 @@ internal class Duelist : ISwordAttack, IHammerAtack
 
     public void Cut(int enemyResistance)
     {
-        Console.WriteLine($"Deal {3/2 * Dexterity - enemyResistance} damage");
+        Console.WriteLine($"Deal {3 / 2 * Dexterity - enemyResistance} damage");
     }
 
     //Due to the fact there are two methods of the same name from two different interface that this class implement
     //We need to specify both in the following manner
-    void ISwordAttack.Feint(int enemyResistance) 
+    void ISwordAttack.Feint(int enemyResistance)
     {
         Console.WriteLine($"Deal {Intelligence + Dexterity - enemyResistance} damage");
     }
@@ -242,15 +249,17 @@ internal class Duelist : ISwordAttack, IHammerAtack
     }
 }
 
-#endregion
+#endregion Second example: Duelist
 
 #region Third example: Vehicle
 
 internal interface IDerivable
 {
-    int Wheels { get; set; } 
+    int Wheels { get; set; }
     public double Speed { get; set; }
-    void Move(); 
+
+    void Move();
+
     void Stop();
 }
 
@@ -279,7 +288,7 @@ internal class Vehicle : IDerivable
     }
 }
 
-#endregion
+#endregion Third example: Vehicle
 
 #region Fourth example: TV
 
@@ -296,7 +305,7 @@ internal interface IElectronicDevice
     void MethodWithDefaultImplementation()
     {
         Console.WriteLine("so the definitions work in the interfaces now");
-    } 
+    }
 }
 
 internal interface ICommand
@@ -327,14 +336,14 @@ internal class Televistion : IElectronicDevice
 
     public void VolumeDown()
     {
-        if (Volume is not 0) 
+        if (Volume is not 0)
             Volume--;
         Console.WriteLine($"TV volume is at the lvl {Volume}");
     }
 
     public void VolumeUp()
     {
-        if (Volume is not 100) 
+        if (Volume is not 100)
             Volume++;
         Console.WriteLine($"TV volume is at the lvl {Volume}");
     }
@@ -345,7 +354,7 @@ internal class Televistion : IElectronicDevice
     }
 }
 
-internal class PowerButton : ICommand 
+internal class PowerButton : ICommand
 {
     private readonly IElectronicDevice _device; //the private field to store the dependency
 
@@ -356,7 +365,7 @@ internal class PowerButton : ICommand
 
     //These two method use the injected dependency
 
-    public void Execute() 
+    public void Execute()
     {
         _device.On();
     }
@@ -375,5 +384,4 @@ internal class TvRemote //a TV "factory"
     }
 }
 
-#endregion 
-
+#endregion Fourth example: TV

@@ -2,7 +2,7 @@
 
 namespace CsharpAdvanced.DelegatesEvents;
 
-//Delegates are class members that are "delegated" to ensure communication between different classes. 
+//Delegates are class members that are "delegated" to ensure communication between different classes.
 //For example in some long running process, we can delegate a member to send information about the progress of this process
 
 //Delegates can serve also just a method pointers, and many developers treats them just like that
@@ -16,16 +16,20 @@ public class DelegatesBasics
     //Mostly the delegate should be marked as public
     //We also need to specify the type of the type of the method connected with the delegate
     //At first we will just use the delegate as a simple method pointer
-    public delegate void MyMethodPointer(); 
+    public delegate void MyMethodPointer();
+
+    //For showing that multiple methods can be assign to the delegate
+    public delegate void Display(string text);
 
     public static void InvokeDelegatesExamples()
     {
         #region Delegate as method pointer
+
         //We instantiate a method pointer that is a method pointer. This object points at MyMethod
-        MyMethodPointer methodPointer = new(MyMethod); 
+        MyMethodPointer methodPointer = new(MyMethod);
 
         //now we can invoke (execute) the method that is being pointed (MyMethod is parameterless)
-        methodPointer.Invoke(); 
+        methodPointer.Invoke();
 
         //Of course we can do it just like that:
         MyMethod();
@@ -38,35 +42,51 @@ public class DelegatesBasics
         }
 
         UseOtherMethod(methodPointer);
-        #endregion
+
+        #endregion Delegate as method pointer
 
         #region Delegate as communication channel
 
         //Basic example
-        DelegateAsCommunicationChannel communcator = new(); 
+        DelegateAsCommunicationChannel communcator = new();
         communcator.LongRunningProcess(Callback);
 
         //Other example
         //We program could be designed to change cloths when the temperature changes
-        Clothes cloths = new(); 
+        Clothes cloths = new();
         Heat heat = new();
-    
+
         MonthRunning monthRunning = new();
         monthRunning.MonthPassing(MonthCallback);
 
-        #endregion
+        #endregion Delegate as communication channel
+
+        #region Multiple methods inside one delegate
+
+        //Set the delegate to cw
+        Display Display = Console.WriteLine;
+        //Add another cw to the delegate
+        Display += Console.WriteLine;
+        //Display the test two times
+        Display("Simple text");
+        //Remove one of the methods
+        Display -= Console.WriteLine;
+        //Display the test one time
+        Display("Simple text");
+
+        #endregion Multiple methods inside one delegate
     }
 
     //Method for delegate as pointer example
-    static void MyMethod() 
+    private static void MyMethod()
     {
         Debug.WriteLine("Delegate as pointer");
     }
 
-    //This method will we used to provide communication with DelegateAsCommunicationChannel. The return type and parameters of this method fits the delegate defined in DelegateAsCommunicationChannel 
-    static void Callback(int i) 
+    //This method will we used to provide communication with DelegateAsCommunicationChannel. The return type and parameters of this method fits the delegate defined in DelegateAsCommunicationChannel
+    private static void Callback(int i)
     {
-        Debug.WriteLine($"{i/100}% has finished");
+        Debug.WriteLine($"{i / 100}% has finished");
     }
 
     public static int MonthCallback(int i)
@@ -94,18 +114,17 @@ internal class DelegateAsCommunicationChannel
 
 #region Other example
 
-class Heat
+internal class Heat
 {
     public int Temperature { get; set; }
 }
 
-
-class Clothes
+internal class Clothes
 {
     public string MyClothes { get; set; } = "T-shirt";
 }
 
-class MonthRunning
+internal class MonthRunning
 {
     public delegate int MonthPassingHolder(int i);
 
@@ -120,7 +139,7 @@ class MonthRunning
     }
 }
 
-enum Month
+internal enum Month
 {
     January = 1,
     February,
@@ -136,4 +155,4 @@ enum Month
     December,
 }
 
-#endregion
+#endregion Other example

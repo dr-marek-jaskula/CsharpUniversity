@@ -14,7 +14,7 @@ public class Strings
 
     public static void InvokeStringsExample()
     {
-        #region Declaring, defining 
+        #region Declaring, defining
 
         string declaredString; // declare a string variable
         string nullString = null; //string can be null
@@ -33,7 +33,7 @@ public class Strings
         string stringFromCharacters = new string(new char[] { 'T', 'h', 'i', 's' });
         char characterFromString = stringFromCharacters[2];
 
-        #endregion Declaring, defining 
+        #endregion Declaring, defining
 
         #region Escape characters
 
@@ -58,7 +58,7 @@ public class Strings
         string atSignString = @"C:\Development\Projects"; //Useful for paths
 
         //Other example
-        string regularString = "The best movie is \"Superman\""; 
+        string regularString = "The best movie is \"Superman\"";
         //using '@' if we need to write a double quote, we must make two of them
         string verbatumString = @"the best movie is ""Superman""";
 
@@ -75,14 +75,18 @@ public class Strings
 
         //Proof:
         string narrative = "Superman come from the planet, Krypton";
-        string narrative2 = narrative; //refers to narrative 
+        string narrative2 = narrative; //refers to narrative
         narrative += "\nSuperman is a legal alien";
-        Console.WriteLine(narrative); 
+        Console.WriteLine(narrative);
         Console.WriteLine(narrative2); //writes "Superman come from the planet, Krypton" even the narrative was modified
+
+        //String interpolation for constans (from C# 10)
+        const string basePath = "basePath/";
+        const string path1 = $"{basePath}path1";
 
         #endregion Immutibility and constant strings
 
-        #region String concatenation
+        #region String concatenation (also with interpolation)
 
         //String concatenation is a process of appending one string to the end of another string
         //Basic way: concatenate strings by using the + operator (this is not an efficient way, try to avoid if the performance is important)
@@ -107,7 +111,7 @@ public class Strings
         interpolatedString = $"{interpolatedString} How are you today?";
 
         //the string interpolation uses ToString() method in the background if it is needed. Example:
-        
+
         //helper variables
         int number = 102;
         bool boolean = true;
@@ -123,7 +127,7 @@ public class Strings
         string oldWayInterpolatedString = string.Format("It is {0} that Superman can leap in a single bound over the 'Empire State Building' which is {1} stories high", boolean, number);
         string oldWayInterpolatedString2 = String.Format("It is {0} that Superman can leap in a single bound over the 'Empire State Building' which is {1} stories high", boolean, number);
 
-        #endregion String concatenation
+        #endregion String concatenation (also with interpolation)
 
         #region String Methods
 
@@ -172,14 +176,14 @@ public class Strings
         //Compare
 
         //StringComparison will result in not taking into account the difference in upper/lower case in InvariantCultureIgnoreCase is specified;
-        string.Compare("Marek", "marek", StringComparison.InvariantCultureIgnoreCase); 
+        string.Compare("Marek", "marek", StringComparison.InvariantCultureIgnoreCase);
 
         //Insert
         string insertString = "My aim is to test my test project".Insert(4, "(test) ");
 
         //Remove
         //starting from the position 3 will remove 4 characters
-        string removeString = "My aim is to test the c sharp code".Remove(3, 4); 
+        string removeString = "My aim is to test the c sharp code".Remove(3, 4);
 
         #endregion String Methods
 

@@ -13,7 +13,7 @@ public class Patterns
     public static void InvokePatternsExamples()
     {
         #region Declaration and type patterns:
-        
+
         //simple example
         object greeting = "Hello, World!";
         if (greeting is string message)
@@ -51,7 +51,7 @@ public class Patterns
 
         ChooseTheVehicle(new Car() { Name = "Mambo" });
 
-        #endregion
+        #endregion Declaration and type patterns:
 
         #region Constant pattern
 
@@ -65,7 +65,7 @@ public class Patterns
             // ...
         }
 
-        #endregion
+        #endregion Constant pattern
 
         #region Relational patterns
 
@@ -84,14 +84,14 @@ public class Patterns
         Classify(-4.3);
         Classify(double.NaN);
 
-        #endregion
+        #endregion Relational patterns
 
         #region Matching nested patterns
 
         //after c# 8.0
         static bool IsConferenceDay(DateTime date) => date is { Year: 2020, Month: 5, Day: 19 or 20 or 21 };
 
-        //using switch expression 
+        //using switch expression
         static string TakeFive(object input) => input switch
         {
             string { Length: >= 5 } s => s[..5],
@@ -102,10 +102,11 @@ public class Patterns
             _ => throw new ArgumentException("Not supported input type."),
         };
 
+        //Since C# 10 we can use "." instead of nesting the objects
         //Example with nested (we can use '.' to get deeper into object)
         static bool IsAnyEndOnXAxis(Segment segment) => segment is { Start.Y: 0 } or { End.Y: 0 };
 
-        #endregion
+        #endregion Matching nested patterns
 
         #region Positional pattern
 
@@ -125,16 +126,17 @@ public class Patterns
         //deconstruct the record, tuple deconstructs the object by its constructor
         static string PrintIfAllCoordinatesArePositive(object point) => point switch
         {
-            Point2D (> 0, > 0) p => p.ToString(),
-            Point3D (> 0, > 0, > 0) p => p.ToString(),
+            Point2D(> 0, > 0) p => p.ToString(),
+            Point3D(> 0, > 0, > 0) p => p.ToString(),
             _ => string.Empty,
         };
 
-        #endregion
+        #endregion Positional pattern
 
         //combine two type of patterns: property and positional
         static bool IsInDomain(WeightedPoint point) => point is ( >= 0, >= 0) { Weight: >= 0.0 };
     }
+
     public class Segment
     {
         public Point2D? Start { get; set; }
@@ -145,7 +147,7 @@ public class Patterns
     public record Point2D(int X, int Y);
     public record Point3D(int X, int Y, int Z);
 
-    //this record contains three properties: X,T and Weight. Two of them are in the 
+    //this record contains three properties: X,T and Weight. Two of them are in the
     public record WeightedPoint(int X, int Y)
     {
         public double Weight { get; set; }
@@ -159,7 +161,7 @@ public abstract class Vehicle
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
 }
- 
+
 public class Car : Vehicle
 {
     public int Speed { get; set; }
@@ -170,4 +172,4 @@ public class Truck : Vehicle
     public int Mass { get; set; }
 }
 
-#endregion
+#endregion Helpers

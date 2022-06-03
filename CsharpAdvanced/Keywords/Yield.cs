@@ -1,4 +1,6 @@
-﻿namespace CsharpAdvanced.Keywords;
+﻿using System.Diagnostics;
+
+namespace CsharpAdvanced.Keywords;
 
 public class Yield
 {
@@ -30,19 +32,19 @@ public class Yield
     public static void InvokeYieldExamples()
     {
         //standard way, return whole data at once
-        var getData = GetData(); 
+        var getData = GetData();
 
         //Data is returned one by one so we can add additional logic when it is returned
         var yieldedData1 = GetYieldedData1();
-        var yieldedData2 = GetYieldedData2(); 
+        var yieldedData2 = GetYieldedData2();
 
         foreach (int element in yieldedData2)
             if (element > 5)
                 break;
         //Let us notice that the "After Yielding" string was not printed to the console
 
-        var a = yieldedData2.First(); // this will not result in reaching the "After Yielding" 
-        var b = yieldedData2.Last(); // this will result in reaching the "After Yielding" 
+        var a = yieldedData2.First(); // this will not result in reaching the "After Yielding"
+        var b = yieldedData2.Last(); // this will result in reaching the "After Yielding"
 
         //this statement also would result in reaching the "After Yielding"
         //var y = yieldedData2.ToList();
@@ -53,6 +55,30 @@ public class Yield
         foreach (int element in yieldedData3)
             if (element > 5)
                 break;
+
+        Console.WriteLine();
+        //Other example with comments:
+        var nextData = GetDataWithComment();
+        foreach (var element in nextData)
+            Debug.WriteLine($"main element: {element}");
+
+        var nextYieldedData = GetYieldedDataWithComment();
+
+        Debug.WriteLine($"Sneaky Hello!");
+
+        //This would cause five iterations. When a certain iterator is needed, when up to this iterator, all iterations are proceeded.
+        //Console.WriteLine(nextYieldedData.ElementAt(6));
+        //Therefore, there is no "Debug.WriteLine("Get yielded data end");"
+
+        foreach (var element in nextYieldedData)
+        {
+            Debug.WriteLine($"main element: {element}");
+            //With the condition below here is not need for "Debug.WriteLine("Get yielded data end");"
+            if (element > 5)
+                break;
+        }
+
+        Debug.WriteLine($"Sneaky Goodbye!");
     }
 
     #region Helper functions
@@ -67,6 +93,7 @@ public class Yield
         return result;
     }
 
+    //Returning iterators one by one
     internal static IEnumerable<int> GetYieldedData1()
     {
         yield return 1;
@@ -95,4 +122,40 @@ public class Yield
     }
 
     #endregion Helper functions
+
+    #region Other example with comparison
+
+    public static IEnumerable<int> GetDataWithComment()
+    {
+        Debug.WriteLine("Get data start");
+
+        var result = new List<int>();
+        for (int i = 0; i < 9; i++)
+        {
+            Debug.WriteLine($"Get data element: {i}");
+            result.Add(i);
+        }
+
+        Debug.WriteLine("Get data end");
+        return result;
+    }
+
+    public static IEnumerable<int> GetYieldedDataWithComment()
+    {
+        Debug.WriteLine("Get yielded data start");
+
+        for (int i = 0; i < 9; i++)
+        {
+            Debug.WriteLine($"Get yielded data element: {i}");
+            yield return i;
+
+            //We can also use the following to break yielding (without "Debug.WriteLine("Get yielded data end");")
+            if (i % 3 == 2)
+                yield break;
+        }
+
+        Debug.WriteLine("Get yielded data end");
+    }
+
+    #endregion Other example with comparison
 }

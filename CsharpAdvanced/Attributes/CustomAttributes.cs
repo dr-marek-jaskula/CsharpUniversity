@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace CsharpAdvanced.Attributes;
 
-//We consider educational examples of custom attributes to stude the case
+//We consider educational examples of custom attributes to study the case
 
 #region Custom Attribute that connects animal with method (metadata)
 
@@ -38,23 +38,26 @@ public class AnimalTypeAttribute : Attribute
 }
 
 // A test class where each method has its own pet.
-class AnimalTypeTestClass
+internal class AnimalTypeTestClass
 {
     [AnimalType(Animal.Dog)]
-    public void DogMethod() { }
+    public void DogMethod()
+    { }
 
     [AnimalType(Animal.Cat)]
-    public void CatMethod() { }
+    public void CatMethod()
+    { }
 
     [AnimalType(Animal.Bird)]
-    public void BirdMethod() { }
+    public void BirdMethod()
+    { }
 }
 
-#endregion
+#endregion Custom Attribute that connects animal with method (metadata)
 
 #region Custom Validation Attribute
 
-//As we want to create a Validation Attribute, we do not inherit from "Attribute" but from "ValidationAttribute" 
+//As we want to create a Validation Attribute, we do not inherit from "Attribute" but from "ValidationAttribute"
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public class IsEmptyAttribute : ValidationAttribute
 {
@@ -69,10 +72,12 @@ public class AuthorTestClassForCustomAtri
 {
     [IsEmpty(ErrorMessage = "Should not be null or empty.")]
     public string? FirstName { get; set; }
+
     [IsEmpty(ErrorMessage = "Should not be null or empty.")]
     public string? LastName { get; set; }
 }
-#endregion
+
+#endregion Custom Validation Attribute
 
 public class CustomAttributes
 {
@@ -80,7 +85,7 @@ public class CustomAttributes
     {
         var a = typeof(AnimalTypeTestClass).GetMethod("DogMethod").GetCustomAttributesData();
         var a2 = typeof(AnimalTypeTestClass).GetMethod("CatMethod").GetCustomAttributesData();
-        var a3 = (Animal)(typeof(AnimalTypeTestClass).GetMethod("CatMethod").GetCustomAttributesData()[0].ConstructorArguments[0].Value);
+        var a3 = (Animal)typeof(AnimalTypeTestClass).GetMethod("CatMethod").GetCustomAttributesData()[0].ConstructorArguments[0].Value;
 
         #region Animal connected to method Test
 
@@ -99,7 +104,7 @@ public class CustomAttributes
             }
         }
 
-        #endregion
+        #endregion Animal connected to method Test
 
         #region Custom Validator
 
@@ -116,9 +121,6 @@ public class CustomAttributes
             foreach (ValidationResult validationResult3 in validationResults3)
                 Debug.WriteLine("{0}", validationResult3.ErrorMessage);
 
-        #endregion
+        #endregion Custom Validator
     }
 }
-
-
-

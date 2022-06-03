@@ -1,6 +1,6 @@
 ﻿namespace LearningApplication2;
 
-//Arrow function are just function with other, fast definition. 
+//Arrow function are just function with other, fast definition.
 //They are mostly used as predicated or order delegates - arguments of other functions
 public class ArrowFunction
 {
@@ -21,7 +21,7 @@ public class ArrowFunction
         AngryNumber(4);
 
         Console.WriteLine(Activator(ArrowDelegate, 10));
-        Console.WriteLine(Activator(y=> y*y*y, 3));
+        Console.WriteLine(Activator(y => y * y * y, 3));
 
         IGoldRipper goldRipper = new GoldRipper();
         goldRipper.RippingIndex();
@@ -36,6 +36,21 @@ public class ArrowFunction
         //use anonymous arrow function as predicate
         List<int> list = new() { 1, 4, 9, 23, 41 };
         var filtredList = list.Where(x => x > 10).ToList();
+
+        #region C# 10 improvements: arguments types, return types, attributes for lambdas
+
+        //Since C# 10 we can use:
+        var parse = (string s) => int.Parse(s);
+        //Instead of:
+        Func<string, int> parse2 = s => int.Parse(s);
+
+        //Since C# 10 we can explicitly show the return type (important if the return type is not straightforward)
+        var resultWithTypeObject = object (bool b) => b ? 1 : "0";
+
+        //Since C# 10 we can set attributes for whole lambda expressions
+        var someLambda = [Obsolete] (string s) => parse(s);
+
+        #endregion C# 10 improvements: arguments types, return types, attributes for lambdas
     }
 
     //Simple example of arrow function
@@ -43,8 +58,10 @@ public class ArrowFunction
 
     //Examples of delegates that are defined by the arrow function (Func)
     public static Func<int, int> ArrowDelegate = x => x * x;
+
     public static Func<int, int, bool> ArrowDelegate2 = (x, y) => x == y;
-    public static Func<int, int, List<int>> ArrowDelegate3 = (x, y) => 
+
+    public static Func<int, int, List<int>> ArrowDelegate3 = (x, y) =>
     {
         List<int> list = new List<int>();
         list.Add(x);
@@ -53,13 +70,14 @@ public class ArrowFunction
     };
 
     //Examples of delegates that are defined by arrow function (Action)
-    static Action<string> Greet2 = name =>
+    private static Action<string> Greet2 = name =>
     {
         string greeting = $"Goodbye {name}";
         Console.WriteLine(greeting);
     };
-    static Action<int> MyNumber = number => Console.WriteLine($"My number is {number}");
-    static Action<int> AngryNumber = number => { Console.Write("My "); Console.WriteLine($"angry number is {number + 3}"); };
+
+    private static Action<int> MyNumber = number => Console.WriteLine($"My number is {number}");
+    private static Action<int> AngryNumber = number => { Console.Write("My "); Console.WriteLine($"angry number is {number + 3}"); };
 
     //some function that executed the function stored by the delegate, with given argument
     public static int Activator(Func<int, int> selectedFunction, int selectedArgument)
@@ -71,7 +89,7 @@ public class ArrowFunction
 #region Arrow defined properties
 
 //Example 1
-class Location
+internal class Location
 {
     private string _name;
     public string suffix = string.Empty;
@@ -90,7 +108,7 @@ class Location
 }
 
 //Example 2
-class GoldRipper : IGoldRipper
+internal class GoldRipper : IGoldRipper
 {
     public int goldLevel { get; private set; } = 1;
     public int goldIndex = 6;
@@ -109,14 +127,16 @@ class GoldRipper : IGoldRipper
     }
 }
 
-interface IGoldRipper
+internal interface IGoldRipper
 {
     void RippingGold();
+
     void RippingIndex();
-    int goldLevel { get;}
+
+    int goldLevel { get; }
 }
 
-#endregion
+#endregion Arrow defined properties
 
 //private dynamic defaultReminder => reminder.TimeSpanText[TimeSpan.FromMinutes(15)];
 //Be careful using this technique, since using => doesn 't set the actual value, but will execute the code each time defaultReminder is accessed. This may not be intended, and have a negative performance impact, or generate unwanted pressure for GC

@@ -1,8 +1,4 @@
-﻿using CsharpBasics.Keywords;
-using System.Collections;
-using System.Xml.Linq;
-
-namespace CsharpBasics.OOP;
+﻿namespace CsharpBasics.OOP;
 
 public class Structures
 {
@@ -21,7 +17,7 @@ public class Structures
 
     //Other important differences:
     //struct can not inherit, but they can implement interfaces
-    //The default value of a struct is the value produced by setting all fields to their default value 
+    //The default value of a struct is the value produced by setting all fields to their default value
 
     //Good idea is to store few members in the struct, co it can represent for example a 2D point
     internal struct Point2D
@@ -35,7 +31,7 @@ public class Structures
             return Math.Round(Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2)));
         }
 
-        //Beginning with C# 8.0, you can also use the readonly modifier to declare that an instance member doesn't modify the state of a struct. 
+        //Beginning with C# 8.0, you can also use the readonly modifier to declare that an instance member doesn't modify the state of a struct.
         //If you can't declare the whole structure type as readonly, use the readonly modifier to mark the instance members that don't modify the state of the struct.
         //To avoid the problem of defensive copies we can use (after c# 8.0) 'readonly' modifies, telling compiler not to make a defensive copy
         public readonly int MultiplyCoordinates()
@@ -77,7 +73,7 @@ public class Structures
     //That guarantees that no member of a readonly struct modifies the state of the struct. In C# 8.0 and later, that means that other instance members except constructors are implicitly readonly.
     internal readonly struct Point3D
     {
-        public readonly int x; 
+        public readonly int x;
         public readonly int y;
         public readonly int z;
 
@@ -144,7 +140,7 @@ public class Structures
         public Span<int> Outputs;
     }
 
-    //To declare a ref struct as readonly, combine the readonly and ref modifiers in the type declaration 
+    //To declare a ref struct as readonly, combine the readonly and ref modifiers in the type declaration
     public readonly ref struct ConversionRequest
     {
         public ConversionRequest(double rate, ReadOnlySpan<double> values)
@@ -198,17 +194,17 @@ public class Structures
         Point2D point0a = default(Point2D);
 
         //The preferred way
-        Point2D point1 = new(2,3);
+        Point2D point1 = new(2, 3);
 
         Point2D point2; //we can also just declare the struct variable, which will result in default values
         point2.x = 5;
         point2.y = 3;
 
-        Point2D point3 = new(1,1);
+        Point2D point3 = new(1, 1);
         point3 = point2; //the value will be copied
         point3.x = 7;
 
-        #region Nondestructive mutation
+        #region Nondestructive mutation (c# 10 feature)
 
         //Beginning with C# 10, you can use the with expression to produce a copy of a structure-type instance with the specified properties and fields modified.
         //You use object initializer syntax to specify what members to modify and their new values, as the following example shows:
@@ -244,7 +240,7 @@ public class Structures
         #region return ref
 
         var number = new[] { 69, 320 };
-        //need ref to the method call and on local  
+        //need ref to the method call and on local
         ref var value = ref GetNumberInPosition(number, 1);
         value = 10; //now the element of the array was modified (debug to examine this)
         Console.WriteLine($"Number is {value}");
@@ -254,3 +250,19 @@ public class Structures
     }
 }
 
+#region struct improvements in c# 10
+
+struct MyCustomStruct
+{
+    //Possible from C# 10. The default, parameterless constructor was not possible before c# 10
+    public MyCustomStruct()
+    {
+        Currency = "";
+        Value = 0;
+    }
+
+    public string Currency { get; set; }
+    public decimal Value { get; set; }
+}
+
+#endregion struct improvements in c# 10

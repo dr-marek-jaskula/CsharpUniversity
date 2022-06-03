@@ -20,6 +20,7 @@ internal class Configuration
 
     public static Configuration GetInstance()
     {
+        //Only a single thread can create a configuration
         lock (_lockObject)
         {
             if (_instance == null)
