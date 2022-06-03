@@ -5,7 +5,6 @@ namespace EFCore.EF_Core_advance;
 
 public class Tracking
 {
-
     //It is important to examine how the Entity Framework Core works in terms of tracking the records
 
     //EFCore provide the system of Change Tracking, and the changes are applied when the SaveChanged is called
@@ -63,6 +62,12 @@ public class Tracking
         Debug.WriteLine(_context.ChangeTracker.DebugView.LongView);
     }
 
-    #endregion
-}
+    #endregion AsNoTracking
 
+    #region Disable ChangeTracker on the whole dbContext
+
+    //We can also disable change tracking mechanism on the whole dbContext by:
+    //context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
+    #endregion Disable ChangeTracker on the whole dbContext
+}
