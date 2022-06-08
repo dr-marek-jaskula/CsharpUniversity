@@ -26,7 +26,7 @@ public class PersonEntityTypeConfiguration : IEntityTypeConfiguration<Person>
 
         builder.Property(c => c.ContactNumber)
             .IsRequired(true)
-            .HasMaxLength(40);
+            .HasColumnType("VARCHAR(30)");
 
         builder.Property(c => c.DateOfBirth)
             .HasConversion<DateOnlyConverter, DateOnlyComparer>()

@@ -31,6 +31,8 @@ public interface IGitHubService
 
     Task<GitHubUser?> GetUserByUserNameAsyncCachePolly3(string userName);
 
+    ValueTask<GitHubUser?> GetUserByUserNameAsyncCachePolly4(string userName);
+
     Task<GitHubUser?> GetUserByUserNameAsyncFallbackPolly(string userName);
 
     Task<GitHubUser?> GetUserByUserNameAsyncFallbackPolly2(string userName, CancellationToken token);
@@ -381,6 +383,30 @@ public class GitHubService : IGitHubService
     }
 
     //For custom operational key strategy examine CacheStrategy3
+
+    //Basic version with relative time-to-live strategy (ttl) + ValueTask for performance
+    //When value is cached there is no need for Task, just return GitHubUser?. Therefore, to save memory we can use ValueTask
+    public async ValueTask<GitHubUser?> GetUserByUserNameAsyncCachePolly4(string userName)
+    {
+        var client = _httpClientFactory.CreateClient("GitHub");
+
+        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["CacheStrategy2"];
+
+        //pollyPolicy with ttlSlidingStrategy
+        return await pollyPolicy.ExecuteAsync(async context =>
+        {
+            await Task.Delay(3000); //good way to show the info is cached
+
+            var result = await client.GetAsync($"/users/{userName}");
+
+            if (result.StatusCode == System.Net.HttpStatusCode.NotFound)
+                return null;
+
+            var resultString = await result.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<GitHubUser>(resultString);
+        }, new Context($"OperationalKey for: {userName}")); //Cache OperationalKey is now mapped to the userName.
+    }
 
     #endregion Cache
 

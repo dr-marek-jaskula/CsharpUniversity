@@ -17,4 +17,3 @@ public class AdvanceAsyncProgrammingEntrypoint
         Tasks.InvokeTasksExamples();
     }
 }
-

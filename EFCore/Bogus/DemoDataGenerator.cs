@@ -55,8 +55,21 @@ public class DemoDataGenerator
             _context.SaveChanges();
         }
 
+        //In order to generate random data base on a certain seed (to generate same random data every time) we need to use class "Randomizer"
+        //All we need to do is to:
+        //Randomizer.Seed = new Random(991);
+        //Where the hard-coded number 991 is our seed.
+
+        //In order to generate fake data connected to other languages like German or  Polish we can:
+        //Use the "Faker" class constructor overload with one string input. This input determines which language will be used for fake data
+        //By default it is english and the string is "en"
+        //string locale = "en";
+        //For Polish it is "pl" and for German it is "de".
+        //For more locals visit "https://github.com/bchavez/Bogus"
+
         //Addresses
         var addressFaker = new Faker<EFCore.Data_models.Address>()
+            //.StrictMode(true) //Strict mode throws exception when there exits a property we do not have RuleFor (so we do not seed). Commented coz of "Id"
             .RuleFor(a => a.Street, f => f.Address.StreetName())
             .RuleFor(a => a.City, f => f.Address.City())
             .RuleFor(a => a.Country, f => f.Address.Country())

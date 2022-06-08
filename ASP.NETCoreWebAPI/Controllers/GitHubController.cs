@@ -98,6 +98,13 @@ public class GitHubController : ControllerBase
         return user is not null ? Ok(user) : NotFound();
     }
 
+    [HttpGet("users/cache/4/{userName}")]
+    public async Task<IActionResult> GetUserByUsernamePollyCacheWithValueTask4(string userName)
+    {
+        var user = await _gitHubService.GetUserByUserNameAsyncCachePolly4(userName);
+        return user is not null ? Ok(user) : NotFound();
+    }
+
     #endregion Cache policy
 
     #region Fallback policy
