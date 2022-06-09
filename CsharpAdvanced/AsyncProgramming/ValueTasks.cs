@@ -10,6 +10,9 @@
 //If the value is not retrieved from cache but from other server (request to different API), we need to return and await a Task
 //However, when the value is retrieved for cache we do not need to return a Task but just a value in the cache.
 //Therefore, we can use ValueTask in such case to improve performance
+
+//!!! ValueTasks should not be awaited twice!!
+
 public class ValueTasks
 {
     //our "cache"
