@@ -16,7 +16,30 @@ public class UniversityController : ControllerBase
     {
     }
 
-    //Basics about the Actions for Get HTTP verb (to obtain data)
+    //Basics about the request
+    [HttpPut("RequestInfo")]
+    [AllowAnonymous]
+    public IActionResult FullInfoAboutRequest([FromBody] string inputString)
+    {
+        //Used Method (in this case PUT)
+        Console.WriteLine(Request.Method);
+        //Used Scheme (in this case https)
+        Console.WriteLine(Request.Scheme);
+        //Used ContentType (in this case application/json)
+        Console.WriteLine(Request.ContentType);
+        //Used ContentLenght (length of the string)
+        Console.WriteLine(Request.ContentLength);
+        //Used Host (in this case localhost:7240)
+        Console.WriteLine(Request.Host);
+        //Used Route (in this case /api/University/RequestInfo)
+        Console.WriteLine(Request.Path);
+        //Used query - dictionary (key-value pairs)
+        //Console.WriteLine(Request.Query);
+        //Used query (in this case ?api-version=1.0)
+        Console.WriteLine(Request.QueryString.Value);
+        //Console.WriteLine(Request.Headers); //Data about Headers
+        return Ok();
+    }
 
     //Determine what request is binded to this action. We can specify the route in the Http attribute but its better to do this in a Route attribute
     [HttpGet]
@@ -65,6 +88,7 @@ public class UniversityController : ControllerBase
         return Ok();
     }
 
+    //Preferred way for one route (IActionResult is a preferred way for a return type)
     [HttpGet("async")]
     public async Task<IActionResult> GetAsync()
     {

@@ -71,6 +71,10 @@ public class FileController : ControllerBase
     [HttpPost]
     public ActionResult Upload([FromForm] IFormFile file)
     {
+        //Other, asynchronous way to retrieve the file:
+        //var formCollection = await Request.ReadFormAsync();
+        //file = formCollection.Files.First();
+
         //IFormFile contains information about ContentType (is it a pdf, txt or other), FileName
         if (file is not null && file.Length > 0)
         {
