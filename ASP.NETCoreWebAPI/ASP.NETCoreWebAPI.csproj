@@ -5,7 +5,6 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>24649145-0422-419a-a803-8239cf089f64</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -22,10 +21,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Swagger\SwaggerVersioning\HelpersForVersioning.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Include="Swagger\SwaggerVersioning\HelpersForVersioning.txt" />
   </ItemGroup>
 
@@ -36,14 +31,13 @@
     <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="6.0.4" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.0.2" />
-    <PackageReference Include="LanguageExt.Core" Version="4.1.1" />
+    <PackageReference Include="LanguageExt.Core" Version="4.2.2" />
     <PackageReference Include="linq2db.EntityFrameworkCore" Version="6.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.5" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Polly" Version="7.2.3" />
     <PackageReference Include="Polly.Caching.Memory" Version="3.0.2" />

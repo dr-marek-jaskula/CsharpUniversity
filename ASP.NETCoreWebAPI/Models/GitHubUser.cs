@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace ASP.NETCoreWebAPI.Models;
 
-//For external connection ale Polly Politics
+//For external connection are Polly Politics
 
 public class GitHubUser
 {

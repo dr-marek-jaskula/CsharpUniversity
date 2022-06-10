@@ -124,7 +124,7 @@ public class OrderController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<OrderDto>>> GetAll([FromQuery] OrderQuery query)
     {
-        var championsDtos = await _orderService.GetAll(query);
-        return Ok(championsDtos);
+        var orderDtos = await _orderService.GetAll(query);
+        return Ok(orderDtos);
     }
 }
