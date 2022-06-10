@@ -90,11 +90,11 @@ try
 
     //HealthChecks (need to also Map to the endpoint in the "Configure HTTP request pipeline" region, using the minimal API approach)
     //Add SqlServer health checks and custom one MyHealthCheck (go to: HealthChecks folder)
-    //builder.Services.AddHealthChecks()
-    //    .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-    //    .AddCheck<RandomHealthCheck>("Random health check")
-    //    .AddCheck<EndpointHealthCheck>("Endpoint health check");
-    //builder.Services.AddHealthChecksUI().AddInMemoryStorage();
+    builder.Services.AddHealthChecks()
+        .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+        .AddCheck<RandomHealthCheck>("Random health check")
+        .AddCheck<EndpointHealthCheck>("Endpoint health check");
+    builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
     //AutoMapper (mapping entities to DataTransferObjects, short. DTO's)
     builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -217,13 +217,13 @@ try
     {
         endpoints.MapControllers();
         //Additional Map the HealthChecks endpoint and health check UI. Additional configuration need to be added to the appsettings.json
-        //endpoints.MapHealthChecks("/health", new HealthCheckOptions //the /health endpoint give info about the health checks in not bad format
-        //{
-        //    //To bring together the /healthcheck endpoint and the healthcheksUI
-        //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
-        //    Predicate = _ => true
-        //});
-        //endpoints.MapHealthChecksUI(); //the UI url will be "HealthChecks-ui"
+        endpoints.MapHealthChecks("/health", new HealthCheckOptions //the /health endpoint give info about the health checks in not bad format
+        {
+            //To bring together the /healthcheck endpoint and the healthcheksUI
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+            Predicate = _ => true
+        });
+        endpoints.MapHealthChecksUI(); //the UI url will be "HealthChecks-ui"
     });
 
     #endregion Configure HTTP request pipeline
