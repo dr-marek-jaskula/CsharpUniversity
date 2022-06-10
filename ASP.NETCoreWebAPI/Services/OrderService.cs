@@ -34,7 +34,7 @@ public interface IOrderService
     //Bulk Update -> update many records using single sql command which is not possible by simple linq (we use "linq2db.EntityFrameworkCore"
     void BulkUpdate(int addAmount);
 
-    void Update(int id, UpdateOrderDto dto);
+    Task Update(int id, UpdateOrderDto dto);
 }
 
 public class OrderService : IOrderService
@@ -78,7 +78,7 @@ public class OrderService : IOrderService
     }
 
     //Method with dynamic requirement "ResourceOperationRequirement"
-    public void Update(int id, UpdateOrderDto dto)
+    public async Task Update(int id, UpdateOrderDto dto)
     {
         //We get the user from the _userContextService, so the we apply the Dependency Inversion
         ClaimsPrincipal? user = _userContextService.User;
@@ -95,7 +95,7 @@ public class OrderService : IOrderService
             throw new NotFoundException("Order not found");
 
         //If the employee is a manager then return success, else fail the authorization
-        var authorizationResult = _authorizationService.AuthorizeAsync(user, order, new ResourceOperationRequirement(ResourceOperation.Update)).Result;
+        var authorizationResult = await _authorizationService.AuthorizeAsync(user, order, new ResourceOperationRequirement(ResourceOperation.Update));
 
         //If authorization fails, throw new ForbidException
         if (!authorizationResult.Succeeded)

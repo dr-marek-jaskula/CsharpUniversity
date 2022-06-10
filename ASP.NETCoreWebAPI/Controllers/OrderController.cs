@@ -102,10 +102,10 @@ public class OrderController : ControllerBase
     [HttpPut("{id}")]
     //Authorization is required: based on the requirements that are needed to be satisfied
     [Authorize(Policy = MyAuthorizationPolicy.CreateAtLeastTwoOrders)]
-    public ActionResult Update([FromBody] UpdateOrderDto dto, [FromRoute] int id)
+    public async Task<IActionResult> Update([FromBody] UpdateOrderDto dto, [FromRoute] int id)
     {
         //"User" here is the object with claims, that is required for the authorization
-        _orderService.Update(id, dto);
+        await _orderService.Update(id, dto);
         return Ok();
     }
 
