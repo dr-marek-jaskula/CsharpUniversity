@@ -66,67 +66,153 @@ public class CustomTemplateGuide
 
     #region template.json file
 
-    //{
-    //    "$schema": "https://json.schemastore.org/template",
-    //    "author": "dr Marek Jaskuła",
-    //    "classifications": ["Web", "WebApi"],
-    //    "identity": "WebApiTemplate",
-    //    "name": "WebApi Full Template",
-    //    "shortName": "fullWebApi",
-    //    "sourceName": "WebApiTemplate",
-    //    "tags": {
-    //        "language": "C#",
-    //        "type": "project"
-    //    },
-    //    "preferNameDirectory": true,
-    //    "symbols": {
-    //        "Framework": {
-    //            "type": "parameter",
-    //            "description": "The target framework for the project",
-    //            "datatype": "choice",
-    //            "choices": [{
-    //                    "choice": "net6.0"
-    //                },
-    //                {
-    //                    "choice": "net5.0"
-    //                }
-    //            ],
-    //            "defaultValue": "net6.0",
-    //            "replaces": "{TargetFramework}"
-    //        },
-    //        "EnableSwaggerSupport": {
-    //    "type": "parameter",
-    //            "description": "Enables swagger support",
-    //            "datatype": "bool",
-    //            "defaultValue": "true"
-    //        },
-    //        "IncludeDevAppSettings": {
-    //    "type": "parameter",
-    //            "description": "Adds appsettings.Development.json",
-    //            "datatype": "bool",
-    //            "defaultValue": "true"
-    //        }
-    //    },
-    //    "sources": [{
-    //        "modifiers": [{
-    //                "exclude": [
-    //                    "**/[Bb]in/**",
-    //                    "**/[Oo]bj/**",
-    //                    ".template.config/**/*",
-    //                    "**/*.filelist",
-    //                    "**/*.user",
-    //                    "**/*.lock.json"
-    //                ]
-    //            },
-    //            {
-    //    "condition": "(!IncludeDevAppSettings)",
-    //                "exclude": [
-    //                    "**/appsettings.Development.json"
-    //                ]
-    //            }
-    //        ]
-    //    }]
-    //}
+//  {
+//    "$schema": "https://json.schemastore.org/template",
+//    "author": "dr Marek Jaskuła",
+//    "classifications": ["Web", "WebApi"],
+//    "identity": "WebApiTemplate",
+//    "name": "Maximal WebApi Template",
+//    "shortName": "MaximalApi",
+//    "sourceName": "WebApiTemplate",
+//    "tags": {
+//        "language": "C#",
+//        "type": "project"
+//    },
+//    "preferNameDirectory": true,
+//    "symbols": {
+//        "TargetFramework": {
+//            "type": "parameter",
+//            "description": "The target framework for the project",
+//            "datatype": "choice",
+//            "choices": [
+//                {
+//                    "choice": "net6.0"
+//                }
+//            ],
+//            "defaultValue": "net6.0",
+//            "replaces": "$TargetFramework$",
+//            "displayName": "Target Framework"
+//        },
+//        "AddSwaggerSupport": {
+//    "type": "parameter",
+//            "description": "Add swagger support",
+//            "datatype": "bool",
+//            "defaultValue": "true",
+//            "displayName": "Swagger Support"
+//        },
+//        "AddHealthChecks": {
+//    "type": "parameter",
+//            "description": "Add health checks support for API and SqlServer with UI",
+//            "datatype": "bool",
+//            "defaultValue": "false",
+//            "displayName": "Health Checks"
+//        },
+//        "AddLinq2dbBulkOperations": {
+//    "type": "parameter",
+//            "description": "Add library for Bulk Operations like Bulk Update or Bulk Delete",
+//            "datatype": "bool",
+//            "defaultValue": "true",
+//            "displayName": "Bulk Operations"
+//        },
+//        "AddLazyLoading": {
+//    "type": "parameter",
+//            "description": "Add data LazyLoading",
+//            "datatype": "bool",
+//            "defaultValue": "false",
+//            "displayName": "Lazy Loading"
+//        },
+//        "AddPolly": {
+//    "type": "parameter",
+//            "description": "Add Polly",
+//            "datatype": "bool",
+//            "defaultValue": "true",
+//            "displayName": "Polly Policies"
+//        },
+//        "AddSerilog": {
+//    "type": "parameter",
+//            "description": "Add Serilog and Seq configurations",
+//            "datatype": "bool",
+//            "defaultValue": "true",
+//            "displayName": "Serilog"
+//        },
+//        "AddSymSpell": {
+//    "type": "parameter",
+//            "description": "Add SymSpell library for string approximation",
+//            "datatype": "bool",
+//            "defaultValue": "false",
+//            "displayName": "SymSpell"
+//        },
+//        "AddHttpClient": {
+//    "type": "parameter",
+//            "description": "Add sample Http Client as GitHubUser",
+//            "datatype": "bool",
+//            "defaultValue": "true",
+//            "displayName": "HttpClient"
+//        },
+//        "AddReadMe": {
+//    "type": "parameter",
+//            "description": "Add ReadMe.md file",
+//            "datatype": "bool",
+//            "defaultValue": "true",
+//            "displayName": "ReadMe.md"
+//        }
+//    },
+//    "sources": [{
+//        "modifiers": [{
+//                "exclude": [
+//                    "**/[Bb]in/**",
+//                    "**/[Oo]bj/**",
+//                    ".template.config/**/*",
+//                    "**/*.filelist",
+//                    "**/*.user",
+//                    "**/*.lock.json",
+//                    "**/.vs/**"
+//                ]
+//            },
+//            {
+//    "condition": "(!AddSwaggerSupport)",
+//                "exclude": [
+//                    "**/wwwroot/swaggerstyles/**",
+//                    "**/Swagger/**",
+//                    "**/Registry/SwaggerRegistry.cs"
+//                ]
+//            },
+//            {
+//    "condition": "(!AddHealthChecks)",
+//                "exclude": [
+//                    "**/HealthChecks/**"
+//                ]
+//            },
+//            {
+//    "condition": "(!AddPolly)",
+//                "exclude": [
+//                    "**/Polly/**"
+//                ]
+//            },
+//            {
+//    "condition": "(!AddHttpClient)",
+//                "exclude": [
+//                    "**/Registry/HttpClientRegistry.cs",
+//                    "**/Models/GitHubUser.cs"
+//                ]
+//            },
+//            {
+//    "condition": "(!AddSymSpell)",
+//                "exclude": [
+//                    "**/Registry/SymSpellRegistry.cs",
+//                    "**/Helpers/SymSpell/**",
+//                    "**/Helpers/SymSpellAlgorithm.cs"
+//                ]
+//            },
+//            {
+//    "condition": "(!AddReadMe)",
+//                "exclude": [
+//                    "**/ReadMe.md"
+//                ]
+//            }
+//        ]
+//    }]
+//}
 
     #endregion template.json file
 
@@ -171,9 +257,12 @@ public class CustomTemplateGuide
     */
 
     #endregion Part of code that are place depending on "if"
+
+    //To run the template (from command line)"
+    //dotnet new MaximalApi --AddSwaggerSupport "true" --AddHealthChecks "false" --AddLinq2dbBulkOperations "true" --AddLazyLoading "false" --AddPolly "true" --AddSerilog "true" --AddSymSpell "true" --AddHttpClient "true" 
 }
 
-//Some custom tamplates:
+//Some custom templates:
 //https://github.com/dotnet/dotnet-template-samples
 //https://github.com/robbell/dotnet-aks-api-template
 
