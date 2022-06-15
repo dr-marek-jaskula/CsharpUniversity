@@ -1,4 +1,4 @@
-﻿namespace Benchmarks;
+﻿namespace Benchmarks.DateParser;
 
 public class DateParser
 {

@@ -2,7 +2,7 @@
 using BenchmarkDotNet.Running;
 using System.Text;
 
-namespace Benchmarks;
+namespace Benchmarks.Strings;
 
 //Png graphic file called "StringsBenchmarkResults.png" has the results of this benchmark
 //This pgn file is in the same folder

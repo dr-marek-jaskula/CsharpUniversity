@@ -2,7 +2,7 @@
 using BenchmarkDotNet.Order;
 using BenchmarkDotNet.Running;
 
-namespace Benchmarks;
+namespace Benchmarks.DateParser;
 
 [MemoryDiagnoser]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]

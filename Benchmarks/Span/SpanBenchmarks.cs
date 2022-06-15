@@ -2,7 +2,7 @@
 using BenchmarkDotNet.Running;
 using System.Text;
 
-namespace Benchmarks;
+namespace Benchmarks.Span;
 
 //Png graphic file called "SpanBenchmarkResults.png" has the results of this benchmark
 //This pgn file is in the same folder

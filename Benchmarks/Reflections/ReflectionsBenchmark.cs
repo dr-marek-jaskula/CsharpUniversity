@@ -2,7 +2,7 @@
 using BenchmarkDotNet.Running;
 using CsharpAdvanced.Reflections;
 
-namespace Benchmarks;
+namespace Benchmarks.Reflections;
 
 [MemoryDiagnoser]
 public class ReflectionBenchmarks

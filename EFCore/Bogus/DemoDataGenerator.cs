@@ -13,8 +13,8 @@ public class DemoDataGenerator
     {
         if (gender is Gender.Male)
             return Bogus.DataSets.Name.Gender.Male;
-        else
-            return Bogus.DataSets.Name.Gender.Female;
+        
+        return Bogus.DataSets.Name.Gender.Female;
     }
 
     public DemoDataGenerator(MyDbContext context)
