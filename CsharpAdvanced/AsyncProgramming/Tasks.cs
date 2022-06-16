@@ -42,7 +42,7 @@ public class Tasks
         // Wait for the task to finish.
         taskThree.Wait();
 
-        // Construct an unstarted task
+        // Construct a task
         Task taskFour = new(action, "gamma");
 
         // Run it synchronously

@@ -169,7 +169,7 @@ public class TasksAscynAwaitBook
         //  
         // Async in c# is mainly 2 words: async and await
         // 
-        // The point is to allow easy and clean asynchonous code to be written without complex and messy code
+        // The point is to allow easy and clean asynchronous code to be written without complex and messy code
 
         #region Sync vs Async Method
 
@@ -213,7 +213,7 @@ public class TasksAscynAwaitBook
 
         #endregion
 
-        // async and await are always used togather. A method or lambda is tagged with async can then await any Task
+        // async and await are always used together. A method or lambda is tagged with async can then await any Task
 
         // When you await something, the thread which called the await is free to then return to what it was doing, while in parallel the task inside the await is now running on another thread
         // Once the task is done, it returns either to the original calling thread or carries on another thread to do the work that codes after the await   
@@ -223,22 +223,22 @@ public class TasksAscynAwaitBook
         // =============
         // Imagine you go to Starbucks and the entire shop is run by one person.
         // His name is Mr UI Thread. You walk in and ask Mr Thread for a Vanilla Latter.
-        // He obliges and starts to make your coffe 
-        // He puts the milk into the containter and turns on the hot steam and proceeds to stand there and wait for the mild to reach 70 degrees.
+        // He obliges and starts to make your coffee 
+        // He puts the milk into the container and turns on the hot steam and proceeds to stand there and wait for the mild to reach 70 degrees.
         //
-        // During this time you remember you wanted a muffin as well, so you shoutt over to Mr Thread and ask for a muffin... but he ignores you. He is blocked waiting for the mild to boil.
+        // During this time you remember you wanted a muffin as well, so you shout over to Mr Thread and ask for a muffin... but he ignores you. He is blocked waiting for the mild to boil.
         //
-        // Several minutes goes by and 3 more customers have come in and are witing to be served. Finally the milk is finished and he completes the Latte.
+        // Several minutes goes by and 3 more customers have come in and are waiting to be served. Finally the milk is finished and he completes the Latte.
         //Returning to you. You are a little annoyed at being ignored for minutes and decided to leave your muffin.
         //
         // Then he continues to serve one customer at a time, doing one job at a time.
         // Not a good situation.
 
-        // This is what happens with signle threaded application.
+        // This is what happens with single threaded application.
 
-        // Now in order to improve business Mr Thread empleys 2 new members of staff called Mr and Mrs Worker Thread. The pair work well independently and as Mr Thred takes order from the customers, he askes Mr Worker Thread to complete the order, and then without waiting for Mr Worker Thread to finish the drink, proceeds to serve next customer.
+        // Now in order to improve business Mr Thread employ 2 new members of staff called Mr and Mrs Worker Thread. The pair work well independently and as Mr Thred takes order from the customers, he askes Mr Worker Thread to complete the order, and then without waiting for Mr Worker Thread to finish the drink, proceeds to serve next customer.
 
-        // Once Mr Worker Thread has finished a drink, insted of having to take the drinks to the customers she asks Mrs worker Thread to serve the drinks and then without waiting he proceed to start the next order
+        // Once Mr Worker Thread has finished a drink, instead of having to take the drinks to the customers she asks Mrs worker Thread to serve the drinks and then without waiting he proceed to start the next order
         //The business is now a well-oiled, multi-threaded business.
 
 
@@ -273,7 +273,6 @@ public class TasksAscynAwaitBook
         // ===================
         // 
         // You can only return void, Task or Task<T> for a method marked as async, as the method is not complete when it returns, so no other result is valid
-        // Task jest zwracany przy pierwsyzm await, a methoda nie jest skończona, wiec nic innego nie mogłoby zwrócić
 
         #region Method 1 Getting Result of Async from Sync
 
@@ -283,7 +282,7 @@ public class TasksAscynAwaitBook
         //Wait for it
         doWorkResultTask.Wait();
 
-        //Get the reult
+        //Get the result
         var doWorkResult = doWorkResultTask.Result;
         Console.WriteLine(doWorkResult);
         Console.WriteLine("------------------------");
@@ -303,23 +302,21 @@ public class TasksAscynAwaitBook
         //
         // Async Keyword
         // =================
-        // the async keyword is not acually added to the method declaration signature, the only effect it has is to change the compiled code. 
-        // Thats wht interfaces cannot declare async, as it isnt a declarative statement its a compilation statement to change the flow of the function 
+        // the async keyword is not actually added to the method declaration signature, the only effect it has is to change the compiled code. 
+        // Thats why interfaces cannot declare async, as it isn't a declarative statement its a compilation statement to change the flow of the function 
 
 
-        // (DO NOT do .Result przed tym jak task jest skonczony!!
         // Consuming Ansyc Methods 
         //
         // the best way to consume or call a method that returns a task is to be async yourself in the caller method, to ultimately awaiting it. By that definition async method are naturally contagious
         //
-        //
 
         #region Consuming Wait
-        //Store the taks
+        //Store the task
         var doWorkReultTask = DoWorkAndGetResultAsync("Consume Wait");
 
         //Wait for it
-        doWorkResultTask.Wait(); // dobra opcja. Czeka aż zadanie się wykona //to z async zrobi sync
+        doWorkResultTask.Wait(); 
 
         //Get the result
         var workResult = doWorkResultTask.Result;
@@ -335,9 +332,8 @@ public class TasksAscynAwaitBook
         //Store the task
         Task.Run(async () =>
         {
-            //Get result //Tu zbiera się rezultat 
-        workResultViaTask = await DoWorkAndGetResultAsync("Consume via Task");
-
+            //Get result 
+            workResultViaTask = await DoWorkAndGetResultAsync("Consume via Task");
         }).Wait();
         Console.WriteLine("------------------------");
 
@@ -347,16 +343,16 @@ public class TasksAscynAwaitBook
         // What happens during an Async call
         // ===========================================
         // 
-        //  Code inside a function that returns a Task runs its code on the callers thread up untile the first line that calls await. At this point in time:
+        //  Code inside a function that returns a Task runs its code on the callers thread up until the first line that calls await. At this point in time:
         // 
-        // 1. The current thread executing your code is relesed  (making your code asynchronous). This means from a normal point of view, your function has returned at this point (it has return the Task object)
+        // 1. The current thread executing your code is released  (making your code asynchronous). This means from a normal point of view, your function has returned at this point (it has return the Task object)
         //
-        // 2. Once the task you have awaited completes, yout method should appear to continue from where it left off, as if it never returned from the method, so reusme on the line below the await.
+        // 2. Once the task you have awaited completes, your method should appear to continue from where it left off, as if it never returned from the method, so reusme on the line below the await.
         //
         // To achieve this, c# at the point of reaching the await calls:
         // 1. Stores all local variables in the scope of the method
-        // 2. Stores all parameteres of your method
-        // 3. The "this" variable to store all calss-level variables
+        // 2. Stores all parameters of your method
+        // 3. The "this" variable to store all class-level variables
         // 4. stores all contexts (Execution, Security, Call)
 
         // and on resuming to the line after the await, restores all of these values as if nothing had changes. All of this information is stored on the garbage collection heap
@@ -370,19 +366,19 @@ public class TasksAscynAwaitBook
         //
         // Once its done and effectively "after" the "await" line, execution returns to a certain thread.
         //
-        // That thread is determined by first checking if the thread has an synchronization contex and if it does, it asks that thread to return to. For UI threads this will return work to the UI thread itself. [on UI to the same thread that was before the await]
+        // That thread is determined by first checking if the thread has an synchronization context and if it does, it asks that thread to return to. For UI threads this will return work to the UI thread itself. [on UI to the same thread that was before the await]
         //
 
-        //Console application has no synchronization contex!!
+        //Console application has no synchronization context!!
         var syncContex = SynchronizationContext.Current;
 
         //
-        // For normal threads that have no synchronization contex, the code after the "await" typically, but not always, continues on the same thread!!! that the inner work was being done on [before await], but has no requirement to resume on any specific thread
+        // For normal threads that have no synchronization context, the code after the "await" typically, but not always, continues on the same thread!!! that the inner work was being done on [before await], but has no requirement to resume on any specific thread
         //
-        // Typicall if you use "ContinueWith" insted of "await", the code inside "ContinueWith" runs on a different thread that the inner task was running on, and using "await" typically continues on the same thread.
+        // Typically if you use "ContinueWith" instead of "await", the code inside "ContinueWith" runs on a different thread that the inner task was running on, and using "await" typically continues on the same thread.
         //
 
-        //Show ContinueWith typicall changing thred ID's
+        //Show ContinueWith typically changing thread ID's
         DoWorkAsync("ContinueWith").ContinueWith(t =>
         {
             Log("ContinueWith Complete");
@@ -392,7 +388,7 @@ public class TasksAscynAwaitBook
 
         // This also means after ever await the next line is typically on a new thread if there is no synchronization context
         // ***************************************************************
-        // An expeption is if you use "ConfigureAwait(false)". Then the SynchronizationContex is totally ignored and the resuming thread is treated as if there were no context
+        // An exception is if you use "ConfigureAwait(false)". Then the SynchronizationContex is totally ignored and the resuming thread is treated as if there were no context
         //
         //
         // Resuming on the original thread via the synchronization context is an expensive thing (takes time) and so if you choose to not care about resuming on the same thread and want to save time you can use "ConfigureAwait" to remove the overhead
@@ -431,7 +427,7 @@ public class TasksAscynAwaitBook
         //
         // The exception to the rule is a method with async void. As it cannot be awaited, any exceptions that occur in an async void method are re-thrown like this:
         // 
-        // 1. If there is a synchonization contex the exception is Post back to the caller thread.
+        // 1. If there is a synchronization context the exception is Post back to the caller thread.
         // 2. If not, it is thrown on the thread pool
         // 
 
