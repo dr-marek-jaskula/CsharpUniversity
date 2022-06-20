@@ -8,7 +8,8 @@ public class CapitalizeTool
     /// <param name="input">The input to be capitalized</param>
     public static void Capitalize(ref string input)
     {
-        input = $"{input[0].ToString().ToUpper()}{input[1..].ToLower()}";
+        if (!string.IsNullOrEmpty(input))
+            input = $"{input[0].ToString().ToUpper()}{input[1..].ToLower()}";
     }
 }
 

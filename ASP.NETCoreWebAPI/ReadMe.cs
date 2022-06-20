@@ -12,6 +12,8 @@
 //Static Files -> FileController, wwwroot, PrivateFiles, Program.cs
 //HealthChecks -> program.cs (in configure and configure services), appsettings.json, HealthChecks folder
 
+//BackgroundService with moder Timer (PeriodicTimer introduced in .NET 6) is presented in the "RepoetingBackgroundService"
+
 //bulkUpdates / bulkDelets with "linq2db.EntityFrameworkCore" -> See EFCore -> EF Core advance -> Problems -> BulkUpdateOrDelete
 
 //Includes with expression user like "Order order = await GetOrder(10252, db, o => o.Customer, o => o.Payment);" -> Services -> OrderService -> GoDown
