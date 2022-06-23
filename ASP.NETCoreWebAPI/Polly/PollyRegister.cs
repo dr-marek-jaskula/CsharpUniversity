@@ -4,7 +4,7 @@ using Polly.Registry;
 
 namespace ASP.NETCoreWebAPI.PollyPolicies;
 
-public static class PollyRegister
+public static class PollyRegistry
 {
     //Possible ways to inject the registered Polly policies:
     //1. Add it globally by extension method like below (preferred way)

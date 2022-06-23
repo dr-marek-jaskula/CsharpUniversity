@@ -1,10 +1,10 @@
 ﻿using ASP.NETCoreWebAPI.Filters;
 
-namespace ASP.NETCoreWebAPI.Registry;
+namespace ASP.NETCoreWebAPI.Registration;
 
 //Filters are like Middlewares but for the specific endpoint or controller
 //In order to apply filters is to use "ServiceFilter" on the certain controller action
-public static class FiltersRegistry
+public static class FiltersRegistration
 {
     public static void RegisterFilters(this IServiceCollection services)
     {

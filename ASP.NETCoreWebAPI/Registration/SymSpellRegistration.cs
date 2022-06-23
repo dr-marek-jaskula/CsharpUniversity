@@ -1,8 +1,8 @@
 ﻿using ASP.NETCoreWebAPI.StringApproxAlgorithms;
 
-namespace ASP.NETCoreWebAPI.Registry;
+namespace ASP.NETCoreWebAPI.Registration;
 
-public static class SymSpellRegistry
+public static class SymSpellRegistration
 {
     public static void RegisterSymSpell(this IServiceCollection services)
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ASP.NETCoreWebAPI.Registry;
+namespace ASP.NETCoreWebAPI.Registration;
 
-public static class VersioningRegistry
+public static class VersioningRegistration
 {
     public static void RegisterVersioning(this IServiceCollection services)
     {

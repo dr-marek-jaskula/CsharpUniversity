@@ -1,9 +1,10 @@
-﻿//Most of the code was move to the registries in the "Registry" folder
-//In registry there is also an "MyCustomExtension", a template for extension method with an additional options parameter, in form of lambda (action)
+﻿//Most of the "program.cs" code was move to the "Registration" folder
+//In registration there is also an "MyCustomExtension", a template for extension method with an additional options parameter, in form of lambda (action)
 //This approach is very common in many libraries
 
 //Controllers (general info) -> UniversityController
-//Logging and Telemetry -> Program, LogDemoController, Logs (folder) [with RegulatiosLogStoring.txt], appsettings.json
+//Logging and Telemetry -> Program, LogDemoController, Logging (folder), appsettings.json 
+//Logging with LoggerAdapter -> for better testability we can inject ILoggerAdapter instead of just a ILogger
 //Versioning and Swagger -> Program, AccountController, Swagger (folder), wwwroot swaggerstyles, SwaggerController + FILTERING (https://github.com/mattfrear/Swashbuckle.AspNetCore.Filters)
 //Validation (Fluent) -> Program, Models (folder) -> Validators, DataTransferObjects
 //Exception Handling -> Program, Middlewares (folder) -> ErrorHandlingMiddleware

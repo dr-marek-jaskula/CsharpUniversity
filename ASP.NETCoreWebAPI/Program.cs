@@ -1,5 +1,5 @@
 //This is the main entrypoint of our application.
-//Most of the code was move to the registries in the "Registry" folder
+//Most of the code was move to the registries in the "Registration" folder
 
 //Install NuGet Packages:
 //AutoMapper.Extensions.Microsoft.DependencyInjection
@@ -25,7 +25,7 @@
 
 using ASP.NETCoreWebAPI.HealthChecks;
 using ASP.NETCoreWebAPI.PollyPolicies;
-using ASP.NETCoreWebAPI.Registry;
+using ASP.NETCoreWebAPI.Registration;
 using EFCore;
 using EFCore.Data_models;
 using FluentValidation.AspNetCore;
@@ -45,7 +45,7 @@ using System.Runtime.CompilerServices;
 Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .Enrich.FromLogContext()
-            .WriteTo.Console() //to console, because at the very beginning we have only console
+            .WriteTo.Console() //to console, because at the very beginning we have only a console
             .CreateBootstrapLogger();
 
 try
@@ -63,8 +63,9 @@ try
         .Enrich.FromLogContext());
 
     #region Configure Services
-
-    //Authentication settings (go to: Registry: AuthenticationRegistry)
+    //We register a "ServiceDescriptors": a plan how the service should be resolve (we can also remove registrations, for example to decorate it and register again)
+    
+    //Authentication settings (go to: Registration: AuthenticationRegistration)
     builder.Services.RegisterAuthentication(builder.Configuration.ConfigureAuthentication());
 
     //Controllers with Fluent Validation (Models -> Validators)
@@ -78,7 +79,7 @@ try
         options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); //Makes sure that we automatically register validators from the assembly. We get the execution assembly by using System.Reflection.
     });
 
-    //Versioning (examine AccountController) (go to: Registry: VersioningRegistry)
+    //Versioning (examine AccountController) (go to: Registration: VersioningRegistration)
     builder.Services.RegisterVersioning();
 
     //DbContext
@@ -99,19 +100,19 @@ try
     //AutoMapper (mapping entities to DataTransferObjects, short. DTO's)
     builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-    //Add Services (dependencies) to the default ASP.Net Core dependency container (go to: Registry: ServicesRegistry)
+    //Add Services (dependencies) to the default ASP.Net Core dependency container (go to: Registration: ServicesRegistration)
     builder.Services.RegisterServices();
 
-    //ApproximationAlgorithm (there should be one for dictionary, and maybe more for approximation to certain set of strings) (go to: Registry: SymSpellRegistry)
+    //ApproximationAlgorithm (there should be one for dictionary, and maybe more for approximation to certain set of strings) (go to: Registration: SymSpellRegistration)
     builder.Services.RegisterSymSpell();
 
     //Register Polly Policies (method ConfigurePollyPolicies extends IServiceCollection)
     builder.Services.ConfigurePollyPolicies(PollyPolicies.GetSyncPolicies(), PollyPolicies.GetAsyncPolicies(), PollyPolicies.GetAsyncPoliciesGitHubUser(), PollyPolicies.GetAsyncPoliciesHttpResponseMessage());
 
-    //Configure IHttpClientFactory for GitHub. "Named client" (it is for GitHub service) (go to: Registry: HttpClientRegistry)
+    //Configure IHttpClientFactory for GitHub. "Named client" (it is for GitHub service) (go to: Registration: HttpClientRegistration)
     builder.Services.RegisterHttpClient();
 
-    //Middlewares (go to: Registry: MiddlewaresRegistry)
+    //Middlewares (go to: Registration: MiddlewaresRegistration)
     builder.Services.RegisterMiddlewares();
 
     //Password hasher
@@ -123,7 +124,7 @@ try
     builder.Services.RegisterFilters();
 
     //Swagger
-    //Swagger and versioning (go to: Registry: SwaggerRegistry)
+    //Swagger and versioning (go to: Registration: SwaggerRegistration)
     builder.Services.RegisterSwagger();
 
     //Optionally -> to avoid the cyclic reference in the serialized json file (DTO is the better approach, but sometime this approach can be useful)
@@ -174,7 +175,7 @@ try
     //Corse (use policy added above)
     app.UseCors("FrontEndClient");
 
-    //Middlewares (go to: Registry: MiddlewaresRegistry)
+    //Middlewares (go to: Registration: MiddlewaresRegistration)
     app.UseMiddlewares();
 
     //Authentication
@@ -191,7 +192,7 @@ try
         //https://localhost:7240/LogDemo/PingException
         //app.UseDeveloperExceptionPage();
 
-        //(go to: Registry: SwaggerRegistry)
+        //(go to: Registration: SwaggerRegistration)
         app.ConfigureSwagger();
     }
 

@@ -174,7 +174,7 @@ public class CustomTemplateGuide
     //                "exclude": [
     //                    "**/wwwroot/swaggerstyles/**",
     //                    "**/Swagger/**",
-    //                    "**/Registry/SwaggerRegistry.cs"
+    //                    "**/Registration/SwaggerRegistration.cs"
     //                ]
     //            },
     //            {
@@ -192,14 +192,14 @@ public class CustomTemplateGuide
     //            {
     //    "condition": "(!AddHttpClient)",
     //                "exclude": [
-    //                    "**/Registry/HttpClientRegistry.cs",
+    //                    "**/Registration/HttpClientRegistration.cs",
     //                    "**/Models/GitHubUser.cs"
     //                ]
     //            },
     //            {
     //    "condition": "(!AddSymSpell)",
     //                "exclude": [
-    //                    "**/Registry/SymSpellRegistry.cs",
+    //                    "**/Registration/SymSpellRegistration.cs",
     //                    "**/Helpers/SymSpell/**",
     //                    "**/Helpers/SymSpellAlgorithm.cs"
     //                ]

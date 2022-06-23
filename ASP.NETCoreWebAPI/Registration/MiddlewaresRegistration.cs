@@ -1,8 +1,8 @@
 ﻿using ASP.NETCoreWebAPI.Middlewares;
 
-namespace ASP.NETCoreWebAPI.Registry;
+namespace ASP.NETCoreWebAPI.Registration;
 
-public static class MiddlewaresRegistry
+public static class MiddlewaresRegistration
 {
     public static void RegisterMiddlewares(this IServiceCollection services)
     {

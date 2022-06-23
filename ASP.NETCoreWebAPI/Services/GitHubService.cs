@@ -58,7 +58,7 @@ public class GitHubService : IGitHubService
     {
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["RetryStrategy"];
+        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegistry.asyncRegistry["RetryStrategy"];
 
         return await pollyPolicy.ExecuteAsync(async () =>
         {
@@ -82,7 +82,7 @@ public class GitHubService : IGitHubService
 
     public async Task<GitHubUser?> GetUserByUserNameAsyncPollyCB(string userName)
     {
-        AsyncCircuitBreakerPolicy pollyCircuitBreakerPolicy = (AsyncCircuitBreakerPolicy)PollyRegister.asyncRegistry["CircuitBreakerStrategy"];
+        AsyncCircuitBreakerPolicy pollyCircuitBreakerPolicy = (AsyncCircuitBreakerPolicy)PollyRegistry.asyncRegistry["CircuitBreakerStrategy"];
 
         Console.WriteLine($"Circuit state {pollyCircuitBreakerPolicy.CircuitState}");
 
@@ -91,7 +91,7 @@ public class GitHubService : IGitHubService
 
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncPolicy pollyRetryPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["RetryStrategy2"];
+        AsyncPolicy pollyRetryPolicy = (AsyncPolicy)PollyRegistry.asyncRegistry["RetryStrategy2"];
 
         var task = pollyRetryPolicy.ExecuteAsync(async () =>
         {
@@ -121,7 +121,7 @@ public class GitHubService : IGitHubService
 
     public async Task<GitHubUser?> GetUserByUserNameAsyncPollyAdvanceCB(string userName)
     {
-        AsyncCircuitBreakerPolicy pollyCircuitBreakerPolicy = (AsyncCircuitBreakerPolicy)PollyRegister.asyncRegistry["CircuitBreakerStrategy2"];
+        AsyncCircuitBreakerPolicy pollyCircuitBreakerPolicy = (AsyncCircuitBreakerPolicy)PollyRegistry.asyncRegistry["CircuitBreakerStrategy2"];
 
         Console.WriteLine($"Circuit state {pollyCircuitBreakerPolicy.CircuitState}");
 
@@ -130,7 +130,7 @@ public class GitHubService : IGitHubService
 
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncPolicy pollyRetryPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["RetryStrategy2"];
+        AsyncPolicy pollyRetryPolicy = (AsyncPolicy)PollyRegistry.asyncRegistry["RetryStrategy2"];
 
         var task = pollyRetryPolicy.ExecuteAsync(async () =>
         {
@@ -165,7 +165,7 @@ public class GitHubService : IGitHubService
     //Pessimistic version (without CancellationToken)
     public async Task<GitHubUser?> GetUserByUserNameAsyncTimeoutPolly(string userName)
     {
-        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["TimeoutStrategy2"];
+        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegistry.asyncRegistry["TimeoutStrategy2"];
 
         var client = _httpClientFactory.CreateClient("GitHub");
 
@@ -188,7 +188,7 @@ public class GitHubService : IGitHubService
     {
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["TimeoutStrategy3"];
+        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegistry.asyncRegistry["TimeoutStrategy3"];
 
         //CancellationTokenSource which will create our Token. It is important to dispose the tokenSource after it is used.
         CancellationTokenSource tokenSource = new();
@@ -230,7 +230,7 @@ public class GitHubService : IGitHubService
     {
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["TimeoutStrategy3"];
+        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegistry.asyncRegistry["TimeoutStrategy3"];
 
         return await pollyPolicy.ExecuteAsync(async cancellationToken =>
         {
@@ -272,7 +272,7 @@ public class GitHubService : IGitHubService
     {
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["TimeoutStrategy3"];
+        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegistry.asyncRegistry["TimeoutStrategy3"];
 
         //CancellationTokenSource which will create our Token. It is important to dispose the tokenSource after it is used.
         CancellationTokenSource tokenSource = new();
@@ -322,7 +322,7 @@ public class GitHubService : IGitHubService
     {
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["CacheStrategy"];
+        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegistry.asyncRegistry["CacheStrategy"];
 
         return await pollyPolicy.ExecuteAsync(async context =>
         {
@@ -344,7 +344,7 @@ public class GitHubService : IGitHubService
     {
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["CacheStrategy"];
+        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegistry.asyncRegistry["CacheStrategy"];
 
         return await pollyPolicy.ExecuteAsync(async context =>
         {
@@ -364,7 +364,7 @@ public class GitHubService : IGitHubService
     {
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["CacheStrategy2"];
+        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegistry.asyncRegistry["CacheStrategy2"];
 
         //pollyPolicy with ttlSlidingStrategy
         return await pollyPolicy.ExecuteAsync(async context =>
@@ -390,7 +390,7 @@ public class GitHubService : IGitHubService
     {
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegister.asyncRegistry["CacheStrategy2"];
+        AsyncPolicy pollyPolicy = (AsyncPolicy)PollyRegistry.asyncRegistry["CacheStrategy2"];
 
         //pollyPolicy with ttlSlidingStrategy
         return await pollyPolicy.ExecuteAsync(async context =>
@@ -416,7 +416,7 @@ public class GitHubService : IGitHubService
     {
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncFallbackPolicy<GitHubUser> pollyPolicy = (AsyncFallbackPolicy<GitHubUser>)PollyRegister.asyncRegistry["UserFallbackStrategy"];
+        AsyncFallbackPolicy<GitHubUser> pollyPolicy = (AsyncFallbackPolicy<GitHubUser>)PollyRegistry.asyncRegistry["UserFallbackStrategy"];
 
         return await pollyPolicy.ExecuteAsync(async () =>
         {
@@ -438,7 +438,7 @@ public class GitHubService : IGitHubService
     {
         var client = _httpClientFactory.CreateClient("GitHub");
 
-        AsyncFallbackPolicy<GitHubUser> pollyPolicy = (AsyncFallbackPolicy<GitHubUser>)PollyRegister.asyncRegistry["UserFallbackStrategy2"];
+        AsyncFallbackPolicy<GitHubUser> pollyPolicy = (AsyncFallbackPolicy<GitHubUser>)PollyRegistry.asyncRegistry["UserFallbackStrategy2"];
 
         return await pollyPolicy.ExecuteAsync(async (cancellationToken) =>
         {
@@ -462,7 +462,7 @@ public class GitHubService : IGitHubService
 
     public async Task<GitHubUser?> GetUserByUserNameAsyncWrapMultiplePolicies(string userName, CancellationToken cancellationToken)
     {
-        AsyncPolicyWrap<GitHubUser> pollyMultiplePolicies = (AsyncPolicyWrap<GitHubUser>)PollyRegister.asyncRegistry["UserUltimateStrategy"];
+        AsyncPolicyWrap<GitHubUser> pollyMultiplePolicies = (AsyncPolicyWrap<GitHubUser>)PollyRegistry.asyncRegistry["UserUltimateStrategy"];
 
         var client = _httpClientFactory.CreateClient("GitHub");
 

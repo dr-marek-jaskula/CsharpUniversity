@@ -1,6 +1,6 @@
-﻿namespace ASP.NETCoreWebAPI.Registry;
+﻿namespace ASP.NETCoreWebAPI.Registration;
 
-public static class HttpClientRegistry
+public static class HttpClientRegistration
 {
     public static void RegisterHttpClient(this IServiceCollection services)
     {

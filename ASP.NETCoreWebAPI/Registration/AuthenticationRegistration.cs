@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace ASP.NETCoreWebAPI.Registry;
+namespace ASP.NETCoreWebAPI.Registration;
 
-public static class AuthenticationRegistry
+public static class AuthenticationRegistration
 {
     public static AuthenticationSettings ConfigureAuthentication(this ConfigurationManager configuration)
     {

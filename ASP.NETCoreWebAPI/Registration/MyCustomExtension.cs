@@ -1,4 +1,4 @@
-﻿namespace ASP.NETCoreWebAPI.Registry;
+﻿namespace ASP.NETCoreWebAPI.Registration;
 
 //This shows how to add to the extension method the very popular approach of passing in the options in form of the lambda (action delegate)
 //Such approach is very common in many libraries

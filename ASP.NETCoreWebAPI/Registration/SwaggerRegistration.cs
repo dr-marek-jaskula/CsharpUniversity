@@ -6,9 +6,9 @@ using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
-namespace ASP.NETCoreWebAPI.Registry;
+namespace ASP.NETCoreWebAPI.Registration;
 
-public static class SwaggerRegistry
+public static class SwaggerRegistration
 {
     public static void RegisterSwagger(this IServiceCollection services)
     {
