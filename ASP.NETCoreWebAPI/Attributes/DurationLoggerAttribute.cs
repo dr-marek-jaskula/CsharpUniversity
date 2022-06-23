@@ -14,6 +14,7 @@ namespace ResolvingDeps.WebApi.Attributes;
 
 public class DurationLoggerAttribute : Attribute, IAsyncActionFilter
 {
+    //Without injecting the service provider we hide the intend (code is less readable) -> its an Anti Pattern (Service Locator): try not to use it. (Service Locator uses cases are rare but exits)
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         var sw = Stopwatch.StartNew();
@@ -37,3 +38,5 @@ public class DurationLoggerAttribute : Attribute, IAsyncActionFilter
         }
     }
 }
+
+//Do not use it if possible

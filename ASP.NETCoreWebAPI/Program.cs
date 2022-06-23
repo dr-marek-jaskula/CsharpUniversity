@@ -197,17 +197,31 @@ try
         app.ConfigureSwagger();
     }
 
-    //In order to apply pending migration after the app runs, we can:
-    //using var scope = app.Services.CreateScope();
-    //var dbContext = scope.ServiceProvider.GetService<MyDbContext>();
+    #region CustomScope: Apply Migrations
 
-    //if (dbContext is null)
-    //    throw new Exception("Database not available");
+    //The way to create a custom scope. 
+    //The pending migrations will be applied.
 
-    //var pendingMigrations = dbContext.Database.GetPendingMigrations();
+    //1. We get the "IServiceScopeFactory" to create scope.
+    //It is a preferred way: the only responsibility of this factory is to create scope
+    var serviceScopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 
-    //if (pendingMigrations.Any())
-    //    dbContext.Database.Migrate();
+    //2. Use "using" keyword with the old {} syntax to narrow the scope
+    using (var applyMigrationsScope = serviceScopeFactory.CreateScope())
+    {
+        //2. Get the scoped service
+        var dbContext = applyMigrationsScope.ServiceProvider.GetService<MyDbContext>();
+
+        if (dbContext is null)
+            throw new Exception("Database not available");
+
+        var pendingMigrations = dbContext.Database.GetPendingMigrations();
+
+        if (pendingMigrations.Any())
+            dbContext.Database.Migrate();
+    }
+
+    #endregion CustomScope: Apply Migrations
 
     //Routing
     app.UseRouting();
