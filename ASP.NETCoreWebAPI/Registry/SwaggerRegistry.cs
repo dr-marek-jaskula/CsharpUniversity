@@ -74,6 +74,9 @@ public static class SwaggerRegistry
 
             //Overwrite swagger style to dark style (from static files wwwroot -> swaggerstyles -> SwaggerDark.css)
             options.InjectStylesheet("/swaggerstyles/SwaggerDark.css");
+
+            //Use this to remove the "/swagger" in the url to hit swagger
+            //options.RoutePrefix = string.Empty; //so in this case use just "https://localhost:7240"
         });
     }
 }

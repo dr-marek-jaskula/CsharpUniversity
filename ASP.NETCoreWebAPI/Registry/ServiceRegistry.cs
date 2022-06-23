@@ -13,7 +13,7 @@ public static class ServiceRegistry
         services.AddScoped<IAddressService, AddressService>();
         services.AddScoped<INoThrowService, NoThrowService>();
 
-        //Background Services
+        //Background Services (also called "HostedServices")
         services.AddHostedService<RepetingBackgroundService>(); //Uncomment to demonstrate PeriodicTimer
     }
 }

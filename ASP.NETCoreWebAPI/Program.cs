@@ -157,6 +157,7 @@ try
     var app = builder.Build();
 
     #region Configure HTTP request pipeline
+    //The middleware order is important
 
     //Serilog (middleware for logging every request)
     app.UseSerilogRequestLogging(options =>

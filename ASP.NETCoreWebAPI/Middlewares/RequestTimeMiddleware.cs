@@ -16,6 +16,7 @@ public class RequestTimeMiddleware : IMiddleware
         _logger = logger;
     }
 
+    //The RequestDelegate can be also injected by constructor 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         _stopwatch.Start();

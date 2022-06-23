@@ -1,6 +1,8 @@
-﻿using ASP.NETCoreWebAPI.Models.DataTransferObjects;
+﻿using ASP.NETCoreWebAPI.Filters;
+using ASP.NETCoreWebAPI.Models.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ResolvingDeps.WebApi.Attributes;
 
 namespace ASP.NETCoreWebAPI.Controllers;
 
@@ -162,5 +164,34 @@ public class UniversityController : ControllerBase
     public ActionResult IgnoredAction()
     {
         return Ok("This is ignored by swagger but it is still a valid endpoint");
+    }
+
+    [HttpGet]
+    [Route("injectServiceIntoAction")]
+    //In some very rare cases we could inject the service directly to the method (mb for testing purposes).
+    //It is uncommon to encounter
+    //[FromServices] is required to tell that the dependency should be taken from the DI Container
+    public ActionResult InjectToAction([FromServices] ILogger<UniversityController> logger)
+    {
+        return Ok($"{logger}");
+    }
+
+    //Bad approach, because is hard to test (use the one below, but in some super rare cases we can use it like that)
+    [HttpGet]
+    [Route("actionWithAttrubute")]
+    [DurationLogger]
+    //This is an action with the attribute to which we inject the dependency from the DI Container
+    //The injection is done by the HttpContext in the attribute class
+    public ActionResult InjectDependencyIntoAttribute()
+    {
+        return Ok("Use with double caution.");
+    }
+
+    [HttpGet]
+    [Route("actionWithFilter")]
+    [ServiceFilter(typeof(DurationLoggerFilter))]
+    public ActionResult InjectDependencyIntoFilter()
+    {
+        return Ok("Use is is most cases if need functionality like in a action above.");
     }
 }

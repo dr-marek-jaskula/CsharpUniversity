@@ -20,14 +20,14 @@ public class ValueTasks
 
     public async Task<string?> GetNameWithTaskReturnType()
     {
-        //second time we just return a cached "Jackob". It is inefficient to return it as a Task, because we would allocate more memory
+        //second time we just return a cached "Jacob". It is inefficient to return it as a Task, because we would allocate more memory
         if (cachedName is not null)
             return cachedName;
 
         var name = await Task.Run(() =>
         {
             Task.Delay(200);
-            return "Jackob";
+            return "Jacob";
         });
 
         cachedName = name;
@@ -37,14 +37,14 @@ public class ValueTasks
 
     public async ValueTask<string?> GetNameWithValueTaskReturnType()
     {
-        //second time we just return a cached "Jackob". It is efficient to return it as a ValueTask, because we would not allocate more memory
+        //second time we just return a cached "Jacob". It is efficient to return it as a ValueTask, because we would not allocate more memory
         if (cachedName is not null)
             return cachedName;
 
         var name = await Task.Run(() =>
         {
             Task.Delay(200);
-            return "Jackob";
+            return "Jacob";
         });
 
         cachedName = name;

@@ -9,7 +9,7 @@ public class RepetingBackgroundService : BackgroundService
     //Timespan can be provided from elsewhere 
     private readonly PeriodicTimer _timer = new(TimeSpan.FromMilliseconds(1000));
 
-    //We can use dependecy injection as it is demonstrated here
+    //We can use dependency injection as it is demonstrated here
     private readonly ILogger<RepetingBackgroundService> _logger;
 
     public RepetingBackgroundService(ILogger<RepetingBackgroundService> logger)
@@ -17,12 +17,12 @@ public class RepetingBackgroundService : BackgroundService
         _logger = logger;
     }
 
-    //This is a method that needs to be overriden when inheriting from BackgroundService. It was make "async"
+    //This is a method that needs to be overridden when inheriting from BackgroundService. It was make "async"
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (await _timer.WaitForNextTickAsync(stoppingToken) && !stoppingToken.IsCancellationRequested)
         {
-            //even thought the work takes time, each second the time is displayed
+            //Even thought the work takes time, each second the time is displayed
             await DoWorkAsync();
         }
     }

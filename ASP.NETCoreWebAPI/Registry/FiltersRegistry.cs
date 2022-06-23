@@ -8,13 +8,12 @@ public static class FiltersRegistry
 {
     public static void RegisterFilters(this IServiceCollection services)
     {
-        //Validation filter
         services.AddMvc(opt =>
         {
             opt.Filters.Add(typeof(ValidatorActionFilter));
         });
 
-        //Add Logging filter
         services.AddScoped<LoggingFilter>();
+        services.AddScoped<DurationLoggerFilter>();
     }
 }
