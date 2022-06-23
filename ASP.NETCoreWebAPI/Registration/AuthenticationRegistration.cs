@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace ASP.NETCoreWebAPI.Registration;
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class AuthenticationRegistration
 {

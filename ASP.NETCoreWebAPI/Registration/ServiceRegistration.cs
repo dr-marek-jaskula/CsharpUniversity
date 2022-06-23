@@ -1,7 +1,6 @@
 ﻿using ASP.NETCoreWebAPI.Logging;
 using ASP.NETCoreWebAPI.Services;
-
-namespace ASP.NETCoreWebAPI.Registration;
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceRegistration
 {

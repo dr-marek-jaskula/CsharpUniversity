@@ -1,5 +1,7 @@
 //This is the main entrypoint of our application.
 //Most of the code was move to the registries in the "Registration" folder
+//Each class in the "Registration" folder was added to the "namespace Microsoft.Extensions.DependencyInjection;"
+//The reason is to avoid adding additional using and simulate it is a default functionality (its very elegant)
 
 //Install NuGet Packages:
 //AutoMapper.Extensions.Microsoft.DependencyInjection
@@ -25,7 +27,6 @@
 
 using ASP.NETCoreWebAPI.HealthChecks;
 using ASP.NETCoreWebAPI.PollyPolicies;
-using ASP.NETCoreWebAPI.Registration;
 using EFCore;
 using EFCore.Data_models;
 using FluentValidation.AspNetCore;

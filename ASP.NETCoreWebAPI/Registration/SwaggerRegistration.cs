@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
-namespace ASP.NETCoreWebAPI.Registration;
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class SwaggerRegistration
 {

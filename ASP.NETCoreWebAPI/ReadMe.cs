@@ -1,4 +1,6 @@
 ﻿//Most of the "program.cs" code was move to the "Registration" folder
+//Each class in the "Registration" folder was added to the "namespace Microsoft.Extensions.DependencyInjection;"
+//The reason is to avoid adding additional using and simulate it is a default functionality (its very elegant)
 //In registration there is also an "MyCustomExtension", a template for extension method with an additional options parameter, in form of lambda (action)
 //This approach is very common in many libraries
 

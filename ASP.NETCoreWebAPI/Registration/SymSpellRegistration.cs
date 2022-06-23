@@ -1,6 +1,6 @@
 ﻿using ASP.NETCoreWebAPI.StringApproxAlgorithms;
 
-namespace ASP.NETCoreWebAPI.Registration;
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class SymSpellRegistration
 {
