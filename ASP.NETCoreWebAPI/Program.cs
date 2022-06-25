@@ -64,8 +64,9 @@ try
         .Enrich.FromLogContext());
 
     #region Configure Services
+
     //We register a "ServiceDescriptors": a plan how the service should be resolve (we can also remove registrations, for example to decorate it and register again)
-    
+
     //Authentication settings (go to: Registration: AuthenticationRegistration)
     builder.Services.RegisterAuthentication(builder.Configuration.ConfigureAuthentication());
 
@@ -103,6 +104,9 @@ try
 
     //Add Services (dependencies) to the default ASP.Net Core dependency container (go to: Registration: ServicesRegistration)
     builder.Services.RegisterServices();
+
+    //Add ServiceDecorators
+    builder.Services.RegisterServiceDecorators();
 
     //ApproximationAlgorithm (there should be one for dictionary, and maybe more for approximation to certain set of strings) (go to: Registration: SymSpellRegistration)
     builder.Services.RegisterSymSpell();
@@ -159,6 +163,7 @@ try
     var app = builder.Build();
 
     #region Configure HTTP request pipeline
+
     //The middleware order is important
 
     //Serilog (middleware for logging every request)
@@ -199,7 +204,7 @@ try
 
     #region CustomScope: Apply Migrations
 
-    //The way to create a custom scope. 
+    //The way to create a custom scope.
     //The pending migrations will be applied.
 
     //1. We get the "IServiceScopeFactory" to create scope.

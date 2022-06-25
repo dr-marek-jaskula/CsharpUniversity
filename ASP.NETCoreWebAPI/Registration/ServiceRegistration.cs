@@ -10,6 +10,7 @@ public static class ServiceRegistration
         //an example (manual):
         //var addresServiceDescriptor = new ServiceDescriptor(typeof(IAddressService), typeof(AddressService), ServiceLifetime.Scoped);
         //services.Add(addresServiceDescriptor);
+        //We can also use "TryAdd" if we want to avoid duplicates (from "Microsoft.Extensions.DependencyInjection.Extensions")
 
         //Services
         services.AddScoped<IAccountService, AccountService>();
