@@ -1,5 +1,6 @@
 ﻿using ASP.NETCoreWebAPI.Logging;
 using ASP.NETCoreWebAPI.Services;
+
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceRegistration
@@ -18,12 +19,35 @@ public static class ServiceRegistration
         services.AddScoped<IGitHubService, GitHubService>();
         services.AddScoped<INoThrowService, NoThrowService>();
         services.AddScoped<IAddressService, AddressService>();
+
+        #region Scrutor Scanning approach
+
+        //Register service by scanning
+        //My preferred way for scanning is to use Scrutor build in "ServiceDescriptor" attribute
+        //This attribute looks like:
+        //[ServiceDescriptor(typeof(IExampleAService), ServiceLifetime.Singleton)]
+        //This attribute should be used on each service I want to register later (Nevertheless, this approach was not used here)
         
+        //services.Scan(selector =>
+        //{
+        //    selector.FromAssemblyOf<Program>()
+        //        .AddClasses()
+        //            .UsingAttributes(); //use default Scrutor "ServiceDescriptor" attribute
+        //});
+        
+        //The problem with default "ServiceDescriptor" attribute marker method is:
+        //"Should the class itself knows how to register it?"
+
+        //Alternative is to use:
+        //.AddClasses(filter => filter.InNamespaces("ASP.NETCoreWebAPI.Services"))
+
+        #endregion Scrutor Scanning approach
+
         //The last service registered will be resolved in case when we register two different implementation of a single interface
         //(if we inject a single instance of a service)!!!!
         //However, if we inject a collection (IEnumerable<InterfaceType>), then all of the registered implementations will be present (we can resolve any of implementation)
 
-        //Register open generics in a proper way: 
+        //Register open generics in a proper way:
         services.AddTransient(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
 
         //Background Services (also called "HostedServices")
