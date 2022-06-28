@@ -1,6 +1,6 @@
 ﻿namespace CsharpAdvanced.Records;
 
-//Record are fast ways to get a class close to readonly and with value comparision
+//Record are fast ways to get a class close to readonly and with value comparison
 
 public class RecordsBasic
 {
@@ -41,3 +41,4 @@ public record class DerivedRecord(string Value, string BaseValue) : BaseRecord(B
 public record struct StructRecord(string StringValue, int IntValue);
 
 #endregion record struct since C# 10
+
