@@ -19,6 +19,7 @@ public static class ServiceRegistration
         services.AddScoped<IGitHubService, GitHubService>();
         services.AddScoped<INoThrowService, NoThrowService>();
         services.AddScoped<IAddressService, AddressService>();
+        services.AddScoped<IDecoratedGitHubService, DecoratedGitHubService>();
 
         #region Scrutor Scanning approach
 

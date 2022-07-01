@@ -1,4 +1,5 @@
 ﻿using ASP.NETCoreWebAPI.Services;
+using ASP.NETCoreWebAPI.Services.Decorators;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -10,5 +11,6 @@ public static class DecoratorsRegistration
 
         //Services
         services.Decorate<IOrderService, OrderServiceDecorator>();
+        services.Decorate<IDecoratedGitHubService, GitHubServicePollyDecorator>();
     }
 }

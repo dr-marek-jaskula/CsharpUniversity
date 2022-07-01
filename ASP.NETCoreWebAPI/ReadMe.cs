@@ -10,7 +10,7 @@
 //Versioning and Swagger -> Program, AccountController, Swagger (folder), wwwroot swaggerstyles, SwaggerController + FILTERING (https://github.com/mattfrear/Swashbuckle.AspNetCore.Filters)
 //Validation (Fluent) -> Program, Models (folder) -> Validators, DataTransferObjects
 //Exception Handling -> Program, Middlewares (folder) -> ErrorHandlingMiddleware
-//AutoMapper -> Program, MapperProfiles, Services (Account, Order)
+//AutoMapper -> Program, MapperProfiles, Services (Account, Order) !! FOR HIGHT PERFORMANCE SCENARIOS USE "Mapster" NuGet Package instead of "AutoMapper". Then look on AutoGenerationCode for Mapping
 //Authentication and Authorization -> Program, Authentication (folder), OrderService, OrderController
 //Static Files -> FileController, wwwroot, PrivateFiles, Program.cs
 //HealthChecks -> program.cs (in configure and configure services), appsettings.json, HealthChecks folder
@@ -47,6 +47,8 @@
 //Polly -> PollyPollicies, GitHubController, GitHubServices and look below
 //Filtering and Pagination with async programming and Polly -> Models (PageResult [mainly], QueryObjects), OrderQueryValidator, OrderController, OrderService, Polly
 //  Pagination: PageResult -> OrderQueryValidator -> QueryObjects -> OrderController -> OrderService
+//Decorator pattern for Polly Polities is VERY IMPORTANT -> see "GitHubServicePollyDecorator.cs" and "DecoratedGitHubService"
+
 
 //Avoiding exception approach using "LanguageExt.Core" NuGet Package. For performance in specific cases -> NoThrowController, NoThrowService
 

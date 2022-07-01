@@ -3,7 +3,7 @@ using ASP.NETCoreWebAPI.Models;
 using ASP.NETCoreWebAPI.Models.DataTransferObjects;
 using ASP.NETCoreWebAPI.Models.QueryObjects;
 
-namespace ASP.NETCoreWebAPI.Services;
+namespace ASP.NETCoreWebAPI.Services.Decorators;
 
 //This class decorates the OrderService class
 //The point is to add the functionality of measuring the request time, without modifying the service.
