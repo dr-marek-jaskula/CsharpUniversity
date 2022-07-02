@@ -25,7 +25,7 @@ public class Structures
         public int x = 667; //since c# is is possible to have initializers here
         public int y;
 
-        //When using this method, the defensive copy is made, impacting the performace
+        //When using this method, the defensive copy is made, impacting the performance
         public double DistanceFromZero()
         {
             return Math.Round(Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2)));
