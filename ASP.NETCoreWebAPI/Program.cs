@@ -37,10 +37,9 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 //This attribute make the Program class (that is from this Top-Level-Statement file and which is internal by default) visible to project "xUnitTestsForWebApi"
-[assembly: InternalsVisibleTo("xUnitTestsForWebApi")]
+//[assembly: InternalsVisibleTo("xUnitTestsForWebApi")]
 
 //Logger (Serilog) as a singleton (this logger logs to console - but we can change is)
 Log.Logger = new LoggerConfiguration()
