@@ -1,9 +1,7 @@
-﻿using System.Linq;
+﻿namespace CsharpBasics.Linq;
 
-namespace CsharpBasics.Linq;
-
-//this is s library that is dedicated for operation on collection
-//this important to master at least some of the functionalities that ensures linq
+//This is s library that is dedicated for operation on collection
+//This important to master at least some of the functionalities that ensures linq
 //One of the main advantages of the linq library is harmonizes with Entity Framework Core, letting to translate formulas to SQL statements (make operation on db side)
 
 //Many liq method allow to use predicates (delegates, that can be passed in using lambda expressions) to determine elements on which some operation should be done
@@ -13,7 +11,6 @@ public class Linq
 {
     //let us introduce lits that will be use to demonstrate linq possibilities (classes ale defined below)
     public static List<Employee> Employees1 { get; set; } = new();
-
     public static List<Employee> Employees2 { get; set; } = new();
     public static List<Job> Jobs { get; set; } = new();
 
@@ -195,13 +192,16 @@ public class Linq
 
         #endregion Contains, ElementAt
 
-
-
         #region First, FirstOfDefault, Last, LastOrDefault, Single, SingleOrDefault
 
         //FirstOrDefault method returns the first element that satisfied the predicate or return null if no elements satisfies the predicate
         var firstOrDefaultEmployee = Employees2.FirstOrDefault(employee => employee.FirstName == "Arek");
         var firstOrDefaultEmployee2 = Employees2.FirstOrDefault(employee => employee.FirstName == "Bob");
+
+        //FirstOrDefault with custom default
+        var firstOrDefaultCustomDefault = Employees2
+            .Select(empolyee => new { FirstName = empolyee.FirstName, LastName = empolyee.LastName } )
+            .FirstOrDefault(e => e.FirstName == "Arek", new { FirstName = "Adam", LastName = "Kozloski "});
 
         //First method returns the first element that satisfied the predicate or throws an exception
         var firstEmployee = Employees2.First(employee => employee.FirstName == "Arek");
