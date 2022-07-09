@@ -20,4 +20,5 @@ public class Extensions
     //Visafora
     //File Path On Footer
     //Extension Manager 2022
+    //Fine Code Coverage
 }
