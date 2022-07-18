@@ -7,7 +7,9 @@ namespace CustomTools;
 
 public record class Password : AsString
 {
-    private static readonly Regex _regex = new(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{0,}$");
+    private static readonly Regex _regex = new(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{0,}$",
+    //This option boots the performance of the regex
+    RegexOptions.Compiled);
 
     public Password(string password)
     {

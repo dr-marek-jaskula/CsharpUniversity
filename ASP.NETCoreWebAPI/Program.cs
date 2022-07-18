@@ -54,7 +54,24 @@ try
     Log.Information("Staring the web host");
 
     //Create a application builder using WebApplication factory
-    var builder = WebApplication.CreateBuilder(args);
+    var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+    {
+        Args = args,
+        ContentRootPath = Directory.GetCurrentDirectory()
+    });
+
+    //If there is a environment variable with such prefix, than this prefix there will be a configuration data 
+    //So after it there will be a "Database" key like:
+    //"MyApi_Database__ConnectionString=Server=db;Port=5432;Database=TestDatabase;User ID=postgres;Password=DataBase;
+    //Two underscores "__" mean "go one level deeper" same as colon ':' for appsettings.
+    //So we go to the next key "ConnectionString"
+    //Then we can value is found after '=' character.
+    //builder.Configuration.AddEnvironmentVariables("MyApi_");
+    //This is not a preferred way: it is better in a docker scenario to use secrets and json file with connection strings
+    //For more info go to "DockerSqlUniversity"
+    //Nevertheless, sometime this approach can be useful for thing like:
+    //     - ASPNETCORE_Environment=Production
+    //     - ASPNETCORE_URLS=https://+:443;http://+:80
 
     //Configure the Serilog using settings from appsettings.json and enables serilog. We need to also use Serilog in request pipeline
     builder.Host.UseSerilog((context, services, configuration) => configuration
@@ -114,7 +131,7 @@ try
     builder.Services.ConfigurePollyPolicies(PollyPolicies.GetSyncPolicies(), PollyPolicies.GetAsyncPolicies(), PollyPolicies.GetAsyncPoliciesGitHubUser(), PollyPolicies.GetAsyncPoliciesHttpResponseMessage());
 
     //Configure IHttpClientFactory for GitHub. "Named client" (it is for GitHub service) (go to: Registration: HttpClientRegistration)
-    builder.Services.RegisterHttpClient();
+    builder.Services.RegisterHttpClient(builder.Configuration);
 
     //Middlewares (go to: Registration: MiddlewaresRegistration)
     builder.Services.RegisterMiddlewares();

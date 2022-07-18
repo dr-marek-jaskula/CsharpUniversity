@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 
 namespace EFCore;
 
+//This is necessary to perform migrations by ef tooling
+
 #region Factory for MS Sql Server
 
 public class MyDbContextFactory : IDesignTimeDbContextFactory<MyDbContext>

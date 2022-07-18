@@ -19,4 +19,7 @@ public class EntityFrameworkCoreCLI
     //To completely remove all migrations:
     //dotnet ef database update 0
     //dotnet ef migrations remove
+
+    //Update the tool
+    //dotnet tool update --global dotnet-ef
 }

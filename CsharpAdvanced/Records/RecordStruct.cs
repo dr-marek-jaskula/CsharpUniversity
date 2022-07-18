@@ -17,7 +17,7 @@ public class RecordStructs
 
         // Because it is a vector, we can use stackalloc with it
         Span<Vector2d> vectors = stackalloc Vector2d[] { new(1d, 1d), new(2d, 2d) };
-        Console.WriteLine(Equals(2, vectors.Length);
+        Console.WriteLine(Equals(2, vectors.Length));
     }
     #endregion
 

@@ -7,7 +7,9 @@ namespace CustomTools;
 
 public record class Email : AsString
 {
-    private static readonly Regex _regex = new(@"^([a-zA-Z])([a-zA-Z0-9]+)\.?([a-zA-Z0-9]+)@([a-z]+)\.[a-z]{2,3}$");
+    private static readonly Regex _regex = new(@"^([a-zA-Z])([a-zA-Z0-9]+)\.?([a-zA-Z0-9]+)@([a-z]+)\.[a-z]{2,3}$",
+    //This option boots the performance of the regex
+    RegexOptions.Compiled);
 
     public Email(string email)
     {

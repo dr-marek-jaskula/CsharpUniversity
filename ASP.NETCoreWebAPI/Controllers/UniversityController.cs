@@ -1,5 +1,6 @@
 ﻿using ASP.NETCoreWebAPI.Filters;
 using ASP.NETCoreWebAPI.Models.DataTransferObjects;
+using Customers.Api.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResolvingDeps.WebApi.Attributes;
@@ -148,6 +149,14 @@ public class UniversityController : ControllerBase
     }
 
     //5. FromForm: look at "FileController"
+
+    //6. FromMultiSource: this is custom attribute for multiple attributes for one object
+    [HttpPut] //Use Put because Get cannot have a body
+    [Route("[action]/{id:int}")]
+    public IActionResult GetFromMultiSource([FromMultiSource] UpdateOrderRequest updateOrderRequest)
+    {
+        return Ok(updateOrderRequest);
+    }
 
     //Other functionalities
 

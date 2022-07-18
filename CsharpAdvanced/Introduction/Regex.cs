@@ -161,6 +161,8 @@ public class UniversityRegex
         Debug.WriteLine(IsMatch2);
 
         //Regex for email starting from small or capital letter and then can be a number.
-        Regex regex2 = new(@"^([a-zA-Z])([a-zA-Z0-9]+)\.?([a-zA-Z0-9]+)@([a-z]+)\.[a-z]{2,3}$");
+        Regex regex2 = new(@"^([a-zA-Z])([a-zA-Z0-9]+)\.?([a-zA-Z0-9]+)@([a-z]+)\.[a-z]{2,3}$",
+        //This option boots the performance of the regex
+        RegexOptions.Compiled);
     }
 }

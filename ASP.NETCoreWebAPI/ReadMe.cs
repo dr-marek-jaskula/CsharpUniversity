@@ -49,6 +49,8 @@
 //  Pagination: PageResult -> OrderQueryValidator -> QueryObjects -> OrderController -> OrderService
 //Decorator pattern for Polly Polities is VERY IMPORTANT -> see "GitHubServicePollyDecorator.cs" and "DecoratedGitHubService"
 
+//For refit -> Services -> RefitGitHubService and also in Registration -> HttpClientRegistration
+
 
 //Avoiding exception approach using "LanguageExt.Core" NuGet Package. For performance in specific cases -> NoThrowController, NoThrowService
 

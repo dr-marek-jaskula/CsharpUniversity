@@ -42,7 +42,9 @@ public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
         if (string.IsNullOrWhiteSpace(password))
             return false;
 
-        Regex regex = new(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{0,}$");
+        Regex regex = new(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{0,}$", 
+            //This option boots the performance of the regex
+            RegexOptions.Compiled);
         return regex.IsMatch(password);
     }
 }
