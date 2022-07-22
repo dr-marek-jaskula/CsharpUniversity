@@ -25,7 +25,7 @@ public class IncludeWithExpression
     }
 
     //If there is many different endpoint that are based on a single helper method, then may happen that the method will contain many includes
-    //To avoid this problem and have generic solution we can pass "Expressions" as a parameters ("params") to determine what includes should be taken into accout
+    //To avoid this problem and have generic solution we can pass "Expressions" as a parameters ("params") to determine what includes should be taken into account
 
     public async Task<Order> GetOrder(int orderId, MyDbContext db, params Expression<Func<Order, object?>>[] includes)
     {

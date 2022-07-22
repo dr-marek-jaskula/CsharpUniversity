@@ -70,7 +70,7 @@ public class QueryPerformance
     //b) Therefore, it speeds up the querying (SELECT statements)
     //c) However, it slows down the DML (Data Manipulation Language -> Insert, Update, Delete), because changes needs to be reflected in index (additional operation)
 
-    /* (where entity is for example
+    /* (for example
             entity.HasIndex(x => x.PublishedOn);
             entity.HasIndex(x => x.ActualPrice);
             entity.HasIndex(x => x.ReviewsAverageVotes);
@@ -86,7 +86,7 @@ public class QueryPerformance
 
     //Other tips:
 
-    //a) In LINQ, we use contains method for checking existence. It is converted to "WHERE IN" in SQL which cause performance degrades.
+    //a) In LINQ, we use contains method for checking existence. It is converted to "WHERE IN" in SQL which cause performance degrades. It is better to use DBFunction and Like method
 
     //b) Views degrade the LINQ query performance costly. These are slow in performance and impact the performance greatly. So avoid using views in LINQ to Entities.
 

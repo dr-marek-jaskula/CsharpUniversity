@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using EFCore.Data_models;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace EFCore.BogusDemo;
 
@@ -51,6 +50,7 @@ public class DemoDataGenerator
                 new Role() { Name = "Manager" },
                 new Role() { Name = "Administrator" }
             };
+
             _context.Roles.AddRange(roles);
             _context.SaveChanges();
         }
@@ -60,7 +60,7 @@ public class DemoDataGenerator
         //Randomizer.Seed = new Random(991);
         //Where the hard-coded number 991 is our seed.
 
-        //In order to generate fake data connected to other languages like German or  Polish we can:
+        //In order to generate fake data connected to other languages like German or Polish we can:
         //Use the "Faker" class constructor overload with one string input. This input determines which language will be used for fake data
         //By default it is english and the string is "en"
         //string locale = "en";
@@ -69,7 +69,7 @@ public class DemoDataGenerator
 
         //Addresses
         var addressFaker = new Faker<EFCore.Data_models.Address>()
-            //.StrictMode(true) //Strict mode throws exception when there exits a property we do not have RuleFor (so we do not seed). Commented coz of "Id"
+            //.StrictMode(true) //Strict mode throws exception when there exits a property we do not have RuleFor (so we do not seed). Commented because of "Id"
             .RuleFor(a => a.Street, f => f.Address.StreetName())
             .RuleFor(a => a.City, f => f.Address.City())
             .RuleFor(a => a.Country, f => f.Address.Country())
@@ -77,7 +77,7 @@ public class DemoDataGenerator
             .RuleFor(a => a.Building, f => f.Random.Bool(0.9f) ? f.Random.Int(1, 30) : null) //Bool(0.9f) means give me 90% time true and 10% false
             .RuleFor(a => a.Flat, f => f.Random.Bool(0.9f) ? f.Random.Int(1, 90) : null);
 
-        var addresses = addressFaker.Generate(5000); //this generates 5000 random addresses.
+        var addresses = addressFaker.Generate(5000); //generates 5000 random addresses.
 
         _context.Addresses.AddRange(addresses);
         _context.SaveChanges();
@@ -299,7 +299,7 @@ public class DemoDataGenerator
         _context.SaveChanges();
 
         //Roles
-        //Role are static data, they were inserted during migrations
+        //Roles are static data, they were inserted during migrations
 
         //ProductAmounts
         var productAmountFaker = new Faker<Product_Amount>()

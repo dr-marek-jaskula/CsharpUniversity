@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCore;
 
-//Classes used for conversion from DateTime to DateOnly and backwards.
+//Used for conversion from DateTime to DateOnly and backwards.
 //The example of use is done in PersonConfiguration
 
 public class DateOnlyConverter : ValueConverter<DateOnly, DateTime>

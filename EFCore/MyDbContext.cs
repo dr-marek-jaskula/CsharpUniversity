@@ -49,7 +49,7 @@ public class MyDbContext : DbContext
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         //5. The exception (not required, it still can be done in certain model files) is when we apply brand new approach for many-to-many relationship:
-        //Use models even if the c# models relations are direct
+        //Use direct relation in c#, even if in the database the additional table is required
 
         //Product_Tag
         builder.Entity<Product>(eb =>

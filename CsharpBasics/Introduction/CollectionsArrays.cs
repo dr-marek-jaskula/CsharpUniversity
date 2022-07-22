@@ -7,6 +7,10 @@ public class Lists
 {
     //list is a collection of element of certain type
 
+    //Performance: If we want to return an empty array or empty list we should not return a new one but use:
+    IEnumerable<int> emptyEnumerable = Enumerable.Empty<int>();
+    int[] emptyArray = Array.Empty<int>();
+
     public static void InvokeListExamples()
     {
         //create empty list and then add elements

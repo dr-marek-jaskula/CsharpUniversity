@@ -7,5 +7,8 @@ public class PerformanceTips
 
     //2. Use Spans when possible (and Memory)
 
-    //3. 
+    //3. If we want to return an empty array or empty list we should not return a new one but use:
+    IEnumerable<int> emptyEnumerable = Enumerable.Empty<int>();
+    int[] emptyArray = Array.Empty<int>();
+    //Therefore, no memory will be allocated
 }

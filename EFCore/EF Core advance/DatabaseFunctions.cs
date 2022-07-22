@@ -19,7 +19,7 @@ public class DatabaseFunctions
     {
         //When filtering entities by date only, we would call .Date on our DateTime property -> but it is not a valid LINQ-to-Entities expression and it's unable to execute against DB.
         //Therefore, we can use DbFunction class with its helpers classes to perform a valid LINQ-to-Entity expression.
-        //Rather then using chain method (Contains etc. we can use a single like)
+        //It is better than using chain method (Contains etc. we can use a single like)
     }
 
     /// <summary>

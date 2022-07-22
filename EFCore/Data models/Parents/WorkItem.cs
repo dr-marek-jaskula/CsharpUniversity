@@ -1,13 +1,11 @@
 ﻿namespace EFCore.Data_models;
 
-//Table-per-hierarchy approach
+//Table-per-hierarchy approach (abstract class)
 
 //The additional "Discriminator" column to distinguish the different children of a WorkItem
-
 public abstract class WorkItem
 {
     //Guid primary key
-
     public Guid Id { get; set; }
     public int Priority { get; set; }
     public Status Status { get; set; }

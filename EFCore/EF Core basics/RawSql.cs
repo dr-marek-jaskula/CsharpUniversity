@@ -24,7 +24,7 @@ public class RawSql
         //In order to use string interpolation in the RawSql and PROTECT the application from raw sql injection, we need to use:
 
         var valueToInterpolate = "85";
-
+        //we can validate the above input
         var tags = _myDbContext.Tags
         .FromSqlInterpolated($@"
         SELECT Tag.Id, Tag.ProductTag
