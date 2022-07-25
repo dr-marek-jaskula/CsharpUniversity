@@ -25,6 +25,7 @@
 //Swashbuckle.AspNetCore.FiltersSwashbuckle.AspNetCore.Filters
 //Microsoft.Extensions.Configuration.UserSecrets -> for secrets to override the appsettings.json locally
 
+using ASP.NETCoreWebAPI.Exceptions;
 using ASP.NETCoreWebAPI.HealthChecks;
 using ASP.NETCoreWebAPI.PollyPolicies;
 using EFCore;
@@ -39,9 +40,10 @@ using Serilog.Events;
 using System.Reflection;
 
 //This attribute make the Program class (that is from this Top-Level-Statement file and which is internal by default) visible to project "xUnitTestsForWebApi"
+//Better approach is to do this in the project file
 //[assembly: InternalsVisibleTo("xUnitTestsForWebApi")]
 
-//Logger (Serilog) as a singleton (this logger logs to console - but we can change is)
+//Logger (Serilog) as a singleton (this logger logs to console - but this will be changed)
 Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .Enrich.FromLogContext()
@@ -60,20 +62,21 @@ try
         ContentRootPath = Directory.GetCurrentDirectory()
     });
 
-    //If there is a environment variable with such prefix, than this prefix there will be a configuration data 
-    //So after it there will be a "Database" key like:
+    //Environment variables
+    //A environment variable with prefix "MyApi_" (example)
+    //So after it, there will be a "Database" key like:
     //"MyApi_Database__ConnectionString=Server=db;Port=5432;Database=TestDatabase;User ID=postgres;Password=DataBase;
     //Two underscores "__" mean "go one level deeper" same as colon ':' for appsettings.
     //So we go to the next key "ConnectionString"
-    //Then we can value is found after '=' character.
+    //Then, value is found after '=' character.
     //builder.Configuration.AddEnvironmentVariables("MyApi_");
     //This is not a preferred way: it is better in a docker scenario to use secrets and json file with connection strings
     //For more info go to "DockerSqlUniversity"
-    //Nevertheless, sometime this approach can be useful for thing like:
+    //Nevertheless, sometime this approach can be useful for things like:
     //     - ASPNETCORE_Environment=Production
     //     - ASPNETCORE_URLS=https://+:443;http://+:80
 
-    //Configure the Serilog using settings from appsettings.json and enables serilog. We need to also use Serilog in request pipeline
+    //Configure the Serilog using settings from appsettings.json and enables serilog. We need to also define ("use") Serilog in request pipeline
     builder.Host.UseSerilog((context, services, configuration) => configuration
         .ReadFrom.Configuration(context.Configuration)
         .ReadFrom.Services(services)
@@ -81,7 +84,7 @@ try
 
     #region Configure Services
 
-    //We register a "ServiceDescriptors": a plan how the service should be resolve (we can also remove registrations, for example to decorate it and register again)
+    //We register "ServiceDescriptors": plans how the services should be resolve (we can also remove services, for example to decorate then and register again)
 
     //Authentication settings (go to: Registration: AuthenticationRegistration)
     builder.Services.RegisterAuthentication(builder.Configuration.ConfigureAuthentication());
@@ -91,20 +94,23 @@ try
     {
         //Validate child properties and root collection elements
         //options.ImplicitlyValidateChildProperties = true; //enables validation of child properties. Its an option to enable whether or not child properties should be implicitly validated if a matching validator can be found. You have to enable this option, if you want it, as it by default is set to false.
-        //options.ImplicitlyValidateRootCollectionElements = true; //enables validation of root elements should be implicitly validated. This will only happen when the root model is a collection and a matching validator can be found for the element type.
+        //options.ImplicitlyValidateRootCollectionElements = true; //enables implicit validation of root elements. This will only happen when the root model is a collection and a matching validator can be found for the element type.
 
         //Automatic registration of validators in assembly (therefore there is no need to register validators below)
         options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); //Makes sure that we automatically register validators from the assembly. We get the execution assembly by using System.Reflection.
     });
+
+    //For default caching mechanism (Polly politics is preferred). It needs to be defined in pipeline section "app.UseResponseCaching();" This is for tutorial purposes
+    builder.Services.AddResponseCaching(); //Nevertheless, the default caching mechanism in .NET 7 looks interesting
 
     //Versioning (examine AccountController) (go to: Registration: VersioningRegistration)
     builder.Services.RegisterVersioning();
 
     //DbContext
     builder.Services.AddDbContext<MyDbContext>(options => options
-        //.UseLazyLoadingProxies() //To configure all queries on LazyLoading (be careful of it, LazyLoading can cause troubles)
+        //.UseLazyLoadingProxies() //To configure all queries to LazyLoading (be careful of it, LazyLoading can cause troubles)
         .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-    // Both with UseDeveloperExceptionPage provides default exception handling for "Developer" stage of api. More information below near "UseDeveloperExceptionPage"
+    //Both with UseDeveloperExceptionPage provides default exception handling for "Developer" stage of api. More information below near "UseDeveloperExceptionPage"
     //.AddDatabaseDeveloperPageExceptionFilter();
 
     //HealthChecks (need to also Map to the endpoint in the "Configure HTTP request pipeline" region, using the minimal API approach)
@@ -115,10 +121,10 @@ try
         .AddCheck<EndpointHealthCheck>("Endpoint health check");
     builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
-    //AutoMapper (mapping entities to DataTransferObjects, short. DTO's)
+    //AutoMapper (mapping entities to DataTransferObjects)
     builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-    //Add Services (dependencies) to the default ASP.Net Core dependency container (go to: Registration: ServicesRegistration)
+    //Add custom services (dependencies) to the default ASP.Net Core dependency container (go to: Registration: ServicesRegistration)
     builder.Services.RegisterServices();
 
     //Add ServiceDecorators
@@ -145,7 +151,7 @@ try
     builder.Services.RegisterFilters();
 
     //Swagger
-    //Swagger and versioning (go to: Registration: SwaggerRegistration)
+    //Swagger and swagger versioning (go to: Registration: SwaggerRegistration)
     builder.Services.RegisterSwagger();
 
     //Optionally -> to avoid the cyclic reference in the serialized json file (DTO is the better approach, but sometime this approach can be useful)
@@ -163,10 +169,10 @@ try
         option.AddPolicy("FrontEndClient", policyBuilder =>
         {
             policyBuilder
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            //In "appsettings.json" we determine what hosts are allowed. To allow all origins we specify "*"
-            .WithOrigins(builder.Configuration["AllowedOrigins"]);
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                //In "appsettings.json" we determine what hosts are allowed. To allow all origins we specify "*"
+                .WithOrigins(builder.Configuration["AllowedOrigins"]);
         });
     });
 
@@ -188,11 +194,12 @@ try
         options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} ({UserId}) responded {StatusCode} in {Elapsed:0.0000}ms";
     }); // We want to log all HTTP requests (every request)
 
-    //ResponseCaching
+    //ResponseCaching (default caching, used in FileController.
+    //Also the Caching profiles can be used -> in AddControllers options -> option.CacheProfiles.Add(<profileName>, new CacheProfile() { //details };
     app.UseResponseCaching();
 
     //Static files (the default path for static files is "wwwroot")
-    app.UseStaticFiles();
+    app.UseStaticFiles(); //due to the fact that order is important, here we have that static files are before the authentication
 
     //Corse (use policy added above)
     app.UseCors("FrontEndClient");
@@ -230,11 +237,11 @@ try
     //2. Use "using" keyword with the old {} syntax to narrow the scope
     using (var applyMigrationsScope = serviceScopeFactory.CreateScope())
     {
-        //2. Get the scoped service
+        //2. Get the scoped service (dbContext)
         var dbContext = applyMigrationsScope.ServiceProvider.GetService<MyDbContext>();
 
         if (dbContext is null)
-            throw new Exception("Database not available");
+            throw new UnavailableException("Database is not available");
 
         var pendingMigrations = dbContext.Database.GetPendingMigrations();
 
@@ -254,6 +261,7 @@ try
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapControllers();
+
         //Additional Map the HealthChecks endpoint and health check UI. Additional configuration need to be added to the appsettings.json
         endpoints.MapHealthChecks("/health", new HealthCheckOptions //the /health endpoint give info about the health checks in not bad format
         {
@@ -272,11 +280,11 @@ try
 catch (Exception ex)
 {
     Log.Fatal(ex, "Host terminated unexpectedly"); //occur if app does not start
-    return 1; //the app does not went properly
+    return 1; //app does not went properly
 }
 finally
 {
     Log.CloseAndFlush();
 }
 
-return 0; //the app went properly
+return 0; //app went properly
