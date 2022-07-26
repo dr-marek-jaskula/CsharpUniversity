@@ -46,7 +46,7 @@ The example usage was presented in OrderService, GetOrder method.
     ");
 ```
 
-- LazyLoading is turend off in this project. To use implicit Lazy Loading use one of the following approach:
+- LazyLoading is turned off in this project. To use implicit Lazy Loading use one of the following approach:
 * Proxies
 1) Install package "Microsoft.EntityFrameworkCore.Proxies"
 2) Confirm that are database references (relation) are marked as "virtual"
