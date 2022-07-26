@@ -8,14 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ReadMe.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="ReadMe.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="SymSpell" Version="6.7.2" />
   </ItemGroup>
 
