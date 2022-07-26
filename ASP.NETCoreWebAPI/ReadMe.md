@@ -56,7 +56,7 @@ The example usage was presented in OrderService, GetOrder method.
 1) Use the "Microsoft.EntityFrameworkCore.Abstractions"
 2) Inject ILazyLoader into the certain data model (with using Microsoft.EntityFrameworkCore.Infrastructure;):
 3) Then the getter should be like:
-``csharp
+```csharp
 public virtual List<Book> Books
 {
     get => _lazyLoader.Load(this, ref _books);
