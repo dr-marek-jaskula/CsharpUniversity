@@ -10,6 +10,7 @@ Both the basics and advanced issues are discussed.
 * Entity Framework Core
 
 #### Main features
+
 * Logging
 * Versioning
 * Authorization 

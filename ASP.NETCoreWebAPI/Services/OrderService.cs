@@ -80,7 +80,7 @@ public class OrderService : IOrderService
     //Method with dynamic requirement "ResourceOperationRequirement"
     public async Task Update(int id, UpdateOrderDto dto)
     {
-        //We get the user from the _userContextService, so the we apply the Dependency Inversion
+        //We get the user data from _userContextService
         ClaimsPrincipal? user = _userContextService.User;
 
         if (user is null)
@@ -94,7 +94,7 @@ public class OrderService : IOrderService
         if (order is null)
             throw new NotFoundException("Order not found");
 
-        //If the employee is a manager then return success, else fail the authorization
+        //If the employee is a manager, then return success, else fail the authorization
         var authorizationResult = await _authorizationService.AuthorizeAsync(user, order, new ResourceOperationRequirement(ResourceOperation.Update));
 
         //If authorization fails, throw new ForbidException
@@ -250,7 +250,7 @@ public class OrderService : IOrderService
         //1) Install NuGet Package "linq2db.EntityFrameworkCore"
         //2) Make IQueryable
         var orders = _dbContex.Orders
-            //.AsQueryable() //If not filters or other, just use "AsQueryable"
+            //.AsQueryable() //If no filters or other, just use "AsQueryable"
             .Where(o => o.Status == Status.InProgress);
 
         //Use LinqToDB

@@ -1,5 +1,6 @@
 using ASP.NETCoreWebAPI.Models;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace ASP.NETCoreWebAPI.Services;
 
@@ -25,7 +26,7 @@ public class DecoratedGitHubService : IDecoratedGitHubService
 
         var result = await client.GetAsync($"/users/{userName}");
 
-        if (result.StatusCode == System.Net.HttpStatusCode.NotFound)
+        if (result.StatusCode is HttpStatusCode.NotFound)
             return null;
 
         var resultString = await result.Content.ReadAsStringAsync();
@@ -39,7 +40,7 @@ public class DecoratedGitHubService : IDecoratedGitHubService
 
         var result = await client.GetAsync($"/users/{userName}");
 
-        if (result.StatusCode == System.Net.HttpStatusCode.NotFound)
+        if (result.StatusCode is HttpStatusCode.NotFound)
             return null;
 
         var resultString = await result.Content.ReadAsStringAsync();

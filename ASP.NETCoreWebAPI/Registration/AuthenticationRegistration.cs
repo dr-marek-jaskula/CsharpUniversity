@@ -20,7 +20,7 @@ public static class AuthenticationRegistration
 
     public static void RegisterAuthentication(this IServiceCollection services, AuthenticationSettings authenticationSettings)
     {
-        //There should be only one authenticationSettings for the whole WebApi. Therefore, it should be Singleton (life cycle equal to application life cycle)
+        //There should be only one authenticationSettings for the whole WebApi. Therefore, it should be Singleton (life cycle equals to application life cycle)
         services.AddSingleton(authenticationSettings);
 
         //Add authentication with "Bearer" scheme
@@ -66,20 +66,19 @@ public static class AuthenticationRegistration
         services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
         services.AddScoped<IAuthorizationHandler, MinimumOrderCountRequirementHandler>();
 
-        //Then we register handler connected with dynamic requirements (One that need to be defined in run-time)
+        //Then we register handlers connected with dynamic requirements (One that need to be defined in run-time)
         //We will execute this handler when the specific shop resource is reached
-        //1. Inject into OrderService the IAuthorizationService
-        //2. Inject into OrderService the IUserContextService (custom made in Services). Made for flexibility of using user claims (its Dependency Inversion): to do this first
+        //1. Inject IAuthorizationService into OrderService 
+        //2. Inject IUserContextService (custom made in Services) into OrderService. Made for flexibility of using user claims
         //3. Register Service "IUserContextService"
         services.AddScoped<IUserContextService, UserContextService>();
         //4. Then we need to Register Service "AddHttpContextAccessor" to be able to Access the IUserService (by this we can inject "IHttpContextAccessor" into IUserContextService)
         services.AddHttpContextAccessor();
-        //5. Add to for instance OrderService "ClaimsPrincipal? user = _userContextService.User;"
-        //6. In certain method like "Update" use
+        //5. Add to (for instance) OrderService "ClaimsPrincipal? user = _userContextService.User;"
+        //6. To verify the requirement, in certain method like "Update" use
         //_authorizationService.AuthorizeAsync(user, order, new ResourceOperationRequirement(ResourceOperation.Update));
-        //To verify the requirement
-        //4. "User" in the OrderService is the object with claims, that is required for the authorization
-        //5. I add claim "PersonId" (in GenerateJwt, in AccountService) to identify if the user has created this order
+        //7. "User" in the OrderService is the object with claims, that are required for the authorization
+        //8. I add claim "PersonId" (in GenerateJwt, in AccountService) to identify if the user has created this order
         services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
     }
 }

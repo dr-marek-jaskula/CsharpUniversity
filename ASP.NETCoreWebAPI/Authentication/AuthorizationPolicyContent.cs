@@ -1,6 +1,6 @@
 ﻿namespace ASP.NETCoreWebAPI.Authentication;
 
-//ClaimPolicy are my own custom claims
+//ClaimPolicies are my own custom claims
 //ClaimTypes are default claims
 
 //General

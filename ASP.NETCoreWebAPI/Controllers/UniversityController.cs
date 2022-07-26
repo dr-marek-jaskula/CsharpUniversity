@@ -44,7 +44,7 @@ public class UniversityController : ControllerBase
         return Ok();
     }
 
-    //Determine what request is binded to this action. We can specify the route in the Http attribute but its better to do this in a Route attribute
+    //Determine what request is binded to this action. We can specify the route in the Http attribute, but its better to do this in a Route attribute
     [HttpGet]
     //It is possible to have two different routs that leads to the same action
     [Route("firstRoute")] // https://localhost:7240/api/Order/firstRoute
@@ -60,13 +60,12 @@ public class UniversityController : ControllerBase
 
     [HttpGet]
     //We could define the conditions inside the route:
-    //The id needs to be integer and not less then 1
+    //The id needs to be integer and not less than 1
     //Else, the 404 error will be returned
     [Route("minimalId/{id:int:min(1)}")]
     [AllowAnonymous]
     public IActionResult ConditionsInRoute()
     {
-        //Other status code we return
         return NotFound();
     }
 
@@ -84,7 +83,7 @@ public class UniversityController : ControllerBase
     {
         //The Name property can be used for easier urls generating to certain action
         //For this particular one it would be:
-        //string url = urlHelper.Link("NamedRoute", new { id = 5, query = "test" }); //this new { id = 5, query = "test" } is for some values, but not for this action because it has no parameters
+        //string url = urlHelper.Link("NamedRoute", new { id = 5, query = "test" }); //this new { id = 5, query = "test" } is for tutorial values, but not for this action because it has no parameters
         //or if there is no urlHelper.
         //Url.Link("NamedRoute", null);
         //The second parameter is the action values
@@ -121,7 +120,7 @@ public class UniversityController : ControllerBase
         return Created($"/api/create/best", null);
     }
 
-    //2. FromRoute: the request route will be used as a action parameter
+    //2. FromRoute: the request route last element will be used as a action parameter
     [HttpDelete("{id}")]
     public ActionResult Delete([FromRoute] int id)
     {
@@ -158,9 +157,20 @@ public class UniversityController : ControllerBase
         return Ok(updateOrderRequest);
     }
 
+    //7. FromServices
+    [HttpGet]
+    [Route("injectServiceIntoAction")]
+    //In some very rare cases we could inject the service directly to the method (mb for testing purposes).
+    //It is uncommon to encounter
+    //[FromServices] is required to tell that the dependency should be taken from the DI Container
+    public ActionResult InjectToAction([FromServices] ILogger<UniversityController> logger)
+    {
+        return Ok($"{logger}");
+    }
+
     //Other functionalities
 
-    //No emphasize that a method in the controller is not an action we use [NotAction] attribute
+    //To emphasize that a method (in the controller) is not an action we use [NotAction] attribute
     [NonAction]
     public void ThisIsNotAnAction()
     {
@@ -172,24 +182,14 @@ public class UniversityController : ControllerBase
     [ApiExplorerSettings(IgnoreApi = true)]
     public ActionResult IgnoredAction()
     {
-        return Ok("This is ignored by swagger but it is still a valid endpoint");
-    }
-
-    [HttpGet]
-    [Route("injectServiceIntoAction")]
-    //In some very rare cases we could inject the service directly to the method (mb for testing purposes).
-    //It is uncommon to encounter
-    //[FromServices] is required to tell that the dependency should be taken from the DI Container
-    public ActionResult InjectToAction([FromServices] ILogger<UniversityController> logger)
-    {
-        return Ok($"{logger}");
+        return Ok("This is ignored by swagger, but it is still a valid endpoint");
     }
 
     //Bad approach, because is hard to test (use the one below, but in some super rare cases we can use it like that)
     [HttpGet]
     [Route("actionWithAttrubute")]
     [DurationLogger]
-    //This is an action with the attribute to which we inject the dependency from the DI Container
+    //This is an action to which we inject the dependency from the DI Container (DurationLogger)
     //The injection is done by the HttpContext in the attribute class
     public ActionResult InjectDependencyIntoAttribute()
     {
@@ -201,6 +201,6 @@ public class UniversityController : ControllerBase
     [ServiceFilter(typeof(DurationLoggerFilter))]
     public ActionResult InjectDependencyIntoFilter()
     {
-        return Ok("Use is is most cases if need functionality like in a action above.");
+        return Ok("Use is in most cases  if need functionality like in a action above.");
     }
 }

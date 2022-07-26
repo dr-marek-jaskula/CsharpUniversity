@@ -40,8 +40,7 @@ public class AccountService : IAccountService
         //Map from RegisterUserDto to User
         var newUser = _mapper.Map<User>(dto);
 
-        string hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
-        newUser.PasswordHash = hashedPassword;
+        newUser.PasswordHash = _passwordHasher.HashPassword(newUser, dto.Password);
 
         _context.Users.Add(newUser);
         _context.SaveChanges();
@@ -52,6 +51,10 @@ public class AccountService : IAccountService
         var user = _context.Users
             .Include(u => u.Role)
             .FirstOrDefault(u => u.Email == dto.Email);
+
+        //var user2 = _context.Users
+        //    .Include(u => u.Role)
+        //    .First(u => u.Email == dto.Email);
 
         if (user is null)
             throw new BadRequestException("Invalid username or password");
