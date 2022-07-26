@@ -10,9 +10,9 @@ In order to create a separate project that deals with database, we need to:
 - install: Microsoft.EntityFrameworkCore.SqlServer or MySql.EntityFrameworkCore, Microsoft.EntityFrameworkCore.Design (for migrations), Microsoft.Extensions.Configuration.Json (for appsettings)
 - add appsettings.json
 - set appsettings.json properties to "Copy if newer" (or always copy)
-- verify that we have the latest version of [dotnet ef](https://www.nuget.org/packages/dotnet-ef/):
+- install the latest version of [dotnet ef](https://www.nuget.org/packages/dotnet-ef/):
 > dotnet tool install --global dotnet-ef --version 6.0.3
-- or newer version (or update)
+or update to last version
 > dotnet tool update --global dotnet-ef --version 6.0.3
 - add DbContext (in this project it is called "MyDbContext")
 - add data context factory, here called "MyDbContextFactory"
@@ -23,10 +23,13 @@ In order to create a separate project that deals with database, we need to:
 If we are using MS SQL Server we can open "SQL Server Object Explorer" and "Server Explorer" to get for example the connection string
 Check local dbs:
 > sqllocaldb i
+
 Get info about specified local db:
 > sqllocaldb i MSSQLLocalDB  
+
 Create a new local db called "dev" (it will make a new local db with newest version). Use if there is a need.
 > sqllocaldb c dev 
+
 Check in Azure Data Studio the connection:
 > (localdb)\dev
 
