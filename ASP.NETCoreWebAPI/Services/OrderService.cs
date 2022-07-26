@@ -63,15 +63,25 @@ public class OrderService : IOrderService
     public OrderDto GetById(int id)
     {
         var order = _dbContex.Orders
-            .Include(o => o.Product)
-                .ThenInclude(p => p == null ? null : p.Shops)
-            .Include(o => o.Product) //To get the Tags also
-                .ThenInclude(p => p == null ? null : p.Tags)
-            .Include(o => o.Payment)
-            .FirstOrDefault(o => o.Id == id);
+            .Find(id);
+            //With eager loading this would look like:
+            //.Include(o => o.Product)
+            //    .ThenInclude(p => p == null ? null : p.Shops)
+            //.Include(o => o.Product) //To get the Tags also
+            //    .ThenInclude(p => p == null ? null : p.Tags)
+            //.Include(o => o.Payment)
+            //.FirstOrDefault(o => o.Id == id);
 
         if (order is null)
             throw new NotFoundException("Order not found");
+
+        //Explicit loading (so explicitly determined lazy loading)
+        _dbContex.Entry(order).Reference(o => o.Product).Query()
+            .Include(p => p.Shops)
+            .Include(p => p.Tags)
+            .Load();
+
+        _dbContex.Entry(order).Reference(o => o.Payment).Query().Load();
 
         var result = _mapper.Map<OrderDto>(order);
         return result;
@@ -86,13 +96,15 @@ public class OrderService : IOrderService
         if (user is null)
             throw new ForbidException("Unauthorized user");
 
+        //Explicit loading and Find method
         var order = _dbContex.Orders
-            .Include(o => o.Product)
-            .Include(o => o.Payment)
-            .FirstOrDefault(o => o.Id == id);
+            .Find(id);
 
         if (order is null)
             throw new NotFoundException("Order not found");
+
+        _dbContex.Entry(order).Reference(o => o.Product).Query().Load();
+        _dbContex.Entry(order).Reference(o => o.Payment).Query().Load();
 
         //If the employee is a manager, then return success, else fail the authorization
         var authorizationResult = await _authorizationService.AuthorizeAsync(user, order, new ResourceOperationRequirement(ResourceOperation.Update));

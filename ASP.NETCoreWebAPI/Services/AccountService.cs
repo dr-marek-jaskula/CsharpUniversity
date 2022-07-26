@@ -49,20 +49,27 @@ public class AccountService : IAccountService
     public string GenerateJwt(LoginDto dto)
     {
         var user = _context.Users
-            .Include(u => u.Role)
             .FirstOrDefault(u => u.Email == dto.Email);
 
         if (user is null)
-            throw new BadRequestException("Invalid username or password");
-
-        user.Person = _context.People
-            .Include(p => p.Address)
-            .FirstOrDefault(p => p.Id == user.PersonId);
+            throw new BadRequestException("Invalid email or password");
 
         var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
 
         if (result is PasswordVerificationResult.Failed)
-            throw new BadRequestException("Invalid username or password");
+            throw new BadRequestException("Invalid email or password");
+
+        //Explicit loading
+        _context.Entry(user)
+            .Reference(u => u.Person)
+            .Query()
+            .Include(p => p.Address)
+            .Load();
+
+        _context.Entry(user)
+            .Reference(u => u.Role)
+            .Query()
+            .Load();
 
         //The list of claims
         var claims = new List<Claim>()

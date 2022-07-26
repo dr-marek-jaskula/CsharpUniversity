@@ -84,6 +84,19 @@ public class QueryPerformance
     //MORE about Indexes in: MS SQL Server: Jupiter Notebook
     //More about Indexes in: Indexes.cs
 
+    //6. Use "Find" method if the search criteria is primary key. 
+    //Find method is faster and can be used just for DbSet<Type> and primary key
+    public void SixPrincipleExample()
+    {
+        //Bad example
+        var productsFirstOrDefaultBadExample = _context.Products
+            .FirstOrDefault(p => p.Id == 2); //comment this one to examine the differences
+
+        //Good example
+        var productsFindGoodExample = _context.Products
+            .Find(2);
+    }
+
     //Other tips:
 
     //a) In LINQ, we use contains method for checking existence. It is converted to "WHERE IN" in SQL which cause performance degrades. It is better to use DBFunction and Like method

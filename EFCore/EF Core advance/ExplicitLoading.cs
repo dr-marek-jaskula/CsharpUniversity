@@ -24,9 +24,9 @@ public class ExplicitLoading
         //some code
 
         //Then we want to retrieve a related data
-        _context.Entry(avon).Reference(s => s.Address).Load(); // loads shop address
+        _context.Entry(avon).Reference(s => s.Address).Load(); //loads shop address
         //Then we want to retrieve a collection of related data
-        _context.Entry(avon).Collection(s => s.Employees).Load(); // loads shop employees collection
+        _context.Entry(avon).Collection(s => s.Employees).Load(); //loads shop employees collection
 
         //It is also possible to create a more complicated query to retrieve related data:
         _context.Entry(avon)

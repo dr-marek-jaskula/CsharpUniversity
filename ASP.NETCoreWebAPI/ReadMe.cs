@@ -43,6 +43,8 @@
 //      set => _books = value;
 //  }
 
+//ExplicitLoading -> see for instance GetById method in "OrderService". Also the Find method is there presented (for performance)
+
 //IHttpCLientFactory -> GitHubService
 //Polly -> PollyPollicies, GitHubController, GitHubServices and look below
 //Filtering and Pagination with async programming and Polly -> Models (PageResult [mainly], QueryObjects), OrderQueryValidator, OrderController, OrderService, Polly
@@ -50,7 +52,6 @@
 //Decorator pattern for Polly Polities is VERY IMPORTANT -> see "GitHubServicePollyDecorator.cs" and "DecoratedGitHubService"
 
 //For refit -> Services -> RefitGitHubService and also in Registration -> HttpClientRegistration
-
 
 //Avoiding exception approach using "LanguageExt.Core" NuGet Package. For performance in specific cases -> NoThrowController, NoThrowService
 
