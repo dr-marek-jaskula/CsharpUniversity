@@ -113,8 +113,8 @@ try
     //Both with UseDeveloperExceptionPage provides default exception handling for "Developer" stage of api. More information below near "UseDeveloperExceptionPage"
     //.AddDatabaseDeveloperPageExceptionFilter();
 
-    //HealthChecks (need to also Map to the endpoint in the "Configure HTTP request pipeline" region, using the minimal API approach)
-    //Add SqlServer health checks and custom one MyHealthCheck (go to: HealthChecks folder)
+    //HealthChecks(need to also Map to the endpoint in the "Configure HTTP request pipeline" region, using the minimal API approach)
+    //Add SqlServer health checks and custom one MyHealthCheck(go to: HealthChecks folder)
     builder.Services.AddHealthChecks()
         .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
         .AddCheck<RandomHealthCheck>("Random health check")

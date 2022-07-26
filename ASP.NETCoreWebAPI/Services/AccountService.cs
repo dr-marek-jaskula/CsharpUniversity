@@ -52,10 +52,6 @@ public class AccountService : IAccountService
             .Include(u => u.Role)
             .FirstOrDefault(u => u.Email == dto.Email);
 
-        //var user2 = _context.Users
-        //    .Include(u => u.Role)
-        //    .First(u => u.Email == dto.Email);
-
         if (user is null)
             throw new BadRequestException("Invalid username or password");
 
