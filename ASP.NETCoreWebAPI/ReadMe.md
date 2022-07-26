@@ -110,10 +110,6 @@ The response for this OPTIONS request with Headers like
 
 The CORS policy is configured in program.cs.
 
-## Secrets
-
-Consider secrets to store local data, like connection strings. Do not use secrets for sensitive data.
-
 ## Continuous Integration and Continuous Deployment/Delivery 
 
 Continuous Integration (short. CI), Continuous Deployment (short. CD). 
@@ -135,3 +131,7 @@ Tools for CI:
 GitHub Actions is a free tool that will be used here.
 
 In order to learn CI, first create a simple test for our application. Then go to folder CI_CD.
+
+## Secrets
+
+Consider secrets to store local data, like connection strings. Do not use secrets for sensitive data.
