@@ -103,6 +103,6 @@ To read more about EF Core features, performance issues (for instance bulkUpdate
 
 To use DateOnly instead of DateTime see "Helpers" (Person, User) classes
 
-Owned types, see Address class
+For **owned types**, see Address class
 
-Views, see View folder
+For **views**, see View folder
