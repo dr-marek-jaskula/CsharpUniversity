@@ -8,14 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data models\DataModelReadMe.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Data models\DataModelReadMe.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">

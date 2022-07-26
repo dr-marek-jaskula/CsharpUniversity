@@ -58,12 +58,51 @@ To revert all migrations
 > dotnet ef migrations remove
 and delete migrations folder
 
+## Data models and configurations
+
+- make separation between models and configurations
+- prefer to make nullable properties
+- make nullable references and nullable id references (like ProductId)
+- make all model references virtual properties
+- make all multiple references (lists) set to default value new()
+
+#### Many-to-many relationship by default
+
+To obtain many to many relationship, we should add class like Salary_Transfer. 
+We can omit it, but then the ef core will create an auto-generated table for that purpose.
+
+**The best way** is to use the direct relation in c# code, but still keep the helper tables. 
+This approach is made in OnModelCreating of MyDbContext class. 
+
+#### Naming conventions
+
+Use PascalCase for table names. but for tables that are used to define the many-to-many relationship use underscored PascalCase: Salary_Transfer
+
+#### Diagram
+
+In order to illustrate the relations, we can create a ModelDiagram:
+- install an extension by Visual Studio Installer (class diagram)
+- add a ModelDiagram.cd element 
+- fill it will model classes.
+
+#### Basic performance
+
+- use normalization (1, 2 and 3 normal form)
+- prefer to use SMALLINT or TINYINT instead of INT if it is possible
+- prefer to use VARCHAR with minimal possible number of bytes
+- try to build rows (column definition) that would take memory equal to any divider of the page size (8kb, 8096bytes, because rest is Page Header)
+	- page is a minimal amount of data in mssql, it is 8kb. If a row takes like 5kb, then 3kb will be waste. If a row takes 4kb, then two rows can be stored in one page and no memory is waste
+- store a multiplication of one extent (8 pages = 64kb).
+	- The least that can be retried is one extent so 64kb. Try not to get data that takes like 1/3 of extent.
+
 ## Additional informations
 
 To fill the table with random data use Bogus NuGet Package 
 
-To read more about data models go to: DataModelsReadMe.md
-
 To read more about EF Core features, performance issues (for instance bulkUpdates, safe raw sql interpolation) and traps, go to: EF Core advance 
 
 To use DateOnly instead of DateTime see "Helpers" (Person, User) classes
+
+Owned types, see Address class
+
+Views, see View folder
