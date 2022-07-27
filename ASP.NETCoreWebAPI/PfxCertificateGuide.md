@@ -3,7 +3,7 @@
 Certificate is important for docker containers 
 
 1) In a project folder write:
-dotnet dev-certs https -ep cert.pfx -p Test1234!
+> dotnet dev-certs https -ep cert.pfx -p Test1234!
 
 Where:
 
