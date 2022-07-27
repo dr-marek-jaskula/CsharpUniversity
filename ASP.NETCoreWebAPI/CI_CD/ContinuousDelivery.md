@@ -110,6 +110,8 @@ Jobs are by default independent, but using artifact we can create dependencies.
 In order not to hard code the connection string in the GitHub Actions, we can use GitHub Secrets:
 > Settings -> Secrets -> Actions -> New Secret
 
+For instance, we store there "Publish profile" from Azure web app
+
 Then, we cant see the secrets. We can only override them or remove them.
 
 We can use the secrets like a variable. Therefore, (for secret named "CUSTOM_PUBLISH_PROFILE_DEV"):
@@ -148,7 +150,7 @@ jobs:
         run: dotnet build --no-restore
       - name: Publish
         run: dotnet publish ./ASP.NETCoreWebAPI/ASP.NETCoreWebAPI.csproj -c Release -o ${{ env.DOTNET_ROOT }}/api #-o is output folder. ${{ env.DOTNET_ROOT }} is to use here an environmental variable that is defined in Setup .NET Core SDK and aim at root folder (despite the operating system). Moreover, use just one project not all
-      - name: upload artifact
+      - name: upload artifact  #artifact is a zip file from given directory
         uses: actions/upload-artifact@v3.0.0
         with:
           name: api-artifact    #custom name for artifact. Artifacts are data that can be share between different steps, therefore we need to upload id (use marketplace template)
@@ -169,8 +171,8 @@ jobs:
         id: deploy-to-somewhere       #In order to refer this step we need to add id to it
         uses: Azure/webapps-deploy@v2   #This is about to deploy on Azure Service
         with:
-          app-name: 'CSharpUniversity-dev'
-          publish-profile: ${{ secrets.CUSTOM_PUBLISH_PROFILE_DEV }}
+          app-name: 'CSharpUniversity-dev' #Should be the same as on Azure
+          publish-profile: ${{ secrets.CUSTOM_PUBLISH_PROFILE_DEV }} #Publish profile (from Azure) is firstly stored in secrets and then referred
 ```
 
 Nevertheless, this project is not uploaded to the Azure Cloud. 
@@ -198,7 +200,7 @@ jobs:
         run: dotnet build --no-restore
       - name: Publish
         run: dotnet publish ./ASP.NETCoreWebAPI/ASP.NETCoreWebAPI.csproj -c Release -o ${{ env.DOTNET_ROOT }}/api #-o is output folder. ${{ env.DOTNET_ROOT }} is to use here an environmental variable that is defined in Setup .NET Core SDK and aim at root folder (despite the operating system). Moreover, use just one project not all
-      - name: upload artifact
+      - name: upload artifact #artifacts are used to create dependencies between jobs (by default they are independent)
         uses: actions/upload-artifact@v3.0.0
         with:
           name: api-artifact    #custom name for artifact. Artifacts are data that can be share between different steps, therefore we need to upload id (use marketplace template)
@@ -209,14 +211,14 @@ jobs:
     needs: build   #we say that this job need previous job to be done
     environment:    #environmental variables for managing pipielines
       name: 'Dev'   #strings are in single quotes. Name of the environment
-      url: ${{ steps.deploy-to-somewhere.outputs.webapp-url }}  #In order to get the url from the further defined step, we do like this (need to refer id)
+      url: ${{ steps.deploy-to-somewhere.outputs.webapp-url }}  #In order to get the url from the further defined step, we do like this (need to refer id). "webapp-url" is a default name for url
     steps:
       - name: Download a Build Artifact
         uses: actions/download-artifact@v3.0.0
         with:
           name: api-artifact       #same name as in build step
       - name: Somewhere WebApp deploy   #name of the way for we deploy the app. It can be Azure WebApp or other
-        id: deploy-to-somewhere       #In order to refer this step we need to add id to it
+        id: deploy-to-somewhere       #In order to refer to this step we need to add id to it. Here the "environment" refers to it
         uses: Azure/webapps-deploy@v2   #This is about to deploy on Azure Service
         with:
           app-name: 'CSharpUniversity-dev'
