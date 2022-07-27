@@ -84,10 +84,8 @@ This file is in ".github/workflows" directory that is one folder above the solut
 9. Change branch politics: 
 - do not commit the push if something in the pipeline fails (for example code does not build)
     - Go to GitHub -> Settings -> Branches -> Add rule: (Protected branches are available to Pro, Team, and Enterprise users)
-
-- fill branch name (for example "master")
-
-- Check the options of branch protection like:
-    - "Require a pull request before merging" -> "Require approvals" (at least one person besides author needs to approve the merge)
-    - "Require status checks to pass before merging" -> search for "build" and use it (this is important, what we need)
-    - "Include administration" -> to prevent overriding the new rule
+    - fill branch name (for example "master")
+    - Check the options of branch protection like:
+        - "Require a pull request before merging" -> "Require approvals" (at least one person besides author needs to approve the merge)
+        - "Require status checks to pass before merging" -> search for "build" and use it (this is important, what we need)
+        - "Include administration" -> to prevent overriding the new rule
