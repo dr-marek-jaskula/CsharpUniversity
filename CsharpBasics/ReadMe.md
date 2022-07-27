@@ -10,4 +10,4 @@ The learning path is as follows:
 5. DataManagment folder
 6. PreferredWay folder
 
-Then move to the CsharpAdvance project
+Then, move to the CsharpAdvance project

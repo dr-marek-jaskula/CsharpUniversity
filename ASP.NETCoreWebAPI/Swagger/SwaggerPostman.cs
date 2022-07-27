@@ -14,16 +14,4 @@ public class SwaggerPostman
     //8. Upload files -> choose saved file
     //9. We set the base Url for our application and then click "Variables"
     //10. To "Initial Value" and "Current Value" we paste our url (for example "https://localhost:5001") and save
-
-    //Swagger DarkMode (or other custom style):
-    //1. Be sure to have static files (app.UseStaticFiles();)
-    //2. Out in wwwroot folder swaggerstyle and in it file "SwaggerDark.css" in css code
-    //3 In Configuration write:
-    //app.UseSwaggerUI(c => 
-    //{ 
-    //    //Set swagger endpoint
-    //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "CsharpUniversity API v1");
-    //    //Overwirte swagger style to dark style (from static files wwwroot -> swaggerstyles -> SwaggerDark.css)
-    //    c.InjectStylesheet("/swaggerstyles/SwaggerDark.css");
-    //});
 }

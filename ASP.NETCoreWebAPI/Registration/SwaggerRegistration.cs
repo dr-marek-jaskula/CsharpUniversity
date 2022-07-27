@@ -39,24 +39,24 @@ public static class SwaggerRegistration
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             options.IncludeXmlComments(xmlPath);
 
-            // Adds "(Auth)" to the summary so that you can see which endpoints have Authorization (additionally add info about claims and requirements)
+            //Add "(Auth)" to the summary so that you can see which endpoints have Authorization (additionally add info about claims and requirements)
             options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
 
-            // add Security information to each operation for OAuth2 (on the right they are padlock generated -> open or close)
+            //Add Security information to each operation for OAuth2 (on the right padlocks are generated -> opened or closed)
             options.OperationFilter<SecurityRequirementsOperationFilter>();
 
-            //To tell the Swagger that authorization is needed -> give bearer and token to be authorized in the swagger
+            //To tell the Swagger that authorization is required -> give bearer and token to be authorized in the swagger
             options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
             {
                 Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
-                In = ParameterLocation.Header, //where the "bearer {toke}" will be stored
+                In = ParameterLocation.Header, //where the "bearer {token}" will be stored
                 Name = "Authorization", //name of the header
                 Type = SecuritySchemeType.ApiKey //the type of security
             });
         });
 
         //We add swagger response/request examples that can be found in "Swagger" folder. We use "Swashbuckle.AspNetCore.Filters"
-        //Then we need to Add another configuration into "AddWaggerGen"
+        //Then we need to add another configuration into "AddSwaggerGen"
         services.AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly());
     }
 
@@ -66,6 +66,7 @@ public static class SwaggerRegistration
         var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
         app.UseSwagger();
+
         app.UseSwaggerUI(options =>
         {
             //Build a swagger endpoint for each discovered API version

@@ -2,7 +2,7 @@
 
 //In order to configure swagger to many version of api we need to:
 //0. Add Attributes like "[MapToApiVersion("1.0")]", "[MapToApiVersion("1.1")]" to each action if the controller support more then one version (else swagger would make problems)
-//0. Deprecated versions in swagger make action crossed by line
+//note: Deprecated versions in swagger make action crossed by line
 
 //1. Install NuGet package: Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer
 //2. Add to program.cs
@@ -13,8 +13,8 @@
                 // note: the specified format code will format the version as "'v'major[.minor][-status]"
                 options.GroupNameFormat = "'v'VVV";
 
-                // note: this option is only necessary when versioning by url segment. the SubstitutionFormat
-                // can also be used to control the format of the API version in route templates
+                // note: this option is only necessary when versioning by url segment. 
+                // SubstitutionFormat can also be used to control the format of the API version in route templates
                 options.SubstituteApiVersionInUrl = true;
         });
 */
@@ -28,7 +28,7 @@
         foreach (var description in provider.ApiVersionDescriptions)
             options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
 
-        //Overwirte swagger style to dark style (from static files wwwroot -> swaggerstyles -> SwaggerDark.css)
+        //Overwrite swagger style to dark style (from static files wwwroot -> swaggerstyles -> SwaggerDark.css)
         options.InjectStylesheet("/swaggerstyles/SwaggerDark.css");
     });
 */

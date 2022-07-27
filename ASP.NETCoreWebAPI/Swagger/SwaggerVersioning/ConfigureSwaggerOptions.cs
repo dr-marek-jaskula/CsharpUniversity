@@ -30,8 +30,8 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
             Version = description.ApiVersion.ToString(),
 
             //Other options:
-            Description = "A sample application with Swagger, Swashbuckle, and API versioning.",
-            Contact = new OpenApiContact() { Name = "Marek Jaskula", Email = "marek.jaskula1@gmail.com" },
+            Description = "ASP.NET Core WebApi University.",
+            Contact = new OpenApiContact() { Name = "dr Marek Jaskula", Email = "marek.jaskula1@gmail.com" },
             License = new OpenApiLicense() { Name = "Licese MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
         };
 
