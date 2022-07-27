@@ -10,13 +10,15 @@ namespace ASP.NETCoreWebAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-//This attribute will change in the swagger that produces responses are in "application/json" format
+//This attribute will be shown in the swagger - responses are in "application/json" format
 [Produces("application/json")]
 [AllowAnonymous]
 public class SwaggerController : ControllerBase
 {
     private readonly MyDbContext _myDbContext;
     private readonly IAddressService _addressService;
+
+    //Markdowns can be used in xml action descriptions
 
     #region Markdowns basics
 

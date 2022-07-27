@@ -18,7 +18,7 @@ namespace ASP.NETCoreWebAPI.Controllers;
 [Route("api/[controller]")]
 //To use this controller Authorization is required unless "AllowAnonymous" attribute is specified
 [Authorize]
-//This attribute will change in the swagger that produces responses are in "application/json" format
+//This attribute will be shown in the swagger - responses are in "application/json" format
 [Produces("application/json")]
 public class OrderController : ControllerBase
 {
