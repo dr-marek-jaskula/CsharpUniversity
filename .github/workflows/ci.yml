@@ -1,5 +1,5 @@
 name: CI
-on:                               #Here on push were delated, because it should be in CD (deploy file), here only for pull requests.
+on:                               #Here "on push" were delated, because it should be in CD (deploy file), here only for pull requests.
   pull_request:
     branches: [ master ]
   workflow_dispatch:
@@ -18,4 +18,4 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
       - name: Test
-        run: dotnet test --filter DisplayName=XUnitTests.OrderControllerTest.GetAll_Returns_The_Correct_Numer_Of_Orders
+        run: dotnet test --filter DisplayName=UniversityEntrypoints.WebApi.DemoTest.ContinuousIntegrationTest
