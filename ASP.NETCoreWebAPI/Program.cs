@@ -243,7 +243,8 @@ try
         if (dbContext is null)
             throw new UnavailableException("Database is not available");
 
-        var pendingMigrations = dbContext.Database.GetPendingMigrations();
+        var pendingMigrations = Enumerable.Empty<int>();
+        //var pendingMigrations = dbContext.Database.GetPendingMigrations();
 
         if (pendingMigrations.Any())
             dbContext.Database.Migrate();
