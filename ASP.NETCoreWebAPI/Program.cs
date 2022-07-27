@@ -266,7 +266,7 @@ try
         //Additional Map the HealthChecks endpoint and health check UI. Additional configuration need to be added to the appsettings.json
         endpoints.MapHealthChecks("/health", new HealthCheckOptions //the /health endpoint give info about the health checks in not bad format
         {
-            //To bring together the /healthcheck endpoint and the healthcheksUI
+            //To bring together the /healthcheck endpoint and the healthchecksUI
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
             Predicate = _ => true
         });

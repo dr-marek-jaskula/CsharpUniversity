@@ -2,7 +2,7 @@
 
 namespace ASP.NETCoreWebAPI.HealthChecks;
 
-//This class need to be registered in the healthchecks in the configuration region of program.cs
+//This class need to be registered in the healthchecks, in the configuration region of program.cs
 public class RandomHealthCheck : IHealthCheck
 {
     public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = new CancellationToken())

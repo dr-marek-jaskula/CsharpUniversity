@@ -1,6 +1,6 @@
 ﻿namespace Microsoft.Extensions.DependencyInjection;
 
-//This shows how to add to the extension method the very popular approach of passing in the options in form of the lambda (action delegate)
+//This shows how to make the extension method be able to have input options in form of the lambda (action delegate)
 //Such approach is very common in many libraries
 public static class MyCustomExtension
 {
