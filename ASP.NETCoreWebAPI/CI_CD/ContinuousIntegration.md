@@ -15,17 +15,17 @@ Base "yml" file (without comments) should look like this (I add my comment on th
 ```yaml
 name: CI
 on:                                                         #The first section (starting from "on") determines when the pipeline will be executed (check documentation to examine more options)
-    push:                                                     #"push" -> determines that this pipeline will be executed when the code is:
+    push:                                                   #"push" -> determines that this pipeline will be executed when the code is:
     branches: [ master ]                                    #1. pushed on given branches -> Here is only master but after comma there can be more
-    pull_request:                                             #"pull_request" -> determines that this pipeline will be executed when pull_request for given branches is made
+    pull_request:                                           #"pull_request" -> determines that this pipeline will be executed when pull_request for given branches is made
     branches: [ master ]
-    workflow_dispatch:                                        #enables the manual execution of this pipeline
+    workflow_dispatch:                                      #enables the manual execution of this pipeline
 
 jobs:                                                       #determines the pipeline job (what pipeline should do). Can have more jobs (few or more). They execute async but we can make some references between them
     build:
     runs-on: ubuntu-latest                                  #determines the operating system (here is Linux, what is great)
     steps:                                                  #pipeline steps, mostly CLI commands (PowerShell commands). We can also use the predefined templates (we previously created or are accessible by default from github)
-        - uses: actions/checkout@v3                          #"uses" are to use the predefined template. Here this makes that on machine that do the job we first pull the code from repo and checkout to this branch
+        - uses: actions/checkout@v3                         #"uses" are to use the predefined template. Here this makes that on machine that do the job we first pull the code from repo and checkout to this branch
         - name: Run a one-line script
             run: echo Hello, world!
         - name: Run a multi-line script
