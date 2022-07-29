@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220520164423_AddView")]
+    [Migration("20220729112733_AddView")]
     partial class AddView
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -51,8 +51,8 @@ namespace EFCore.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ZipCode")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("Id");
 
@@ -104,6 +104,11 @@ namespace EFCore.Migrations
 
                     b.HasIndex("ShopId");
 
+                    b.HasIndex(new[] { "Deadline", "Status" }, "IX_Order_Deadline_Status")
+                        .HasFilter("Status IN ('Received', 'InProgress')");
+
+                    SqlServerIndexBuilderExtensions.IncludeProperties(b.HasIndex(new[] { "Deadline", "Status" }, "IX_Order_Deadline_Status"), new[] { "Amount", "ProductId" });
+
                     b.ToTable("Order", (string)null);
                 });
 
@@ -134,6 +139,11 @@ namespace EFCore.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex(new[] { "Deadline", "Status" }, "IX_Payment_Deadline_Status")
+                        .HasFilter("Status <> 'Rejected'");
+
+                    SqlServerIndexBuilderExtensions.IncludeProperties(b.HasIndex(new[] { "Deadline", "Status" }, "IX_Payment_Deadline_Status"), new[] { "Total" });
+
                     b.ToTable("Payment", (string)null);
                 });
 
@@ -150,8 +160,7 @@ namespace EFCore.Migrations
 
                     b.Property<string>("ContactNumber")
                         .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                        .HasColumnType("VARCHAR(30)");
 
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("DATE");
@@ -181,6 +190,14 @@ namespace EFCore.Migrations
                     b.HasIndex("AddressId")
                         .IsUnique()
                         .HasFilter("[AddressId] IS NOT NULL");
+
+                    b.HasIndex(new[] { "Email" }, "IX_Person_Email")
+                        .IsUnique();
+
+                    b.HasIndex(new[] { "Email" }, "UX_Person_Email")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IncludeProperties(b.HasIndex(new[] { "Email" }, "UX_Person_Email"), new[] { "FirstName", "LastName" });
 
                     b.ToTable("Person", (string)null);
                 });
@@ -484,6 +501,14 @@ namespace EFCore.Migrations
                         .HasFilter("[PersonId] IS NOT NULL");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex(new[] { "Email" }, "IX_User_Email")
+                        .IsUnique();
+
+                    b.HasIndex(new[] { "Username" }, "IX_User_Username")
+                        .IsUnique();
+
+                    SqlServerIndexBuilderExtensions.IncludeProperties(b.HasIndex(new[] { "Username" }, "IX_User_Username"), new[] { "Email" });
 
                     b.ToTable("User", (string)null);
                 });

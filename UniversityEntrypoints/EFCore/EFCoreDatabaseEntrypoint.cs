@@ -23,6 +23,6 @@ public class EFCoreDatabaseEntrypoint
         MyDbContext myDbContext = myDbContextFactory.CreateDbContext();
 
         DemoDataGenerator demoDataGenerator = new(myDbContext);
-        demoDataGenerator.ClearDatabase();
+        //demoDataGenerator.ClearDatabase();
     }
 }

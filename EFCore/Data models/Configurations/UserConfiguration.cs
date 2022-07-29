@@ -10,7 +10,7 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
         builder.ToTable("User");
 
         builder.HasKey(u => u.Id);
-        builder.Property(u => u.Id).UseIdentityColumn();
+        builder.Property(u => u.Id).UseIdentityColumn(1, 1);
 
         builder.Property(u => u.Username)
             .HasColumnType("VARCHAR(60)")

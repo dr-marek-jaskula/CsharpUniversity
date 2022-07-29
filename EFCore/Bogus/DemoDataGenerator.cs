@@ -23,16 +23,24 @@ public class DemoDataGenerator
 
     public void ClearDatabase()
     {
-        //-- Disable all constraints
-        //-- Delete data in all tables and use SET QUOTED_IDENTIFIES ON -> (QUOTED_IDENTIFIER controls the behavior of SQL Server handling double-quotes)
-        //-- Enable all constraints
-        //-- Reseed identity columns if the table has identity
+        //Disable all constraints
+        //Delete data in all tables (but not from __EFMigrationsHistory) and use SET QUOTED_IDENTIFIES ON -> (QUOTED_IDENTIFIER controls the behavior of SQL Server handling double-quotes)
+        //Enable all constraints 
+        //Reseed identity columns if the table has identity
         _context.Database.ExecuteSqlRaw(@"
             EXEC sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT all';
-            EXEC sp_MSForEachTable 'SET QUOTED_IDENTIFIER ON; DELETE FROM ?'
+            EXEC sp_MSForEachTable @command1 = 'SET QUOTED_IDENTIFIER ON; DELETE FROM ?', @whereand = ' AND Object_id IN (SELECT Object_id FROM sys.objects WHERE name != ''__EFMigrationsHistory'')';
             EXEC sp_MSForEachTable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all';
             EXEC sp_MSForEachTable 'IF (OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity'') = 1) DBCC CHECKIDENT (''?'', RESEED, 0)';
             ");
+
+        //Delete all data (also from __EFMigrationsHistory)
+        //_context.Database.ExecuteSqlRaw(@"
+        //    EXEC sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT all';
+        //    EXEC sp_MSForEachTable 'SET QUOTED_IDENTIFIER ON; DELETE FROM ?'
+        //    EXEC sp_MSForEachTable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all';
+        //    EXEC sp_MSForEachTable 'IF (OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity'') = 1) DBCC CHECKIDENT (''?'', RESEED, 0)';
+        //    ");
 
         _context.ChangeTracker.Clear();
     }

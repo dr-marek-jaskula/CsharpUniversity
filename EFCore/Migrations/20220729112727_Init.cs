@@ -17,7 +17,7 @@ namespace EFCore.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ZipCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    ZipCode = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     Street = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Building = table.Column<byte>(type: "TINYINT", nullable: true),
                     Flat = table.Column<byte>(type: "TINYINT", nullable: true),
@@ -111,7 +111,7 @@ namespace EFCore.Migrations
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Gender = table.Column<string>(type: "VARCHAR(7)", nullable: false, comment: "Male, Female or Unknown"),
                     DateOfBirth = table.Column<DateTime>(type: "DATE", nullable: true),
-                    ContactNumber = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    ContactNumber = table.Column<string>(type: "VARCHAR(30)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     AddressId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -443,6 +443,13 @@ namespace EFCore.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Order_Deadline_Status",
+                table: "Order",
+                columns: new[] { "Deadline", "Status" },
+                filter: "Status IN ('Received', 'InProgress')")
+                .Annotation("SqlServer:Include", new[] { "Amount", "ProductId" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Order_PaymentId",
                 table: "Order",
                 column: "PaymentId",
@@ -460,11 +467,31 @@ namespace EFCore.Migrations
                 column: "ShopId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Payment_Deadline_Status",
+                table: "Payment",
+                columns: new[] { "Deadline", "Status" },
+                filter: "Status <> 'Rejected'")
+                .Annotation("SqlServer:Include", new[] { "Total" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Person_AddressId",
                 table: "Person",
                 column: "AddressId",
                 unique: true,
                 filter: "[AddressId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Person_Email",
+                table: "Person",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UX_Person_Email",
+                table: "Person",
+                column: "Email",
+                unique: true)
+                .Annotation("SqlServer:Include", new[] { "FirstName", "LastName" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_Amount_ProductId",
@@ -499,6 +526,12 @@ namespace EFCore.Migrations
                 filter: "[AddressId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_User_Email",
+                table: "User",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_User_PersonId",
                 table: "User",
                 column: "PersonId",
@@ -509,6 +542,13 @@ namespace EFCore.Migrations
                 name: "IX_User_RoleId",
                 table: "User",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_Username",
+                table: "User",
+                column: "Username",
+                unique: true)
+                .Annotation("SqlServer:Include", new[] { "Email" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkItem_EmployeeId",

@@ -275,7 +275,7 @@ public class OrderService : IOrderService
         //Just one command will be used
     }
 
-    //Great Helper method, generic. Example of use: " Order order = await GetOrder(3, db, o => o.Customer, o => o.Payment);"
+    //Great Helper method, generic. Example of use: "Order order = await GetOrder(3, db, o => o.Customer, o => o.Payment);"
     private async Task<Order> GetOrder(int orderId, MyDbContext db, params Expression<Func<Order, object?>>[] includes)
     {
         //Solution: create a IQueryable object
