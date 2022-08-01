@@ -1,4 +1,5 @@
 ﻿using ASP.NETCoreWebAPI.Logging;
+using ASP.NETCoreWebAPI.Repositories;
 using ASP.NETCoreWebAPI.Services;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,7 @@ public static class ServiceRegistration
 
         //Services
         services.AddScoped<IAccountService, AccountService>();
+        services.AddScoped<IAddressRepository, AddressRepository>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IGitHubService, GitHubService>();
         services.AddScoped<INoThrowService, NoThrowService>();

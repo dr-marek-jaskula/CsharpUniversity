@@ -120,6 +120,9 @@ public class Linq
         string filter = "Darek";
         var filteredEmployees2 = Employees2.Where(s => s.LastName.StartsWith("R") && s.FirstName == filter);
 
+        //We can give two input parameters to the "Where" predicate: the first one is the element and the second the index
+        var filterOnObjectAndItsIndex = Employees2.Where((item, index) => item.LastName.Length < index);
+
         //ForEach statement executes the lambda expression for each element of a list
         filteredEmployees2.ToList().ForEach(w => Console.WriteLine(w.FirstName + " " + w.LastName));
 

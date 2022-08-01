@@ -86,6 +86,13 @@ Pagination in: PageResult, OrderQueryValidator, QueryObjects, OrderController, O
 In order to centralize the exception handling and provide the preferred way of returning the message about raised exception we use "ErrorHandlingMiddleware".
 There, we use "ProblemDetails" class that returns both human and machine readable problem details.
 
+## Repostory Pattern
+
+The repository pattern was demonstrated in "AddressServiceRepositoryPattern" and folder "Repositories". 
+Aim of this approach is to distinguish the db layer for the service layer (business logic). 
+One of the advantages of this approach is that, the dbContext can be easily mock - or rather, we just need to mock the certain repository.
+Without it, to mock the dbContext, we would need to make an in-memory database or use library like "EntityFrameworkCoreMock.NSubstitute"
+
 ## NoThrow by LanguageExt.Core
 
 Exception throwing can be expensive, however the centralized way to deal with them is very convenient. 
