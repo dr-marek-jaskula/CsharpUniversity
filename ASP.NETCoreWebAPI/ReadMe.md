@@ -84,7 +84,7 @@ Pagination in: PageResult, OrderQueryValidator, QueryObjects, OrderController, O
 ## Error handling middleware 
 
 In order to centralize the exception handling and provide the preferred way of returning the message about raised exception we use "ErrorHandlingMiddleware".
-There, we use "ProblemDetails" class that returns both human and machine readable problem details.
+Then, we use "ProblemDetails" class that returns both human and machine readable problem details.
 
 ## Repostory Pattern
 
