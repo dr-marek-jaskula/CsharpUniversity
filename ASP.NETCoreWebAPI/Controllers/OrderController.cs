@@ -125,4 +125,12 @@ public class OrderController : ControllerBase
         var orderDtos = await _orderService.GetAll(query);
         return Ok(orderDtos);
     }
+
+    //This method is introduced just to demonstrate the OrderDtoValidator usage (advance FluentValidation settings)
+    [HttpPut("validation")]
+    [AllowAnonymous]
+    public ActionResult<string> OrderDtoValidation([FromBody] OrderDto dto)
+    {
+        return Ok("Order is valid");
+    }
 }

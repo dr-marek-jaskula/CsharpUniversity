@@ -93,6 +93,11 @@ Aim of this approach is to distinguish the db layer for the service layer (busin
 One of the advantages of this approach is that, the dbContext can be easily mock - or rather, we just need to mock the certain repository.
 Without it, to mock the dbContext, we would need to make an in-memory database or use library like "EntityFrameworkCoreMock.NSubstitute"
 
+## DateTimeProvider
+
+In order to make classes that uses the DateTime testable, the most common approach is to use DateTimeProvider.
+Here, the DateTimeProvider (and the IDateTimeProvider interface) is placed in "Helpers" and it is used just for DateTimeValidator, but in reality it should be used everywhere it is needed.
+
 ## NoThrow by LanguageExt.Core
 
 Exception throwing can be expensive, however the centralized way to deal with them is very convenient. 

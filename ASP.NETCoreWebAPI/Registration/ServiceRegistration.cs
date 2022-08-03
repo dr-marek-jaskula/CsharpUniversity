@@ -1,4 +1,5 @@
-﻿using ASP.NETCoreWebAPI.Logging;
+﻿using ASP.NETCoreWebAPI.Helpers;
+using ASP.NETCoreWebAPI.Logging;
 using ASP.NETCoreWebAPI.Repositories;
 using ASP.NETCoreWebAPI.Services;
 
@@ -16,7 +17,6 @@ public static class ServiceRegistration
 
         //Services
         services.AddScoped<IAccountService, AccountService>();
-        services.AddScoped<IAddressRepository, AddressRepository>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IGitHubService, GitHubService>();
         services.AddScoped<INoThrowService, NoThrowService>();
@@ -31,14 +31,14 @@ public static class ServiceRegistration
         //This attribute looks like:
         //[ServiceDescriptor(typeof(IExampleAService), ServiceLifetime.Singleton)]
         //This attribute should be used on each service I want to register later (Nevertheless, this approach was not used here)
-        
+
         //services.Scan(selector =>
         //{
         //    selector.FromAssemblyOf<Program>()
         //        .AddClasses()
         //            .UsingAttributes(); //use default Scrutor "ServiceDescriptor" attribute
         //});
-        
+
         //The problem with default "ServiceDescriptor" attribute marker method is:
         //"Should the class itself knows how to register it?"
 
@@ -50,6 +50,12 @@ public static class ServiceRegistration
         //The last service registered will be resolved in case when we register two different implementation of a single interface
         //(if we inject a single instance of a service)!!!!
         //However, if we inject a collection (IEnumerable<InterfaceType>), then all of the registered implementations will be present (we can resolve any of implementation)
+
+        //Repositories
+        services.AddScoped<IAddressRepository, AddressRepository>();
+
+        //Register helpers
+        services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 
         //Register open generics in a proper way:
         services.AddTransient(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));

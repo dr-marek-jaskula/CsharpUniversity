@@ -222,6 +222,16 @@ public class Linq
         var singleEmployee = Employees2.Single(employee => employee.FirstName == "Arek");
 
         #endregion First, FirstOfDefault, Last, LastOrDefault, Single, SingleOrDefault
+
+        //Other
+        List<string> exampleStrings = new() { "One", "Two", "Never", "Super" };
+        //Add "Best" as a last element
+        exampleStrings.Append("Best");
+        //Add "Zero as first element
+        exampleStrings.Prepend("Zero");
+
+        //Create a collection of two element arrays. It takes two first elements, then next two and so on
+        var chunkedJobNames = jobNames.Chunk(2);
     }
 }
 

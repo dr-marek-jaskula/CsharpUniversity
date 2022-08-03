@@ -14,3 +14,15 @@ The learning path is as follows:
 8.  Attributes folder
 9.  AsyncProgramming folder
 10. DesignPatterns folder
+
+## Docker stand alone and swarm
+
+1. Docker commands
+2. Dockerfile
+3. Docker Instructions
+4. Docker Volumes
+5. Docker Compose
+6. Multiple Dockerfiles
+7. Environmental variables from the file
+
+are covered in the "DockerSqlUniversity" project

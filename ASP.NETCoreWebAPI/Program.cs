@@ -30,6 +30,7 @@ using ASP.NETCoreWebAPI.HealthChecks;
 using ASP.NETCoreWebAPI.PollyPolicies;
 using EFCore;
 using EFCore.Data_models;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -37,6 +38,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
+using System.Globalization;
 using System.Reflection;
 
 //This attribute make the Program class (that is from this Top-Level-Statement file and which is internal by default) visible to project "xUnitTestsForWebApi"
@@ -98,6 +100,11 @@ try
 
         //Automatic registration of validators in assembly (therefore there is no need to register validators below)
         options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); //Makes sure that we automatically register validators from the assembly. We get the execution assembly by using System.Reflection.
+
+        //To disable error messages in a local language. Default one is English
+        ValidatorOptions.Global.LanguageManager.Enabled = false;
+        //To force error messages in a certain language
+        //ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("fr");
     });
 
     //For default caching mechanism (Polly politics is preferred). It needs to be defined in pipeline section "app.UseResponseCaching();" This is for tutorial purposes
