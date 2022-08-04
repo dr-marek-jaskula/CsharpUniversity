@@ -35,6 +35,7 @@ using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
@@ -91,8 +92,8 @@ try
     //Authentication settings (go to: Registration: AuthenticationRegistration)
     builder.Services.RegisterAuthentication(builder.Configuration.ConfigureAuthentication());
 
-    //Controllers with Fluent Validation (Models -> Validators)
-    builder.Services.AddControllers().AddFluentValidation(options =>
+    //Controllers with some options
+    builder.Services.AddControllers().AddFluentValidation(options => //Fluent Validation (Models -> Validators)
     {
         //Validate child properties and root collection elements
         //options.ImplicitlyValidateChildProperties = true; //enables validation of child properties. Its an option to enable whether or not child properties should be implicitly validated if a matching validator can be found. You have to enable this option, if you want it, as it by default is set to false.
@@ -203,7 +204,7 @@ try
 
     //ResponseCaching (default caching, used in FileController.
     //Also the Caching profiles can be used -> in AddControllers options -> option.CacheProfiles.Add(<profileName>, new CacheProfile() { //details };
-    app.UseResponseCaching();
+    app.UseResponseCaching(); //If we provide for instance PollyCaching for all, we could disable this caching
 
     //Static files (the default path for static files is "wwwroot")
     app.UseStaticFiles(); //due to the fact that order is important, here we have that static files are before the authentication
@@ -257,6 +258,13 @@ try
     }
 
     #endregion CustomScope: Apply Migrations
+
+    //Custom Use (Custom Middleware in a Program.cs). Not a good practice but can be done. Better go with middleware directory
+    //app.Use(async (context, next) =>
+    //{
+    //    Console.WriteLine("Hello request");
+    //    await next();
+    //});
 
     //Routing
     app.UseRouting();

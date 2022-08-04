@@ -1,4 +1,5 @@
-﻿using ASP.NETCoreWebAPI.Filters;
+﻿using ASP.NETCoreWebAPI.Attributes;
+using ASP.NETCoreWebAPI.Filters;
 using ASP.NETCoreWebAPI.Models.DataTransferObjects;
 using Customers.Api.Attributes;
 using Microsoft.AspNetCore.Authorization;
@@ -201,6 +202,41 @@ public class UniversityController : ControllerBase
     [ServiceFilter(typeof(DurationLoggerFilter))]
     public ActionResult InjectDependencyIntoFilter()
     {
-        return Ok("Use is in most cases  if need functionality like in a action above.");
+        return Ok("Use is in most cases if need functionality like in a action above.");
     }
+
+    //Action with NameRoutingMiddleware (read-write Http context)
+    [HttpGet]
+    [Route("actionWithNameRouting/1")]
+    public ActionResult NameRouting()
+    {
+        return Ok("Route: actionWithNameRouting/2 was be renamed to actionWithNameRouting/1");
+    }
+
+    //Actions with same name but they will be called if the "accept" header matches 
+    //They crash swagger, and currently there are is no known solution for this problem.
+    //Therefore, this code is commented (one will be left to see the usability)
+    [HttpGet]
+    [Route("sameRoute")]
+    [AcceptHeader("*/*")]
+    public ActionResult RouteWithAcceptHeaderSometingSlashSomething()
+    {
+        return Ok("Header: */*");
+    }
+
+    //[HttpGet]
+    //[Route("sameRoute")]
+    //[AcceptHeader("application/json")]
+    //public ActionResult RouteWithAcceptHeaderApplicationSlashJson()
+    //{
+    //    return Ok("Header: application/json");
+    //}
+
+    //[HttpGet]
+    //[Route("sameRoute")]
+    //[AcceptHeader("text/xml")]
+    //public ActionResult RouteWithAcceptHeaderTextSlashXml()
+    //{
+    //    return Ok("Header: text/xml");
+    //}
 }
