@@ -12,6 +12,8 @@ Each class in the "Registration" directory was added to the Microsoft.Extensions
 The reason is to avoid adding additional using and to simulate that it is a default functionality (this approach is very common in many libraries)
 Moreover, there is also an "MyCustomExtension" class - a template for extension method with an additional options parameters (in forms of lambdas)
 
+Async programming for WebApi is used not to block the thread. It is not connected with a performance.
+
 ## Naviagion
 
 - Controllers general informations can be found in: UniversityController

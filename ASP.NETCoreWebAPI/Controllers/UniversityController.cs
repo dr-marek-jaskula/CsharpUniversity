@@ -229,7 +229,7 @@ public class UniversityController : ControllerBase
     //[AcceptHeader("application/json")]
     //public ActionResult RouteWithAcceptHeaderApplicationSlashJson()
     //{
-    //    return Ok("Header: application/json");
+    //    return Ok(new { FirstName = "Marek", LastName = "Kowalsky", Header = "application/json" });
     //}
 
     //[HttpGet]
@@ -237,6 +237,16 @@ public class UniversityController : ControllerBase
     //[AcceptHeader("text/xml")]
     //public ActionResult RouteWithAcceptHeaderTextSlashXml()
     //{
-    //    return Ok("Header: text/xml");
+    //    return Ok(new { FirstName = "Marek", LastName = "Kowalsky", Header = "text/xml" });
     //}
+
+    //Here the xml format is not added! We should first add the formatter (json is added so .json works)
+    [HttpGet]
+    [Route("formatFilter.{format}")] //sameRoute.json or sameRoute.xml are supported 
+    [FormatFilter] //this filter allows us to specify the format if format is registered
+    //[Produces("application/json", "text/xml")]
+    public ActionResult RouteWithFormatFilter()
+    {
+        return Ok(new { FirstName = "Marek", LastName = "Kowalsky" });
+    }
 }

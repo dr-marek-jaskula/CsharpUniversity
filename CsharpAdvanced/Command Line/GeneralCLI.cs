@@ -3,8 +3,11 @@
 public class GeneralCLI
 {
     //cls -> cleans the console
-
     //exit -> exit the certain command line
+    //dir -> print the directory files
+    //cd -> change directory from the current or to global one
+
+    //explorer -> open then file explorer to the location
 
     //dotnet sdk check -> checks the sdk version and all dotnets
 

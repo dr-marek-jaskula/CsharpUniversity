@@ -37,6 +37,8 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json.Serialization;
 using Serilog;
 using Serilog.Events;
 using System.Globalization;
@@ -93,20 +95,22 @@ try
     builder.Services.RegisterAuthentication(builder.Configuration.ConfigureAuthentication());
 
     //Controllers with some options
-    builder.Services.AddControllers().AddFluentValidation(options => //Fluent Validation (Models -> Validators)
-    {
-        //Validate child properties and root collection elements
-        //options.ImplicitlyValidateChildProperties = true; //enables validation of child properties. Its an option to enable whether or not child properties should be implicitly validated if a matching validator can be found. You have to enable this option, if you want it, as it by default is set to false.
-        //options.ImplicitlyValidateRootCollectionElements = true; //enables implicit validation of root elements. This will only happen when the root model is a collection and a matching validator can be found for the element type.
+    builder.Services
+        .AddControllers()
+        .AddFluentValidation(options => //Fluent Validation (Models -> Validators)
+        {
+            //Validate child properties and root collection elements
+            //options.ImplicitlyValidateChildProperties = true; //enables validation of child properties. Its an option to enable whether or not child properties should be implicitly validated if a matching validator can be found. You have to enable this option, if you want it, as it by default is set to false.
+            //options.ImplicitlyValidateRootCollectionElements = true; //enables implicit validation of root elements. This will only happen when the root model is a collection and a matching validator can be found for the element type.
 
-        //Automatic registration of validators in assembly (therefore there is no need to register validators below)
-        options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); //Makes sure that we automatically register validators from the assembly. We get the execution assembly by using System.Reflection.
+            //Automatic registration of validators in assembly (therefore there is no need to register validators below)
+            options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); //Makes sure that we automatically register validators from the assembly. We get the execution assembly by using System.Reflection.
 
-        //To disable error messages in a local language. Default one is English
-        ValidatorOptions.Global.LanguageManager.Enabled = false;
-        //To force error messages in a certain language
-        //ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("fr");
-    });
+            //To disable error messages in a local language. Default one is English
+            ValidatorOptions.Global.LanguageManager.Enabled = false;
+            //To force error messages in a certain language
+            //ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("fr");
+        });
 
     //For default caching mechanism (Polly politics is preferred). It needs to be defined in pipeline section "app.UseResponseCaching();" This is for tutorial purposes
     builder.Services.AddResponseCaching(); //Nevertheless, the default caching mechanism in .NET 7 looks interesting

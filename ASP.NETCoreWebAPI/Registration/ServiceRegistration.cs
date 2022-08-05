@@ -1,7 +1,9 @@
-﻿using ASP.NETCoreWebAPI.Helpers;
+﻿using ASP.NETCoreWebAPI.Attributes;
+using ASP.NETCoreWebAPI.Helpers;
 using ASP.NETCoreWebAPI.Logging;
 using ASP.NETCoreWebAPI.Repositories;
 using ASP.NETCoreWebAPI.Services;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -23,6 +25,8 @@ public static class ServiceRegistration
         services.AddScoped<IAddressService, AddressService>();
         services.AddScoped<IDecoratedGitHubService, DecoratedGitHubService>();
         services.AddScoped<IRefitGitHubService, RefitGitHubService>();
+
+        //services.AddSingleton<OutputFormatterSelector, AcceptHeaderOutPutFormatterSelector>();
 
         #region Scrutor Scanning approach
 
