@@ -203,8 +203,8 @@ public class Linq
 
         //FirstOrDefault with custom default
         var firstOrDefaultCustomDefault = Employees2
-            .Select(empolyee => new { FirstName = empolyee.FirstName, LastName = empolyee.LastName } )
-            .FirstOrDefault(e => e.FirstName == "Arek", new { FirstName = "Adam", LastName = "Kozloski "});
+            .Select(empolyee => new { FirstName = empolyee.FirstName, LastName = empolyee.LastName })
+            .FirstOrDefault(e => e.FirstName == "Arek", new { FirstName = "Adam", LastName = "Kozloski " });
 
         //First method returns the first element that satisfied the predicate or throws an exception
         var firstEmployee = Employees2.First(employee => employee.FirstName == "Arek");
@@ -215,11 +215,11 @@ public class Linq
         //Last method returns the last element that satisfied the predicate or throws an exception
         var lastEmployee = Employees2.Last(employee => employee.FirstName.Length > 3);
 
-        //SingleOrDefault method returns the element that satisfied the predicate if there ir only ONE such element, if there is no such elements then returns null, and if the is MORE then ONE element it throws an exception
-        var singleOrDefaultEmployee = Employees2.SingleOrDefault(employee => employee.FirstName == "Arek");
+        //SingleOrDefault method returns the element that satisfied the predicate if there is only ONE such element, if there is no such elements then returns null, and if the is MORE then ONE element it throws an exception
+        //var singleOrDefaultEmployee = Employees2.SingleOrDefault(employee => employee.FirstName == "Arek");
 
         //Single method returns the element that satisfied the predicate if there ir only ONE such element, otherwise it throws an exception
-        var singleEmployee = Employees2.Single(employee => employee.FirstName == "Arek");
+        //var singleEmployee = Employees2.Single(employee => employee.FirstName == "Arek");
 
         #endregion First, FirstOfDefault, Last, LastOrDefault, Single, SingleOrDefault
 
@@ -232,6 +232,17 @@ public class Linq
 
         //Create a collection of two element arrays. It takes two first elements, then next two and so on
         var chunkedJobNames = jobNames.Chunk(2);
+
+        //Take, skip
+        IEnumerable<int> exampleInts2 = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+
+        IEnumerable<int> taken = exampleInts2.Skip(3).Take(4);
+        //It is same as: first is the starting index, then the end index (excluding)
+        IEnumerable<int> taken2 = exampleInts2.Take(3..7);
+        //We can take take from some point to the end
+        IEnumerable<int> taken3 = exampleInts2.Take(3..);
+        //Or from the begging to some index
+        IEnumerable<int> taken4 = exampleInts2.Take(..4);
     }
 }
 
