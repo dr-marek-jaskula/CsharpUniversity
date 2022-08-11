@@ -243,6 +243,18 @@ public class Linq
         IEnumerable<int> taken3 = exampleInts2.Take(3..);
         //Or from the begging to some index
         IEnumerable<int> taken4 = exampleInts2.Take(..4);
+
+        //MinBy, MaxBy
+        IEnumerable<Student> students = new Student[]
+        {
+            new Student(1, "Mark", 24),
+            new Student(2, "Anna", 22),
+            new Student(3, "Ola", 18),
+            new Student(4, "Oliver", 27)
+        };
+
+        var oldestStudnet = students.MaxBy(x => x.Age);
+        var youngestStudent = students.MinBy(x => x.Age);
     }
 }
 
