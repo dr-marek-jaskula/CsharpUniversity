@@ -19,6 +19,7 @@ Async programming for WebApi is used not to block the thread. It is not connecte
 - Controllers general informations can be found in: UniversityController
 - Logging and telemetry can be found in: Program, LogDemoController, Logging (folder), appsettings.json
 	- Logging with LoggerAdapter was used to improve testability (we can inject ILoggerAdapter instead of just a ILogger)
+    - Warning! Do not use string interpolation for logging. Use: _logger.LogInformation("Create User: {User} at {When}", user, when);
 - Versioning and Swagger can be found in: Program, AccountController, Swagger (folder), wwwroot swaggerstyles, SwaggerController + [FILTERING](https://github.com/mattfrear/Swashbuckle.AspNetCore.Filters)
 - Validation (Fluent) can be found in: Program, Models (folder), Validators, DataTransferObjects
 - Exception Handling can be found in: Program, Middlewares (folder), ErrorHandlingMiddleware
