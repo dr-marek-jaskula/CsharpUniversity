@@ -104,4 +104,14 @@ public class QueryPerformance
     //b) Views degrade the LINQ query performance costly. These are slow in performance and impact the performance greatly. So avoid using views in LINQ to Entities.
 
     //c) When we are binding data to grid or doing paging, retrieve only required no of records to improve performance. This can achieved by using Take and Skip methods.
+
+    //DistinctBy 
+    public void DistinctByExample()
+    {
+        //Simple
+        _context.Users.GroupBy(u => u.CreatedDate).Select(gru => gru.First());
+
+        //Fast and simple, available in .NET 6
+        _context.Users.DistinctBy(u => u.CreatedDate);
+    }
 }

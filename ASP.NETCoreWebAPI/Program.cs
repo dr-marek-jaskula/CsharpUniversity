@@ -121,7 +121,14 @@ try
     //DbContext
     builder.Services.AddDbContext<MyDbContext>(options => options
         //.UseLazyLoadingProxies() //To configure all queries to LazyLoading (be careful of it, LazyLoading can cause troubles)
-        .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+        .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
+        //, options => //Retries options
+        //options.EnableRetryOnFailure(
+        //    maxRetryCount: 3,
+        //    maxRetryDelay: TimeSpan.FromSeconds(10),
+        //    errorNumbersToAdd: new List<int> { 4060 } //additional error codes to treat as transient
+        //    )
+        ));
     //Both with UseDeveloperExceptionPage provides default exception handling for "Developer" stage of api. More information below near "UseDeveloperExceptionPage"
     //.AddDatabaseDeveloperPageExceptionFilter();
 

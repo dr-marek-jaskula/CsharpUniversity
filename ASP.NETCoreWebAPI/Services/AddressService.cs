@@ -42,4 +42,17 @@ public class AddressService : IAddressService
         var result = _mapper.Map<AddressDto>(address);
         return result;
     }
+
+    //TODO : measure what is faster - benchmarks
+    public AddressDto GetById2(int id)
+    {
+        var address = _dbContex.Addresses.Where(p => p.Id == id);
+
+        var result = _mapper.ProjectTo<AddressDto>(address).FirstOrDefault();
+
+        if (result is null)
+            throw new NotFoundException("Address not found");
+
+        return result;
+    }
 }
