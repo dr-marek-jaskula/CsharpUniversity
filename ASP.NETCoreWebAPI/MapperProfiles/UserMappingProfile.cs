@@ -6,6 +6,9 @@ namespace ASP.NETCoreWebAPI.MapperProfiles;
 
 //If types and names are equal, AutoMapper will automate the process
 
+//They way to query from database just enough data to map to dto is presented in "AddressService -> GetById"
+//The approach uses "ProjectTo" method "var result = _mapper.ProjectTo<AddressDto>(address).FirstOrDefault();"
+
 public class UserMappingProfile : Profile
 {
     public UserMappingProfile()

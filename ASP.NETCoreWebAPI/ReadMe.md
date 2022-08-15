@@ -24,7 +24,8 @@ Async programming for WebApi is used not to block the thread. It is not connecte
 - Validation (Fluent) can be found in: Program, Models (folder), Validators, DataTransferObjects
 - Exception Handling can be found in: Program, Middlewares (folder), ErrorHandlingMiddleware
 - AutoMapper can be found in: Program, MapperProfiles, Services (Account, Order) 
-	- ! For high performance scenarios consider using "Mapster" NuGet Package instead of "AutoMapper". Also look on AutoGenerationCode for Mapping.
+    - ! The use of "ProjectTo" approach for better performance is presented in "AddressService -> GetById"
+	- ! For very high performance scenarios consider using "Mapster" NuGet Package instead of "AutoMapper". Also look on AutoGenerationCode for Mapping.
 - Authentication and Authorization can be found in: Program, Authentication (folder), OrderService, OrderController
 - Static Files can be found in: FileController, wwwroot, PrivateFiles, Program.cs
 - HealthChecks can be found in: program.cs (in configure and configure services), appsettings.json, HealthChecks folder

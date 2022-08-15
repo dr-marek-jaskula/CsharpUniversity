@@ -141,6 +141,7 @@ try
     builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
     //AutoMapper (mapping entities to DataTransferObjects)
+    //The performance boost is obtain when using "ProjectTo" method instead of "Map" if possible -> it is presented in "AddressService -> GetById"
     builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
     //Add custom services (dependencies) to the default ASP.Net Core dependency container (go to: Registration: ServicesRegistration)
