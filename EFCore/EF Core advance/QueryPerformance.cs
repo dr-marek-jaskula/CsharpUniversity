@@ -97,6 +97,10 @@ public class QueryPerformance
             .Find(2);
     }
 
+    //7. When after querying data we map to the dto object that does not require all data about entity, we have performance issue
+    //We should query just the data we need. For AutoMapper we should use "ProjectTo" method to avoid this issue (see "AddressService -> GetById"):
+    //var result = _mapper.ProjectTo<AddressDto>(address).FirstOrDefault(); 
+
     //Other tips:
 
     //a) In LINQ, we use contains method for checking existence. It is converted to "WHERE IN" in SQL which cause performance degrades. It is better to use DBFunction and Like method
