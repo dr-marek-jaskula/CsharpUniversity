@@ -1,4 +1,5 @@
 ﻿using ASP.NETCoreWebAPI.Models;
+using ASP.NETCoreWebAPI.Services;
 using Microsoft.Net.Http.Headers;
 using Refit;
 
@@ -8,6 +9,7 @@ public static class HttpClientRegistration
 {
     public static void RegisterHttpClient(this IServiceCollection services, ConfigurationManager config)
     {
+        //This is a "named" client (here name is "GitHub"). I prefer this approach (but with client names in some static class as constants)
         services.AddHttpClient("GitHub", client =>
         {
             //Headers required by GitHub
@@ -18,6 +20,19 @@ public static class HttpClientRegistration
             //GitHub requires a user-agent
             client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "HttpClientFactory-Sample");
         });
+
+        //We can also use a "typed" client (we would need to create a client class for it)
+        //This approach would require us to inject the HttpClient (and if the services are matching this client will be obtained)
+        //services.AddHttpClient<IGitHubService, GitHubService>(client =>
+        //{
+        //    //Headers required by GitHub
+        //    //Base address
+        //    client.BaseAddress = new Uri(config.GetValue<string>("GitHub:ApiBaseUrl"));
+        //    //GitHub API versioning
+        //    client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/vnd.github.v3+json");
+        //    //GitHub requires a user-agent
+        //    client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "HttpClientFactory-Sample");
+        //});
 
         //We need to Refit and Refit.HttpClientFactory for it to work
         services
