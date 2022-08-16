@@ -255,6 +255,22 @@ public class Linq
 
         var oldestStudnet = students.MaxBy(x => x.Age);
         var youngestStudent = students.MinBy(x => x.Age);
+
+        //Get objects of some types:
+        IEnumerable<object> someObjects = new object[]
+        {
+            new Student(1, "Mark", 24),
+            "Hello",
+            'h',
+            12,
+            32.4,
+            "New",
+            'l',
+            55
+        };
+
+        var intsFromObjects = someObjects.OfType<int>();
+        var stringsFromObjects = someObjects.OfType<string>();
     }
 }
 
