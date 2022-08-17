@@ -99,6 +99,9 @@ try
         .AddControllers()
         .AddFluentValidation(options => //Fluent Validation (Models -> Validators)
         {
+            //To disable the default Mvc validation
+            options.DisableDataAnnotationsValidation = true;
+
             //Validate child properties and root collection elements
             //options.ImplicitlyValidateChildProperties = true; //enables validation of child properties. Its an option to enable whether or not child properties should be implicitly validated if a matching validator can be found. You have to enable this option, if you want it, as it by default is set to false.
             //options.ImplicitlyValidateRootCollectionElements = true; //enables implicit validation of root elements. This will only happen when the root model is a collection and a matching validator can be found for the element type.

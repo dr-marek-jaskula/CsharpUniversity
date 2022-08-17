@@ -14,5 +14,22 @@ public class OrderDtoValidator : AbstractValidator<OrderDto>
 
         //Add another validator
         RuleFor(o => o.Payment).SetValidator(new PaymentValidator());
+
+        //Other Fluent Validator options (validation for each element of a collection):
+        //RuleForEach(o => o.SubItems)
+        //    .NotEmpty()
+        //    .WithMessage("Values in the SubItems array cannot be empty");
+
+        //Conditional Validation 
+        //When(t => t.RemindMe == true, () =>
+        //{
+        //    RuleFor(t => t.ReminderMinutesBeforeDue)
+        //        .NotNull()
+        //        .WithMessage("ReminderMinutesBeforeDue must be set")
+        //        .GreaterThan(0)
+        //        .WithMessage("ReminderMinutesBeforeDue must be greater than 0")
+        //        .Must(value => value % 15 == 0)
+        //        .WithMessage("ReminderMinutesBeforeDue must be a multiple of 15");
+        //});
     }
 }
