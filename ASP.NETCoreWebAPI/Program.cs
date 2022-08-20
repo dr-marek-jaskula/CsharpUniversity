@@ -27,6 +27,7 @@
 
 using ASP.NETCoreWebAPI.Exceptions;
 using ASP.NETCoreWebAPI.HealthChecks;
+using ASP.NETCoreWebAPI.Options;
 using ASP.NETCoreWebAPI.PollyPolicies;
 using EFCore;
 using EFCore.Data_models;
@@ -37,6 +38,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json.Serialization;
 using Serilog;
@@ -122,16 +124,22 @@ try
     builder.Services.RegisterVersioning();
 
     //DbContext
-    builder.Services.AddDbContext<MyDbContext>(options => options
-        //.UseLazyLoadingProxies() //To configure all queries to LazyLoading (be careful of it, LazyLoading can cause troubles)
-        .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
-        //, options => //Retries options
-        //options.EnableRetryOnFailure(
-        //    maxRetryCount: 3,
-        //    maxRetryDelay: TimeSpan.FromSeconds(10),
-        //    errorNumbersToAdd: new List<int> { 4060 } //additional error codes to treat as transient
-        //    )
-        ));
+    //We use the Option Pattern (modern way) to apply database options setup
+    builder.Services.ConfigureOptions<DatabaseOptionsSetup>();
+
+    builder.Services.AddDbContext<MyDbContext>((serviceProvider, optionsBuilder) =>
+    {
+        //It is important to get the value of "IOptions" of "DatabaseOptions" (OptionPattern)
+        var databaseOptions = serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
+
+        optionsBuilder
+            //.UseLazyLoadingProxies() //To configure all queries to LazyLoading (be careful of it, LazyLoading can cause troubles)
+            .UseSqlServer(databaseOptions.ConnectionString, options =>
+            {
+                options.CommandTimeout(databaseOptions.CommandTimeout);
+                options.EnableRetryOnFailure(databaseOptions.MaxRetryCount);
+            });
+    });
     //Both with UseDeveloperExceptionPage provides default exception handling for "Developer" stage of api. More information below near "UseDeveloperExceptionPage"
     //.AddDatabaseDeveloperPageExceptionFilter();
 

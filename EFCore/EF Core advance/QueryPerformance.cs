@@ -101,6 +101,43 @@ public class QueryPerformance
     //We should query just the data we need. For AutoMapper we should use "ProjectTo" method to avoid this issue (see "AddressService -> GetById"):
     //var result = _mapper.ProjectTo<AddressDto>(address).FirstOrDefault(); 
 
+    //8. Use AsSplitQuery method to split queries when making includes. This can help to deal with duplicated data so to avoid the cartesian explosion problem
+    //For more info see "ASP.NETCoreWebAPI" ReadMe, section "Entity Framework Core topics"
+    public void EightPrincipleExample()
+    {
+        //Duplicated data (with explicit loading)
+        var order = _context.Orders
+            .Find(1);
+
+        if (order is null)
+            throw new Exception("Order not found");
+
+        _context.Entry(order).Reference(o => o.Product).Query()
+            .Include(p => p.Shops)
+            .Include(p => p.Tags)
+            .Load();
+
+        _context.Entry(order).Reference(o => o.Payment).Query()
+            .Load();
+
+        //No duplicated data. But be careful -> When using split queries with Skip/Take, pay special attention to making your query ordering fully unique; not doing so could cause incorrect data to be returned
+        var order2 = _context.Orders
+            .Find(1);
+
+        if (order is null)
+            throw new Exception("Order not found");
+
+        _context.Entry(order).Reference(o => o.Product).Query()
+            .Include(p => p.Shops)
+            .Include(p => p.Tags)
+            .AsSplitQuery() //Splitting queries can be used to avoid the cartesian explosion problem
+            .Load();
+
+        _context.Entry(order).Reference(o => o.Payment).Query()
+            .AsSplitQuery()
+            .Load();
+    }
+
     //Other tips:
 
     //a) In LINQ, we use contains method for checking existence. It is converted to "WHERE IN" in SQL which cause performance degrades. It is better to use DBFunction and Like method

@@ -34,6 +34,23 @@ Async programming for WebApi is used not to block the thread. It is not connecte
 - Decorators with Scrutor can be found in: Decorators directory (in Services directory), DecoratorsRegistration (in Registration directory) and in DecoratedGitHubService, OrderService
 - Refit usage: RefitGitHubService (Service directory) and HttpClientRegistration (Registration directory)
 
+## Option Pattern for Entity Framework Core
+
+The Option folder with "DatabaseOptions.cs" and "DatabaseOptionsSetup.cs" were created to apply Option Pattern.
+Also the "DatabaseOptions" section in appsettings.json was created. It has properties with names that match properties names in "DatabaseOptions" class.
+
+In program.cs we need to add line "builder.Services.ConfigureOptions<DatabaseOptions>();" and then user the AddDbContext overload with serviceProvider
+
+Using this approach we have the following benefit:
+- To apply any new changes we just need to update the application settings and restart the application (we do not need to do another deployment)
+
+Other way (without Option Pattern) is just:
+```csharp
+builder.Services.AddDbContext<MyDbContext>(options => options
+    .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), options => options.EnableRetryOnFailure(3))
+    ));
+```
+
 ## Entity Framework Core topics
 
 - BulkUpdates and BulkDelets with "linq2db.EntityFrameworkCore" namespace were used to improve performance.
@@ -73,6 +90,57 @@ The example usage was presented in OrderService, GetById action.
 
 - Find method where presented instead of FirstOrDefault for performance reasons (if it can be used)
 The example usage was presented in OrderService, GetById action.
+
+- Splitting queries (using "AsSplitQuery" method) was used to avoid the cartesian explosion problem. It was used in "OrderService" -> "GetById"
+It can be used to increase performance, but we should be careful:
+```
+When using split queries with Skip/Take, pay special attention to making your query ordering fully unique; not doing so could cause incorrect data to be returned. For example, if results are ordered only by date, but there can be multiple results with the same date, then each one of the split queries could each get different results from the database. Ordering by both date and ID (or any other unique property or combination of properties) makes the ordering fully unique and avoids this problem. Note that relational databases do not apply any ordering by default, even on the primary key.
+```
+
+For instance for id = 1, the not split (without AsSplitQuery)
+```sql
+SELECT [p].[Id], [p].[Name], [p].[Price], [t].[ShopId], [t].[ProductId], [t].[Amount], [t].[Id], [t].[AddressId], [t].[Description], [t].[Name], [t0].[TagId], [t0].[ProductId], [t0].[Id], [t0].[ProductTag]
+FROM [Product] AS [p]
+LEFT JOIN (
+    SELECT [p0].[ShopId], [p0].[ProductId], [p0].[Amount], [s].[Id], [s].[AddressId], [s].[Description], [s].[Name]
+    FROM [Product_Amount] AS [p0]
+    INNER JOIN [Shop] AS [s] ON [p0].[ShopId] = [s].[Id]
+) AS [t] ON [p].[Id] = [t].[ProductId]
+LEFT JOIN (
+    SELECT [p1].[TagId], [p1].[ProductId], [t1].[Id], [t1].[ProductTag]
+    FROM [Product_Tag] AS [p1]
+    INNER JOIN [Tag] AS [t1] ON [p1].[TagId] = [t1].[Id]
+) AS [t0] ON [p].[Id] = [t0].[ProductId]
+WHERE [p].[Id] = 1
+ORDER BY [p].[Id], [t].[ShopId], [t].[ProductId], [t].[Id], [t0].[TagId], [t0].[ProductId];
+```
+Above query results in two rows in which we have some duplicated data.
+
+But with splitting queries we have two queries from it:
+```sql
+SELECT [t].[ShopId], [t].[ProductId], [t].[Amount], [t].[Id], [t].[AddressId], [t].[Description], [t].[Name], [p].[Id]
+FROM [Product] AS [p]
+INNER JOIN (
+    SELECT [p0].[ShopId], [p0].[ProductId], [p0].[Amount], [s].[Id], [s].[AddressId], [s].[Description], [s].[Name]
+    FROM [Product_Amount] AS [p0]
+    INNER JOIN [Shop] AS [s] ON [p0].[ShopId] = [s].[Id]
+) AS [t] ON [p].[Id] = [t].[ProductId]
+WHERE [p].[Id] = 1
+ORDER BY [p].[Id];
+```
+and
+```sql
+SELECT [t0].[TagId], [t0].[ProductId], [t0].[Id], [t0].[ProductTag], [p].[Id]
+FROM [Product] AS [p]
+INNER JOIN (
+    SELECT [p0].[TagId], [p0].[ProductId], [t].[Id], [t].[ProductTag]
+    FROM [Product_Tag] AS [p0]
+    INNER JOIN [Tag] AS [t] ON [p0].[TagId] = [t].[Id]
+) AS [t0] ON [p].[Id] = [t0].[ProductId]
+WHERE [p].[Id] = 1
+ORDER BY [p].[Id]
+```
+there is no duplicated data in these rows.
 
 ## Polly
 
