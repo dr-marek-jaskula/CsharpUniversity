@@ -83,7 +83,7 @@ try
 
     //Configure the Serilog using settings from appsettings.json and enables serilog. We need to also define ("use") Serilog in request pipeline
     builder.Host.UseSerilog((context, services, configuration) => configuration
-        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Configuration(context.Configuration) //We can have multiple files if we want, some for error and other for warnings
         .ReadFrom.Services(services)
         .Enrich.FromLogContext());
 
