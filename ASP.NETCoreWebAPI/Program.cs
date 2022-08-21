@@ -96,9 +96,10 @@ try
     //Authentication settings (go to: Registration: AuthenticationRegistration)
     builder.Services.RegisterAuthentication(builder.Configuration.ConfigureAuthentication());
 
-    //Controllers with some options
+    //Controllers with way to add controllers from other assembly (for instance Presentation assembly when doing Clean Architecture)
     builder.Services
         .AddControllers()
+        //.AddApplicationPart(typeof(OtherAssembly.AssemblyReference).Assembly) //Add controllers from other assembly
         .AddFluentValidation(options => //Fluent Validation (Models -> Validators)
         {
             //To disable the default Mvc validation
