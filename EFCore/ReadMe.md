@@ -3,6 +3,8 @@
 This is a Entity Framework Core tutorial with many separated models and configurations.
 Comments are used in much intense, even if in a commercial application they should be only used if there is no other way to improve code readability.
 
+Entity Framework Core primary goal is reliable execution. The performance is not the most important. If the performance is of the most importance, use Dapper.
+
 ## Class library project
 
 In order to create a separate project that deals with database, we need to:
@@ -106,3 +108,10 @@ To use DateOnly instead of DateTime see "Helpers" (Person, User) classes
 For **owned types**, see Address class
 
 For **views**, see View folder
+
+## Code First vs Database First
+
+The preferred way is to use Database First approach. 
+
+Use Code First for smaller projects or when we need to do something fast.
+When doing Code First be aware that we can not use so advanced database feature like "table partitioning".

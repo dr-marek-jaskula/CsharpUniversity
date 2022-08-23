@@ -276,6 +276,8 @@ public class OrderService : IOrderService
         //We do not need to call db.SaveChanges() because Linq to db will use it
 
         //Just one command will be used
+
+        //The other way for Bulk Updated/Deletes is to use raw sql by for instance "FromSqlInterpolated" method
     }
 
     //Great Helper method, generic. Example of use: "Order order = await GetOrder(3, db, o => o.Customer, o => o.Payment);"

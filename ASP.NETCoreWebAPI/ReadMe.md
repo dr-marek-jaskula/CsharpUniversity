@@ -53,6 +53,8 @@ builder.Services.AddDbContext<MyDbContext>(options => options
 
 ## Entity Framework Core topics
 
+Use async with Entity Framework Core (for instance FindAsync or FirstOrDefaultAsync)
+
 - BulkUpdates and BulkDelets with "linq2db.EntityFrameworkCore" namespace were used to improve performance.
 The example usage was presented in OrderService, BulkUpdate action.
 Read more in EFCore -> EF Core advance -> Problems -> BulkUpdateOrDelete.
@@ -84,6 +86,7 @@ public virtual List<Book> Books
     set => _books = value;
 }
 ```
+Lazy Loading is dangerous and it is better to avoid it in Entity Framewrok Core
 
 - ExplicitLoading was be used instead (an explicit Lazy Loading) 
 The example usage was presented in OrderService, GetById action. 

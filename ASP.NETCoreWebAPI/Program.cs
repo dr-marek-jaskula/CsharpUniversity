@@ -141,6 +141,9 @@ try
                 options.CommandTimeout(databaseOptions.CommandTimeout);
                 //We can add some error numbers if we want to. Otherwise, leave Array.Empty<int>(). Retries are very important
                 options.EnableRetryOnFailure(databaseOptions.MaxRetryCount, TimeSpan.FromSeconds(databaseOptions.MaxRetryDelay), Array.Empty<int>());
+
+                //To force the single inserts (not insert with merges) - so when we insert multiple records we have one big statement, which is good for inserts. But in some rare cases we want multiple single ones
+                //options.MaxBatchSize(1);
             });
 
         //We can also set "not tracking" as default behavior
