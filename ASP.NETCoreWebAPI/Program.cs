@@ -38,6 +38,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json.Serialization;
@@ -138,8 +139,28 @@ try
             .UseSqlServer(databaseOptions.ConnectionString, options =>
             {
                 options.CommandTimeout(databaseOptions.CommandTimeout);
-                options.EnableRetryOnFailure(databaseOptions.MaxRetryCount);
+                //We can add some error numbers if we want to. Otherwise, leave Array.Empty<int>(). Retries are very important
+                options.EnableRetryOnFailure(databaseOptions.MaxRetryCount, TimeSpan.FromSeconds(databaseOptions.MaxRetryDelay), Array.Empty<int>());
             });
+
+        //We can also set "not tracking" as default behavior
+        //optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
+        //Log additional information in development stage to deal with problems
+        if (builder.Environment.IsDevelopment())
+        {
+            optionsBuilder.EnableDetailedErrors(); //To get field-level error details
+            //DO NOT USE "EnableSensitiveDataLogging" IN PRODUCTION!
+            optionsBuilder.EnableSensitiveDataLogging(); //DO NOT USE THIS IN PRODUCTIN! Used to get parameter values. DO NOT USE THIS IN PRODUCTIN!
+            optionsBuilder.ConfigureWarnings(warningAction =>
+            {
+                warningAction.Log(new EventId[]
+                {
+                    CoreEventId.FirstWithoutOrderByAndFilterWarning,
+                    CoreEventId.RowLimitingOperationWithoutOrderByWarning
+                });
+            });
+        }
     });
     //Both with UseDeveloperExceptionPage provides default exception handling for "Developer" stage of api. More information below near "UseDeveloperExceptionPage"
     //.AddDatabaseDeveloperPageExceptionFilter();

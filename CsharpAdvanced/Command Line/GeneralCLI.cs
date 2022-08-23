@@ -2,6 +2,8 @@
 
 public class GeneralCLI
 {
+    //tabulator autofills the file or folder name. So if we type "cd rep" and click tab we can get "cd repository"
+
     //cls -> cleans the console
     //exit -> exit the certain command line
     //dir -> print the directory files
