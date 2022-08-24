@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace EFCore.EF_Core_advance;
+﻿namespace EFCore.EF_Core_advance;
 
 public class ExplicitLoading
 {

@@ -55,6 +55,8 @@ builder.Services.AddDbContext<MyDbContext>(options => options
 
 Use async with Entity Framework Core (for instance FindAsync or FirstOrDefaultAsync)
 
+- Adding tags by "TagWith()" is a good practice for log clarity (see Address service, GetById method)
+
 - BulkUpdates and BulkDelets with "linq2db.EntityFrameworkCore" namespace were used to improve performance.
 The example usage was presented in OrderService, BulkUpdate action.
 Read more in EFCore -> EF Core advance -> Problems -> BulkUpdateOrDelete.

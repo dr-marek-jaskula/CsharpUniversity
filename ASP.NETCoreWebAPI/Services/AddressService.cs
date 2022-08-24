@@ -4,6 +4,7 @@ using ASP.NETCoreWebAPI.Models.DataTransferObjects;
 using AutoMapper;
 using EFCore;
 using EFCore.Data_models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASP.NETCoreWebAPI.Services;
 
@@ -55,7 +56,9 @@ public class AddressService : IAddressService
 
     public AddressDto GetById(int id)
     {
-        var address = _dbContex.Addresses.Where(p => p.Id == id);
+        var address = _dbContex.Addresses
+            .TagWith($"Searching for an address with id: {id}")
+            .Where(p => p.Id == id);
 
         var result = _mapper.ProjectTo<AddressDto>(address).FirstOrDefault(); //We could use "First" here but the exception would not be costume one (with message "Sequence contains no elements")
 
