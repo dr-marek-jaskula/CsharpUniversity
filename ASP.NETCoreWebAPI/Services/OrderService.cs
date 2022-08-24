@@ -280,6 +280,16 @@ public class OrderService : IOrderService
         //The other way for Bulk Updated/Deletes is to use raw sql by for instance "FromSqlInterpolated" method
     }
 
+    //This is very important to pass to all async method like "ToListAsync" the cancellation token
+    //Then, the query will be stopped also on the database side and not only on the client side
+    //The async methods should be only used (for tutorial purpose they are not use everywhere), so cancellation token should be everywhere
+    public async Task<List<Order>> GetOrdersWithCancellationToken(CancellationToken token)
+    {
+        //It is very important to pass the token
+        return await _dbContex.Orders
+            .ToListAsync(token);
+    }
+
     //Great Helper method, generic. Example of use: "Order order = await GetOrder(3, db, o => o.Customer, o => o.Payment);"
     private async Task<Order> GetOrder(int orderId, MyDbContext db, params Expression<Func<Order, object?>>[] includes)
     {

@@ -115,3 +115,13 @@ The preferred way is to use Database First approach.
 
 Use Code First for smaller projects or when we need to do something fast.
 When doing Code First be aware that we can not use so advanced database feature like "table partitioning".
+
+## Tips and rules
+
+- use Tags by WithTag method to clarify the query in the logs
+
+- use CancellationToken to stop the query on the database side if required. This is very important
+
+- sometimes use bulk processing in chunks
+
+- if needed use raw sql, but try to avoid it

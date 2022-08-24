@@ -53,9 +53,11 @@ builder.Services.AddDbContext<MyDbContext>(options => options
 
 ## Entity Framework Core topics
 
-Use async with Entity Framework Core (for instance FindAsync or FirstOrDefaultAsync)
+Use async with Entity Framework Core (for instance FindAsync or FirstOrDefaultAsync) if possible. Only due to the tutorial purposes, async programming is not present everywhere.
 
 - Adding tags by "TagWith()" is a good practice for log clarity (see Address service, GetById method)
+
+- Use CancelationToken in async methods like "ToListAsync". This will result in stopping the query also on the database side, not only for the client. This is very important
 
 - BulkUpdates and BulkDelets with "linq2db.EntityFrameworkCore" namespace were used to improve performance.
 The example usage was presented in OrderService, BulkUpdate action.
