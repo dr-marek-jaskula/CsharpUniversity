@@ -129,7 +129,10 @@ try
     //We use the Option Pattern (modern way) to apply database options setup
     builder.Services.ConfigureOptions<DatabaseOptionsSetup>();
 
-    builder.Services.AddDbContext<MyDbContext>((serviceProvider, optionsBuilder) =>
+    //The default way is to use "AddDbContext".
+    //However, then for each request a new database context will be created. For performance reasons we can use context pooling, so the context will be reused
+    //The only problem is when the context maintains the state (for instance a private field) - nonetheless it is rare situation, so rather use "AddDbContextPool"
+    builder.Services.AddDbContextPool<MyDbContext>((serviceProvider, optionsBuilder) =>
     {
         //It is important to get the value of "IOptions" of "DatabaseOptions" (OptionPattern)
         var databaseOptions = serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
