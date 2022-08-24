@@ -12,7 +12,7 @@ public class OrderDtoValidator : AbstractValidator<OrderDto>
         //Add the custom validation method
         RuleFor(o => o.Deadline).AfterSunrise(dateTimeProvider);
 
-        //Add another validator
+        //Add another validator -> this is proper approach for validating complex properties
         RuleFor(o => o.Payment).SetValidator(new PaymentValidator());
 
         //Other Fluent Validator options (validation for each element of a collection):

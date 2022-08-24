@@ -26,25 +26,15 @@
 //Microsoft.Extensions.Configuration.UserSecrets -> for secrets to override the appsettings.json locally
 
 using ASP.NETCoreWebAPI.Exceptions;
-using ASP.NETCoreWebAPI.HealthChecks;
-using ASP.NETCoreWebAPI.Options;
 using ASP.NETCoreWebAPI.PollyPolicies;
 using EFCore;
 using EFCore.Data_models;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json.Serialization;
 using Serilog;
 using Serilog.Events;
-using System.Globalization;
 using System.Reflection;
 
 //This attribute make the Program class (that is from this Top-Level-Statement file and which is internal by default) visible to project "xUnitTestsForWebApi"
@@ -98,86 +88,23 @@ try
     builder.Services.RegisterAuthentication(builder.Configuration.ConfigureAuthentication());
 
     //Controllers with way to add controllers from other assembly (for instance Presentation assembly when doing Clean Architecture)
-    builder.Services
-        .AddControllers()
+    builder.Services.AddControllers();
         //.AddApplicationPart(typeof(OtherAssembly.AssemblyReference).Assembly) //Add controllers from other assembly
-        .AddFluentValidation(options => //Fluent Validation (Models -> Validators)
-        {
-            //To disable the default Mvc validation
-            options.DisableDataAnnotationsValidation = true;
 
-            //Validate child properties and root collection elements
-            //options.ImplicitlyValidateChildProperties = true; //enables validation of child properties. Its an option to enable whether or not child properties should be implicitly validated if a matching validator can be found. You have to enable this option, if you want it, as it by default is set to false.
-            //options.ImplicitlyValidateRootCollectionElements = true; //enables implicit validation of root elements. This will only happen when the root model is a collection and a matching validator can be found for the element type.
+    //Register Fluent Validation (see FluentValidationRegistration class):
+    builder.Services.RegisterFluentValidation();
 
-            //Automatic registration of validators in assembly (therefore there is no need to register validators below)
-            options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); //Makes sure that we automatically register validators from the assembly. We get the execution assembly by using System.Reflection.
-
-            //To disable error messages in a local language. Default one is English
-            ValidatorOptions.Global.LanguageManager.Enabled = false;
-            //To force error messages in a certain language
-            //ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("fr");
-        });
-
-    //For default caching mechanism (Polly politics is preferred). It needs to be defined in pipeline section "app.UseResponseCaching();" This is for tutorial purposes
+    //For default caching mechanism (Polly politics is preferred or use Redis). It needs to be defined in pipeline section "app.UseResponseCaching();" This is for tutorial purposes
     builder.Services.AddResponseCaching(); //Nevertheless, the default caching mechanism in .NET 7 looks interesting
 
     //Versioning (examine AccountController) (go to: Registration: VersioningRegistration)
     builder.Services.RegisterVersioning();
 
     //DbContext
-    //We use the Option Pattern (modern way) to apply database options setup
-    builder.Services.ConfigureOptions<DatabaseOptionsSetup>();
+    builder.Services.RegisterDatabaseContext(builder.Environment.IsDevelopment());
 
-    //The default way is to use "AddDbContext".
-    //However, then for each request a new database context will be created. For performance reasons we can use context pooling, so the context will be reused
-    //The only problem is when the context maintains the state (for instance a private field) - nonetheless it is rare situation, so rather use "AddDbContextPool"
-    builder.Services.AddDbContextPool<MyDbContext>((serviceProvider, optionsBuilder) =>
-    {
-        //It is important to get the value of "IOptions" of "DatabaseOptions" (OptionPattern)
-        var databaseOptions = serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
-
-        optionsBuilder
-            //.UseLazyLoadingProxies() //To configure all queries to LazyLoading (be careful of it, LazyLoading can cause troubles)
-            .UseSqlServer(databaseOptions.ConnectionString, options =>
-            {
-                options.CommandTimeout(databaseOptions.CommandTimeout);
-                //We can add some error numbers if we want to. Otherwise, leave Array.Empty<int>(). Retries are very important
-                options.EnableRetryOnFailure(databaseOptions.MaxRetryCount, TimeSpan.FromSeconds(databaseOptions.MaxRetryDelay), Array.Empty<int>());
-
-                //To force the single inserts (not insert with merges) - so when we insert multiple records we have one big statement, which is good for inserts. But in some rare cases we want multiple single ones
-                //options.MaxBatchSize(1);
-            });
-
-        //We can also set "not tracking" as default behavior
-        //optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-
-        //Log additional information in development stage to deal with problems
-        if (builder.Environment.IsDevelopment())
-        {
-            optionsBuilder.EnableDetailedErrors(); //To get field-level error details
-            //DO NOT USE "EnableSensitiveDataLogging" IN PRODUCTION!
-            optionsBuilder.EnableSensitiveDataLogging(); //DO NOT USE THIS IN PRODUCTIN! Used to get parameter values. DO NOT USE THIS IN PRODUCTIN!
-            optionsBuilder.ConfigureWarnings(warningAction =>
-            {
-                warningAction.Log(new EventId[]
-                {
-                    CoreEventId.FirstWithoutOrderByAndFilterWarning,
-                    CoreEventId.RowLimitingOperationWithoutOrderByWarning
-                });
-            });
-        }
-    });
-    //Both with UseDeveloperExceptionPage provides default exception handling for "Developer" stage of api. More information below near "UseDeveloperExceptionPage"
-    //.AddDatabaseDeveloperPageExceptionFilter();
-
-    //HealthChecks(need to also Map to the endpoint in the "Configure HTTP request pipeline" region, using the minimal API approach)
-    //Add SqlServer health checks and custom one MyHealthCheck(go to: HealthChecks folder)
-    builder.Services.AddHealthChecks()
-        .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-        .AddCheck<RandomHealthCheck>("Random health check")
-        .AddCheck<EndpointHealthCheck>("Endpoint health check");
-    builder.Services.AddHealthChecksUI().AddInMemoryStorage();
+    //HealthChecks
+    builder.Services.RegisterHealthChecks(builder.Configuration.GetConnectionString("DefaultConnection"));
 
     //AutoMapper (mapping entities to DataTransferObjects)
     //The performance boost is obtain when using "ProjectTo" method instead of "Map" if possible -> it is presented in "AddressService -> GetById"
