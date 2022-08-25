@@ -59,9 +59,9 @@ Use async with Entity Framework Core (for instance FindAsync or FirstOrDefaultAs
 
 - Use CancelationToken in async methods like "ToListAsync". This will result in stopping the query also on the database side, not only for the client. This is very important
 
-- BulkUpdates and BulkDelets with "linq2db.EntityFrameworkCore" namespace were used to improve performance.
-The example usage was presented in OrderService, BulkUpdate action.
-Read more in EFCore -> EF Core advance -> Problems -> BulkUpdateOrDelete.
+- BulkInserts, BulkUpdates and BulkDelets with "linq2db.EntityFrameworkCore" NuGet Package were used to improve performance.
+The example usage was presented in OrderService, BulkUpdate and in BulkInsert action.
+Read more in EFCore -> EF Core advance -> BulkInser and Problems -> BulkUpdateOrDelete.
 
 - Includes with user expressions (like "GetOrder(10252, db, o => o.Customer, o => o.Payment)") were presented for scalability, readability reasons.
 The example usage was presented in OrderService, GetOrder method. 

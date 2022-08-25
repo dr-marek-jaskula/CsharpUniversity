@@ -1,6 +1,7 @@
 ﻿using Xunit;
 using EFCore;
 using EFCore.EF_Core_advance;
+using System.Threading.Tasks;
 
 namespace UniversityEntrypoints.EFCore;
 
@@ -35,6 +36,16 @@ public class EFCoreQueryPerformanceEntrypoint
 
         QueryPerformance queryPerformance = new(myDbContext);
         queryPerformance.FourthPrincipleExample();
+    }
+
+    [Fact]
+    public async Task EFCoreBulkInsertExampleEntrypoint()
+    {
+        MyDbContextFactory myDbContextFactory = new();
+        MyDbContext myDbContext = myDbContextFactory.CreateDbContext();
+
+        BulkInsert bulkInsert = new(myDbContext);
+        await bulkInsert.BulkInsertExample();
     }
 }
 

@@ -5,6 +5,8 @@ public class BulkUpdateOrDelete
     //Avoid sending many like n+1 commands to database
     //To solve this problem use "linq2db.EntityFrameworkCore"
 
+    //To see the implementation of Bulk Update -> OrderService -> BulkUpdate
+
     #region Example of a problem
 
     /*

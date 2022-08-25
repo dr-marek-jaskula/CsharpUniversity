@@ -125,3 +125,5 @@ When doing Code First be aware that we can not use so advanced database feature 
 - sometimes use bulk processing in chunks
 
 - if needed use raw sql, but try to avoid it
+
+- use Bulk Updates, Deletes and Inserts -> see EF Core Advance -> BulkInsert and Problems -> BulkUpdateOrDelete (or Services -> OrderService -> BulkUpdate, BulkInsert)

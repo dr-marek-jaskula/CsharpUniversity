@@ -6,8 +6,10 @@ using ASP.NETCoreWebAPI.Models.QueryObjects;
 using ASP.NETCoreWebAPI.PollyPolicies;
 using ASP.NETCoreWebAPI.StringApproxAlgorithms;
 using AutoMapper;
+using Bogus;
 using EFCore;
 using EFCore.Data_models;
+using LinqToDB.Data;
 using LinqToDB.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Enums;
@@ -278,6 +280,28 @@ public class OrderService : IOrderService
         //Just one command will be used
 
         //The other way for Bulk Updated/Deletes is to use raw sql by for instance "FromSqlInterpolated" method
+    }
+
+    //Bulk Insert -> insert many records with better performance (we use "linq2db.EntityFrameworkCore")
+    public async Task BulkInsert()
+    {
+        // Install NuGet Package "linq2db.EntityFrameworkCore"
+        var addressFaker = new Faker<EFCore.Data_models.Address>()
+            .RuleFor(a => a.Street, f => f.Address.StreetName())
+            .RuleFor(a => a.City, f => f.Address.City())
+            .RuleFor(a => a.Country, f => f.Address.Country())
+            .RuleFor(a => a.ZipCode, f => f.Address.ZipCode())
+            .RuleFor(a => a.Building, f => f.Random.Bool(0.9f) ? f.Random.Int(1, 30) : null)
+            .RuleFor(a => a.Flat, f => f.Random.Bool(0.9f) ? f.Random.Int(1, 90) : null);
+
+        var addresses = addressFaker.Generate(10001);
+
+        var options = new BulkCopyOptions
+        {
+            TableName = "Address"
+        };
+
+        await _dbContex.BulkCopyAsync(options, addresses);
     }
 
     //This is very important to pass to all async method like "ToListAsync" the cancellation token
