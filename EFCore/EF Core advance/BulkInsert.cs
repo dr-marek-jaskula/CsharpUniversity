@@ -6,7 +6,7 @@ namespace EFCore.EF_Core_advance;
 
 public class BulkInsert
 {
-    //Bulk Insert called also "Bulk Copy" is the performant way to insert a large number of records
+    //Bulk Insert called also "Bulk Copy" is the efficient way to insert a large number of records
 
     //The way to achieve Bulk Insert is to use linq2db.EntityFrameworkCore NuGet Package
     //(or use GenerateAndInsertWithSqlCopy – with SqlBulkCopy class implementation, but it is not so readable, use only in very hight performance scenarios)
