@@ -102,7 +102,7 @@ public class QueryPerformance
     //var result = _mapper.ProjectTo<AddressDto>(address).FirstOrDefault(); 
 
     //8. Use AsSplitQuery method to split queries when making includes. This can help to deal with duplicated data so to avoid the cartesian explosion problem
-    //For more info see "ASP.NETCoreWebAPI" ReadMe, section "Entity Framework Core topics"
+    //For more info see "ASP.NETCoreWebAPI" ReadMe, section "Entity Framework Core topics" ("OrderService" -> "GetById")
     public void EightPrincipleExample()
     {
         //Duplicated data (with explicit loading)

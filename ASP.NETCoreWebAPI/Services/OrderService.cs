@@ -81,11 +81,13 @@ public class OrderService : IOrderService
         _dbContex.Entry(order).Reference(o => o.Product).Query()
             .Include(p => p.Shops)
             .Include(p => p.Tags)
-            .AsSplitQuery() //Splitting queries can be used to avoid the cartesian explosion problem
+            //Splitting queries can be used to avoid the cartesian explosion problem. Nevertheless, in this case it decreases the performance (k6 load testing)
+            //.AsSplitQuery() 
             .Load();
 
         _dbContex.Entry(order).Reference(o => o.Payment).Query()
-            .AsSplitQuery()
+            //In this case it decreases the performance. 
+            //.AsSplitQuery()
             .Load();
 
         var result = _mapper.Map<OrderDto>(order);

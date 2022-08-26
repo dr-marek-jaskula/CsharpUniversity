@@ -17,4 +17,8 @@
     <ProjectReference Include="..\CsharpAdvanced\CsharpAdvanced.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="WebApi.Tests.Load\" />
+  </ItemGroup>
+
 </Project>
