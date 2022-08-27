@@ -147,7 +147,7 @@ INNER JOIN (
 WHERE [p].[Id] = 1
 ORDER BY [p].[Id]
 ```
-there is no duplicated data in these rows.
+there is no duplicated data in these rows. Nevertheless, in this certain case, splitting queries will decrease the performance of the system (k6 verification)
 
 ## Polly
 
@@ -226,3 +226,9 @@ In order to learn CI, first create a simple test for our application. Then go to
 ## Secrets
 
 Consider secrets to store local data, like connection strings. Do not use secrets for sensitive data.
+
+## Seal the Data Tranfer Objects and other classes
+
+Sealing the DTO' and classes we know we would not inherit from will result in a small performance boost and will keep our system more secured.
+
+Therefore, especially for records we use for Data Transfer Object, use the **seal** keyword.

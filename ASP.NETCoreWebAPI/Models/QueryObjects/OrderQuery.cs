@@ -2,7 +2,7 @@
 
 namespace ASP.NETCoreWebAPI.Models.QueryObjects;
 
-public record class OrderQuery
+public sealed record class OrderQuery
 (
     string SearchPhrase,
     int PageNumber,

@@ -2,7 +2,7 @@
 
 namespace ASP.NETCoreWebAPI.Models.DataTransferObjects;
 
-public record class TagDto
+public sealed record class TagDto
 (
     int Id,
     string ProductTag

@@ -1,6 +1,6 @@
 ﻿namespace ASP.NETCoreWebAPI.Models.DataTransferObjects;
 
-public record class OrderProductDto
+public sealed record class OrderProductDto
 (
     int Id,
     string Name,

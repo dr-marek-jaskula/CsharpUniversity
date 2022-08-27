@@ -1,6 +1,6 @@
 ﻿namespace ASP.NETCoreWebAPI.Models.DataTransferObjects;
 
-public record class CreateAddressDto
+public sealed record class CreateAddressDto
 (
     string City,
     string Country,

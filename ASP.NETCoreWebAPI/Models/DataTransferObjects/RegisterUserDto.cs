@@ -1,6 +1,6 @@
 namespace ASP.NETCoreWebAPI.Models.DataTransferObjects;
 
-public record class RegisterUserDto
+public sealed record class RegisterUserDto
 (
     string Username,
     string Email,

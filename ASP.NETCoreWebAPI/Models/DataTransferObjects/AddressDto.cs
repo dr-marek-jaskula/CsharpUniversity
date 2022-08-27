@@ -1,6 +1,7 @@
 ﻿namespace ASP.NETCoreWebAPI.Models.DataTransferObjects;
 
-public record class AddressDto
+//It is good practice to seal records we know we would not require inheriting - this will improve performance a bit
+public sealed record class AddressDto
 (
     int Id,
     string City,
