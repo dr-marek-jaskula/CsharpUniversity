@@ -34,14 +34,18 @@ public class Casting
         //Value types
         //we cast double to int, knowing that we will loose some data
         double doubleNumber = 123.512;
-        //to cast we use the following syntax
+        //to cast we use the following syntax -> This is the most efficient way of casting
         int intNumber = (int)doubleNumber;
+
 
         //Reference types
         //Casting the parent class to the child class will result in exception.
+        object person = new Something() { Id = Guid.NewGuid(), Name = "Lorem Ipsum" };
+        //efficient way
+        Something something = (Something) person;
 
-
-        //se of ToString();
+        //if person is not Something, than the result will be null. This is less efficient way
+        Something? something2 = person as Something;
 
         #endregion Explicit conversions
 
@@ -83,6 +87,12 @@ public class Son : Parent
 public class Daughter : Parent  
 {
     public int LuckyNumber { get; set; } = 0;
+}
+
+class Something
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
 }
 
 #endregion
