@@ -1,4 +1,6 @@
-﻿namespace CustomTools.RichTypes;
+﻿namespace CustomTools.DomainDrivenDesign;
+
+//This is a class from which the entity in Domain Drive Design approach should inherit from.
 
 public abstract class Entity : IEquatable<Entity>
 {
