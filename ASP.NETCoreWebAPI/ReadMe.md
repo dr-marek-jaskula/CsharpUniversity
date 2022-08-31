@@ -185,6 +185,18 @@ If the performance is very important, we can return an exception, rather then th
 
 Use cases are presented in: NoThrowController, NoThrowService;
 
+We can use also well designed NuGet Package "ErrorOr" created by "Amichai"
+
+Other way is to implement Result (Result<TValue>), Error approach - custom implementation, good approach can be found in work by Milan Jovanović ("https://www.youtube.com/watch?v=KgfzM0QWHrQ&t=448s")
+ 
+Pros of no throwing an exceptions:
+Expressiveness, Performance, Self-documenting
+
+Cons of no throwing an exceptions:
+No stack trace, hard to debug and determine the source of the problem, more complexity 
+
+My opinion: use exception approach by default. Turn to NoThrow approach for performance reasons - well designed no throwing (like done by Milan Jovanović) look very promising but still do not solve the problem of tracking the error in the code and it can be hard to maintain.
+
 ## Same Origin Policy (SOP)
 
 SOP states that requests are banned until Cross-Origin Resource Sharing (CORS) policy is applied.

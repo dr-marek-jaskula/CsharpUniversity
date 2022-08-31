@@ -6,6 +6,16 @@ using LanguageExt.Common;
 
 namespace ASP.NETCoreWebAPI.Services;
 
+//This is the approach to avoid throwing the exception. Exceptions throwing can decrease the performance of the program
+//Here we use the "LanguageExt" package for "NoThrow" approach
+//We can use also well designed NuGet Package "ErrorOr" created by "Amichai"
+//Other way is to implement Result (Result<TValue>), Error approach - custom implementation, good approach can be found in work by Milan Jovanović ("https://www.youtube.com/watch?v=KgfzM0QWHrQ&t=448s")
+
+//Pros of no throwing an exceptions:
+//Expressiveness, Performance, Self-documenting
+//Cons of no throwing an exceptions:
+//No stack trace, hard to debug and determine the source of the problem, more complexity 
+
 public interface INoThrowService
 {
     Result<CustomerDto> GetById(int id);
