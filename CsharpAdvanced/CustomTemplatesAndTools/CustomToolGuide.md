@@ -5,6 +5,7 @@
 - Open PowerShell or Command Line Prompt
 - Navigate to the directory where the script is
 - Use command
+
 ```cmd
 dotnet pack
 ```
@@ -19,10 +20,13 @@ dotnet tool install --global --add-source ./NuGetPackage <ToolName>
 
 - Follow the steps from previous guide
 - Then use (if you are setting up this repo)
-```cmd 
+  
+```cmd
 dotnet new tool-manifest
 ```
+
 - Finally use
+
 ```cmd
 dotnet tool install --local --add-source ./NuGetPackage <ToolName>
 ```
@@ -30,16 +34,18 @@ dotnet tool install --local --add-source ./NuGetPackage <ToolName>
 ## How to change command name?
 
 - Open .csproj file
-- Change the content of the <ToolCommandName>SomeContent</ToolCommandName> to the desired command
+- Change the content of the \<ToolCommandName\>SomeContent\</ToolCommandName\> to the desired command
 
 ## How to uinstall tool?
 
-- Get tool list using 
-```cmd 
+- Get tool list using
+
+```cmd
 dotnet tool list --global
 ```
 
-- Use 
+- Use
+
 ```cmd
 dotnet tool uninstall <PackageId> --global
 ```
