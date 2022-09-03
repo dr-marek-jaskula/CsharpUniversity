@@ -27,6 +27,6 @@ This part contains learning from tutorials, articles or working on your own proj
 
 This part contains learning from tutorials, videos, books or articles when being a bit tired, traveling by a train or a bus, or waiting for something. Use tablet, phone or book. Learn about alternative approaches, good practices and conventions, solution structure, tips and tricks, advance IDE settings/plug-ins, shortcuts, application architecture, basics of cmd, important NuGet packages, programming theory.
 
-## **Learning that require that can be done when doing other things**
+## **Learning that can be done when doing other things**
 
-This part contains learning from podcasts and similar videos (that does not require watching). Use phone or tablet. Learn about application design, common mistakes, advices for new developers, advices for interview, soft skills, scrum, working in teams, alternative approaches, road paths, programming theory. Search for new sources of informations.
+This part contains learning from podcasts and similar videos (that does not require watching). Use phone or tablet. Learn about application design, common mistakes, advices for new developers, advices about interviews, soft skills, scrum, working in teams, alternative approaches, road paths, programming theory. Search for new sources of informations.
