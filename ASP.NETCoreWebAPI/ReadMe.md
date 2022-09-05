@@ -197,6 +197,14 @@ No stack trace, hard to debug and determine the source of the problem, more comp
 
 My opinion: use exception approach by default. Turn to NoThrow approach for performance reasons - well designed no throwing (like done by Milan Jovanović) look very promising but still do not solve the problem of tracking the error in the code and it can be hard to maintain.
 
+## Throw exception using "Throw" NuGet Package
+
+Throw NuGet Package is the flexible library that enables us to throw exceptions in a fluent way. This package allows creating our own extension methods.
+
+The usage of this package is presented in [project website]("https://github.com/amantinband/throw).
+
+This is very interesting package.
+
 ## Same Origin Policy (SOP)
 
 SOP states that requests are banned until Cross-Origin Resource Sharing (CORS) policy is applied.

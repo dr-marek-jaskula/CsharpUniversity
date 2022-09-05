@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Polly;
 using System.Linq.Expressions;
 using System.Security.Claims;
+using Throw;
 
 namespace ASP.NETCoreWebAPI.Services;
 

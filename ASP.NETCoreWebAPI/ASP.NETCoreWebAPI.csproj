@@ -54,6 +54,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.5" />
     <PackageReference Include="SymSpell" Version="6.7.2" />
+    <PackageReference Include="Throw" Version="1.3.0" />
   </ItemGroup>
 
   <ItemGroup>

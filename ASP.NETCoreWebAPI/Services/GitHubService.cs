@@ -96,7 +96,7 @@ public class GitHubService : IGitHubService
         var task = pollyRetryPolicy.ExecuteAsync(async () =>
         {
             //if (_random.Next(1, 3) == 1)
-            throw new HttpRequestException("This is a fake request exceptionv");
+            throw new HttpRequestException("This is a fake request exception");
 
             var result = await client.GetAsync($"/users/{userName}");
 
