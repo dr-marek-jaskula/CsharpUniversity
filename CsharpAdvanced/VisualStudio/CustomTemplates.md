@@ -15,3 +15,14 @@ public class $safeitemrootname$
 
 }
 ```
+
+or with "seald" keyword
+
+```csharp
+namespace $rootnamespace$;
+
+public sealed class $safeitemrootname$
+{
+
+}
+```
