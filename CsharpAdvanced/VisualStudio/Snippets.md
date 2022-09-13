@@ -10,7 +10,7 @@
 
 > foreach -> foreach loop
 
-> class -> class 
+> class -> class without access modifier and no sealed keyword (remove this default one and add new or modify default one)
 
 > struct -> struct
 
@@ -29,6 +29,40 @@
 > equals -> overwrite the equal function
 
 ## Custom Snippets
+
+> class -> change the default one to the custom one (I personally prefer to remove the class snippet and add the custom one)
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Public sealed class</Title>
+			<Shortcut>class</Shortcut>
+			<Description>Code snippet for public sealed class</Description>
+			<Author>dr Marek Jaskuła</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+				<SnippetType>SurroundsWith</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>name</ID>
+					<ToolTip>Class name</ToolTip>
+					<Default>MyClass</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp"><![CDATA[public sealed class $name$
+	{
+		$selected$$end$
+	}]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
+```
 
 > uprop -> underscored full property
 
