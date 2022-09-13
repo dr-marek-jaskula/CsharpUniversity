@@ -281,3 +281,6 @@ finally
 }
 
 return 0; //app went properly
+
+//Seal the Program class for two reasons: 1. Performance, 2. Reliability 
+sealed partial class Program { }

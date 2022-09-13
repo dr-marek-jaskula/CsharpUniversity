@@ -249,6 +249,16 @@ Consider secrets to store local data, like connection strings. Do not use secret
 
 ## Seal the Data Tranfer Objects and other classes
 
-Sealing the DTO' and classes we know we would not inherit from will result in a small performance boost and will keep our system more secured.
+Sealing classes will result in a small performance boost and will keep our system more secured.
 
-Therefore, especially for records we use for Data Transfer Object, use the **seal** keyword.
+Therefore, especially for records we use for Data Transfer Object, use the **sealed** keyword.
+
+The proper way is to seal a class in advance (change class snippet and class template) and then remove the **sealed** keyword if the class is supposed to be a father.
+
+To seal the **Program** class in a Top Level Statement we can add 
+
+```csharp
+sealed partial class Program { }
+```
+
+at the end of a file.
