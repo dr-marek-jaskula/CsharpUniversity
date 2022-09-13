@@ -247,7 +247,7 @@ In order to learn CI, first create a simple test for our application. Then go to
 
 Consider secrets to store local data, like connection strings. Do not use secrets for sensitive data.
 
-## Seal the Data Tranfer Objects and other classes
+## Seal the Data Transfer Objects and other classes
 
 Sealing classes will result in a small performance boost and will keep our system more secured.
 
