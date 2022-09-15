@@ -1,4 +1,6 @@
-﻿namespace CsharpAdvanced.Performance;
+﻿using System.Runtime.InteropServices;
+
+namespace CsharpAdvanced.Performance;
 
 public class PerformanceTips
 {
@@ -26,4 +28,18 @@ public class PerformanceTips
     IEnumerable<int> emptyEnumerable = Enumerable.Empty<int>();
     int[] emptyArray = Array.Empty<int>();
     //Therefore, no memory will be allocated
+
+    //The most efficient way to iterate over the list is to use the Span approach.
+    //Nevertheless, this is an unsafe method - we can mutate the list during the iterations!!
+    public void FastetIterationUsingSpanByCollectionMarshal()
+    {
+        List<int> myList = Enumerable.Range(1, 1000).ToList();
+        //Use CollectionsMarshal and do not mutate the collection!
+        var asSpan = CollectionsMarshal.AsSpan(myList);
+
+        foreach (var item in asSpan) //We could use "for" loop but the performance is similar. Performance for big list is better for foreach
+        {
+
+        }
+    }
 }
