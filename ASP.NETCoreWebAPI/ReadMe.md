@@ -36,15 +36,24 @@ Async programming for WebApi is used not to block the thread. It is not connecte
 
 ## Option Pattern for Entity Framework Core
 
-The Option folder with "DatabaseOptions.cs" and "DatabaseOptionsSetup.cs" were created to apply Option Pattern.
+The Option folder with "DatabaseOptions.cs", "DatabaseOptionsValidator" and "DatabaseOptionsSetup.cs" were created to apply Option Pattern.
 Also the "DatabaseOptions" section in appsettings.json was created. It has properties with names that match properties names in "DatabaseOptions" class.
 
-In program.cs we need to add line "builder.Services.ConfigureOptions<DatabaseOptions>();" and then user the AddDbContext overload with serviceProvider
+In program.cs (Here we use the OptionsRegistration class in Registration folder) we need to add lines (configure options and register validators)
 
-Using this approach we have the following benefit:
+```csharp
+builder.Services.ConfigureOptions<DatabaseOptions>();
+services.AddSingleton<IValidateOptions<DatabaseOptions>, DatabaseOptionsValidator>();
+```
+
+and then use the AddDbContext overload with serviceProvider parameter.
+
+Using this approach we have the following benefits:
 - To apply any new changes we just need to update the application settings and restart the application (we do not need to do another deployment)
+- We get the options validation on start with clean and loosely coupled way
 
-Other way (without Option Pattern) is just:
+Other way (without Option Pattern) is just (without validation):
+
 ```csharp
 builder.Services.AddDbContext<MyDbContext>(options => options
     .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), options => options.EnableRetryOnFailure(3))

@@ -27,6 +27,7 @@
 
 using ASP.NETCoreWebAPI.Exceptions;
 using ASP.NETCoreWebAPI.PollyPolicies;
+using ASP.NETCoreWebAPI.Registration;
 using EFCore;
 using EFCore.Data_models;
 using HealthChecks.UI.Client;
@@ -90,6 +91,9 @@ try
     //Controllers with way to add controllers from other assembly (for instance Presentation assembly when doing Clean Architecture)
     builder.Services.AddControllers();
         //.AddApplicationPart(typeof(OtherAssembly.AssemblyReference).Assembly) //Add controllers from other assembly
+
+    //Register Options with their validators
+    builder.Services.RegisterOptions();
 
     //Register Fluent Validation (see FluentValidationRegistration class):
     builder.Services.RegisterFluentValidation();

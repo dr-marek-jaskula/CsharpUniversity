@@ -10,9 +10,6 @@ public static class DatabaseContextRegistration
 {
     public static void RegisterDatabaseContext(this IServiceCollection services, bool isDevelopment)
     {
-        //We use the Option Pattern (modern way) to apply database options setup
-        services.ConfigureOptions<DatabaseOptionsSetup>();
-
         //The default way is to use "AddDbContext".
         //However, then for each request a new database context will be created. For performance reasons we can use context pooling, so the context will be reused
         //The only problem is when the context maintains the state (for instance a private field) - nonetheless it is rare situation, so rather use "AddDbContextPool"

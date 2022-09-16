@@ -10,7 +10,7 @@ public class DatabaseOptionsSetup : IConfigureOptions<DatabaseOptions>
     private readonly IConfiguration _configuration;
 
     //It is good practice to store the configuration section name in a constant field:
-    private readonly string ConfigurationSectionName = "DatabaseOptions";
+    private readonly string _configurationSectionName = "DatabaseOptions";
 
     public DatabaseOptionsSetup(IConfiguration configuration)
     {
@@ -21,7 +21,7 @@ public class DatabaseOptionsSetup : IConfigureOptions<DatabaseOptions>
     {
         options.ConnectionString = _configuration.GetConnectionString("DefaultConnection");
 
-        //We bind the section in a appsettings.json with th DatabaseOptions instance
-        _configuration.GetSection(ConfigurationSectionName).Bind(options);
+        //We bind the section in a appsettings.json with the DatabaseOptions instance
+        _configuration.GetSection(_configurationSectionName).Bind(options);
     }
 }
