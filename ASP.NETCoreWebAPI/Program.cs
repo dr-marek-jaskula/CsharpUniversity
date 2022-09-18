@@ -98,7 +98,7 @@ try
     //Register Fluent Validation (see FluentValidationRegistration class):
     builder.Services.RegisterFluentValidation();
 
-    //For default caching mechanism (Polly politics is preferred or use Redis). It needs to be defined in pipeline section "app.UseResponseCaching();" This is for tutorial purposes
+    //For default caching mechanism (Polly politics is preferred, we can do this with Redis). It needs to be defined in pipeline section "app.UseResponseCaching();" This is for tutorial purposes
     builder.Services.AddResponseCaching(); //Nevertheless, the default caching mechanism in .NET 7 looks interesting
 
     //Versioning (examine AccountController) (go to: Registration: VersioningRegistration)

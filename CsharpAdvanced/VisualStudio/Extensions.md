@@ -13,3 +13,4 @@
 - Output enhancer
 - CodeMaid
 - Show Selection Length
+- Auto Surround
