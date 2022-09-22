@@ -1,9 +1,14 @@
 ﻿using ASP.NETCoreWebAPI.Models;
-using ASP.NETCoreWebAPI.Services;
+using ASP.NETCoreWebAPI.PollyPolicies;
 using Microsoft.Net.Http.Headers;
+using Polly;
+using Polly.Registry;
 using Refit;
 
 namespace Microsoft.Extensions.DependencyInjection;
+
+//In order to apply Polly Polities on the client level, we add "Microsoft.Extensions.Http.Polly" NuGet Package
+//Then, after "AddHttpClient" we use one of the many possible method. My preferred way is to register policies from PolicyRegistry 
 
 public static class HttpClientRegistration
 {
@@ -20,6 +25,8 @@ public static class HttpClientRegistration
             //GitHub requires a user-agent
             client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "HttpClientFactory-Sample");
         });
+        //To bind the Polly Policy directly to the client we can use:
+            //.AddPolicyHandler((AsyncPolicy<HttpResponseMessage>)PollyRegistry.asyncRegistry["CircuitBreakerStrategy3"]);
 
         //We can also use a "typed" client (we would need to create a client class for it)
         //This approach would require us to inject the HttpClient (and if the services are matching this client will be obtained)
@@ -34,7 +41,7 @@ public static class HttpClientRegistration
         //    client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "HttpClientFactory-Sample");
         //});
 
-        //We need to Refit and Refit.HttpClientFactory for it to work
+        //We need to Refit and Refit.HttpClientFactory for this to work
         services
             .AddRefitClient<IGitHubApi>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri(config.GetValue<string>("GitHub:ApiBaseUrl")));

@@ -34,6 +34,7 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Polly.Registry;
 using Serilog;
 using Serilog.Events;
 using System.Reflection;

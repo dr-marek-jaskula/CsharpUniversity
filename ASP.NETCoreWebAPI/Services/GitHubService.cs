@@ -44,7 +44,6 @@ public class GitHubService : IGitHubService
 {
     //Best way to create a HttpCient. At first Clients need to be configured (Headers etc.) in Program.cs (after Polly registration)
     private readonly IHttpClientFactory _httpClientFactory;
-
     private readonly Random _random = new();
 
     public GitHubService(IHttpClientFactory httpClientFactory)
