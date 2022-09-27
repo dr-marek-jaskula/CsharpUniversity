@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="EF Core advance\Tracking.md" />
+    <None Remove="EF Core advance\Views.md" />
     <None Remove="EF Core basics\DefaultValue-ValueGenerated\DefaultValues.md" />
     <None Remove="EF Core basics\DefaultValue-ValueGenerated\ValueGenerated.md" />
     <None Remove="EF Core basics\DeleteWithoutQuerying.md" />
@@ -20,6 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="EF Core advance\Tracking.md" />
+    <Compile Include="EF Core advance\Views.md" />
     <Compile Include="EF Core basics\DefaultValue-ValueGenerated\DefaultValues.md" />
     <Compile Include="EF Core basics\DefaultValue-ValueGenerated\ValueGenerated.md" />
     <Compile Include="EF Core basics\DeleteWithoutQuerying.md" />
