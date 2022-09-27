@@ -8,11 +8,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="EF Core basics\DefaultValue-ValueGenerated\DefaultValues.md" />
+    <None Remove="EF Core basics\DefaultValue-ValueGenerated\ValueGenerated.md" />
     <None Remove="EF Core basics\DeleteWithoutQuerying.md" />
+    <None Remove="EF Core basics\Inheritance\EntityInheritance.md" />
+    <None Remove="EF Core basics\Migrations.md" />
+    <None Remove="EF Core basics\OnDeleteClient.md" />
+    <None Remove="EF Core basics\PrimaryKey.md" />
+    <None Remove="EF Core basics\QueryWithInclude.md" />
+    <None Remove="EF Core basics\RawSql.md" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="EF Core basics\DefaultValue-ValueGenerated\DefaultValues.md" />
+    <Compile Include="EF Core basics\DefaultValue-ValueGenerated\ValueGenerated.md" />
     <Compile Include="EF Core basics\DeleteWithoutQuerying.md" />
+    <Compile Include="EF Core basics\Inheritance\EntityInheritance.md" />
+    <Compile Include="EF Core basics\Migrations.md" />
+    <Compile Include="EF Core basics\OnDeleteClient.md" />
+    <Compile Include="EF Core basics\PrimaryKey.md" />
+    <Compile Include="EF Core basics\QueryWithInclude.md" />
+    <Compile Include="EF Core basics\RawSql.md" />
   </ItemGroup>
 
   <ItemGroup>
