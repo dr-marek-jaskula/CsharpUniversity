@@ -8,6 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="EF Core basics\DeleteWithoutQuerying.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="EF Core basics\DeleteWithoutQuerying.md" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.1" />
     <PackageReference Include="linq2db.EntityFrameworkCore" Version="6.8.0" />
