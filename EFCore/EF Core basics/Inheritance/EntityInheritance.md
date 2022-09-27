@@ -35,3 +35,5 @@ Example of Table-per-hierarchy in this project:
 ## Table-per-concrete-type
 
 In Table per Concrete type we use exactly one table for each nonabstract class. All properties of a class, including inherited properties, can be mapped to columns of this table.
+
+So the example of this approach from the database perspective is when we create to separate table, each containing some unique columns and some common columns.
