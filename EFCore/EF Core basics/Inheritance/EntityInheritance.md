@@ -4,7 +4,7 @@ There are three approaches for Code-First, when the inheritance occurs:
 
 - Table-per-type
 - Table-per-hierarchy
-- Table-per-Concrete-type
+- Table-per-concrete-type
 
 There is no best strategy that fits all scenarios. Each approach have their own advantages and disadvantages. Mainly we can following this guide:
 
@@ -14,7 +14,7 @@ There is no best strategy that fits all scenarios. Each approach have their own 
 
 A **polymorphic association** is an association to a base class, thus to all classes in the hierarchy with dynamic resolution of the concrete class at runtime.
 
-Comparison is done for "Table-per-hierarchy" vs "Table-per-type" approach at "Performance-comparison".
+Comparison is done for "Table-per-hierarchy" vs "Table-per-type" approaches in "Performance-comparison".
 
 ## Table-per-type
 
