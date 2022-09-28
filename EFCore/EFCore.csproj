@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="EF Core advance\IncludeWithExpression.md" />
+    <None Remove="EF Core advance\IndexesPerformance.md" />
+    <None Remove="EF Core advance\OwnedTypes.md" />
+    <None Remove="EF Core advance\QueryPerformance.md" />
+    <None Remove="EF Core advance\QueryTags.md" />
+    <None Remove="EF Core advance\ScaffoldExistingDatabase.md" />
     <None Remove="EF Core advance\Tracking.md" />
     <None Remove="EF Core advance\Views.md" />
     <None Remove="EF Core basics\DefaultValue-ValueGenerated\DefaultValues.md" />
@@ -22,6 +28,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="EF Core advance\IncludeWithExpression.md" />
+    <Compile Include="EF Core advance\IndexesPerformance.md" />
+    <Compile Include="EF Core advance\OwnedTypes.md" />
+    <Compile Include="EF Core advance\QueryPerformance.md" />
+    <Compile Include="EF Core advance\QueryTags.md" />
+    <Compile Include="EF Core advance\ScaffoldExistingDatabase.md" />
     <Compile Include="EF Core advance\Tracking.md" />
     <Compile Include="EF Core advance\Views.md" />
     <Compile Include="EF Core basics\DefaultValue-ValueGenerated\DefaultValues.md" />
