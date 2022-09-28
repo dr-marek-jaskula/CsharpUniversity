@@ -1,9 +1,8 @@
-﻿namespace EFCore.EF_Core_advance;
+﻿# NPlusOneProblem
 
-public class NPlusOneProblem
-{
-    /*
-    //n+1 problem with bad loops
+N+1 problem with bad loops:
+
+```csharp
 app.MapGet("NPlusOneProblemWithLooping", async (MyBoardsContext db) =>
 {
     var users = await db.Users
@@ -28,8 +27,10 @@ app.MapGet("NPlusOneProblemWithLooping", async (MyBoardsContext db) =>
         }
     }
 });
+```
+N+1 problem with Lazy Loading:
 
-//n+1 problem with Lazy Loading
+```csharp
 app.MapGet("NPlusOneProblemWithLazyLoading", async (MyBoardsContext db) =>
 {
     //Turn on Lazy Loading for this endpoint
@@ -52,5 +53,4 @@ app.MapGet("NPlusOneProblemWithLazyLoading", async (MyBoardsContext db) =>
     }
     //Therefore 1+n SELECT's will be executed
 });
-    */
-}
+```

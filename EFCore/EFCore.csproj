@@ -8,9 +8,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="EF Core advance\BulkInsert.md" />
+    <None Remove="EF Core advance\CancellationTokenInAsyncQueries.md" />
+    <None Remove="EF Core advance\CustomMigrations\BasicsOfCustomMigrations.md" />
+    <None Remove="EF Core advance\DatabaseFunctions.md" />
+    <None Remove="EF Core advance\ExplicitLoading.md" />
+    <None Remove="EF Core advance\GuidVsId.md" />
+    <None Remove="EF Core advance\ImplicitIncludes.md" />
     <None Remove="EF Core advance\IncludeWithExpression.md" />
     <None Remove="EF Core advance\IndexesPerformance.md" />
     <None Remove="EF Core advance\OwnedTypes.md" />
+    <None Remove="EF Core advance\Problems\BulkUpdateOrDelete.md" />
+    <None Remove="EF Core advance\Problems\NPlusOneProblem.md" />
+    <None Remove="EF Core advance\Problems\ToManyIncludeProblem.md" />
     <None Remove="EF Core advance\QueryPerformance.md" />
     <None Remove="EF Core advance\QueryTags.md" />
     <None Remove="EF Core advance\ScaffoldExistingDatabase.md" />
@@ -28,9 +38,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="EF Core advance\BulkInsert.md" />
+    <Compile Include="EF Core advance\CancellationTokenInAsyncQueries.md" />
+    <Compile Include="EF Core advance\CustomMigrations\BasicsOfCustomMigrations.md" />
+    <Compile Include="EF Core advance\DatabaseFunctions.md" />
+    <Compile Include="EF Core advance\ExplicitLoading.md" />
+    <Compile Include="EF Core advance\GuidVsId.md" />
+    <Compile Include="EF Core advance\ImplicitIncludes.md" />
     <Compile Include="EF Core advance\IncludeWithExpression.md" />
     <Compile Include="EF Core advance\IndexesPerformance.md" />
     <Compile Include="EF Core advance\OwnedTypes.md" />
+    <Compile Include="EF Core advance\BulkUpdateOrDelete.md" />
+    <Compile Include="EF Core advance\Problems\NPlusOneProblem.md" />
+    <Compile Include="EF Core advance\Problems\ToManyIncludeProblem.md" />
     <Compile Include="EF Core advance\QueryPerformance.md" />
     <Compile Include="EF Core advance\QueryTags.md" />
     <Compile Include="EF Core advance\ScaffoldExistingDatabase.md" />
