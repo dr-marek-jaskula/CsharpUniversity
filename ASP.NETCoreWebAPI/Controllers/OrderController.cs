@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NETCoreWebAPI.Controllers;
 
-//0. Authorization constants (like policy names and claim names I have moved to the "AuthorizationPolicyStaticClasses" for code clarity)
+//0. Authorization constants (like policy names or claim names, were moved to the "AuthorizationPolicyStaticClasses" for code clarity)
 
 //1. Authorization is done by jwt token
 //2. Registered user needs to log in by: "Account/login" and send in the request body the email and password (specified in LoginDto)
@@ -16,9 +16,9 @@ namespace ASP.NETCoreWebAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-//To use this controller Authorization is required unless "AllowAnonymous" attribute is specified
+//To use this, controller Authorization is required, unless "AllowAnonymous" attribute is specified
 [Authorize]
-//This attribute will be shown in the swagger - responses are in "application/json" format
+//This attribute will be shown in the swagger: responses are in "application/json" format
 [Produces("application/json")]
 public class OrderController : ControllerBase
 {
@@ -81,11 +81,11 @@ public class OrderController : ControllerBase
     }
 
     //Authorization is required even it is not specified on the action level - it is specified on the controller level
-    //BulkUpdate with "linq2db.EntityFrameworkCore" (updating many record with one statement, which cannot be done by simple linq -> only raw sql or this package)
+    //BulkUpdate with "linq2db.EntityFrameworkCore" (updating many records with one statement, which cannot be done by simple linq -> only raw sql or this package)
     [HttpPatch("{addAmount}")]
     public ActionResult BulkUpdate([FromRoute] int addAmount)
     {
-        //We can also create bulk deletes
+        //We can also create bulk deletes or bulk inserts (called bulk copy)
         _orderService.BulkUpdate(addAmount);
         return NoContent();
     }
@@ -96,7 +96,7 @@ public class OrderController : ControllerBase
         return Created($"/api/order/{2}", null);
     }
 
-    //There is another, dynamic policy here: ResourceOperationRequirementHandler: if the resource was created by the user, then user can modify it, otherwise it is forbidden for user
+    //There is another, dynamic policy here: ResourceOperationRequirementHandler: if the resource was created by the user, then user can modify it, otherwise it is forbidden for the user
     [HttpPut("{id}")]
     //Authorization is required: based on the requirements that are needed to be satisfied
     [Authorize(Policy = MyAuthorizationPolicy.CreateAtLeastTwoOrders)]
@@ -109,7 +109,7 @@ public class OrderController : ControllerBase
 
     //Pagination region
 
-    //filtering is done on the name that is specified by the request parameter
+    //filtering is done using the name that is specified by the request parameter
     [HttpGet("{name}", Name = "GetOrderByName")]
     [AllowAnonymous]
     public async Task<ActionResult<OrderDto>> GetByName([FromRoute] string name)

@@ -10,7 +10,7 @@ namespace ASP.NETCoreWebAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-//This attribute will be shown in the swagger - responses are in "application/json" format
+//This attribute will be shown in the swagger: responses are in "application/json" format
 [Produces("application/json")]
 [AllowAnonymous]
 public class SwaggerController : ControllerBase
@@ -116,7 +116,7 @@ public class SwaggerController : ControllerBase
     /// <response code="200">Address found</response>
     /// <response code="404">Address **not** found</response>
     [HttpGet("{id}")]
-    //For swagger response to work this "ProdusesResponseType" is required
+    //"ProdusesResponseType" is required for swagger response
     [ProducesResponseType(typeof(AddressDto), 200)]
     [ProducesResponseType(typeof(ProblemDetails), 404)]
     public ActionResult<AddressDto> GetAddress([FromRoute] int id)
