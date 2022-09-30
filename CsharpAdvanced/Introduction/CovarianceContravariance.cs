@@ -1,5 +1,4 @@
-﻿using CsharpAdvanced.Attributes;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace CsharpAdvanced.Introduction;
 
@@ -58,7 +57,7 @@ public class CovarianceContravariance
         istr.SetCw("Hello");
         istr.GetCw();
 
-        // Ccan assign iobj to istr because the IContravariant interface is contravariant.
+        // Can assign iobj to istr because the IContravariant interface is contravariant.
         istr = iobj;
         istr.GetCw();
     }

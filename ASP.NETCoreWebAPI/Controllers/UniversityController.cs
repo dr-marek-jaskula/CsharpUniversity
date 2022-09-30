@@ -8,14 +8,14 @@ using ResolvingDeps.WebApi.Attributes;
 
 namespace ASP.NETCoreWebAPI.Controllers;
 
-//Inform program that this is a ApiController (can done globally for all controller but it is a bit uncomfortable)
+//This attribute informs program that this is a api controller (can be done globally for all controllers, but it is a bit uncomfortable)
 [ApiController]
 //Specify the controller route (url path)
-//[controller] mens that this will accept "University" and "university" in the route
+//[controller] means that this will accept "University" or "university" in the route
 [Route("api/[controller]")]
 public class UniversityController : ControllerBase
 {
-    //Here inject services, like logger, automapper and other. Examine other controllers to study this
+    //Here inject services, like logger or automapper. Examine other controllers to study this topic
     public UniversityController()
     {
     }
@@ -45,7 +45,7 @@ public class UniversityController : ControllerBase
         return Ok();
     }
 
-    //Determine what request is binded to this action. We can specify the route in the Http attribute, but its better to do this in a Route attribute
+    //Determine which request is binded to this action. We can specify a route in the Http attribute, but its better to do this in a Route attribute
     [HttpGet]
     //It is possible to have two different routs that leads to the same action
     [Route("firstRoute")] // https://localhost:7240/api/Order/firstRoute
@@ -54,14 +54,14 @@ public class UniversityController : ControllerBase
     [Route("[action]")] // https://localhost:7240/api/Order/TripleRouts
     public ActionResult TripleRouts()
     {
-        //ActionResult return nothing but StatusCode
+        //ActionResult returns nothing but StatusCode
         //Status code Ok is 200
         return Ok();
     }
 
     [HttpGet]
     //We could define the conditions inside the route:
-    //The id needs to be integer and not less than 1
+    //Id needs to be an integer that is not less than 1
     //Else, the 404 error will be returned
     [Route("minimalId/{id:int:min(1)}")]
     [AllowAnonymous]
@@ -70,10 +70,9 @@ public class UniversityController : ControllerBase
         return NotFound();
     }
 
-    //As an return value we can specify ActionResult or IActionResult
+    //For the return value we can specify ActionResult or IActionResult
 
     //We can give route a name. Two times writing [HttpGet] is due to the Swagger issue.
-
     [HttpGet]
     [HttpGet("bestRoute", Name = "NamedRoute")]
     //We can give route a name in standard way
@@ -82,12 +81,12 @@ public class UniversityController : ControllerBase
     [Route("Home", Order = 2)]
     public ActionResult NamedRoutsAndOrderHierarchy()
     {
-        //The Name property can be used for easier urls generating to certain action
+        //The Name property can be used to easily get urls to certain action
         //For this particular one it would be:
-        //string url = urlHelper.Link("NamedRoute", new { id = 5, query = "test" }); //this new { id = 5, query = "test" } is for tutorial values, but not for this action because it has no parameters
+        //string url = urlHelper.Link("NamedRoute", new { id = 5, query = "test" }); //this new { id = 5, query = "test" } is for tutorial values, but not for this action, because it has no parameters
         //or if there is no urlHelper.
         //Url.Link("NamedRoute", null);
-        //The second parameter is the action values
+        //The second parameter is the object with action values
         return Ok();
     }
 
@@ -161,7 +160,7 @@ public class UniversityController : ControllerBase
     //7. FromServices
     [HttpGet]
     [Route("injectServiceIntoAction")]
-    //In some very rare cases we could inject the service directly to the method (mb for testing purposes).
+    //In some very rare cases we could inject the service directly to the method (for instance for testing purposes).
     //It is uncommon to encounter
     //[FromServices] is required to tell that the dependency should be taken from the DI Container
     public ActionResult InjectToAction([FromServices] ILogger<UniversityController> logger)
@@ -186,7 +185,7 @@ public class UniversityController : ControllerBase
         return Ok("This is ignored by swagger, but it is still a valid endpoint");
     }
 
-    //Bad approach, because is hard to test (use the one below, but in some super rare cases we can use it like that)
+    //Bad approach, because it is hard to test (use the one below this action, but in some super rare cases we can use it like this)
     [HttpGet]
     [Route("actionWithAttrubute")]
     [DurationLogger]
@@ -202,7 +201,7 @@ public class UniversityController : ControllerBase
     [ServiceFilter(typeof(DurationLoggerFilter))]
     public ActionResult InjectDependencyIntoFilter()
     {
-        return Ok("Use is in most cases if need functionality like in a action above.");
+        return Ok("Use it in most cases if you need functionality like in a action above.");
     }
 
     //Action with NameRoutingMiddleware (read-write Http context)
@@ -213,8 +212,8 @@ public class UniversityController : ControllerBase
         return Ok("Route: actionWithNameRouting/2 was be renamed to actionWithNameRouting/1");
     }
 
-    //Actions with same name but they will be called if the "accept" header matches 
-    //They crash swagger, and currently there are is no known solution for this problem.
+    //Actions with same name, but they will be called respectively if the "accept" header matches 
+    //They crash swagger and currently there is no known solution for this problem.
     //Therefore, this code is commented (one will be left to see the usability)
     [HttpGet]
     [Route("sameRoute")]
