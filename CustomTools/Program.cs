@@ -14,3 +14,10 @@ var cod = System.IO.Path.GetInvalidPathChars();
 FilePath x = System.IO.Path.GetFullPath(@"C:\CsharpUniversi:ty\CustomTools\Program.cs");
 
 Console.WriteLine();
+
+foreach (var i in 5..10)
+{
+    Console.WriteLine(i);
+}
+
+Console.WriteLine();

@@ -28,4 +28,8 @@
     <ProjectReference Include="..\EFCore\EFCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include=".NET 7, csharp 11\" />
+  </ItemGroup>
+
 </Project>
