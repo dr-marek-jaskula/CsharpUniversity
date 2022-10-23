@@ -37,7 +37,7 @@ As a consequence, the tracked entity is stored twice:
 This can be a significant performance issue in some situation. To solve this problem the "AsNoTracking" method was introduced. This method results in not tracking the entity.
 Nevertheless, we should use it only when queried entities as meant to be readonly, or the modifications should not be reflected in the database.
 
-No the general advice is to use "AsNoTracking" wherever we can.
+So the general advice is to use "AsNoTracking" wherever we can.
 
 Example: 
 ```csharp
@@ -64,3 +64,24 @@ We can also disable change tracking mechanism on the whole dbContext by:
 ```csharp
 context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 ```
+
+## AsNoTrackingWithIdentityResolution
+
+Consider the following case:
+
+```csharp
+var users = await _dbContext.Users.AsNoTracking()
+                       .Include(a => a.Role).ToListAsync();
+```
+
+In this case, Entity Framework Core creates a role for each user. 
+However several users may have a common role, so the Role entity can be used for multiple users.
+
+To solve this problem we can use:
+
+```csharp
+var users = await _dbContext.Users.AsNoTrackingWithIdentityResolution()
+                       .Include(a => a.Role).ToListAsync();
+```
+
+Now data is received in the form of AsNoTracking and also all users, who have a common role, point to this role.

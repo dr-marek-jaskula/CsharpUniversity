@@ -43,7 +43,7 @@ var dollsAndTablesBadExample = _context.Products.Where(p => p.Name == "Doll" || 
 var dollsAndTablesPricesGoodExample = _context.Products.Where(p => p.Name == "Doll" || p.Name == "Table").Select(p => p.Price).ToList();
 ```
 
-## 3. Add AsNoTracking if possible 
+## 3. Add AsNoTracking if possible (or AsNoTrackingWithIdentityResolution)
 
 See file "Tracking.md".
 
