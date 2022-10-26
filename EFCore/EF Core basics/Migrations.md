@@ -7,7 +7,7 @@ Based on the models and database context, migration creates the code that will m
 To create migrations we write
 
 ```cmd
-dotnet ef migrations <migration_name>
+dotnet ef migrations add <migration_name>
 ```
 
 This will create two (auto-generated) files:
