@@ -2,7 +2,7 @@
 
 Query Filters are filters that are set by default. 
 
-Query Filter are defined for specific entities and thay are configured in Configuration class by the use of 
+Query Filter are defined for specific entities and they are configured in Configuration class by the use of 
 ```csharp
 HasQueryFilter
 ```
@@ -56,3 +56,13 @@ However, if do not want to use a QueryFilter in a specific query, then we can do
 ```csharp
 IgnoreQueryFilters()
 ```
+
+## Configuring multiple Query Filters
+
+Configuring multiple query filters on the same entity will only apply the last one. If we need more than one condition, we can do that with the logical AND operator (&&).
+
+## Ignoring specific Query Filters
+
+If you need to ignore a specific expression in a Query Filter and leave the rest in place, unfortunately, you can't do that. Only one Query Filter is allowed per entity type.
+
+One solution is calling IgnoreQueryFilters, which will remove the configured Query Filter for that entity type. And then manually apply the condition that you need for that specific query.
