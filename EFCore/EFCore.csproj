@@ -21,6 +21,7 @@
     <None Remove="EF Core advance\Problems\BulkUpdateOrDelete.md" />
     <None Remove="EF Core advance\Problems\NPlusOneProblem.md" />
     <None Remove="EF Core advance\Problems\ToManyIncludeProblem.md" />
+    <None Remove="EF Core advance\QueryFilters.md" />
     <None Remove="EF Core advance\QueryPerformance.md" />
     <None Remove="EF Core advance\QueryTags.md" />
     <None Remove="EF Core advance\ScaffoldExistingDatabase.md" />
@@ -51,6 +52,7 @@
     <Compile Include="EF Core advance\BulkUpdateOrDelete.md" />
     <Compile Include="EF Core advance\Problems\NPlusOneProblem.md" />
     <Compile Include="EF Core advance\Problems\ToManyIncludeProblem.md" />
+    <Compile Include="EF Core advance\QueryFilters.md" />
     <Compile Include="EF Core advance\QueryPerformance.md" />
     <Compile Include="EF Core advance\QueryTags.md" />
     <Compile Include="EF Core advance\ScaffoldExistingDatabase.md" />

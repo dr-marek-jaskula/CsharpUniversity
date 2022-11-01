@@ -1,4 +1,6 @@
-﻿Seq can run on other computer just for logging analysis
+﻿# Seq
+
+Seq can run on other computer just for logging analysis
 Seq can be found at the address specified in the appsettings.json
 
 To filter results in the seq we can write:
@@ -19,7 +21,9 @@ RequestId = "0HMGVG1VL51GU:00000017"
 Other filtering 
 id = 43
 
+```json
 {
     "Name": "Seq",
     "Args": { "serverUrl": "http://localhost:5341" } //use seq for logging (username: admin, password: serilog123SEQ)
 }
+```
