@@ -42,7 +42,7 @@ public interface IOrderService
 
 public class OrderService : IOrderService
 {
-    private readonly MyDbContext _dbContex;
+    private readonly MyDbContext _dbContext;
     private readonly IMapper _mapper;
 
     //SymSpells contain dictionary with at least key "en" with SymSpell instance with English frequency dictionary. After the first use of "GetByName" action, the "Products" key will be added and used
@@ -56,7 +56,7 @@ public class OrderService : IOrderService
 
     public OrderService(MyDbContext dbContex, IMapper mapper, ILogger<OrderService> logger, IAuthorizationService authorizationService, IUserContextService userContextService, SymSpells symSpells)
     {
-        _dbContex = dbContex;
+        _dbContext = dbContex;
         _mapper = mapper;
         _authorizationService = authorizationService;
         _userContextService = userContextService;
@@ -65,7 +65,7 @@ public class OrderService : IOrderService
 
     public OrderDto GetById(int id)
     {
-        var order = _dbContex.Orders
+        var order = _dbContext.Orders
             .Find(id);
             //With eager loading this would look like:
             //.Include(o => o.Product)
@@ -79,14 +79,14 @@ public class OrderService : IOrderService
             throw new NotFoundException("Order not found");
 
         //Explicit loading (so explicitly determined lazy loading)
-        _dbContex.Entry(order).Reference(o => o.Product).Query()
+        _dbContext.Entry(order).Reference(o => o.Product).Query()
             .Include(p => p.Shops)
             .Include(p => p.Tags)
             //Splitting queries can be used to avoid the cartesian explosion problem. Nevertheless, in this case it decreases the performance (k6 load testing)
             //.AsSplitQuery() 
             .Load();
 
-        _dbContex.Entry(order).Reference(o => o.Payment).Query()
+        _dbContext.Entry(order).Reference(o => o.Payment).Query()
             //In this case it decreases the performance. 
             //.AsSplitQuery()
             .Load();
@@ -105,14 +105,14 @@ public class OrderService : IOrderService
             throw new ForbidException("Unauthorized user");
 
         //Explicit loading and Find method
-        var order = _dbContex.Orders
+        var order = _dbContext.Orders
             .Find(id);
 
         if (order is null)
             throw new NotFoundException("Order not found");
 
-        _dbContex.Entry(order).Reference(o => o.Product).Query().Load();
-        _dbContex.Entry(order).Reference(o => o.Payment).Query().Load();
+        _dbContext.Entry(order).Reference(o => o.Product).Query().Load();
+        _dbContext.Entry(order).Reference(o => o.Payment).Query().Load();
 
         //If the employee is a manager, then return success, else fail the authorization
         var authorizationResult = await _authorizationService.AuthorizeAsync(user, order, new ResourceOperationRequirement(ResourceOperation.Update));
@@ -126,7 +126,7 @@ public class OrderService : IOrderService
         if (dto.ProductId is not null)
             order.ProductId = dto.ProductId;
 
-        _dbContex.SaveChanges();
+        _dbContext.SaveChanges();
     }
 
     //Filtering and Pagination with async programming
@@ -155,7 +155,7 @@ public class OrderService : IOrderService
 
         return await pollyPolicy.ExecuteAsync(async context =>
         {
-            var order = await _dbContex.Orders
+            var order = await _dbContext.Orders
                   .AsNoTracking() //to improve performance, because they are read only
                   .Include(o => o.Payment)
                   .Include(o => o.Product)
@@ -177,7 +177,7 @@ public class OrderService : IOrderService
 
         return await pollyPolicy.ExecuteAsync(async context =>
         {
-            var baseQuery = _dbContex.Orders
+            var baseQuery = _dbContext.Orders
                   .AsNoTracking()
                   .Include(o => o.Payment)
                   .Include(o => o.Product)
@@ -231,7 +231,7 @@ public class OrderService : IOrderService
 
     private List<string> GetAllUniqueProductNames()
     {
-        return _dbContex.Products
+        return _dbContext.Products
             .AsNoTracking()
             .Select(p => p.Name)
             .Distinct()
@@ -250,13 +250,13 @@ public class OrderService : IOrderService
         //At first we create a new Order with an id given by the user
         var orderToDelete = new Order() { Id = id };
         //Then we Attach this instance to the ChangeTracker and get the entry from it
-        var entry = _dbContex.Orders.Attach(orderToDelete);
+        var entry = _dbContext.Orders.Attach(orderToDelete);
         //Next we change the entry status to "Delete"
         entry.State = EntityState.Deleted;
         //Finally we save changes
         try
         {
-            _dbContex.SaveChanges();
+            _dbContext.SaveChanges();
         }
         catch
         {
@@ -269,7 +269,7 @@ public class OrderService : IOrderService
     {
         //1) Install NuGet Package "linq2db.EntityFrameworkCore"
         //2) Make IQueryable
-        var orders = _dbContex.Orders
+        var orders = _dbContext.Orders
             //.AsQueryable() //If no filters or other, just use "AsQueryable"
             .Where(o => o.Status == Status.InProgress);
 
@@ -304,7 +304,7 @@ public class OrderService : IOrderService
             TableName = "Address"
         };
 
-        await _dbContex.BulkCopyAsync(options, addresses);
+        await _dbContext.BulkCopyAsync(options, addresses);
     }
 
     //This is very important to pass to all async method like "ToListAsync" the cancellation token
@@ -313,7 +313,7 @@ public class OrderService : IOrderService
     public async Task<List<Order>> GetOrdersWithCancellationToken(CancellationToken token)
     {
         //It is very important to pass the token
-        return await _dbContex.Orders
+        return await _dbContext.Orders
             .ToListAsync(token);
     }
 
