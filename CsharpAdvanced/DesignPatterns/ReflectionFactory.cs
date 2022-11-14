@@ -10,22 +10,22 @@ public class ReflectionFactoryCustomPatternExample
         ReflectionShapeFactory reflectionShapeFactory = new();
 
         //Supported type
-        var circle = reflectionShapeFactory.CreateShape(typeof(ReflectionCircle));
+        var circle = reflectionShapeFactory.CreateShape<ReflectionCircle>();
         circle.Render();
 
         //Supported type, created after the factory was finished
-        var trapez = reflectionShapeFactory.CreateShape(typeof(ReflectionTrapezoid));
+        var trapez = reflectionShapeFactory.CreateShape<ReflectionTrapezoid>();
         trapez.Render();
 
         //Unsupported type
-        var ufo = reflectionShapeFactory.CreateShape(typeof(Object));
+        var ufo = reflectionShapeFactory.CreateShape<Object>();
         ufo.Render();
     }
 }
 
 internal class ReflectionShapeFactory
 {
-    private List<Type> _types = new();
+    private readonly List<Type> _types = new();
 
     public ReflectionShapeFactory()
     {
@@ -35,16 +35,18 @@ internal class ReflectionShapeFactory
         _types.AddRange(assembly.GetTypes().Where(type => type.BaseType == typeof(ReflectionShape)));
     }
 
-    public ReflectionShape CreateShape(Type type)
+    public ReflectionShape CreateShape<T>()
     {
-        if (_types.Contains(type))
-            return (ReflectionShape)Activator.CreateInstance(type)!;
+        if (_types.Contains(typeof(T)))
+        {
+            return (ReflectionShape)Activator.CreateInstance(typeof(T))!;
+        }
 
         //If the there is for example an additional constructor with 1 parameter:
         //var parameterlessConstructor = type.GetConstructors().SingleOrDefault(c => c.GetParameters().Length == 0);
         //return parameterlessConstructor is not null ? Activator.CreateInstance(type) : Activator.CreateInstance(type, param1);
 
-        throw new ArgumentException($"Invalid input of {MethodBase.GetCurrentMethod()!.Name}. \"{type.Name}\" type is not supported. Please choose one of supported types: {string.Join(", ", _types.Select(t => t.Name))}.");
+        throw new ArgumentException($"Invalid input of {MethodBase.GetCurrentMethod()!.Name}. \"{typeof(T).Name}\" type is not supported. Please choose one of supported types: {string.Join(", ", _types.Select(t => t.Name))}.");
     }
 }
 
