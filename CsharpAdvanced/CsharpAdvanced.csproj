@@ -12,7 +12,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include=".NET 7, csharp 11\AutoDefaultStruct.cs" />
+    <Compile Include=".NET 7, csharp 11\ExtendedNameOf.cs" />
+    <Compile Include=".NET 7, csharp 11\FileScopedTypes.cs" />
+    <Compile Include=".NET 7, csharp 11\GenericAttirbutes.cs" />
+    <Compile Include=".NET 7, csharp 11\GenericMaths.cs" />
+    <Compile Include=".NET 7, csharp 11\ListPatterns.cs" />
+    <Compile Include=".NET 7, csharp 11\PatternMatchSpan.cs" />
     <Compile Include=".NET 7, csharp 11\RawStringLiterals.cs" />
+    <Compile Include=".NET 7, csharp 11\RequiredMembers.cs" />
+    <Compile Include=".NET 7, csharp 11\StringInterpolatedNewLine.cs" />
+    <Compile Include=".NET 7, csharp 11\Utf8StringLiterals.cs" />
     <Compile Include="VisualStudio\CustomConfiguration.md" />
   </ItemGroup>
 
