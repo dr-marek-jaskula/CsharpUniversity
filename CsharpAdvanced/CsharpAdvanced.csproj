@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include=".NET 7, csharp 11\RawStringLiterals.cs" />
     <Compile Include="VisualStudio\CustomConfiguration.md" />
   </ItemGroup>
 
@@ -26,10 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EFCore\EFCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include=".NET 7, csharp 11\" />
   </ItemGroup>
 
 </Project>
