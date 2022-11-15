@@ -121,7 +121,7 @@ internal class Heat
 
 internal class Clothes
 {
-    public string MyClothes { get; set; } = "T-shirt";
+    public string MyClothes { get; set; } = "TShape-shirt";
 }
 
 internal class MonthRunning
