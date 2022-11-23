@@ -307,6 +307,31 @@ public class OrderService : IOrderService
         await _dbContext.BulkCopyAsync(options, addresses);
     }
 
+    #region .Net 7 BulUpdate and BulkDelete
+
+    //Bulk Update by .Net 7 
+    //IMPORTANT: when using ExecuteUpdateAsync the change tracked does not track the update changes
+    public void BulkUpdateDotNet7(int addAmount)
+    {
+        //The SaveChangesAsync is executed when ExecuteUpdateAsync is called
+        var orders = _dbContext.Orders
+            .Where(o => o.Status == Status.InProgress)
+            .ExecuteUpdateAsync(
+                o => o.SetProperty(p => p.Amount, p => p.Amount + addAmount));
+    }
+
+    //Delete a record or records without querying it with .NET 7
+    //IMPORTANT: when using ExecuteDeleteAsync the change tracked does not track the update changes
+    public async void BulkDeleteWithoutQueryingWithDotNet7(int id)
+    {
+        //The SaveChangesAsync is executed when ExecuteUpdateAsync is called
+        await _dbContext.Orders
+            .Where(o => o.Id == id)
+            .ExecuteDeleteAsync();
+    }
+
+    #endregion
+
     //This is very important to pass to all async method like "ToListAsync" the cancellation token
     //Then, the query will be stopped also on the database side and not only on the client side
     //The async methods should be only used (for tutorial purpose they are not use everywhere), so cancellation token should be everywhere

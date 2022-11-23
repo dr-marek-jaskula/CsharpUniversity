@@ -45,3 +45,34 @@ app.MapPut("bulkUpdateLinq2db", async (NorthwindContext db) =>
     //Just one command will be used
 });
 ```
+
+BulkUpdate by .NET 7
+The implementation of Bulk Update -> OrderService -> BulkUpdateDotNet7
+
+```csharp
+//Bulk Update by .Net 7 
+//IMPORTANT: when using ExecuteUpdateAsync the change tracked does not track the update changes
+public void BulkUpdateDotNet7(int addAmount)
+{
+    //The SaveChangesAsync is executed when ExecuteUpdateAsync is called
+    var orders = _dbContext.Orders
+        .Where(o => o.Status == Status.InProgress)
+        .ExecuteUpdateAsync(
+            o => o.SetProperty(p => p.Amount, p => p.Amount + addAmount));
+}
+```
+
+BulkDelete with .NET 7
+The implementation of Bulk Update -> OrderService -> BulkDeleteWithoutQueryingDotNet7
+
+```csharp
+//Delete a record or records without querying it with .NET 7
+//IMPORTANT: when using ExecuteDeleteAsync the change tracked does not track the update changes
+public async void BulkDeleteWithoutQueryingDotNet7(int id)
+{
+    //The SaveChangesAsync is executed when ExecuteUpdateAsync is called
+    await _dbContext.Orders
+        .Where(o => o.Id == id)
+        .ExecuteDeleteAsync();
+}
+```
