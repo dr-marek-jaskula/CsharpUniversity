@@ -8,7 +8,6 @@ public static class RangeExtensions
     }
 }
 
-//Use class instead of ref struct if looping in async methods is required
 public record RangeEnumerator
 {
     private int _current;
