@@ -1,29 +1,24 @@
 ﻿namespace CustomTools;
 
-public static class Extensions
+public static class RangeExtensions
 {
-    public static CustomIntEnumerator GetEnumerator(this Range range)
+    public static RangeEnumerator GetEnumerator(this Range range)
     {
-        return new CustomIntEnumerator(range);
-    }
-
-    public static CustomIntEnumerator GetEnumerator(this int number)
-    {
-        return new CustomIntEnumerator(new Range(0, number));
+        return new RangeEnumerator(range);
     }
 }
 
 //Use class instead of ref struct if looping in async methods is required
-public ref struct CustomIntEnumerator
+public record RangeEnumerator
 {
     private int _current;
     private readonly int _end;
 
-    public CustomIntEnumerator(Range range)
+    public RangeEnumerator(Range range)
     {
         if (range.End.IsFromEnd)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException("Infinite enumeration is not supported");
         }
 
         _current = range.Start.Value - 1;
