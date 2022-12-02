@@ -17,7 +17,7 @@ public record RangeEnumerator
     {
         if (range.End.IsFromEnd)
         {
-            throw new NotSupportedException("Infinite enumeration is not supported");
+            throw new NotSupportedException("Undefined enumeration is not supported");
         }
 
         _current = range.Start.Value - 1;
