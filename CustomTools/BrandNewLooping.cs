@@ -13,6 +13,7 @@ public static class Extensions
     }
 }
 
+//Use class instead of ref struct if looping in async methods is required
 public ref struct CustomIntEnumerator
 {
     private int _current;

@@ -322,7 +322,7 @@ public class OrderService : IOrderService
 
     //Delete a record or records without querying it with .NET 7
     //IMPORTANT: when using ExecuteDeleteAsync the change tracked does not track the update changes
-    public async void BulkDeleteWithoutQueryingWithDotNet7(int id)
+    public async void BulkDeleteWithoutQueryingDotNet7(int id)
     {
         //The SaveChangesAsync is executed when ExecuteUpdateAsync is called
         await _dbContext.Orders
