@@ -1,4 +1,4 @@
-﻿using CustomTools.Random;
+﻿using CustomTools.Utilities;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Serialization;
@@ -25,7 +25,7 @@ public class RSA
         Console.WriteLine(privateKeyString);
         Console.WriteLine("-------------------------------------------");
 
-        string textToEncrypt = CustomRandom.GenerateTestString();
+        string textToEncrypt = RandomUtility.GenerateTestString();
         Console.WriteLine("Plain Text: ");
         Console.WriteLine(textToEncrypt);
         Console.WriteLine("-------------------------------------------");

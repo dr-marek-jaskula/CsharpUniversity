@@ -99,7 +99,7 @@ public virtual List<Book> Books
     set => _books = value;
 }
 ```
-Lazy Loading is dangerous and it is better to avoid it in Entity Framewrok Core
+Lazy Loading is dangerous and it is better to avoid it in Entity Framework Core
 
 - ExplicitLoading was be used instead (an explicit Lazy Loading) 
 The example usage was presented in OrderService, GetById action. 

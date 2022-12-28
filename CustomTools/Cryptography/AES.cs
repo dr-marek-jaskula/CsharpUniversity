@@ -1,4 +1,4 @@
-﻿using CustomTools.Random;
+﻿using CustomTools.Utilities;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -8,13 +8,13 @@ public class AES
 {
     public static void InvokeAESExample()
     {
-        var key = CustomRandom.GetRandomData(256 / 8);
+        var key = RandomUtility.GetRandomData(256 / 8);
 
         Console.WriteLine("Symmetric key: ");
         Console.WriteLine(string.Join(", ", key));
         Console.WriteLine("-------------------------------------------");
 
-        string textToEncrypt = CustomRandom.GenerateTestString();
+        string textToEncrypt = RandomUtility.GenerateTestString();
         Console.WriteLine("Plain Text: ");
         Console.WriteLine(textToEncrypt);
         Console.WriteLine("-------------------------------------------");

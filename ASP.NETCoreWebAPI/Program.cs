@@ -86,6 +86,12 @@ try
 
     //We register "ServiceDescriptors": plans how the services should be resolve (we can also remove services, for example to decorate then and register again)
 
+    //There is a bit cleaner way to register dependencies then they way presented below:
+    //1. reach extension method in "Registration" folder should return services (IServiceCollection)
+    //2. use the returned services to chain the registration
+    //It is not used, because of tutorial purposes (to describe the steps in a clean way)
+    //It is presented in "DomainDrivenDesignUniversity" solution
+
     //Authentication settings (go to: Registration: AuthenticationRegistration)
     builder.Services.RegisterAuthentication(builder.Configuration.ConfigureAuthentication());
 
