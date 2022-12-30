@@ -4,6 +4,28 @@ namespace CustomTools.Utilities;
 
 public static class DateTimeOffsetUtility
 {
+    public static bool Between(this DateTimeOffset dateTime, DateTimeOffset start, DateTimeOffset end)
+    {
+        return dateTime.Ticks >= start.Ticks && dateTime.Ticks <= end.Ticks;
+    }
+
+    public static bool IsWorkingDay(this DateTimeOffset dateTime)
+    {
+        return dateTime.DayOfWeek is not DayOfWeek.Saturday && dateTime.DayOfWeek is not DayOfWeek.Sunday;
+    }
+
+    public static DateTimeOffset NextWorkday(this DateTimeOffset dateTime)
+    {
+        var nextDay = dateTime;
+
+        while (nextDay.IsWorkingDay() is false)
+        {
+            nextDay = nextDay.AddDays(1);
+        }
+
+        return nextDay;
+    }
+
     public static string ToIsoString(this DateTimeOffset dateTimeOffset)
     {
         return dateTimeOffset.ToString("yyyy--MM-ddTHH:mm:sszzz"); //2022-06-13T09:18:27+00:00

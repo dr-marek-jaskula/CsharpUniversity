@@ -7,11 +7,16 @@ namespace CustomTools.Utilities;
 
 public static class StringUtility
 {
-    private const string InitialGroup = "Initial";
-    private const string RemainderGroup = "Remainder";
+    private const string _initialGroup = "Initial";
+    private const string _remainderGroup = "Remainder";
 
-    private const string PropertyNamePattern = $"^(?<{InitialGroup}>[A-Z])(?<{RemainderGroup}>[A-Za-z0-9]*)$";
-    private static readonly Regex _propertyNameRegex = new(PropertyNamePattern, Compiled | CultureInvariant | Singleline);
+    private const string _propertyNamePattern = $"^(?<{_initialGroup}>[A-Z])(?<{_remainderGroup}>[A-Za-z0-9]*)$";
+    private static readonly Regex _propertyNameRegex = new(_propertyNamePattern, Compiled | CultureInvariant | Singleline);
+
+    public static string Join(this IEnumerable<string> sequence, string separator = "")
+    {
+        return string.Join(separator, sequence);
+    }
 
     /// <summary>
     /// Capitalizes the given string input. First letter will be capitalized and the following ones will be lowered.
@@ -49,7 +54,7 @@ public static class StringUtility
 
         if (match.Success)
         {
-            return $"{match.GroupValue(InitialGroup).ToUpperInvariant()}{match.GroupValue(RemainderGroup)}";
+            return $"{match.GroupValue(_initialGroup).ToUpperInvariant()}{match.GroupValue(_remainderGroup)}";
         }
         
         throw new ArgumentException($"Invalid argument: '{input}'", nameof(input));

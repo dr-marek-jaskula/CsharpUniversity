@@ -8,8 +8,8 @@ namespace CustomTools.Utilities;
 
 public static class RandomUtility
 {
-    private const string Base64NonAlpaNumbericCharactersPattern = "(?:[/+=]+)";
-    private static readonly Regex Base64NonAlphaNumbericCharacterRegex = new(Base64NonAlpaNumbericCharactersPattern, Compiled | CultureInvariant | Singleline);
+    private const string _base64NonAlpaNumbericCharactersPattern = "(?:[/+=]+)";
+    private static readonly Regex _base64NonAlphaNumbericCharacterRegex = new(_base64NonAlpaNumbericCharactersPattern, Compiled | CultureInvariant | Singleline);
 
     public static string GenerateString(int length)
     {
@@ -31,14 +31,14 @@ public static class RandomUtility
             var bytes = new byte[length];
             generator.GetBytes(bytes);
             string base64 = ToBase64String(bytes);
-            string stripped = Base64NonAlphaNumbericCharacterRegex.Replace(base64, string.Empty);
+            string stripped = _base64NonAlphaNumbericCharacterRegex.Replace(base64, string.Empty);
             builder.Append(stripped);
         }
     }
 
     public static IEnumerable<string> GenerateStrings(int length, int count)
     {
-        foreach (var index in 1..count)
+        for (int index = 0; index < count; index++)
         {
             yield return GenerateString(length);
         }
