@@ -35,7 +35,7 @@ public static class StringUtility
 
     public static IEnumerable<string> Sequence(int length, int quantity)
     {
-        for (int current = 1; current <= quantity, current++)
+        for (int current = 1; current <= quantity; current++)
         {
             string format = $$"""{0:D{{length}}}""";
             string value = string.Format(format, current);
