@@ -13,6 +13,31 @@ public static class StringUtility
     private const string _propertyNamePattern = $"^(?<{_initialGroup}>[A-Z])(?<{_remainderGroup}>[A-Za-z0-9]*)$";
     private static readonly Regex _propertyNameRegex = new(_propertyNamePattern, Compiled | CultureInvariant | Singleline);
 
+    private static readonly char[] _illegalCharacter =
+    { '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
+          '\'', '"', '[', ']', ';', ':', '\\', '|', '/', '.', ',', '>', '<', '?', '-', '_', '+', '+', '~', '`' };
+    private static readonly char[] _digits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
+    public static bool IsNullOrEmptyOrWhiteSpace(this string? input)
+    {
+        return string.IsNullOrWhiteSpace(input);
+    }
+
+    public static bool IsNotNullOrWhiteSpace(this string input)
+    {
+        return string.IsNullOrEmpty(input) is false;
+    }
+
+    public static bool ContainsIllegalCharacter(this string input)
+    {
+        return input.Any(character => _illegalCharacter.Contains(character));
+    }
+
+    public static bool ContainsDigit(this string input)
+    {
+        return input.Any(character => _digits.Contains(character));
+    }
+
     public static string Join(this IEnumerable<string> sequence, string separator = "")
     {
         return string.Join(separator, sequence);
@@ -26,11 +51,6 @@ public static class StringUtility
     {
         if (!string.IsNullOrEmpty(input))
             input = $"{input[0].ToString().ToUpper()}{input[1..].ToLower()}";
-    }
-
-    public static bool IsNotNullOrWhiteSpace(this string input)
-    {
-        return string.IsNullOrEmpty(input) is false;
     }
 
     public static IEnumerable<string> Sequence(int length, int quantity)
