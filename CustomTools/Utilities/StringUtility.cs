@@ -127,4 +127,20 @@ public static class StringUtility
         string? secondTrimmed = second.Trimmed();
         return SafeCompare(firstTrimmed, secondTrimmed);
     }
+
+    public static TEnum? ParseToNullableEnum<TEnum>(this string? input)
+    where TEnum : struct, IConvertible
+    {
+        return Enum.TryParse<TEnum>(input, out var outPriority) ? outPriority : null;
+    }
+
+    public static bool IsLengthInRange(this string input, int lowerBound, int upperBound)
+    {
+        return input.Length >= lowerBound && input.Length <= upperBound;
+    }
+
+    public static bool IsLengthInRange(this string input, Range range)
+    {
+        return input.Length >= range.Start.Value && input.Length <= range.End.Value;
+    }
 }
