@@ -39,37 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="EF Core advance\BulkInsert.md" />
-    <Compile Include="EF Core advance\CancellationTokenInAsyncQueries.md" />
-    <Compile Include="EF Core advance\CustomMigrations\BasicsOfCustomMigrations.md" />
-    <Compile Include="EF Core advance\DatabaseFunctions.md" />
-    <Compile Include="EF Core advance\ExplicitLoading.md" />
-    <Compile Include="EF Core advance\GuidVsId.md" />
-    <Compile Include="EF Core advance\ImplicitIncludes.md" />
-    <Compile Include="EF Core advance\IncludeWithExpression.md" />
-    <Compile Include="EF Core advance\IndexesPerformance.md" />
-    <Compile Include="EF Core advance\OwnedTypes.md" />
-    <Compile Include="EF Core advance\BulkUpdateOrDelete.md" />
-    <Compile Include="EF Core advance\Problems\NPlusOneProblem.md" />
-    <Compile Include="EF Core advance\Problems\ToManyIncludeProblem.md" />
-    <Compile Include="EF Core advance\QueryFilters.md" />
-    <Compile Include="EF Core advance\QueryPerformance.md" />
-    <Compile Include="EF Core advance\QueryTags.md" />
-    <Compile Include="EF Core advance\ScaffoldExistingDatabase.md" />
-    <Compile Include="EF Core advance\Tracking.md" />
-    <Compile Include="EF Core advance\Views.md" />
-    <Compile Include="EF Core basics\DefaultValue-ValueGenerated\DefaultValues.md" />
-    <Compile Include="EF Core basics\DefaultValue-ValueGenerated\ValueGenerated.md" />
-    <Compile Include="EF Core basics\DeleteWithoutQuerying.md" />
-    <Compile Include="EF Core basics\Inheritance\EntityInheritance.md" />
-    <Compile Include="EF Core basics\Migrations.md" />
-    <Compile Include="EF Core basics\OnDeleteClient.md" />
-    <Compile Include="EF Core basics\PrimaryKey.md" />
-    <Compile Include="EF Core basics\QueryWithInclude.md" />
-    <Compile Include="EF Core basics\RawSql.md" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="linq2db.EntityFrameworkCore" Version="7.0.0" />

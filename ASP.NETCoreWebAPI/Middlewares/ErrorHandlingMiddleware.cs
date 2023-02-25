@@ -57,6 +57,6 @@ public class ErrorHandlingMiddleware : IMiddleware
         };
         //Then add additional data that is important for us like "RequestId". This RequestId can be then use by seq filtering. This is one of the major points of ProblemDetails
         problemDetails.Extensions.Add("RequestId", context.TraceIdentifier);
-        await context.Response.WriteAsJsonAsync(problemDetails, problemDetails.GetType(), null, contentType: "application/problem+json");
+        await context.Response.WriteAsJsonAsync(problemDetails, problemDetails.GetType(), options: null, contentType: "application/problem+json");
     }
 }
