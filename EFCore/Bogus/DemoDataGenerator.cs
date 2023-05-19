@@ -70,7 +70,7 @@ public class DemoDataGenerator
 
         //In order to generate fake data connected to other languages like German or Polish we can:
         //Use the "Faker" class constructor overload with one string input. This input determines which language will be used for fake data
-        //By default it is english and the string is "en"
+        //By default it is English and the string is "en"
         //string locale = "en";
         //For Polish it is "pl" and for German it is "de".
         //For more locals visit "https://github.com/bchavez/Bogus"

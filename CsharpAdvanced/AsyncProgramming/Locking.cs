@@ -14,7 +14,7 @@ internal class Configuration
     //Lock object to make sure just one thread will enter the lock block (but can not do async-await inside the lock)
     private static readonly object _lockObject = new();
 
-    //This object will give us locking (for 1 thread inside, if we need more threads, we would need to give 2 or more in the consturcotr)
+    //This object will give us locking (for 1 thread inside, if we need more threads, we would need to give 2 or more in the constructor)
     private SemaphoreSlim _semaphore = new(1);
     //Or full version:
     private Semaphore _semaphore2 = new(1, 1);
@@ -42,7 +42,7 @@ internal class Configuration
     public async Task DoWorkAsync(int valueToAdd) 
     { 
         //Start the block of code that only one thread can reach and the async job is allowed. 
-        await _semaphore.WaitAsync();
+        await _semaphore.WaitAsync(100); //Its good to make timeout for semaphore
         //Use try-finally to be sure that _semaphore.Release() is called (mb we could make our class and make IDisposable)
         try
         {

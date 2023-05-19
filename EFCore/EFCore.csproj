@@ -8,37 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="EF Core advance\BulkInsert.md" />
-    <None Remove="EF Core advance\CancellationTokenInAsyncQueries.md" />
-    <None Remove="EF Core advance\CustomMigrations\BasicsOfCustomMigrations.md" />
-    <None Remove="EF Core advance\DatabaseFunctions.md" />
-    <None Remove="EF Core advance\ExplicitLoading.md" />
-    <None Remove="EF Core advance\GuidVsId.md" />
-    <None Remove="EF Core advance\ImplicitIncludes.md" />
-    <None Remove="EF Core advance\IncludeWithExpression.md" />
-    <None Remove="EF Core advance\IndexesPerformance.md" />
-    <None Remove="EF Core advance\OwnedTypes.md" />
-    <None Remove="EF Core advance\Problems\BulkUpdateOrDelete.md" />
-    <None Remove="EF Core advance\Problems\NPlusOneProblem.md" />
-    <None Remove="EF Core advance\Problems\ToManyIncludeProblem.md" />
-    <None Remove="EF Core advance\QueryFilters.md" />
-    <None Remove="EF Core advance\QueryPerformance.md" />
-    <None Remove="EF Core advance\QueryTags.md" />
-    <None Remove="EF Core advance\ScaffoldExistingDatabase.md" />
-    <None Remove="EF Core advance\Tracking.md" />
-    <None Remove="EF Core advance\Views.md" />
-    <None Remove="EF Core basics\DefaultValue-ValueGenerated\DefaultValues.md" />
-    <None Remove="EF Core basics\DefaultValue-ValueGenerated\ValueGenerated.md" />
-    <None Remove="EF Core basics\DeleteWithoutQuerying.md" />
-    <None Remove="EF Core basics\Inheritance\EntityInheritance.md" />
-    <None Remove="EF Core basics\Migrations.md" />
-    <None Remove="EF Core basics\OnDeleteClient.md" />
-    <None Remove="EF Core basics\PrimaryKey.md" />
-    <None Remove="EF Core basics\QueryWithInclude.md" />
-    <None Remove="EF Core basics\RawSql.md" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="linq2db.EntityFrameworkCore" Version="7.0.0" />
