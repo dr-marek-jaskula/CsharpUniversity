@@ -26,7 +26,7 @@ public static class HttpClientRegistration
             client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "HttpClientFactory-Sample");
         });
         //To bind the Polly Policy directly to the client we can use:
-            //.AddPolicyHandler((AsyncPolicy<HttpResponseMessage>)PollyRegistry.asyncRegistry["CircuitBreakerStrategy3"]);
+        //.AddPolicyHandler((AsyncPolicy<HttpResponseMessage>)PollyRegistry.asyncRegistry["CircuitBreakerStrategy3"]);
 
         //We can also use a "typed" client (we would need to create a client class for it)
         //This approach would require us to inject the HttpClient (and if the services are matching this client will be obtained)
@@ -39,7 +39,15 @@ public static class HttpClientRegistration
         //    client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/vnd.github.v3+json");
         //    //GitHub requires a user-agent
         //    client.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "HttpClientFactory-Sample");
-        //});
+        //}) //these two configuration handle problem when we inject transient typed client into singleton service
+        //.ConfigurePrimaryHttpMessageHandler(() =>
+        //{
+        //    return new SocketsHttpHandler
+        //    {
+        //        PooledConnectionLifetime = TimeSpan.FromMinutes(5)
+        //    };
+        //})
+        //.SetHandlerLifetime(Timeout.InfiniteTimeSpan);
 
         //We need to Refit and Refit.HttpClientFactory for this to work
         services
