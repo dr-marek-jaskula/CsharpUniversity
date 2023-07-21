@@ -1,4 +1,4 @@
-﻿using OpenCloseAttributes.Entities;
+﻿using OpenCloseAttributes.Entities.CleanOption;
 using static OpenClosed.Enums.CleanOption.ProductType;
 
 namespace CsharpAdvanced.DesignPatterns.SOLID.OpenClosedApproachInstances;
