@@ -2,7 +2,7 @@
 using OpenClosed.Enums;
 using OpenClosed.Factories;
 
-namespace CsharpAdvanced.DesignPatterns.SOLID.OpenClosedBestApproach;
+namespace CsharpAdvanced.DesignPatterns.SOLID.OpenClosedApproachInstances;
 
 //How to use this approach
 //1. Add new Calculator concrete implementation
