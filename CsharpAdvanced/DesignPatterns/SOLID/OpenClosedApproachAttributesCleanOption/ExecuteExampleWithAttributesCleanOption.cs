@@ -5,7 +5,7 @@ namespace CsharpAdvanced.DesignPatterns.SOLID.OpenClosedApproachInstances;
 
 //How to use this approach
 //1. Add new enum type
-//2. Add new Calculator method with respective attribute (and new type as parameter)
+//2. Add new line in GetCalculatorMethods() with respective attribute (and enum)
 
 public sealed class ExecuteExampleWithAttributesCleanOption
 {
