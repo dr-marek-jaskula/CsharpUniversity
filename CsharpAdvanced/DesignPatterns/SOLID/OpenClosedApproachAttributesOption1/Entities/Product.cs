@@ -1,5 +1,5 @@
-﻿using OpenCloseAttributes.Attributes;
-using OpenClosed.Enums;
+﻿using OpenCloseAttributes.Attributes.CleanOption;
+using OpenClosed.Enums.CleanOption;
 using System.Reflection;
 
 namespace OpenCloseAttributes.Entities;
