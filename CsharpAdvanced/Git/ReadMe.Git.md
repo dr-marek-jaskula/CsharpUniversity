@@ -52,12 +52,27 @@ Revert two last commits:
 
 ## How to revert pushed changes without having additional revert commit
 
-3. Push proper commit
+1. First check for changes
 
-> git push origin +<full_name_of_the_previous_commit>
+> git status
+
+2. Reset current changes
+
+> git reset --hard
+
+3. Revert one last commit:
+
+> git reset --hard HEAD~1
+
+4. Push proper commit
+
+> git push origin +<full_name_of_the_branch>
+
+The '+' sign is present to force the push
 
 Example:
 
-> git push origin +task/previous_commit
+> git push origin +master
 
+> git push origin +task/fix-the-bug
 
