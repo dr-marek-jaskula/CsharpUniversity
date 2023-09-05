@@ -1,8 +1,8 @@
-﻿using OpenCloseAttributes.Attributes.WithBuilder;
-using static OpenClosed.Enums.WithBuilder.ProductType;
-using OpenClosed.Enums.WithBuilder;
+﻿using OpenClosed.Enums.WithBuilder;
 using System.Collections.ObjectModel;
+using OpenCloseAttributes.Attributes.WithBuilder;
 using OpenClosedAttributesDelegetesBuilder.Builders;
+using static OpenClosed.Enums.WithBuilder.ProductType;
 
 namespace OpenCloseAttributes.Entities.WithBuilder;
 
@@ -13,11 +13,11 @@ public sealed class Product
 
     static Product()
     {
-        ProductCacheEnum = CacheBuilder<ProductType, Func<int>>
-            .Build(GetCalculatorMethodsEnum);
+        ProductCacheEnum = CacheFactory<ProductType, Func<int>>
+            .CreateFor(GetCalculatorMethodsEnum());
 
-        ProductCacheString = CacheBuilder<string, Func<int>>
-            .Build(GetCalculatorMethodsString);
+        ProductCacheString = CacheFactory<string, Func<int>>
+            .CreateFor(GetCalculatorMethodsString());
     }
 
     public Product(string name, decimal discount)
