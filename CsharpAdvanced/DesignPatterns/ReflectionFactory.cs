@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Reflection;
 
 namespace CsharpAdvanced.DesignPatterns;
 
@@ -7,46 +6,22 @@ public class ReflectionFactoryCustomPatternExample
 {
     public static void InvokeReflectionFactoryCustomPatternExample()
     {
-        ReflectionShapeFactory reflectionShapeFactory = new();
-
         //Supported type
-        var circle = reflectionShapeFactory.CreateShape<ReflectionCircle>();
+        var circle = ReflectionShapeFactory.CreateShape<ReflectionCircle>();
         circle.Render();
 
         //Supported type, created after the factory was finished
-        var trapez = reflectionShapeFactory.CreateShape<ReflectionTrapezoid>();
+        var trapez = ReflectionShapeFactory.CreateShape<ReflectionTrapezoid>();
         trapez.Render();
-
-        //Unsupported type
-        var ufo = reflectionShapeFactory.CreateShape<Object>();
-        ufo.Render();
     }
 }
 
 internal class ReflectionShapeFactory
 {
-    private readonly List<Type> _types = new();
-
-    public ReflectionShapeFactory()
+    public static ReflectionShape CreateShape<T>()
+        where T : ReflectionShape
     {
-        //Get assembly
-        Assembly assembly = Assembly.GetExecutingAssembly();
-        //Get all direct children of ReflectionShape
-        _types.AddRange(assembly.GetTypes().Where(type => type.BaseType == typeof(ReflectionShape)));
-    }
-
-    public ReflectionShape CreateShape<T>()
-    {
-        if (_types.Contains(typeof(T)))
-        {
-            return (ReflectionShape)Activator.CreateInstance(typeof(T))!;
-        }
-
-        //If the there is for example an additional constructor with 1 parameter:
-        //var parameterlessConstructor = type.GetConstructors().SingleOrDefault(c => c.GetParameters().Length == 0);
-        //return parameterlessConstructor is not null ? Activator.CreateInstance(type) : Activator.CreateInstance(type, param1);
-
-        throw new ArgumentException($"Invalid input of {MethodBase.GetCurrentMethod()!.Name}. \"{typeof(T).Name}\" type is not supported. Please choose one of supported types: {string.Join(", ", _types.Select(t => t.Name))}.");
+        return (ReflectionShape)Activator.CreateInstance(typeof(T))!;
     }
 }
 
