@@ -14,7 +14,7 @@ public sealed class ValidatorAttribute<TValidator> : Attribute
 
     public ValidatorAttribute()
     {
-        ValidatorType = typeof(T);
+        ValidatorType = typeof(TValidator);
     }
 }
 

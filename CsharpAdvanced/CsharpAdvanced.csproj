@@ -24,15 +24,15 @@
     <Compile Include=".NET 7, csharp 11\StaticAbstractOperatorVirtualInterfaceMembers.cs" />
     <Compile Include=".NET 7, csharp 11\StringInterpolatedNewLine.cs" />
     <Compile Include=".NET 7, csharp 11\Utf8StringLiterals.cs" />
-    <Compile Include="VisualStudio\CustomConfiguration.md" />
+    <EmbeddedResource Include="VisualStudio\CustomConfiguration.md" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Serilog" Version="2.11.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
     <PackageReference Include="Sigil" Version="5.0.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
     <PackageReference Include="Throw" Version="1.2.0" />
   </ItemGroup>
 

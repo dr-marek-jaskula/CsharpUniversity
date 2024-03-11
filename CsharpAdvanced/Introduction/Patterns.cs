@@ -139,7 +139,7 @@ public class Patterns
         #region List Pattern (.NET 7)
 
         //It applies to any countable collection (has count property)
-        int[] numbers = { 1, 2, 3, 4 };
+        numbers = [1, 2, 3, 4];
 
         bool thisIsTrue = numbers is [1, 2, 3, 4];
         bool thisIsFalse = numbers is [1, 2, 3, 5];
