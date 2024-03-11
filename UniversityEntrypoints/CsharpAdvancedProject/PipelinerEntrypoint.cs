@@ -1,15 +1,14 @@
-﻿using CsharpAdvanced.TreeStructure;
+﻿using CsharpAdvanced.Pipeliner;
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace UniversityEntrypoints.CsharpAdvancedProject;
 
-public class TreeStructureEntrypoint
+public sealed class PipelinerEntrypoint
 {
     private readonly ITestOutputHelper _testOutputHelper;
 
-    public TreeStructureEntrypoint(ITestOutputHelper testOutputHelper)
+    public PipelinerEntrypoint(ITestOutputHelper testOutputHelper)
     {
         _testOutputHelper = testOutputHelper;
     }
@@ -17,6 +16,6 @@ public class TreeStructureEntrypoint
     [Fact]
     public void Entrypoint()
     {
-        ExecuterTreeStructure.Invoke(_testOutputHelper.WriteLine);
+        ExecutePipeliner.Invoke(_testOutputHelper.WriteLine);
     }
 }

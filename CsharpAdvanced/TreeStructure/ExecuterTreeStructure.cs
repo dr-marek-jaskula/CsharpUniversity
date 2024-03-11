@@ -2,7 +2,7 @@ namespace CsharpAdvanced.TreeStructure;
 
 public class ExecuterTreeStructure
 {
-    public static void Invoke()
+    public static void Invoke(Action<string> writeLine)
     {
         var tree = Tree<NodeName, NodeData>.Create(NodeName.Root, ExecuteRootData, DetermineNodeNameFromRoot, root => 
         {
@@ -22,7 +22,7 @@ public class ExecuterTreeStructure
         });
 
         var lastResult = tree.ExecuteTreeFlow(new NodeData("Start:"));
-        Console.WriteLine(lastResult); //Output: "NodeData { Input = Start: -> Root -> OptionOne -> DeepOne -> DeepIndeed -> LastBoss }"
+        writeLine(lastResult.ToString()); //Output: "NodeData { Input = Start: -> Root -> OptionOne -> DeepOne -> DeepIndeed -> LastBoss }"
     }
 
     public static NodeData ExecuteRootData(NodeData nodeData)
