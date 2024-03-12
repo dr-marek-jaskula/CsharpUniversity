@@ -22,7 +22,7 @@ public class ExecuterTreeStructure
         });
 
         var lastResult = tree.ExecuteTreeFlow(new NodeData("Start:"));
-        writeLine(lastResult.ToString()); //Output: "NodeData { Input = Start: -> Root -> OptionOne -> DeepOne -> DeepIndeed -> LastBoss }"
+        writeLine(lastResult.ToString()); //Output: "NodeData { Input = Start: -> Root -> NodeOne -> FirstDeepNodeOne -> VeryDeepNodeOne -> VeryVeryDeepNodeOne }"
     }
 
     public static NodeData ExecuteRootData(NodeData nodeData)
