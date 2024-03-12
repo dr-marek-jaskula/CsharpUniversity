@@ -12,7 +12,7 @@ public sealed class ExecutePipelinerStateful
             .ContinueWith<string, int>(x => x.Length + 2)
             .ContinueWith<int>(x => writeLine(x.ToString()))
             .ContinueWith<int, string>(x => x + "mop")
-            .ContinueWith<string>(x => writeLine(x.ToString()))
+            .ContinueWith<string>(x => writeLine(x + "++++++++++++++"))
             .EndWithAsync<string>();
 
         writeLine(finalResult.ToString());

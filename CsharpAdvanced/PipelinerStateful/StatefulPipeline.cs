@@ -2,11 +2,13 @@
 
 public sealed class StatefulPipeline
 {
-    private IPipelineMiddleware? _currentPipelineMiddleware;
+    private IPipelineMiddleware _currentPipelineMiddleware;
     private readonly List<IPipelineMiddleware> _pipelineMiddlewares = [];
 
-    private StatefulPipeline()
+    private StatefulPipeline(IPipelineMiddleware pipelineMiddleware)
     {
+        _pipelineMiddlewares.Add(pipelineMiddleware);
+        _currentPipelineMiddleware = pipelineMiddleware;
     }
 
     public static StatefulPipeline StartFrom<TInput>(TInput input)
@@ -21,8 +23,7 @@ public sealed class StatefulPipeline
 
     public static StatefulPipeline StartFrom(Action func)
     {
-        var initialMiddleware = new PipelineMiddleware(func);
-        return Initializate(initialMiddleware);
+        return Initializate(new PipelineMiddleware(func));
     }
 
     public StatefulPipeline ContinueWith<TInput>(Action<TInput> func)
@@ -58,31 +59,49 @@ public sealed class StatefulPipeline
         return Continue(new PipelineMiddleware(func));
     }
 
+    //public StatefulPipeline EndIf(Func<bool> func)
+    //{
+    //    return Continue(new PipelineMiddlewareWithOutput<TOutput>(func));
+    //}
+
+    //public StatefulPipeline EndIf(Func<Task<bool>> func)
+    //{
+    //    return Continue(new PipelineMiddlewareWithOutput<TOutput>(func));
+    //}
+
     public async Task MoveNextAsync()
     {
-        await _currentPipelineMiddleware.ExecuteAsync();
-
         var indexOfCurrentPipeline = _pipelineMiddlewares.IndexOf(_currentPipelineMiddleware);
 
-        if (indexOfCurrentPipeline == _pipelineMiddlewares.Count)
+        if (CanMoveNext(indexOfCurrentPipeline) is false)
         {
-            throw new InvalidOperationException("Cannot exceed the middlewares collection length");
+            return;
         }
 
+        await _currentPipelineMiddleware!.ExecuteAsync();
         _currentPipelineMiddleware = _pipelineMiddlewares[indexOfCurrentPipeline + 1];
+    }
+
+    public bool CanMoveNext(int indexOfCurrentPipeline)
+    {
+        return indexOfCurrentPipeline < _pipelineMiddlewares.Count - 1;
     }
 
     internal IPipelineMiddleware GetCurrentMiddleware()
     {
-        return _currentPipelineMiddleware;
+        return _currentPipelineMiddleware!;
     }
 
     public async Task EndAsync()
     {
-        foreach (var middleware in _pipelineMiddlewares)
+        var startIndex = _pipelineMiddlewares.IndexOf(_currentPipelineMiddleware);
+
+        for (int i = startIndex; i < _pipelineMiddlewares.Count - 1; i++)
         {
-            await middleware.ExecuteAsync();
+            await MoveNextAsync();
         }
+
+        await _currentPipelineMiddleware.ExecuteAsync();
     }
 
     public async Task<TOutput> EndWithAsync<TOutput>()
@@ -99,10 +118,7 @@ public sealed class StatefulPipeline
 
     private static StatefulPipeline Initializate(IPipelineMiddleware pipelineMiddleware)
     {
-        var newPipeline = new StatefulPipeline();
-        newPipeline._pipelineMiddlewares.Add(pipelineMiddleware);
-        newPipeline._currentPipelineMiddleware = pipelineMiddleware;
-        return newPipeline;
+        return new StatefulPipeline(pipelineMiddleware);
     }
 
     private StatefulPipeline Continue(IPipelineMiddleware nextMiddleware, Action? func = null)
