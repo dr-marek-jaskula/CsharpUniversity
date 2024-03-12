@@ -1,19 +1,19 @@
 ﻿namespace CsharpAdvanced.PipelinerStateful;
 
-internal interface HasOutput
+internal interface IHasOutput
 {
 }
 
-internal interface HasOutput<TOutput> : HasOutput
+internal interface IHasOutput<TOutput> : IHasOutput
 {
     public TOutput? Output { get; set; }
 }
 
-internal interface HasInput
+internal interface IHasInput
 {
 }
 
-internal interface HasInput<TInput> : HasInput
+internal interface IHasInput<TInput> : IHasInput
 {
     public TInput? Input { get; set; }
 }
@@ -33,10 +33,10 @@ internal class PipelineMiddleware(Action action) : IPipelineMiddleware
     }
 }
 
-internal class PipelineMiddlewareWithInput<TInput>(Action<TInput> action, HasOutput<TInput> hasOutput) 
-    : IPipelineMiddleware, HasInput<TInput>
+internal class PipelineMiddlewareWithInput<TInput>(Action<TInput> action, IHasOutput<TInput> hasOutput) 
+    : IPipelineMiddleware, IHasInput<TInput>
 {
-    private readonly HasOutput<TInput> _hasOutput = hasOutput;
+    private readonly IHasOutput<TInput> _hasOutput = hasOutput;
     private readonly Action<TInput> _action = action;
 
     public TInput? Input { get; set; }
@@ -53,7 +53,7 @@ internal class PipelineMiddlewareWithInput<TInput>(Action<TInput> action, HasOut
     }
 }
 
-internal class PipelineMiddlewareWithOutput<TOutput> : IPipelineMiddleware, HasOutput<TOutput>
+internal class PipelineMiddlewareWithOutput<TOutput> : IPipelineMiddleware, IHasOutput<TOutput>
 {
     private readonly TOutput? _output;
     private readonly Func<TOutput>? _func;
@@ -87,11 +87,11 @@ internal class PipelineMiddlewareWithOutput<TOutput> : IPipelineMiddleware, HasO
     }
 }
 
-internal sealed class PipelineMiddlewareWithInputAndOutput<TInput, TOutput>(Func<TInput, TOutput> func, HasOutput<TInput> hasOutput) 
-    : IPipelineMiddleware, HasInput<TInput>, HasOutput<TOutput>
+internal sealed class PipelineMiddlewareWithInputAndOutput<TInput, TOutput>(Func<TInput, TOutput> func, IHasOutput<TInput> hasOutput) 
+    : IPipelineMiddleware, IHasInput<TInput>, IHasOutput<TOutput>
 {
     private readonly Func<TInput, TOutput> _func = func;
-    private readonly HasOutput<TInput> _hasOutput = hasOutput;
+    private readonly IHasOutput<TInput> _hasOutput = hasOutput;
 
     public TInput? Input { get; set; }
     public TOutput? Output { get; set; }

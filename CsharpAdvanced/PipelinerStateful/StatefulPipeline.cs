@@ -85,18 +85,16 @@ public sealed class StatefulPipeline
         return this;
     }
 
-    private HasOutput<TOutput> GetLastMiddlewareWithOutputType<TOutput>()
+    private IHasOutput<TOutput> GetLastMiddlewareWithOutputType<TOutput>()
     {
-        return ((HasOutput<TOutput>)_pipelineMiddlewares
-            .Where(x => x is HasOutput)
+        return ((IHasOutput<TOutput>)_pipelineMiddlewares
+            .Where(x => x is IHasOutput<TOutput>)
             .Last());
     }
 
     private TOutput GetLastOutputOfType<TOutput>()
     {
-        return ((HasOutput<TOutput>)_pipelineMiddlewares
-            .Where(x => x is HasOutput<TOutput>)
-            .Last())
+        return GetLastMiddlewareWithOutputType<TOutput>()
             .Output!;
     }
 }
