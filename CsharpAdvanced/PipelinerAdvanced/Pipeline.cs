@@ -10,7 +10,7 @@ public sealed class Pipeline<TPipelineOutput>
     private TPipelineOutput? _fallback = default;
     private IPipelineMiddleware _currentPipelineMiddleware;
     private readonly List<IPipelineMiddleware> _pipelineMiddlewares = [];
-    private readonly List<IMiddlewareCondition<TPipelineOutput>> _middlewareConditions = [];
+    private readonly List<IMiddlewareCondition<TPipelineOutput>> _afterMiddlewareConditions = [];
 
     private Pipeline(IPipelineMiddleware pipelineMiddleware)
     {
@@ -35,19 +35,19 @@ public sealed class Pipeline<TPipelineOutput>
 
     public Pipeline<TPipelineOutput> ContinueWith<TInput>(Action<TInput> func)
     {
-        var lastMiddlewareWithMatchingInput = GetLastMiddleware<TInput>();
+        var lastMiddlewareWithMatchingInput = GetLastMiddlewareWithOutputType<TInput>();
         return Continue(new PipelineMiddlewareWithInput<TInput>(func, lastMiddlewareWithMatchingInput));
     }
 
     public Pipeline<TPipelineOutput> ContinueWith<TInput, TOutput>(Func<TInput, TOutput> func)
     {
-        var lastMiddlewareWithMatchingInput = GetLastMiddleware<TInput>();
+        var lastMiddlewareWithMatchingInput = GetLastMiddlewareWithOutputType<TInput>();
         return Continue(new PipelineMiddlewareWithInputAndOutput<TInput, TOutput>(func, lastMiddlewareWithMatchingInput));
     }
     
     public Pipeline<TPipelineOutput> ContinueWith<TInput, TOutput>(Func<TInput, Task<TOutput>> func)
     {
-        var lastMiddlewareWithMatchingInput = GetLastMiddleware<TInput>();
+        var lastMiddlewareWithMatchingInput = GetLastMiddlewareWithOutputType<TInput>();
         return Continue(new PipelineMiddlewareWithInputAndOutput<TInput, TOutput>(func, lastMiddlewareWithMatchingInput));
     }
 
@@ -75,7 +75,7 @@ public sealed class Pipeline<TPipelineOutput>
             predicate
         );
 
-        _middlewareConditions.Add(newMiddlewareCondition);
+        _afterMiddlewareConditions.Add(newMiddlewareCondition);
 
         return this;
     }
@@ -89,14 +89,14 @@ public sealed class Pipeline<TPipelineOutput>
             predicate
         );
 
-        _middlewareConditions.Add(newMiddlewareCondition);
+        _afterMiddlewareConditions.Add(newMiddlewareCondition);
 
         return this;
     }
 
     public Pipeline<TPipelineOutput> EndIf<TInput>(Func<TInput, bool> predicate, TPipelineOutput fallback)
     {
-        var lastMiddlewareWithMatchingInput = GetLastMiddleware<TInput>();
+        var lastMiddlewareWithMatchingInput = GetLastMiddlewareWithOutputType<TInput>();
 
         var newMiddlewareCondition = new MiddlewareCondition<TInput, TPipelineOutput>
         (
@@ -106,14 +106,14 @@ public sealed class Pipeline<TPipelineOutput>
             lastMiddlewareWithMatchingInput
         );
 
-        _middlewareConditions.Add(newMiddlewareCondition);
+        _afterMiddlewareConditions.Add(newMiddlewareCondition);
 
         return this;
     }
 
     public Pipeline<TPipelineOutput> EndIfAsync<TInput>(Func<TInput, Task<bool>> predicate, TPipelineOutput fallback)
     {
-        var lastMiddlewareWithMatchingInput = GetLastMiddleware<TInput>();
+        var lastMiddlewareWithMatchingInput = GetLastMiddlewareWithOutputType<TInput>();
 
         var newMiddlewareCondition = new MiddlewareConditionAsync<TInput, TPipelineOutput>
         (
@@ -123,7 +123,7 @@ public sealed class Pipeline<TPipelineOutput>
             lastMiddlewareWithMatchingInput
         );
 
-        _middlewareConditions.Add(newMiddlewareCondition);
+        _afterMiddlewareConditions.Add(newMiddlewareCondition);
 
         return this;
     }
@@ -137,11 +137,11 @@ public sealed class Pipeline<TPipelineOutput>
             return;
         }
 
-        await _currentPipelineMiddleware!.ExecuteAsync();
+        await _currentPipelineMiddleware.ExecuteAsync();
 
-        var currentCondition = _middlewareConditions.FirstOrDefault(x => x.AfterMiddlewareIndex == indexOfCurrentMiddleware);
+        var currentCondition = _afterMiddlewareConditions.FirstOrDefault(x => x.AfterMiddlewareIndex == indexOfCurrentMiddleware);
 
-        if (currentCondition is not null && await currentCondition.UseFallback())
+        if (currentCondition is not null && await currentCondition.StopAndUseFallback())
         {
             _stopped = true;
             _fallback = currentCondition.Fallback;
@@ -185,10 +185,10 @@ public sealed class Pipeline<TPipelineOutput>
 
         if (_stopped)
         {
-            return _fallback;
+            return _fallback!;
         }
 
-        return GetLastMiddleware<TPipelineOutput>()
+        return GetLastMiddlewareWithOutputType<TPipelineOutput>()
             .Output!;
     }
 
@@ -209,7 +209,7 @@ public sealed class Pipeline<TPipelineOutput>
         return this;
     }
 
-    private IHasOutput<TOutput> GetLastMiddleware<TOutput>()
+    private IHasOutput<TOutput> GetLastMiddlewareWithOutputType<TOutput>()
     {
         return ((IHasOutput<TOutput>)_pipelineMiddlewares
             .Where(middleware => middleware is IHasOutput<TOutput> hasOutput)

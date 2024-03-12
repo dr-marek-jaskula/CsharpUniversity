@@ -14,7 +14,7 @@ internal class MiddlewareCondition<TFallback>
     public TFallback Fallback { get; set; } = fallback;
     public Func<bool> Condition { get; set; } = condition;
 
-    public Task<bool> UseFallback()
+    public Task<bool> StopAndUseFallback()
     {
         return Task.FromResult(Condition());
     }
@@ -34,7 +34,7 @@ internal class MiddlewareCondition<TInput, TFallback>
     public TFallback Fallback { get; set; } = fallback;
     public Func<TInput, bool> ConditionWithInput { get; set; } = conditionWithInput;
 
-    public Task<bool> UseFallback()
+    public Task<bool> StopAndUseFallback()
     {
         return Task.FromResult(ConditionWithInput(HasOutput.Output!));
     }

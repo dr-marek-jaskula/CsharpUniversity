@@ -14,7 +14,7 @@ internal class MiddlewareConditionAsync<TFallback>
     public TFallback Fallback { get; set; } = fallback;
     public Func<Task<bool>> ConditionAsync { get; set; } = conditionAsync;
 
-    public async Task<bool> UseFallback()
+    public async Task<bool> StopAndUseFallback()
     {
         return await ConditionAsync();
     }
@@ -34,7 +34,7 @@ internal class MiddlewareConditionAsync<TInput, TFallback>
     public TFallback Fallback { get; set; } = fallback;
     public Func<TInput, Task<bool>> ConditionWithInputAsync { get; set; } = conditionWithInputAsync;
 
-    public async Task<bool> UseFallback()
+    public async Task<bool> StopAndUseFallback()
     {
         return await ConditionWithInputAsync(HasOutput.Output!);
     }
