@@ -24,6 +24,6 @@ public sealed class PipelinerEntrypoint
     [Fact]
     public async Task StatefulEntrypoint()
     {
-        await ExecutePipelinerStateful.Invoke(_testOutputHelper.WriteLine);
+        await ExecutePipeline.Invoke(_testOutputHelper.WriteLine);
     }
 }

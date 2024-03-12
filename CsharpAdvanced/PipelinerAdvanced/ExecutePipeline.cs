@@ -1,26 +1,29 @@
-﻿namespace CsharpAdvanced.PipelinerStateful;
+﻿using CsharpAdvanced.PipelinerStateful.Interfaces;
 
-public sealed class ExecutePipelinerStateful
+namespace CsharpAdvanced.PipelinerStateful;
+
+public sealed class ExecutePipeline
 {
     public static async Task Invoke(Action<string> writeLine)
     {
         writeLine("-------------------------");
 
-        var finalResult = await StatefulPipeline
+        var finalResult = await Pipeline<string>
             .StartFrom("super")
             .ContinueWith<string, string>(x => x + "hellow")
-                .EndIf(() => 1 < 100000, "my super fallback")
+                .EndIf<string>(x => x.Length < 100000, "my super fallback")
+                //.EndIf(() => 1 < 100000, "my super fallback")
             .ContinueWith<string, int>(x => x.Length + 2)
             .ContinueWith<int>(x => writeLine(x.ToString()))
             .ContinueWith<int, string>(x => x + "mop")
             .ContinueWith<string>(x => writeLine(x + "++++++++++++++"))
-            .EndWithAsync<string>();
+            .EndWithAsync();
 
         writeLine(finalResult.ToString());
 
         writeLine("-------------------------");
 
-        var pipeline = StatefulPipeline
+        var pipeline = Pipeline<int>
             .StartFrom("super")
             .ContinueWith<string, string>(x => x + "hellow")
             .ContinueWith<string, int>(x => x.Length + 2)
@@ -44,7 +47,7 @@ public sealed class ExecutePipelinerStateful
         var someResult = ((IHasOutput<int>)current2).Output;
 
         var finalResult2 = await pipeline
-            .EndWithAsync<int>();
+            .EndWithAsync();
 
         writeLine(finalResult2.ToString());
 
