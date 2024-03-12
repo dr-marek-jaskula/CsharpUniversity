@@ -162,7 +162,7 @@ public sealed class Pipeline<TPipelineOutput>
         return _currentPipelineMiddleware!;
     }
 
-    public async Task EndAsync()
+    public async Task EndWithoutResultAsync()
     {
         var startIndex = _pipelineMiddlewares.IndexOf(_currentPipelineMiddleware);
 
@@ -179,9 +179,9 @@ public sealed class Pipeline<TPipelineOutput>
         await _currentPipelineMiddleware.ExecuteAsync();
     }
 
-    public async Task<TPipelineOutput> EndWithAsync()
+    public async Task<TPipelineOutput> EndWithResultAsync()
     {
-        await EndAsync();
+        await EndWithoutResultAsync();
 
         if (_stopped)
         {

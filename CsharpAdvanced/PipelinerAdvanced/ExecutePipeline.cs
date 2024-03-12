@@ -9,7 +9,7 @@ public sealed class ExecutePipeline
         writeLine("------------ Default Use --------------");
 
         var finalResultWithDefaultUse = await Pipeline<string>
-            .StartFrom("super")
+            .StartFrom("initial")
             .ContinueWith<string, string>(PerformExampleOperation)
                 .EndIf<string>(x => x.Length < 100000, "my working fallback")
             .ContinueWith<string, int>(x => x.Length + 2)
@@ -17,14 +17,14 @@ public sealed class ExecutePipeline
             .ContinueWith<int>(x => writeLine(x.ToString()))
             .ContinueWith<int, string>(x => x + "op")
             .ContinueWith<string>(x => writeLine(x + "++++++++++++++"))
-            .EndWithAsync();
+            .EndWithResultAsync();
 
         writeLine(finalResultWithDefaultUse.ToString());
 
         writeLine("------------ Step By Step --------------");
 
         var pipeline = Pipeline<int>
-            .StartFrom("super")
+            .StartFrom("initial")
             .ContinueWith<string, string>(PerformExampleOperation)
             .ContinueWith<string, int>(x => x.Length + 2)
                 //.EndIf<int>(x =>  x < 20, 200) //Uncomment to examine the behavior
@@ -45,7 +45,7 @@ public sealed class ExecutePipeline
         var currentResult = ((IHasOutput<int>)current).Output;
 
         var finalResultWithStepByStepUse = await pipeline
-            .EndWithAsync();
+            .EndWithResultAsync();
 
         writeLine(finalResultWithStepByStepUse.ToString());
 
