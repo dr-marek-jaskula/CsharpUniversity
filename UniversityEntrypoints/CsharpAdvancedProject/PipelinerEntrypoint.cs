@@ -1,5 +1,6 @@
 ﻿using CsharpAdvanced.Pipeliner;
 using CsharpAdvanced.PipelinerStateful;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -21,8 +22,8 @@ public sealed class PipelinerEntrypoint
     }
 
     [Fact]
-    public void StatefulEntrypoint()
+    public async Task StatefulEntrypoint()
     {
-        ExecutePipelinerStateful.Invoke(_testOutputHelper.WriteLine);
+        await ExecutePipelinerStateful.Invoke(_testOutputHelper.WriteLine);
     }
 }

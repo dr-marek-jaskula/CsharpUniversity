@@ -20,16 +20,17 @@ internal interface IHasInput<TInput> : IHasInput
 
 internal interface IPipelineMiddleware
 {
-    void Execute();
+    Task ExecuteAsync();
 }
 
 internal class PipelineMiddleware(Action action) : IPipelineMiddleware
 {
     private readonly Action _action = action;
 
-    public void Execute()
+    public Task ExecuteAsync()
     {
         _action();
+        return Task.CompletedTask;
     }
 }
 
@@ -41,15 +42,16 @@ internal class PipelineMiddlewareWithInput<TInput>(Action<TInput> action, IHasOu
 
     public TInput? Input { get; set; }
 
-    public void Execute()
+    public Task ExecuteAsync()
     {
         Input = _hasOutput.Output!;
         _action(Input);
+        return Task.CompletedTask;
     }
 
     public override string ToString()
     {
-        return $"Input: {Input}";
+        return $"Input: '{Input}'";
     }
 }
 
@@ -57,6 +59,7 @@ internal class PipelineMiddlewareWithOutput<TOutput> : IPipelineMiddleware, IHas
 {
     private readonly TOutput? _output;
     private readonly Func<TOutput>? _func;
+    private readonly Func<Task<TOutput>>? _asyncFunc;
 
     public PipelineMiddlewareWithOutput(TOutput output)
     {
@@ -68,9 +71,14 @@ internal class PipelineMiddlewareWithOutput<TOutput> : IPipelineMiddleware, IHas
         _func = func;
     }
 
+    public PipelineMiddlewareWithOutput(Func<Task<TOutput>> asyncFunc)
+    {
+        _asyncFunc = asyncFunc;
+    }
+
     public TOutput? Output { get; set; }
 
-    public void Execute()
+    public async Task ExecuteAsync()
     {
         if (_output is not null)
         {
@@ -78,32 +86,58 @@ internal class PipelineMiddlewareWithOutput<TOutput> : IPipelineMiddleware, IHas
             return;
         }
 
-        Output = _func!();
+        if (_func is not null)
+        {
+            Output = _func!();
+            return;
+        }
+
+        Output = await _asyncFunc!();
     }
 
     public override string ToString()
     {
-        return $"Output: {Output}";
+        return $"Output: '{Output}'";
     }
 }
 
-internal sealed class PipelineMiddlewareWithInputAndOutput<TInput, TOutput>(Func<TInput, TOutput> func, IHasOutput<TInput> hasOutput) 
+internal sealed class PipelineMiddlewareWithInputAndOutput<TInput, TOutput>
     : IPipelineMiddleware, IHasInput<TInput>, IHasOutput<TOutput>
 {
-    private readonly Func<TInput, TOutput> _func = func;
-    private readonly IHasOutput<TInput> _hasOutput = hasOutput;
+    private readonly Func<TInput, TOutput>? _func;
+    private readonly Func<TInput, Task<TOutput>>? _asyncFunc;
+    private readonly IHasOutput<TInput> _hasOutput;
 
     public TInput? Input { get; set; }
     public TOutput? Output { get; set; }
 
-    public void Execute()
+    public PipelineMiddlewareWithInputAndOutput(Func<TInput, TOutput> func, IHasOutput<TInput> hasOutput)
+    {
+        _func = func;
+        _hasOutput = hasOutput;
+    }
+
+    public PipelineMiddlewareWithInputAndOutput(Func<TInput, Task<TOutput>>? asyncFunc, IHasOutput<TInput> hasOutput)
+    {
+        _asyncFunc = asyncFunc;
+        _hasOutput = hasOutput;
+    }
+
+    public async Task ExecuteAsync()
     {
         Input = _hasOutput.Output!;
-        Output = _func(Input);
+
+        if (_func is not null)
+        {
+            Output = _func!(Input);
+            return;
+        }
+
+        Output = await _asyncFunc!(Input);
     }
 
     public override string ToString()
     {
-        return $"Input: {Input}. Output: {Output}";
+        return $"Input: '{Input}'. Output: '{Output}'";
     }
 }

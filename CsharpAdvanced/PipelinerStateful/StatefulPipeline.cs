@@ -2,6 +2,7 @@
 
 public sealed class StatefulPipeline
 {
+    private IPipelineMiddleware? _currentPipelineMiddleware;
     private readonly List<IPipelineMiddleware> _pipelineMiddlewares = [];
 
     private StatefulPipeline()
@@ -35,8 +36,19 @@ public sealed class StatefulPipeline
         var lastMiddlewareWithMatchingInput = GetLastMiddlewareWithOutputType<TInput>();
         return Continue(new PipelineMiddlewareWithInputAndOutput<TInput, TOutput>(func, lastMiddlewareWithMatchingInput));
     }
+    
+    public StatefulPipeline ContinueWith<TInput, TOutput>(Func<TInput, Task<TOutput>> func)
+    {
+        var lastMiddlewareWithMatchingInput = GetLastMiddlewareWithOutputType<TInput>();
+        return Continue(new PipelineMiddlewareWithInputAndOutput<TInput, TOutput>(func, lastMiddlewareWithMatchingInput));
+    }
 
     public StatefulPipeline ContinueWith<TOutput>(Func<TOutput> func)
+    {
+        return Continue(new PipelineMiddlewareWithOutput<TOutput>(func));
+    }
+
+    public StatefulPipeline ContinueWith<TOutput>(Func<Task<TOutput>> func)
     {
         return Continue(new PipelineMiddlewareWithOutput<TOutput>(func));
     }
@@ -46,23 +58,42 @@ public sealed class StatefulPipeline
         return Continue(new PipelineMiddleware(func));
     }
 
-    public void End()
+    public async Task MoveNextAsync()
+    {
+        await _currentPipelineMiddleware.ExecuteAsync();
+
+        var indexOfCurrentPipeline = _pipelineMiddlewares.IndexOf(_currentPipelineMiddleware);
+
+        if (indexOfCurrentPipeline == _pipelineMiddlewares.Count)
+        {
+            throw new InvalidOperationException("Cannot exceed the middlewares collection length");
+        }
+
+        _currentPipelineMiddleware = _pipelineMiddlewares[indexOfCurrentPipeline + 1];
+    }
+
+    internal IPipelineMiddleware GetCurrentMiddleware()
+    {
+        return _currentPipelineMiddleware;
+    }
+
+    public async Task EndAsync()
     {
         foreach (var middleware in _pipelineMiddlewares)
         {
-            middleware.Execute();
+            await middleware.ExecuteAsync();
         }
     }
 
-    public TOutput EndWith<TOutput>()
+    public async Task<TOutput> EndWithAsync<TOutput>()
     {
-        End();
+        await EndAsync();
         return GetLastOutputOfType<TOutput>();
     }
 
-    public TOutput EndWith<TInput, TOutput>(Func<TInput, TOutput> mapping)
+    public async Task<TOutput> EndWithAsync<TInput, TOutput>(Func<TInput, TOutput> mapping)
     {
-        End();
+        await EndAsync();
         return mapping(GetLastOutputOfType<TInput>());
     }
 
@@ -70,6 +101,7 @@ public sealed class StatefulPipeline
     {
         var newPipeline = new StatefulPipeline();
         newPipeline._pipelineMiddlewares.Add(pipelineMiddleware);
+        newPipeline._currentPipelineMiddleware = pipelineMiddleware;
         return newPipeline;
     }
 
