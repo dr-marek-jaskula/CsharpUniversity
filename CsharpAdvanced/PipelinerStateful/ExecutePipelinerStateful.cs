@@ -9,6 +9,7 @@ public sealed class ExecutePipelinerStateful
         var finalResult = await StatefulPipeline
             .StartFrom("super")
             .ContinueWith<string, string>(x => x + "hellow")
+                .EndIf(() => 1 < 100000, "my super fallback")
             .ContinueWith<string, int>(x => x.Length + 2)
             .ContinueWith<int>(x => writeLine(x.ToString()))
             .ContinueWith<int, string>(x => x + "mop")

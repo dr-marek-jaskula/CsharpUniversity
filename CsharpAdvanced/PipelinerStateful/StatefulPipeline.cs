@@ -2,6 +2,8 @@
 
 public sealed class StatefulPipeline
 {
+    private int? _pipelineStopIndex;
+    private object? _fallback;
     private IPipelineMiddleware _currentPipelineMiddleware;
     private readonly List<IPipelineMiddleware> _pipelineMiddlewares = [];
 
@@ -28,19 +30,19 @@ public sealed class StatefulPipeline
 
     public StatefulPipeline ContinueWith<TInput>(Action<TInput> func)
     {
-        var lastMiddlewareWithMatchingInput = GetLastMiddlewareWithOutputType<TInput>();
+        var lastMiddlewareWithMatchingInput = GetLastMiddleware<TInput>();
         return Continue(new PipelineMiddlewareWithInput<TInput>(func, lastMiddlewareWithMatchingInput));
     }
 
     public StatefulPipeline ContinueWith<TInput, TOutput>(Func<TInput, TOutput> func)
     {
-        var lastMiddlewareWithMatchingInput = GetLastMiddlewareWithOutputType<TInput>();
+        var lastMiddlewareWithMatchingInput = GetLastMiddleware<TInput>();
         return Continue(new PipelineMiddlewareWithInputAndOutput<TInput, TOutput>(func, lastMiddlewareWithMatchingInput));
     }
     
     public StatefulPipeline ContinueWith<TInput, TOutput>(Func<TInput, Task<TOutput>> func)
     {
-        var lastMiddlewareWithMatchingInput = GetLastMiddlewareWithOutputType<TInput>();
+        var lastMiddlewareWithMatchingInput = GetLastMiddleware<TInput>();
         return Continue(new PipelineMiddlewareWithInputAndOutput<TInput, TOutput>(func, lastMiddlewareWithMatchingInput));
     }
 
@@ -59,15 +61,35 @@ public sealed class StatefulPipeline
         return Continue(new PipelineMiddleware(func));
     }
 
-    //public StatefulPipeline EndIf(Func<bool> func)
-    //{
-    //    return Continue(new PipelineMiddlewareWithOutput<TOutput>(func));
-    //}
+    public StatefulPipeline EndIf<TFallback>(bool condition, TFallback? fallback = default)
+    {
+        if (condition)
+        {
+            SetEndConfiguration(fallback);
+        }
 
-    //public StatefulPipeline EndIf(Func<Task<bool>> func)
-    //{
-    //    return Continue(new PipelineMiddlewareWithOutput<TOutput>(func));
-    //}
+        return this;
+    }
+
+    public StatefulPipeline EndIf<TFallback>(Func<bool> predicate, TFallback? fallback = default)
+    {
+        if (predicate())
+        {
+            SetEndConfiguration(fallback);
+        }
+
+        return this;
+    }
+
+    public async Task<StatefulPipeline> EndIfAsync<TFallback>(Func<Task<bool>> predicate, TFallback? fallback = default)
+    {
+        if (await predicate())
+        {
+            SetEndConfiguration(fallback);
+        }
+
+        return this;
+    }
 
     public async Task MoveNextAsync()
     {
@@ -84,7 +106,8 @@ public sealed class StatefulPipeline
 
     public bool CanMoveNext(int indexOfCurrentPipeline)
     {
-        return indexOfCurrentPipeline < _pipelineMiddlewares.Count - 1;
+        return indexOfCurrentPipeline < _pipelineMiddlewares.Count - 1 
+            && (_pipelineStopIndex is null || _pipelineStopIndex > indexOfCurrentPipeline);
     }
 
     internal IPipelineMiddleware GetCurrentMiddleware()
@@ -107,13 +130,7 @@ public sealed class StatefulPipeline
     public async Task<TOutput> EndWithAsync<TOutput>()
     {
         await EndAsync();
-        return GetLastOutputOfType<TOutput>();
-    }
-
-    public async Task<TOutput> EndWithAsync<TInput, TOutput>(Func<TInput, TOutput> mapping)
-    {
-        await EndAsync();
-        return mapping(GetLastOutputOfType<TInput>());
+        return GetCurrentMiddlewareOutputOrFallback<TOutput>();
     }
 
     private static StatefulPipeline Initializate(IPipelineMiddleware pipelineMiddleware)
@@ -133,16 +150,27 @@ public sealed class StatefulPipeline
         return this;
     }
 
-    private IHasOutput<TOutput> GetLastMiddlewareWithOutputType<TOutput>()
+    private IHasOutput<TOutput> GetLastMiddleware<TOutput>()
     {
         return ((IHasOutput<TOutput>)_pipelineMiddlewares
-            .Where(x => x is IHasOutput<TOutput>)
+            .Where(middleware => middleware is IHasOutput<TOutput> hasOutput)
             .Last());
     }
 
-    private TOutput GetLastOutputOfType<TOutput>()
+    private TOutput GetCurrentMiddlewareOutputOrFallback<TOutput>()
     {
-        return GetLastMiddlewareWithOutputType<TOutput>()
+        if (_fallback is not null)
+        {
+            return (TOutput)_fallback;
+        }
+
+        return ((IHasOutput<TOutput>)_currentPipelineMiddleware)
             .Output!;
+    }
+
+    private void SetEndConfiguration<TFallback>(TFallback? fallback)
+    {
+        _pipelineStopIndex = _pipelineMiddlewares.Count - 1;
+        _fallback = fallback;
     }
 }
