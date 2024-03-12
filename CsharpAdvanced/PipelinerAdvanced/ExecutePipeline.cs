@@ -6,32 +6,29 @@ public sealed class ExecutePipeline
 {
     public static async Task Invoke(Action<string> writeLine)
     {
-        writeLine("-------------------------");
+        writeLine("------------ Default Use --------------");
 
-        var finalResult = await Pipeline<string>
+        var finalResultWithDefaultUse = await Pipeline<string>
             .StartFrom("super")
-            .ContinueWith<string, string>(x => x + "hellow")
-                .EndIf<string>(x => x.Length < 100000, "my super fallback")
-                //.EndIf(() => 1 < 100000, "my super fallback")
+            .ContinueWith<string, string>(PerformExampleOperation)
+                .EndIf<string>(x => x.Length < 100000, "my working fallback")
             .ContinueWith<string, int>(x => x.Length + 2)
+                .EndIf(() => 1 < 100000, "my not working fallback -> too late")
             .ContinueWith<int>(x => writeLine(x.ToString()))
-            .ContinueWith<int, string>(x => x + "mop")
+            .ContinueWith<int, string>(x => x + "op")
             .ContinueWith<string>(x => writeLine(x + "++++++++++++++"))
             .EndWithAsync();
 
-        writeLine(finalResult.ToString());
+        writeLine(finalResultWithDefaultUse.ToString());
 
-        writeLine("-------------------------");
+        writeLine("------------ Step By Step --------------");
 
         var pipeline = Pipeline<int>
             .StartFrom("super")
-            .ContinueWith<string, string>(x => x + "hellow")
+            .ContinueWith<string, string>(PerformExampleOperation)
             .ContinueWith<string, int>(x => x.Length + 2)
-            .ContinueWith<int, int>(async x =>
-            {
-                var task = Add4(x);
-                return await task;
-            });
+                //.EndIf<int>(x =>  x < 20, 200) //Uncomment to examine the behavior
+            .ContinueWith<int, int>(async x => await AddNumber(x, 4));
 
         await pipeline
             .MoveNextAsync();
@@ -41,27 +38,28 @@ public sealed class ExecutePipeline
         await pipeline
             .MoveNextAsync();
 
-        var current2 = pipeline.GetCurrentMiddleware();
+        current = pipeline.GetCurrentMiddleware();
 
-        await current2.ExecuteAsync();
-        var someResult = ((IHasOutput<int>)current2).Output;
+        await current.ExecuteAsync();
 
-        var finalResult2 = await pipeline
+        var currentResult = ((IHasOutput<int>)current).Output;
+
+        var finalResultWithStepByStepUse = await pipeline
             .EndWithAsync();
 
-        writeLine(finalResult2.ToString());
+        writeLine(finalResultWithStepByStepUse.ToString());
 
         writeLine("-------------------------");
     }
 
-    public static async Task<int> Add4(int number)
+    public static async Task<int> AddNumber(int number, int toAdd)
     {
         await Task.Delay(1000);
-        return number + 4;
+        return number + toAdd;
     }
 
-    public static async Task WaitASecond()
+    public static string PerformExampleOperation(string input)
     {
-        await Task.Delay(1000);
+        return input + " hello";
     }
 }
